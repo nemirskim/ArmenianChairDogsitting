@@ -28,8 +28,8 @@ namespace ArmenianChairDogsitting.API.Controllers
 
         }
 
-        [HttpDelete]
-        public void RemoveSitter(int id)
+        [HttpDelete("{id}")]
+        public void RemoveSitterById(int id)
         {
 
         }
