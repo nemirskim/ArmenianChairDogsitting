@@ -2,45 +2,42 @@
 
 namespace ArmenianChairDogsitting.API.Controllers
 {
-    public class ClientsController : Controller
+    public class SittersController : Controller
     {
         [HttpPost]
-        public void AddClient()
+        public void AddSitter()
         {
-            
+
         }
 
         [HttpGet("{id}")]
-        public Client GetClientById(int id)
+        public Sitter GetSitterById(int id)
         {
-            return Client;
+            return Sitter;
         }
 
         [HttpGet]
-        public List<Client> GetAllClients()
+        public List<Sitter> GetAllSitters()
         {
-            return List<Client>;
+            return List<Sitter>;
         }
 
         [HttpPut("{id}")]
-        public void UpdateClientById(int id)
+        public void UpdateSitterById(int id)
         {
 
         }
 
         [HttpDelete]
-        public void RemoveClient(int id)
+        public void RemoveSitter(int id)
         {
 
         }
 
         [HttpPatch("{id}")]
-        public DeactivateClientById(int id)
+        public DeactivateSitterById(int id)
         {
 
         }
-
-
-
     }
 }
