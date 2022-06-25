@@ -13,7 +13,7 @@ namespace ArmenianChairDogsitting.API.Controllers
         [HttpGet("{id}")]
         public Sitter GetSitterById(int id)
         {
-            return Sitter;
+            return Sitter;           
         }
 
         [HttpGet]
@@ -34,8 +34,14 @@ namespace ArmenianChairDogsitting.API.Controllers
 
         }
 
+        [HttpGet]
+        public void GetAllSettersWithWorkTimes()
+        {
+
+        }
+
         [HttpPatch("{id}")]
-        public DeactivateSitterById(int id)
+        public void DeactivateSitterById(int id)
         {
 
         }

@@ -35,7 +35,7 @@ namespace ArmenianChairDogsitting.API.Controllers
         }
 
         [HttpPatch("{id}")]
-        public DeactivateClientById(int id)
+        public void DeactivateClientById(int id)
         {
 
         }
