@@ -40,7 +40,5 @@ namespace ArmenianChairDogsitting.API.Controllers
 
         }
 
-
-
     }
 }
