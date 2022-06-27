@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ArmenianChairDogsitting.API;
 
 namespace ArmenianChairDogsitting.API.Controllers
 {
@@ -13,13 +14,13 @@ namespace ArmenianChairDogsitting.API.Controllers
         [HttpGet("{id}")]
         public Client GetClientById(int id)
         {
-            return Client;
+            return new Client();
         }
 
         [HttpGet]
         public List<Client> GetAllClients()
         {
-            return List<Client>;
+            return new List<Client>();
         }
 
         [HttpPut("{id}")]
