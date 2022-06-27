@@ -1,19 +1,20 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace ArmenianChairDogsitting.API.Controllers
+namespace ArmenianChairDogsitting.API.Controllers;
+
+[ApiController]
+[Route("[controller]")]
+public class ScheduleController : Controller
 {
-    public class ScheduleController : Controller
+    [HttpPost]
+    public void AddWorkTime()
     {
-        [HttpPost]
-        public void AddWorkTime()
-        {
 
-        }
+    }
 
-        [HttpDelete]
-        public void RemoveWorkTime()
-        {
+    [HttpDelete]
+    public void RemoveWorkTime()
+    {
 
-        }
     }
 }
