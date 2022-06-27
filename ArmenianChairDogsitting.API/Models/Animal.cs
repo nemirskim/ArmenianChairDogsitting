@@ -1,4 +1,4 @@
-﻿namespace ArmenianChairDogsitting.API
+﻿namespace ArmenianChairDogsitting.API.Models
 
 
 
@@ -7,6 +7,6 @@
     {
         public string Name { get; set; }
         public int Age { get; set; }
-        public string Breed { get; set; }    
+        public string Breed { get; set; }
     }
 }

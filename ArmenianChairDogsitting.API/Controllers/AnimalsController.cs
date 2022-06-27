@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ArmenianChairDogsitting.API;
+using ArmenianChairDogsitting.API.Models;
 
 namespace ArmenianChairDogsitting.API.Controllers
 {

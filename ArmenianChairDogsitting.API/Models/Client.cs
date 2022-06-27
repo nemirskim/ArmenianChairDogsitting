@@ -1,4 +1,4 @@
-﻿namespace ArmenianChairDogsitting.API
+﻿namespace ArmenianChairDogsitting.API.Models
 
 
 {
