@@ -19,10 +19,10 @@ public class AuthController : Controller
 
         switch (request.Email)
         {
-            case "dogsitter@.d":
+            case "dogsitter@dd.d":
                 roleClaim = new Claim(ClaimTypes.Role, "Dogsitter");
                 break;
-            case "manager@.m":
+            case "manager@mm.m":
                 roleClaim = new Claim(ClaimTypes.Role, "Manager");
                 break;
         }
