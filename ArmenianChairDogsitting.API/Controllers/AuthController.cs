@@ -15,13 +15,25 @@ public class AuthController : Controller
     public string Login([FromBody] UserLoginRequest request)
     {
         if (request == default || request.Email == default) return string.Empty;
-        var roleClaim = new Claim(ClaimTypes.Role, (request.Email == "q@qq.qq" ? Role.Admin : Role.Regular).ToString());
+        var roleClaim = new Claim(ClaimTypes.Role, "Client");
+
+        switch (request.Email)
+        {
+            case "dogsitter@.d":
+                roleClaim = new Claim(ClaimTypes.Role, "Dogsitter");
+                break;
+            case "manager@.m":
+                roleClaim = new Claim(ClaimTypes.Role, "Manager");
+                break;
+        }
+
         var claims = new List<Claim> { new Claim(ClaimTypes.Name, request.Email), roleClaim };
+        
         var jwt = new JwtSecurityToken(
-                issuer: AuthOptions.ISSUER,
-                audience: AuthOptions.AUDIENCE,
+                issuer: AuthOptions.Issuer,
+                audience: AuthOptions.Audience,
                 claims: claims,
-                expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(2)), // время действия 2 минуты
+                expires: DateTime.UtcNow.Add(TimeSpan.FromHours(2)), // время действия 2 часа
                 signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
 
         return new JwtSecurityTokenHandler().WriteToken(jwt);
