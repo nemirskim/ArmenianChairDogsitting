@@ -4,5 +4,5 @@ public enum Role
 {
     Client,
     Sitter,
-    Manager
+    Admin
 }

@@ -35,7 +35,7 @@ public class SittersController : Controller
 
     }
 
-    [Authorize(Roles = nameof(Role.Manager))]
+    [Authorize(Roles = nameof(Role.Admin))]
     [HttpDelete("{id}")]
     public void RemoveSitterById(int id)
     {
@@ -49,7 +49,7 @@ public class SittersController : Controller
 
     }
 
-    [Authorize(Roles = nameof(Role.Manager))]
+    [Authorize(Roles = nameof(Role.Admin))]
     [HttpPatch("{id}")]
     public void DeactivateSitterById(int id)
     {
