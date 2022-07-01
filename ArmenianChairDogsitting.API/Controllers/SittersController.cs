@@ -29,14 +29,14 @@ public class SittersController : Controller
         return Ok(new Sitter());           
     }
 
-    [HttpGet]
+/*    [HttpGet]
     [ProducesResponseType(typeof(ServiceResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult<List<Sitter>> GetAllSitters()
     {
         return Ok(new List<Sitter>());
-    }
+    }*/
 
     [Authorize(Roles = nameof(Role.Sitter))]
     [HttpPut("{id}")]
