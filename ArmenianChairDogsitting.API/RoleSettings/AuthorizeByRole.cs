@@ -7,6 +7,7 @@ namespace ArmenianChairDogsitting.API
         public AuthorizeByRoleAttribute(params string[] roles)
         {
             Roles = string.Join(",", roles);
+            Roles += $",{RoleConstants.Manager}";
         }
     }
 

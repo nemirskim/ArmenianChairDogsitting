@@ -20,38 +20,60 @@ public class ServicesController : Controller
         return Created($"{Request.Scheme}://{Request.Host.Value}{Request.Path.Value}/{id}", id);
     }
 
-    [AuthorizeByRole()]
+    [AuthorizeByRole(RoleConstants.Client)]
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(ServiceResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public void GetServiceById(int id)
+    public ActionResult<ServiceResponse> GetServiceById(int id)
     {
-
+        return Ok(new ServiceResponse());
     }
 
+    [AuthorizeByRole(RoleConstants.Client)]
     [HttpGet]
-    public List<> GetAllServices()
+    [ProducesResponseType(typeof(ServiceResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public ActionResult<List<ServiceResponse>> GetAllServices()
     {
-
+        return Ok(new List<ServiceResponse>());
     }
 
+    [AuthorizeByRole(RoleConstants.Manager)]
     [HttpPut("{id}")]
-    public void UpdateServiceById(int id)
+    [ProducesResponseType(typeof(ServiceResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public ActionResult UpdateServiceById([FromBody] ServiceRequest req, int id)
     {
-
+        return Ok();
     }
 
+    [AuthorizeByRole(RoleConstants.Manager)]
     [HttpDelete("{id}")]
-    public void RemoveServiceById(int id)
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status405MethodNotAllowed)]
+    public ActionResult RemoveServiceById(int id)
     {
-
+        return Ok();
     }
 
+    [AuthorizeByRole(RoleConstants.Client)]
     [HttpGet]
-    public List<> GetSittersWithServices()
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public ActionResult<List<object>> GetSittersWithService([FromBody] int ServiceId)
     {
-
+        return Ok(new List<object>());
     }
 }
