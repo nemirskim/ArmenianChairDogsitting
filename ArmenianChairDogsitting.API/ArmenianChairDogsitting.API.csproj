@@ -13,7 +13,9 @@
 
   <ItemGroup>
     <Folder Include="Models\Requests\ClientRequests\" />
+    <Folder Include="Models\Requests\SitterRequests\" />
     <Folder Include="Models\Responses\ClientResponses\" />
+    <Folder Include="Models\Responses\SitterResponses\" />
   </ItemGroup>
 
 </Project>
