@@ -4,6 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using ArmenianChairDogsitting.API.Infrastructure;
 using ArmenianChairDogsitting.API.Models;
+using ArmenianChairDogsitting.API.Roles;
 
 namespace ArmenianChairDogsitting.API.Controllers;
 
@@ -15,15 +16,15 @@ public class AuthController : Controller
     public string Login([FromBody] UserLoginRequest request)
     {
         if (request == default || request.Email == default) return string.Empty;
-        var roleClaim = new Claim(ClaimTypes.Role, "Client");
+        var roleClaim = new Claim(ClaimTypes.Role, Role.Client.ToString());
 
         switch (request.Email)
         {
             case "dogsitter@dd.d":
-                roleClaim = new Claim(ClaimTypes.Role, "Dogsitter");
+                roleClaim = new Claim(ClaimTypes.Role, Role.Sitter.ToString());
                 break;
             case "manager@mm.m":
-                roleClaim = new Claim(ClaimTypes.Role, "Manager");
+                roleClaim = new Claim(ClaimTypes.Role, Role.Manager.ToString());
                 break;
         }
 
