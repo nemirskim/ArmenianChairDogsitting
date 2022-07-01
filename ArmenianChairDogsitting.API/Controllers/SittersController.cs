@@ -10,49 +10,77 @@ namespace ArmenianChairDogsitting.API.Controllers;
 [Route("[controller]")]
 public class SittersController : Controller
 {
-    [HttpPost]
-    public void AddSitter()
-    {
 
+    [HttpPost]
+    [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
+    public ActionResult <int> AddSitter([FromBody] SitterRequest sitter)
+    {
+        int id = 42;
+        return Created($"{Request.Scheme}://{Request.Host.Value}{Request.Path.Value}/{id}", id);
     }
 
     [HttpGet("{id}")]
-    public Sitter GetSitterById(int id)
+    [ProducesResponseType(typeof(SitterMainInfoResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public ActionResult <Sitter> GetSitterById(int id)
     {
-        return new Sitter();           
+        return Ok(new SitterMainInfoResponse());           
     }
 
-    //[HttpGet]
-    //public List<Sitter> GetAllSitters()
-    //{
-    //    return new List<Sitter>();
-    //}
+    [HttpGet]
+    [ProducesResponseType(typeof(SitterAllInfoResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public ActionResult<List<SitterAllInfoResponse>> GetAllSitters()
+    {
+        return Ok(new List<SitterAllInfoResponse>());
+    }
 
     [Authorize(Roles = nameof(Role.Sitter))]
     [HttpPut("{id}")]
-    public void UpdateSitterById(int id)
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public ActionResult UpdateSitterById(int id)
     {
-
+        return NoContent();
     }
 
-    [Authorize(Roles = nameof(Role.Admin))]
+    [AuthorizeByRole()]
     [HttpDelete("{id}")]
-    public void RemoveSitterById(int id)
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status405MethodNotAllowed)]
+    public ActionResult RemoveSitterById(int id)
     {
-
+        return NoContent();
     }
 
 
-    //[HttpGet]
-    //public void GetAllSettersWithWorkTimes()
-    //{
-
-    //}
-
-    [Authorize(Roles = nameof(Role.Admin))]
-    [HttpPatch("{id}")]
-    public void DeactivateSitterById(int id)
+ /*   [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public ActionResult GetAllSettersWithWorkTimes()
     {
+        return NoContent();
+    }*/
 
+    [AuthorizeByRole()]
+    [HttpPatch("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public ActionResult DeactivateSitterById(int id)
+    {
+        return NoContent();
     }
 }

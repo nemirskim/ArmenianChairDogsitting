@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <Folder Include="Models\Requests\ClientRequests\" />
-    <Folder Include="Models\Requests\SitterRequests\" />
     <Folder Include="Models\Responses\ClientResponses\" />
   </ItemGroup>
 

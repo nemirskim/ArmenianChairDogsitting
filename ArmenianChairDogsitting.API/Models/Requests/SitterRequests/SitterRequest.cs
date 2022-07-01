@@ -1,6 +1,6 @@
 ﻿namespace ArmenianChairDogsitting.API.Models;
 
-public class SitterAddRequest
+public class SitterRequest
 {
     public string Name { get; set; }
     public string LastName { get; set; }
