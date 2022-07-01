@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using ArmenianChairDogsitting.API.Models;
 using ArmenianChairDogsitting.API;
+using ArmenianChairDogsitting.API.Roles;
 
 namespace ArmenianChairDogsitting.API.Controllers;
 
@@ -20,7 +21,7 @@ public class ServicesController : Controller
         return Created($"{Request.Scheme}://{Request.Host.Value}{Request.Path.Value}/{id}", id);
     }
 
-    [AuthorizeByRole(RoleConstants.Client)]
+    [AuthorizeByRole(Role.Client)]
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(ServiceResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -31,7 +32,7 @@ public class ServicesController : Controller
         return Ok(new ServiceResponse());
     }
 
-    [AuthorizeByRole(RoleConstants.Client)]
+    [AuthorizeByRole(Role.Client)]
     [HttpGet]
     [ProducesResponseType(typeof(ServiceResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -42,7 +43,7 @@ public class ServicesController : Controller
         return Ok(new List<ServiceResponse>());
     }
 
-    [AuthorizeByRole(RoleConstants.Manager)]
+    [AuthorizeByRole()]
     [HttpPut("{id}")]
     [ProducesResponseType(typeof(ServiceResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -54,7 +55,7 @@ public class ServicesController : Controller
         return Ok();
     }
 
-    [AuthorizeByRole(RoleConstants.Manager)]
+    [AuthorizeByRole()]
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -66,7 +67,7 @@ public class ServicesController : Controller
         return Ok();
     }
 
-    [AuthorizeByRole(RoleConstants.Client)]
+    [AuthorizeByRole(Role.Client)]
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]

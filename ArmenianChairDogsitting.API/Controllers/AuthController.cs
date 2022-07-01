@@ -24,7 +24,7 @@ public class AuthController : Controller
                 roleClaim = new Claim(ClaimTypes.Role, Role.Sitter.ToString());
                 break;
             case "manager@mm.m":
-                roleClaim = new Claim(ClaimTypes.Role, Role.Manager.ToString());
+                roleClaim = new Claim(ClaimTypes.Role, Role.Admin.ToString());
                 break;
         }
 
