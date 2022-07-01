@@ -23,7 +23,7 @@ public class AnimalsController : Controller
     }
 
     [HttpGet("{id}")]
-    [ProducesResponseType(typeof(ServiceResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(AnimalMainInfoResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult <AnimalMainInfoResponse> GetById(int id)
@@ -32,7 +32,7 @@ public class AnimalsController : Controller
     }
 
     [HttpGet]
-    [ProducesResponseType(typeof(ServiceResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(AnimalAllInfoResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult<List<AnimalAllInfoResponse>> GetAll()
@@ -43,7 +43,7 @@ public class AnimalsController : Controller
 
     [Authorize(Roles = nameof(Role.Client))]
     [HttpPut("{id}")]
-    [ProducesResponseType(typeof(ServiceResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
