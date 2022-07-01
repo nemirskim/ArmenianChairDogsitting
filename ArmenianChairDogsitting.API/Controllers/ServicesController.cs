@@ -34,7 +34,7 @@ public class ServicesController : Controller
 
     [AuthorizeByRole(Role.Client)]
     [HttpGet]
-    [ProducesResponseType(typeof(ServiceResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(List<ServiceResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -45,7 +45,7 @@ public class ServicesController : Controller
 
     [AuthorizeByRole()]
     [HttpPut("{id}")]
-    [ProducesResponseType(typeof(ServiceResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -68,13 +68,13 @@ public class ServicesController : Controller
     }
 
     [AuthorizeByRole(Role.Client)]
-    [HttpGet]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [HttpGet("{id}/sitters")]
+    [ProducesResponseType(typeof(List<SitterMainInfoResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public ActionResult<List<object>> GetSittersWithService([FromBody] int ServiceId)
+    public ActionResult<List<SitterMainInfoResponse>> GetSittersWithService(int id)
     {
-        return Ok(new List<object>());
+        return Ok(new List<SitterMainInfoResponse>());
     }
 }
