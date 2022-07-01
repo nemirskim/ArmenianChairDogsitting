@@ -69,12 +69,12 @@ public class ServicesController : Controller
 
     [AuthorizeByRole(Role.Client)]
     [HttpGet]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(SitterMainInfoResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public ActionResult<List<object>> GetSittersWithService([FromBody] int ServiceId)
+    public ActionResult<List<SitterMainInfoResponse>> GetSittersWithService([FromBody] int ServiceId)
     {
-        return Ok(new List<object>());
+        return Ok(new List<SitterMainInfoResponse>());
     }
 }
