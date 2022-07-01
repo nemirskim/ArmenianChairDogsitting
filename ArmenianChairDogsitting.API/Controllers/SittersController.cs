@@ -22,11 +22,11 @@ public class SittersController : Controller
         return new Sitter();           
     }
 
-    [HttpGet]
-    public List<Sitter> GetAllSitters()
-    {
-        return new List<Sitter>();
-    }
+    //[HttpGet]
+    //public List<Sitter> GetAllSitters()
+    //{
+    //    return new List<Sitter>();
+    //}
 
     [Authorize(Roles = nameof(Role.Sitter))]
     [HttpPut("{id}")]
@@ -43,11 +43,11 @@ public class SittersController : Controller
     }
 
 
-    [HttpGet]
-    public void GetAllSettersWithWorkTimes()
-    {
+    //[HttpGet]
+    //public void GetAllSettersWithWorkTimes()
+    //{
 
-    }
+    //}
 
     [Authorize(Roles = nameof(Role.Admin))]
     [HttpPatch("{id}")]
