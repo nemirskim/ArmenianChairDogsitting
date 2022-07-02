@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using ArmenianChairDogsitting.API.Models;
-using ArmenianChairDogsitting.API;
 using ArmenianChairDogsitting.API.Roles;
+using ArmenianChairDogsitting.API.Extensions;
 
 namespace ArmenianChairDogsitting.API.Controllers;
 
@@ -18,7 +18,7 @@ public class ServicesController : Controller
     public ActionResult<int> AddService([FromBody] ServiceRequest client)
     {
         int id = 42;
-        return Created($"{Request.Scheme}://{Request.Host.Value}{Request.Path.Value}/{id}", id);
+        return Created($"{this.GetUri()}/{id}", id);
     }
 
     [AuthorizeByRole(Role.Client)]
