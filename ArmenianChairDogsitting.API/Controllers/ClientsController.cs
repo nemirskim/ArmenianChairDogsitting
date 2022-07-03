@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ArmenianChairDogsitting.API.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ArmenianChairDogsitting.API.Controllers;
 
 [ApiController]
+[Authorize]
+[Produces("application/json")]
 [Route("[controller]")]
 public class ClientsController : Controller
 {
