@@ -2,7 +2,7 @@
 
 namespace ArmenianChairDogsitting.API.Models;
 
-public class ClientRegistrationRequest
+public class ClientAllInfoRequest
 {
     [Required]
     public string? Name { get; set; }
@@ -18,7 +18,6 @@ public class ClientRegistrationRequest
     [EmailAddress]
     public string? Email { get; set; }
 
-    [Required]
-    [MinLength(8)]
-    public string Password { get; set; }
+    public List<AnimalAllInfoResponse> Animals { get; set; }
+
 }
