@@ -2,7 +2,7 @@
 
 namespace ArmenianChairDogsitting.API.Models
 {
-    public class OrderSittingForDayRequest : AbstractOrder
+    public class OrderSittingForDayRequest : AbstractOrderRequest
     {
         [Range(1,24)]
         public int HourQuantity { get; set; }
