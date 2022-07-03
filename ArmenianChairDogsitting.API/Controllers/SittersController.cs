@@ -25,7 +25,7 @@ public class SittersController : Controller
     [ProducesResponseType(typeof(SitterMainInfoResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public ActionResult<Sitter> GetSitterById(int id)
+    public ActionResult<SitterMainInfoResponse> GetSitterById(int id)
     {
         return Ok(new SitterMainInfoResponse());
     }

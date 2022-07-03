@@ -13,17 +13,17 @@ public class ClientsController : Controller
         
     }
 
-    [HttpGet("{id}")]
-    public Client GetClientById(int id)
-    {
-        return new Client();
-    }
+    //[HttpGet("{id}")]
+    //public Client GetClientById(int id)
+    //{
+    //    return new Client();
+    //}
 
-    [HttpGet]
-    public List<Client> GetAllClients()
-    {
-        return new List<Client>();
-    }
+    //[HttpGet]
+    //public List<Client> GetAllClients()
+    //{
+    //    return new List<Client>();
+    //}
 
     [HttpPut("{id}")]
     public void UpdateClientById(int id)
