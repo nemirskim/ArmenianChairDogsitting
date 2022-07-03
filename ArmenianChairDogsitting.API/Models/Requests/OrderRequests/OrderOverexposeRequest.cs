@@ -2,7 +2,7 @@
 
 namespace ArmenianChairDogsitting.API.Models
 {
-    public class OrderOverexposeRequest : AbstractOrder
+    public class OrderOverexposeRequest : AbstractOrderRequest
     {
         [Range(1,60)]
         public int DayQuantity { get; set; }

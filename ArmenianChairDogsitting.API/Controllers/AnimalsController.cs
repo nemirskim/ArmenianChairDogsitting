@@ -2,6 +2,7 @@
 using ArmenianChairDogsitting.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using ArmenianChairDogsitting.API.Roles;
+using ArmenianChairDogsitting.API.Extensions;
 
 namespace ArmenianChairDogsitting.API.Controllers;
 
@@ -12,14 +13,14 @@ namespace ArmenianChairDogsitting.API.Controllers;
 public class AnimalsController : Controller
 {
 
-    [Authorize(Roles = nameof(Role.Client))]
+    [AuthorizeByRole(Role.Client)]
     [HttpPost]
     [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
     public ActionResult <int> Add( [FromBody] AnimalRequest animal)
     {
         int id = 12;
-        return Created($"{Request.Scheme}://{Request.Host.Value}{Request.Path.Value}/{id}", id);
+        return Created($"{this.GetUri()}/{id}", id);
     }
 
     [HttpGet("{id}")]
@@ -32,7 +33,7 @@ public class AnimalsController : Controller
     }
 
     [HttpGet]
-    [ProducesResponseType(typeof(AnimalAllInfoResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(List<AnimalAllInfoResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult<List<AnimalAllInfoResponse>> GetAll()
@@ -41,7 +42,7 @@ public class AnimalsController : Controller
     }
 
 
-    [Authorize(Roles = nameof(Role.Client))]
+    [AuthorizeByRole(Role.Client)]
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -54,7 +55,7 @@ public class AnimalsController : Controller
     }
 
 
-    [Authorize(Roles = nameof(Role.Client))]
+    [AuthorizeByRole(Role.Client)]
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
