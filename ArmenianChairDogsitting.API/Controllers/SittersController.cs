@@ -25,13 +25,13 @@ public class SittersController : Controller
     [ProducesResponseType(typeof(SitterMainInfoResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public ActionResult<Sitter> GetSitterById(int id)
+    public ActionResult<SitterMainInfoResponse> GetSitterById(int id)
     {
         return Ok(new SitterMainInfoResponse());
     }
 
     [HttpGet]
-    [ProducesResponseType(typeof(SitterAllInfoResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(List<SitterAllInfoResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult<List<SitterAllInfoResponse>> GetAllSitters()
@@ -63,7 +63,7 @@ public class SittersController : Controller
         return NoContent();
     }
 
-
+    [AuthorizeByRole(Role.Client)]
     [HttpGet("{id}/Schedule")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
