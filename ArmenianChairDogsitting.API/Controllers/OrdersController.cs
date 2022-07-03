@@ -14,11 +14,11 @@ namespace ArmenianChairDogsitting.API.Controllers
     {
         [HttpPost]
         [AuthorizeByRole(Role.Client)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(void), StatusCodes.Status422UnprocessableEntity)]
-        public ActionResult AddOrder([FromBody] AbstractOrderRequest order)
+        public ActionResult<int> AddOrder([FromBody] AbstractOrderRequest order)
         {
             int id = 0;
             return Created($"{this.GetUri()}/{id}", id);
@@ -26,7 +26,6 @@ namespace ArmenianChairDogsitting.API.Controllers
 
         [HttpPatch("{id}")]
         [AuthorizeByRole(Role.Sitter)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]

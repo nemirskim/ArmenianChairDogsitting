@@ -16,9 +16,9 @@ namespace ArmenianChairDogsitting.API.Controllers
         [AuthorizeByRole(Role.Client)]
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(typeof(CommentResponse), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(void), StatusCodes.Status422UnprocessableEntity)]
-        public ActionResult AddOrder([FromBody] CommentRequest comment)
+        public ActionResult<int> AddOrder([FromBody] CommentRequest comment)
         {
             int id = 0;
             return Created($"{this.GetUri()}/{id}", id);
@@ -54,7 +54,7 @@ namespace ArmenianChairDogsitting.API.Controllers
         [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
         public ActionResult DelleteCommentById(int id, [FromRoute] int OrderId)
         {
-            return Ok();
+            return Ok(new CommentResponse());
         }
 
     }
