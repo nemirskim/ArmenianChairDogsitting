@@ -22,7 +22,7 @@ namespace ArmenianChairDogsitting.API.Controllers
         }
 
         [HttpPatch("{id}")]
-        [AuthorizeByRole]
+        [AuthorizeByRole(Role.Sitter)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -33,8 +33,22 @@ namespace ArmenianChairDogsitting.API.Controllers
             return NoContent();
         }
 
-        //GetById
+        [HttpGet("{id}")]
+        [AuthorizeByRole(Role.Sitter, Role.Client)]
+        [ProducesResponseType(typeof(AbstractOrderResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<AbstractOrderResponse> GetOrderById(int id)
+        {
+            return Ok(new AbstractOrderResponse());
+        }
 
-        //GetAll
+        [HttpGet]
+        [AuthorizeByRole(Role.Sitter, Role.Client)]
+        [ProducesResponseType(typeof(List<AbstractOrderResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<List<AbstractOrderResponse>> GetAllOrders()
+        {
+            return Ok(new List<AbstractOrderResponse>());
+        }
     }
 }

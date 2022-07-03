@@ -2,7 +2,7 @@
 
 namespace ArmenianChairDogsitting.API.Models
 {
-    public class OrderWalkRequest : AbstractOrderRequest
+    public class OrderWalkRequest
     {
         [Range(1, 60)]
         public int WalkQuantity { get; set; }
