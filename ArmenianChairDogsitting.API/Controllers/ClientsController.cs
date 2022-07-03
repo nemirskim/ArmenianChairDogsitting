@@ -36,11 +36,16 @@ public class ClientsController : Controller
         return Ok(new ClientAllInfoResponse());
     }
 
-    //[HttpGet]
-    //public List<Client> GetAllClients()
-    //{
-    //    return new List<Client>();
-    //}
+    [AuthorizeByRole(Role.Admin)]
+    [HttpGet]
+    [ProducesResponseType(typeof(List<ClientAllInfoResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public ActionResult<List<ClientAllInfoResponse>> GetAllClients()
+    {
+        return Ok(new List<ClientAllInfoResponse>());
+    }
+
     [AuthorizeByRole(Role.Client)]
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -54,16 +59,28 @@ public class ClientsController : Controller
         return Ok(new ClientAllInfoResponse());
     }
 
+    [AuthorizeByRole(Role.Client)]
     [HttpDelete]
-    public void RemoveClient(int id)
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public ActionResult RemoveClient(int id)
     {
-
+        return NoContent();
     }
 
+    [AuthorizeByRole(Role.Admin)]
     [HttpPatch("{id}")]
-    public void DeactivateClientById(int id)
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public ActionResult DeactivateClientById(int id)
     {
-
+        return NoContent();
     }
 
 }
