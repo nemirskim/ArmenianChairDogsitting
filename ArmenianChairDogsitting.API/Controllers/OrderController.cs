@@ -32,5 +32,9 @@ namespace ArmenianChairDogsitting.API.Controllers
         {
             return NoContent();
         }
+
+        //GetById
+
+        //GetAll
     }
 }
