@@ -1,6 +1,6 @@
 ﻿namespace ArmenianChairDogsitting.BLL.Enums
 {
-    public enum DaysOfTheWeek
+    public enum DayOfTheWeek
     {
         Monday,
         Tuesday,
