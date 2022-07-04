@@ -2,8 +2,9 @@
 
 namespace ArmenianChairDogsitting.API.Models;
 
-public class DogMainInfoResponse : AbstractAnimalResponse
+public class DogMainInfoResponse : DogAllInfoResponse
 {
-    public string Breed { get; set; }
+    public int Age { get; set; }
+    public string RecommendationsForCare { get; set; }
     public SizeOfAnimal Size { get; set; }
 }
