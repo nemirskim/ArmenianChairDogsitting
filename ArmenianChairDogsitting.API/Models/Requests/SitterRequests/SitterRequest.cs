@@ -9,4 +9,5 @@ public class SitterRequest
     public int Age { get; set; }
     public int Experience { get; set; }
     public string Sex { get; set; }
+    public string Description {  get; set; }
 }

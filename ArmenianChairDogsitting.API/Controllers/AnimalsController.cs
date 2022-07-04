@@ -17,28 +17,28 @@ public class AnimalsController : Controller
     [HttpPost]
     [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
-    public ActionResult <int> Add([FromBody] AnimalRequest animal)
+    public ActionResult <int> Add([FromBody] DogRequest animal)
     {
         int id = 12;
         return Created($"{this.GetUri()}/{id}", id);
     }
 
     [HttpGet("{id}")]
-    [ProducesResponseType(typeof(AnimalMainInfoResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(DogMainInfoResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public ActionResult <AnimalMainInfoResponse> GetById(int id)
+    public ActionResult <DogMainInfoResponse> GetById(int id)
     {
-        return Ok(new AnimalMainInfoResponse());
+        return Ok(new DogMainInfoResponse());
     }
 
     [HttpGet]
-    [ProducesResponseType(typeof(List<AnimalAllInfoResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(List<DogAllInfoResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public ActionResult<List<AnimalAllInfoResponse>> GetAll()
+    public ActionResult<List<DogAllInfoResponse>> GetAll()
     {
-        return Ok(new List<AnimalAllInfoResponse>());
+        return Ok(new List<DogAllInfoResponse>());
     }
 
 

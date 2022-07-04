@@ -18,6 +18,6 @@ public class ClientAllInfoRequest
     [EmailAddress]
     public string? Email { get; set; }
 
-    public List<AnimalAllInfoResponse> Animals { get; set; }
+    public List<DogAllInfoResponse> Animals { get; set; }
 
 }
