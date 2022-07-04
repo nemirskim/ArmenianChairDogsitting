@@ -32,11 +32,11 @@ public class AnimalsController : Controller
         return Ok(new DogMainInfoResponse());
     }
 
-    [HttpGet]
+    [HttpGet("{id}/client")]
     [ProducesResponseType(typeof(List<DogAllInfoResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public ActionResult<List<DogAllInfoResponse>> GetAll()
+    public ActionResult<List<DogAllInfoResponse>> GetAllByClient(int id)
     {
         return Ok(new List<DogAllInfoResponse>());
     }

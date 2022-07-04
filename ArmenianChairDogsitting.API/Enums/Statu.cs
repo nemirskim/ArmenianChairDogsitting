@@ -1,6 +1,6 @@
 ﻿namespace ArmenianChairDogsitting.BLL.Enums
 {
-    public enum Status
+    public enum Statu
     {
     }
 }
