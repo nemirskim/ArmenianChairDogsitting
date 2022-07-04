@@ -49,12 +49,11 @@ public class ClientsController : Controller
     [AuthorizeByRole(Role.Client)]
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public ActionResult<ClientAllInfoResponse> UpdateClient([FromBody] ClientAllInfoRequest request, int id)
+    public ActionResult<ClientAllInfoResponse> UpdateClient([FromBody] ClientUpdateRequest request, int id)
     {
         return Ok(new ClientAllInfoResponse());
     }
