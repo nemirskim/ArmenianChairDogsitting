@@ -32,7 +32,7 @@ namespace ArmenianChairDogsitting.API.Controllers
         [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(void), StatusCodes.Status405MethodNotAllowed)]
         [ProducesResponseType(typeof(void), StatusCodes.Status422UnprocessableEntity)]
-        public ActionResult ChangeOrderStatus([FromBody] AbstractOrderRequest order, int id)
+        public ActionResult ChangeOrderStatus([FromBody] Status orderStatus, int id)
         {
             return NoContent();
         }
