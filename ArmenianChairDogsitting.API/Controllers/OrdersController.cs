@@ -45,7 +45,7 @@ namespace ArmenianChairDogsitting.API.Controllers
         [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
         public ActionResult<AbstractOrderResponse> GetOrderById(int id)
         {
-            return Ok(new AbstractOrderResponse());
+            return Ok(new OrderWalkResponse());
         }
 
         [HttpGet]
