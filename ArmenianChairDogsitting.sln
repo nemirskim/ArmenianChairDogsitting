@@ -5,7 +5,9 @@ VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArmenianChairDogsitting.API", "ArmenianChairDogsitting.API\ArmenianChairDogsitting.API.csproj", "{7706D181-EE2E-47E7-BAFA-0CFDA1FE8C2A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArmenianChairDogsitting.BLL", "ArmenianChairDogsitting.BLL\ArmenianChairDogsitting.BLL.csproj", "{FBFCFC3B-1831-4F14-8CA9-405F3F9D0E47}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArmenianChairDogsitting.Business", "ArmenianChairDogsitting.BLL\ArmenianChairDogsitting.Business.csproj", "{FBFCFC3B-1831-4F14-8CA9-405F3F9D0E47}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArmenianChairDogsitting.Data", "ArmenianChairDogsitting.Data\ArmenianChairDogsitting.Data.csproj", "{A3DBEC07-E530-493D-8B90-5A014565BC47}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{FBFCFC3B-1831-4F14-8CA9-405F3F9D0E47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBFCFC3B-1831-4F14-8CA9-405F3F9D0E47}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FBFCFC3B-1831-4F14-8CA9-405F3F9D0E47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3DBEC07-E530-493D-8B90-5A014565BC47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3DBEC07-E530-493D-8B90-5A014565BC47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3DBEC07-E530-493D-8B90-5A014565BC47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3DBEC07-E530-493D-8B90-5A014565BC47}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
