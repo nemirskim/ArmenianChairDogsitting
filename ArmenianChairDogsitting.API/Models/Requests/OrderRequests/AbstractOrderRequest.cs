@@ -2,7 +2,7 @@
 
 namespace ArmenianChairDogsitting.API.Models
 {
-    public class AbstractOrderRequest
+    public abstract class AbstractOrderRequest
     {
         [Required]
         public int ClientId { get; set; }
