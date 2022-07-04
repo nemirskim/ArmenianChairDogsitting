@@ -1,5 +1,7 @@
 using ArmenianChairDogsitting.API.Infrastructure;
+using ArmenianChairDogsitting.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
@@ -55,6 +57,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuerSigningKey = true,
         };
     });
+
+builder.Services.AddDbContext<ArmenianChairDogsittingContext>(o =>
+{
+    o.UseSqlServer("Server=80.78.240.16;Database=ArmenianChairDogsitting.DB;User Id=student;Password=qwe!23;");
+});
 
 var app = builder.Build();
 

@@ -1,6 +1,8 @@
-﻿namespace ArmenianChairDogsitting.Data
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace ArmenianChairDogsitting.Data
 {
-    public class ArmenianChairDogsittingContext
+    public class ArmenianChairDogsittingContext : DbContext 
     {
 
     }
