@@ -17,7 +17,7 @@ public class AnimalsController : Controller
     [HttpPost]
     [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
-    public ActionResult <int> Add( [FromBody] AnimalRequest animal)
+    public ActionResult <int> Add([FromBody] AnimalRequest animal)
     {
         int id = 12;
         return Created($"{this.GetUri()}/{id}", id);
