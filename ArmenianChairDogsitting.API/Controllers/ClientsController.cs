@@ -15,10 +15,10 @@ public class ClientsController : Controller
     [AllowAnonymous]
     [HttpPost]
     [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status422UnprocessableEntity)]
     public ActionResult<int> AddClient([FromBody] ClientRegistrationRequest request)
     {
         int id = 23;
@@ -28,9 +28,9 @@ public class ClientsController : Controller
     [AuthorizeByRole(Role.Client, Role.Admin)]
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(ClientAllInfoResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     public ActionResult<ClientAllInfoResponse> GetClientById(int id)
     {
         return Ok(new ClientAllInfoResponse());
@@ -39,8 +39,8 @@ public class ClientsController : Controller
     [AuthorizeByRole(Role.Admin)]
     [HttpGet]
     [ProducesResponseType(typeof(List<ClientAllInfoResponse>), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     public ActionResult<List<ClientAllInfoResponse>> GetAllClients()
     {
         return Ok(new List<ClientAllInfoResponse>());
@@ -48,23 +48,23 @@ public class ClientsController : Controller
 
     [AuthorizeByRole(Role.Client)]
     [HttpPut("{id}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     public ActionResult<ClientAllInfoResponse> UpdateClient([FromBody] ClientUpdateRequest request, int id)
     {
         return Ok(new ClientAllInfoResponse());
     }
 
-    [AuthorizeByRole(Role.Client)]
+    [AuthorizeByRole(Role.Client, Role.Admin)]
     [HttpDelete]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     public ActionResult RemoveClient(int id)
     {
         return NoContent();
@@ -72,12 +72,12 @@ public class ClientsController : Controller
 
     [AuthorizeByRole(Role.Admin)]
     [HttpPatch("{id}")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public ActionResult DeactivateClientById(int id)
+    [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
+    public ActionResult RestoreClient(int id)
     {
         return NoContent();
     }

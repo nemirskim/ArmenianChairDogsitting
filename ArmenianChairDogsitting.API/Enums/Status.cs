@@ -1,10 +1,9 @@
-﻿namespace ArmenianChairDogsitting.BLL.Enums
+﻿namespace ArmenianChairDogsitting.API;
+
+public enum Status
 {
-    public enum Status
-    {
-        Created,
-        InProgress,
-        Finished,
-        Decline
-    }
+    Created,
+    InProgress,
+    Finished,
+    Decline
 }

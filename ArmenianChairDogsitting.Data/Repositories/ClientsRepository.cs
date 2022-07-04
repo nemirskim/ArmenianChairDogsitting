@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ArmenianChairDogsitting.Data.Entities;
-using ArmenianChairDogsitting.Data.Repositories.Interfaces;
+using ArmenianChairDogsitting.Data.Repositories;
 
 namespace ArmenianChairDogsitting.Data.Repositories;
 

@@ -20,5 +20,8 @@ public class ClientRegistrationRequest
 
     [Required]
     [MinLength(8)]
+    [MaxLength(16)]
     public string Password { get; set; }
+
+    public List<DogMainInfoResponse> Dogs { get; set; }
 }
