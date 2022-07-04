@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArmenianChairDogsitting.API", "ArmenianChairDogsitting.API\ArmenianChairDogsitting.API.csproj", "{7706D181-EE2E-47E7-BAFA-0CFDA1FE8C2A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArmenianChairDogsitting.API", "ArmenianChairDogsitting.API\ArmenianChairDogsitting.API.csproj", "{7706D181-EE2E-47E7-BAFA-0CFDA1FE8C2A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArmenianChairDogsitting.BLL", "ArmenianChairDogsitting.BLL\ArmenianChairDogsitting.BLL.csproj", "{FBFCFC3B-1831-4F14-8CA9-405F3F9D0E47}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArmenianChairDogsitting.BLL", "ArmenianChairDogsitting.BLL\ArmenianChairDogsitting.BLL.csproj", "{FBFCFC3B-1831-4F14-8CA9-405F3F9D0E47}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArmenianChairDogsitting.API.Tests", "ArmenianChairDogsitting.API.Tests\ArmenianChairDogsitting.API.Tests.csproj", "{26ADA088-4480-4112-BE6F-6A8E263187FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{FBFCFC3B-1831-4F14-8CA9-405F3F9D0E47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBFCFC3B-1831-4F14-8CA9-405F3F9D0E47}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FBFCFC3B-1831-4F14-8CA9-405F3F9D0E47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26ADA088-4480-4112-BE6F-6A8E263187FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26ADA088-4480-4112-BE6F-6A8E263187FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26ADA088-4480-4112-BE6F-6A8E263187FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26ADA088-4480-4112-BE6F-6A8E263187FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
