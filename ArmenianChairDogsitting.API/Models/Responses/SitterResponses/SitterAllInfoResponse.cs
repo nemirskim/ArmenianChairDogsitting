@@ -4,4 +4,5 @@ public class SitterAllInfoResponse
 {   
     public string Name { get; set; }
     public string LastName { get; set; }
+    public int Experience { get; set; }
 }

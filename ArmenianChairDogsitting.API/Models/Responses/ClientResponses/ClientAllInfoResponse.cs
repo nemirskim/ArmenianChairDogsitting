@@ -6,5 +6,5 @@ public class ClientAllInfoResponse
     public string? LastName { get; set; }
     public string? Phone { get; set; }
     public string? Email { get; set; }
-    public List<AnimalAllInfoResponse> Animals { get; set; }
+    public List<DogAllInfoResponse> Animals { get; set; }
 }

@@ -23,7 +23,7 @@ public class AuthController : Controller
             case "dogsitter@dd.d":
                 roleClaim = new Claim(ClaimTypes.Role, Role.Sitter.ToString());
                 break;
-            case "manager@mm.m":
+            case "admin@mm.m":
                 roleClaim = new Claim(ClaimTypes.Role, Role.Admin.ToString());
                 break;
         }
