@@ -1,4 +1,4 @@
-﻿namespace ArmenianChairDogsitting.BLL.Enums
+﻿namespace ArmenianChairDogsitting.Data.Enums
 {
     public enum Status
     {

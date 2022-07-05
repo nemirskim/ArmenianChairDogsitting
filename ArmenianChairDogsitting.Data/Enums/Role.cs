@@ -1,4 +1,4 @@
-﻿namespace ArmenianChairDogsitting.API.Roles;
+﻿namespace ArmenianChairDogsitting.Data.Enums;
 
 public enum Role
 {

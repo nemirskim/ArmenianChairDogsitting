@@ -1,6 +1,6 @@
 ﻿using ArmenianChairDogsitting.API.Extensions;
 using ArmenianChairDogsitting.API.Models;
-using ArmenianChairDogsitting.API.Roles;
+using ArmenianChairDogsitting.Data.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -77,7 +77,7 @@ public class SittersController : Controller
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    public ActionResult DeactivateSitterById(int id)
+    public ActionResult RestoreSitterById(int id)
     {
         return NoContent();
     }

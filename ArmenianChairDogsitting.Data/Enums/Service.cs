@@ -1,4 +1,4 @@
-﻿namespace ArmenianChairDogsitting.API.Enum
+﻿namespace ArmenianChairDogsitting.Data.Enums
 {
     public enum Service
     {
