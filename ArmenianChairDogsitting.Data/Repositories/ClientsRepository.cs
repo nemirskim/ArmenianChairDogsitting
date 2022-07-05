@@ -6,4 +6,8 @@ namespace ArmenianChairDogsitting.Data.Repositories;
 
 public class ClientsRepository : IClientsRepository
 {
+    //public Client GetClientById(int id)
+    //{
+
+    //}
 }
