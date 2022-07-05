@@ -5,10 +5,10 @@ namespace ArmenianChairDogsitting.Data.Entities
     public class Order
     {
         public int Id { get; set; }
-        public string Type { get; set; }
-        public int ClientId { get; set; }
+        public Service Type { get; set; }
+        public Client ClientId { get; set; }
         public List<Animal> Animals { get; set; }
-        public List<Comment> Comments { get; set; }
+        public List<Comment>? Comments { get; set; }
         public Status Status { get; set; }
         public int? DayQuantity { get; set; }
         public int? WalkQuantity { get; set; }
