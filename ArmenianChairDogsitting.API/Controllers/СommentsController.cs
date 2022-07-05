@@ -24,17 +24,6 @@ namespace ArmenianChairDogsitting.API.Controllers
             return Created($"{this.GetUri()}/{id}", id);
         }
 
-        [HttpGet("{id}")]
-        [AuthorizeByRole(Role.Sitter, Role.Client)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(typeof(CommentResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
-        public ActionResult<CommentResponse> GetCommentById(int id)
-        {
-            return Ok(new CommentResponse());
-        }
-
         [HttpGet]
         [AuthorizeByRole(Role.Sitter, Role.Client)]
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]

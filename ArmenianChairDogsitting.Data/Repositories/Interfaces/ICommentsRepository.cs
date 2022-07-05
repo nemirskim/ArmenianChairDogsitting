@@ -6,7 +6,6 @@ namespace ArmenianChairDogsitting.Data.Repositories
     {
         List<Comment> GetAllComments();
         int AddComment(Comment comment);
-        Comment GetCommentById(int id);
         void DelleteCommentById(int id);
     }
 }
