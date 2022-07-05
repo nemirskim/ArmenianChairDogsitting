@@ -41,7 +41,7 @@ namespace ArmenianChairDogsitting.API.Controllers
         [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(CommentResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
-        public ActionResult DelleteCommentById(int id)
+        public ActionResult DeleteCommentById(int id)
         {
             return Ok(new CommentResponse());
         }
