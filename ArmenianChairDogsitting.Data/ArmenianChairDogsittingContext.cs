@@ -30,6 +30,16 @@ namespace ArmenianChairDogsitting.Data
                     .HasOne(o => o.Order)
                     .WithMany(a => a.Animals);
             });
+
+            modelBuilder.Entity<Comment>(entity =>
+            {
+                entity.ToTable(nameof(Comment));
+                entity.HasKey(e => e.Id);
+
+                entity
+                    .HasOne(o => o.Order)
+                    .WithMany(c => c.Comments);                
+            })
         }
     }
 }
