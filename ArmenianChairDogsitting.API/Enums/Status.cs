@@ -1,6 +1,4 @@
-﻿namespace ArmenianChairDogsitting.API;
-
-public enum Status
+﻿namespace ArmenianChairDogsitting.API.Enums
 {
     Created,
     InProgress,
