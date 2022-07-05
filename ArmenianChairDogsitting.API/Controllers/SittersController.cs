@@ -42,11 +42,10 @@ public class SittersController : Controller
     [AuthorizeByRole(Role.Sitter)]
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public ActionResult UpdateSitterById(int id)
+    public ActionResult UpdateSitter(int id)
     {
         return NoContent();
     }
@@ -76,7 +75,6 @@ public class SittersController : Controller
     [AuthorizeByRole]
     [HttpPatch("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
