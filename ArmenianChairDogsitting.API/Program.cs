@@ -65,6 +65,7 @@ builder.Services.AddDbContext<ArmenianChairDogsittingContext>(o =>
 });
 
 builder.Services.AddScoped<IOrdersRepository, OrdersRepository>();
+builder.Services.AddScoped<ICommentsRepository, CommentsRepository>();
 
 var app = builder.Build();
 
