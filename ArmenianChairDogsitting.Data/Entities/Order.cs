@@ -6,6 +6,7 @@
         public string Type { get; set; }
         public int ClientId { get; set; }
         public List<Animal> Animals { get; set; }
+        public List<Comment> Comments { get; set; }
         public string Status { get; set; }
         public int? DayQuantity { get; set; }
         public int? WalkQuantity { get; set; }
