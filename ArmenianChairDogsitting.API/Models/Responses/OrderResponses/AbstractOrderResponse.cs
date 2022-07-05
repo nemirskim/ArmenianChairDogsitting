@@ -5,6 +5,8 @@ namespace ArmenianChairDogsitting.API.Models
     public abstract class AbstractOrderResponse
     {
         [Required]
+        public int Id { get; set; }
+        [Required]
         public int ClientId { get; set; }
         [MinLength(1)]
         [MaxLength(4)]
