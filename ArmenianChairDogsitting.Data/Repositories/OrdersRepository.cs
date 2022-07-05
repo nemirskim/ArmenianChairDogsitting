@@ -26,6 +26,7 @@ namespace ArmenianChairDogsitting.Data.Repositories
         public Order? GetOrderById(int id) =>
         _context.Orders
             .Include(o => o.Animals)
+            .Include(o => o.Comments)
             .FirstOrDefault(o => o.Id == id);
 
         public void UpdateOrderStatus(string status, int orderId)

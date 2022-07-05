@@ -9,6 +9,7 @@ namespace ArmenianChairDogsitting.Data.Entities
         public string Title { get; set; }
         public Order Order { get; set; }
         public DateTime TimeCreated { get; set; }
+        public bool IsDeleted { get; set; }
 
     }
 }

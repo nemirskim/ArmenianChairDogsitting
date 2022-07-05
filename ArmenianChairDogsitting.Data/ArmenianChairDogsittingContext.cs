@@ -7,6 +7,7 @@ namespace ArmenianChairDogsitting.Data
     {
         public DbSet<Order> Orders { get; set; }
         public DbSet<Animal> Animals { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
         public ArmenianChairDogsittingContext(DbContextOptions<ArmenianChairDogsittingContext> options)
                 : base(options)
@@ -38,8 +39,8 @@ namespace ArmenianChairDogsitting.Data
 
                 entity
                     .HasOne(o => o.Order)
-                    .WithMany(c => c.Comments);                
-            })
+                    .WithMany(c => c.Comments);
+            });
         }
     }
 }
