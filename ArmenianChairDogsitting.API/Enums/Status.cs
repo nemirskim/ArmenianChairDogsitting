@@ -1,7 +1,10 @@
-﻿namespace ArmenianChairDogsitting.API.Enums
+﻿namespace ArmenianChairDogsitting.API;
+
+public enum Status
 {
     Created,
     InProgress,
     Finished,
     Decline
 }
+

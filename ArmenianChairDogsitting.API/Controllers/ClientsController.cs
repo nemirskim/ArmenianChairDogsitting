@@ -3,6 +3,7 @@ using ArmenianChairDogsitting.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using ArmenianChairDogsitting.API.Extensions;
 using ArmenianChairDogsitting.API.Roles;
+using ArmenianChairDogsitting.Data.Repositories;
 
 namespace ArmenianChairDogsitting.API.Controllers;
 
@@ -12,6 +13,12 @@ namespace ArmenianChairDogsitting.API.Controllers;
 [Route("[controller]")]
 public class ClientsController : Controller
 {
+    private readonly IClientsRepository _clientsRepository;
+    public ClientsController(IClientsRepository clientsRepository)
+    {
+        _clientsRepository = clientsRepository;
+    }
+
     [AllowAnonymous]
     [HttpPost]
     [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
@@ -33,7 +40,11 @@ public class ClientsController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     public ActionResult<ClientAllInfoResponse> GetClientById(int id)
     {
-        return Ok(new ClientAllInfoResponse());
+        var result = _clientsRepository.GetClientById(id);
+        if (result is null)
+            return NotFound();
+        else
+            return Ok(result);
     }
 
     [AuthorizeByRole(Role.Admin)]
@@ -53,9 +64,11 @@ public class ClientsController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
-    public ActionResult<ClientAllInfoResponse> UpdateClient([FromBody] ClientUpdateRequest request, int id)
+    public ActionResult UpdateClient([FromBody] ClientUpdateRequest request)
     {
-        return Ok(new ClientAllInfoResponse());
+        
+        _clientsRepository.UpdateClient(client);
+        return Ok();
     }
 
     [AuthorizeByRole(Role.Client, Role.Admin)]
