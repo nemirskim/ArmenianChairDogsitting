@@ -5,7 +5,7 @@ using ArmenianChairDogsitting.API.Controllers;
 using Microsoft.AspNetCore.Http;
 using ArmenianChairDogsitting.API.Models;
 using System.ComponentModel.DataAnnotations;
-
+using ArmenianChairDogsitting.API.Enums;
 
 namespace ArmenianChairDogsitting.API.Tests
 {
@@ -30,13 +30,15 @@ namespace ArmenianChairDogsitting.API.Tests
             var expectedId = 1;
             var order = new OrderWalkRequest()
             {
-                Animals = new List<AnimalRequest>() { new AnimalRequest
+                Animals = new List<DogRequest>() { new DogRequest
                     {
-                        Age = 2,
+                        
                         Breed = "Haski",
                         Name = "Bobik",
-                        RecommendationsForCare = "do not pet",
-                        Weight = 23
+                        Age = 2,
+                        ClientId = 1,
+                        RecommendationsForCare = "asd",
+                        Size = Enum.SizeOfAnimal.smaller_than_thirty_kg
                     } 
                 },
                 IsTrial = false,
@@ -75,7 +77,7 @@ namespace ArmenianChairDogsitting.API.Tests
             var expectedId = 1;
             var order = new OrderWalkRequest()
             {
-                Animals = new List<AnimalRequest>(),
+                Animals = new List<DogRequest>(),
                 IsTrial = false,
                 WalkQuantity = 2,
                 ClientId = 1,
@@ -187,10 +189,10 @@ namespace ArmenianChairDogsitting.API.Tests
         }
 
         [Test]
-        public void GetAllOrders_WhenResponseIsNull_ShouldThrowNotFound()
+        public void GetAllOrders_WhenResponseIsEmpty_ShouldThrowNotFound()
         {
             //given
-            var expectedResponseObject = new List<AbstractOrderResponse>() { new OrderWalkResponse() };
+            var expectedResponseObject = new List<AbstractOrderResponse>();
 
             //when
             var actual = _sut.GetAllOrders();
@@ -198,7 +200,8 @@ namespace ArmenianChairDogsitting.API.Tests
             //then
             var actualResult = actual.Result as OkObjectResult;
 
-            Assert.AreEqual(StatusCodes.Status200OK, actualResult.StatusCode);
+            Assert.AreEqual(StatusCodes.Status404NotFound, actualResult.StatusCode);
+            Assert.AreEqual(expectedResponseObject.Count, actual.Value.Count);
         }
     }
 }
