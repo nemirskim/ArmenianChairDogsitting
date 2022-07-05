@@ -18,7 +18,7 @@ namespace ArmenianChairDogsitting.API.Controllers
         [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(void), StatusCodes.Status422UnprocessableEntity)]
-        public ActionResult<int> AddOrder([FromBody] CommentRequest comment)
+        public ActionResult<int> AddComment([FromBody] CommentRequest comment)
         {
             int id = 0;
             return Created($"{this.GetUri()}/{id}", id);
@@ -30,7 +30,7 @@ namespace ArmenianChairDogsitting.API.Controllers
         [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(CommentResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
-        public ActionResult<CommentResponse> GetCommentById(int id,[FromRoute] int OrderId)
+        public ActionResult<CommentResponse> GetCommentById(int id)
         {
             return Ok(new CommentResponse());
         }
@@ -41,7 +41,7 @@ namespace ArmenianChairDogsitting.API.Controllers
         [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(List<CommentResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
-        public ActionResult<List<CommentResponse>> GetAllComments([FromRoute] int OrderId)
+        public ActionResult<List<CommentResponse>> GetAllComments()
         {
             return Ok(new List<CommentResponse>());
         }
@@ -52,7 +52,7 @@ namespace ArmenianChairDogsitting.API.Controllers
         [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(CommentResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
-        public ActionResult DelleteCommentById(int id, [FromRoute] int OrderId)
+        public ActionResult DelleteCommentById(int id)
         {
             return Ok(new CommentResponse());
         }
