@@ -28,10 +28,10 @@ namespace ArmenianChairDogsitting.Data.Repositories
             .Include(o => o.Animals)
             .FirstOrDefault(o => o.Id == id);
 
-        public void UpdateOrderStatus(Status status, int orderId)
+        public void UpdateOrderStatus(string status, int orderId)
         {
             var choosenOrder = _context.Orders.FirstOrDefault(o => o.Id == orderId);
-            choosenOrder!.Status = status.ToString();
+            choosenOrder!.Status = status;
             _context.Orders.Update(choosenOrder);
             _context.SaveChanges();
         }

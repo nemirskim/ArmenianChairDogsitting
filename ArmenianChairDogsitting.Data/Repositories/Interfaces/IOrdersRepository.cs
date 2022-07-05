@@ -6,7 +6,7 @@ namespace ArmenianChairDogsitting.Data.Repositories
     public interface IOrdersRepository
     {
         int AddOrder(Order order);
-        void UpdateOrderStatus(Status status, int orderId);
+        void UpdateOrderStatus(string status, int orderId);
         Order GetOrderById(int orderId);
         List<Order> GetAllOrders();
     }
