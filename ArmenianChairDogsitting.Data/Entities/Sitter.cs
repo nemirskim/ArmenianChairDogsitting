@@ -14,11 +14,12 @@ public class Sitter
     public string LastName { get; set; }
     public string Phone { get; set; }
     public string Email { get; set; }
+    public string Password { get; set; }
     public int Age { get; set; }
     public int Experience { get; set; }
     public Sex Sex { get; set; }
     public string Description { get; set; }
-    public Dictionary<Service, decimal> PriceCatalog { get; set; }
+    //public Dictionary<Service, decimal> PriceCatalog { get; set; }
     //public List<Order> Orders { get; set; } 
     public bool IsDeleted {  get; set; }
 }

@@ -1,4 +1,5 @@
 ﻿using ArmenianChairDogsitting.Data.Entities;
+using ArmenianChairDogsitting.Data.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,8 @@ namespace ArmenianChairDogsitting.Data.Repositories.Interfaces
         public List<Sitter> GetSitters();
         public int AddSitter(Sitter sitter);
         public void UpdateSitter(Sitter sitter, int id);
-        public void RemoveSitterById(int id);
-        public void RestoreSitterById(int id);
+        public void RemoveOrRestoreSitterById(int id);
+        public void UpdateSitterPriceCatalog(int id, Dictionary<Service, decimal> priceCatalog);
+        public void UpdateSitterPassword(int id, string password);
     }
 }

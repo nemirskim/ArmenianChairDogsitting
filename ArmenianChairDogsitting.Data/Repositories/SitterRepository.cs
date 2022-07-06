@@ -1,4 +1,5 @@
 ﻿using ArmenianChairDogsitting.Data.Entities;
+using ArmenianChairDogsitting.Data.Enums;
 using ArmenianChairDogsitting.Data.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -26,35 +27,39 @@ namespace ArmenianChairDogsitting.Data.Repositories
             return sitter.Id;
         }
 
-        public Sitter? GetSitterById(int id)
-        {
-            throw new NotImplementedException();
-        }
+        public Sitter? GetSitterById(int id) => _context.Sitters.FirstOrDefault(s => s.Id == id);
 
         public List<Sitter> GetSitters() => _context.Sitters.ToList();
 
-        public void RemoveSitterById(int id)
+        public void RemoveOrRestoreSitterById(int id)
         {
             var sitter = _context.Sitters.FirstOrDefault(s => s.Id == id);
-            sitter.IsDeleted = true;
+
+            sitter.IsDeleted = sitter.IsDeleted == true ? false : true;
+
             _context.Sitters.Update(sitter);
             _context.SaveChanges();
         }
 
-        public void RestoreSitterById(int id)
+        public void UpdateSitter(Sitter updateSitter, int id)
         {
             var sitter = _context.Sitters.FirstOrDefault(s => s.Id == id);
-            sitter.IsDeleted = false;
+            sitter = updateSitter;
             _context.Sitters.Update(sitter);
             _context.SaveChanges();
         }
 
-        public void UpdateSitter(Sitter UpdateSitter, int id)
+        public void UpdateSitterPassword(int id, string newPassword)
         {
             var sitter = _context.Sitters.FirstOrDefault(s => s.Id == id);
-            sitter = UpdateSitter;
+            sitter.Password = newPassword;
             _context.Sitters.Update(sitter);
             _context.SaveChanges();
+        }
+
+        public void UpdateSitterPriceCatalog(int id, Dictionary<Service, decimal> priceCatalog)
+        {
+            throw new NotImplementedException();
         }
     }
 }

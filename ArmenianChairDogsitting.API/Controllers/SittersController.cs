@@ -32,11 +32,12 @@ public class SittersController : Controller
             LastName = sitterRequest.LastName,
             Phone = sitterRequest.Phone,
             Email = sitterRequest.Email,
+            Password = sitterRequest.Password,
             Age = sitterRequest.Age,
             Experience = sitterRequest.Experience,
             Sex = sitterRequest.Sex,
             Description = sitterRequest.Description,
-            PriceCatalog = sitterRequest.PriceCatalog
+            //PriceCatalog = sitterRequest.PriceCatalog
         };
 
         var result = _sittersRepository.AddSitter(sitter);
@@ -71,20 +72,18 @@ public class SittersController : Controller
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    //[ProducesResponseType(StatusCodes.Status404NotFound)]
-    public ActionResult UpdateSitter(SitterRequest sitterRequest, int id)
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public ActionResult UpdateSitter(SitterUpdateRequest sitterUpdateRequest, int id)
     {
         var sitter = new Sitter
         {
-            Name = sitterRequest.Name,
-            LastName = sitterRequest.LastName,
-            Phone = sitterRequest.Phone,
-            Email = sitterRequest.Email,
-            Age = sitterRequest.Age,
-            Experience = sitterRequest.Experience,
-            Sex = sitterRequest.Sex,
-            Description = sitterRequest.Description,
-            PriceCatalog = sitterRequest.PriceCatalog
+            Name = sitterUpdateRequest.Name,
+            LastName = sitterUpdateRequest.LastName,
+            Phone = sitterUpdateRequest.Phone,
+            Age = sitterUpdateRequest.Age,
+            Experience = sitterUpdateRequest.Experience,
+            Sex = sitterUpdateRequest.Sex,
+            Description = sitterUpdateRequest.Description,
         };
 
         _sittersRepository.UpdateSitter(sitter, id);
@@ -97,10 +96,11 @@ public class SittersController : Controller
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
-   // [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status405MethodNotAllowed)]
-    public ActionResult RemoveSitterById(int id)
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public ActionResult RemoveOrRestoreSitterById(int id)
     {
+        _sittersRepository.RemoveOrRestoreSitterById(id);
+
         return NoContent();
     }
 
@@ -110,16 +110,6 @@ public class SittersController : Controller
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult GetAllSittersWithWorkTimes(int id)
-    {
-        return NoContent();
-    }
-
-    [AuthorizeByRole]
-    [HttpPatch("{id}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    public ActionResult RestoreSitterById(int id)
     {
         return NoContent();
     }
