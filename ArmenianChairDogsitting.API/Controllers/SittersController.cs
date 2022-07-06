@@ -1,6 +1,8 @@
 ﻿using ArmenianChairDogsitting.API.Extensions;
 using ArmenianChairDogsitting.API.Models;
+using ArmenianChairDogsitting.Data.Entities;
 using ArmenianChairDogsitting.Data.Enums;
+using ArmenianChairDogsitting.Data.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,13 +14,33 @@ namespace ArmenianChairDogsitting.API.Controllers;
 public class SittersController : Controller
 {
 
+    private readonly ISitterRepository _sittersRepository;
+
+    public SittersController(ISitterRepository sittersRepository)
+    {
+        _sittersRepository = sittersRepository;
+    }
+
     [HttpPost]
     [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
-    public ActionResult<int> AddSitter([FromBody] SitterRequest sitter)
+    public ActionResult<int> AddSitter([FromBody] SitterRequest sitterRequest)
     {
-        int id = 42;
-        return Created($"{this.GetUri()}/{id}", id);
+        var sitter = new Sitter
+        {
+            Name = sitterRequest.Name,
+            LastName = sitterRequest.LastName,
+            Phone = sitterRequest.Phone,
+            Email = sitterRequest.Email,
+            Age = sitterRequest.Age,
+            Experience = sitterRequest.Experience,
+            Sex = sitterRequest.Sex,
+            Description = sitterRequest.Description,
+            PriceCatalog = sitterRequest.PriceCatalog
+        };
+
+        var result = _sittersRepository.AddSitter(sitter);
+        return Created($"{this.GetUri()}/{result}", result);
     }
 
     [HttpGet("{id}")]
@@ -27,7 +49,12 @@ public class SittersController : Controller
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult<SitterMainInfoResponse> GetSitterById(int id)
     {
-        return Ok(new SitterMainInfoResponse());
+        var result = _sittersRepository.GetSitterById(id);
+
+        if (result is null)
+            return NotFound();
+        else
+            return Ok(result);
     }
 
     [HttpGet]
@@ -45,8 +72,23 @@ public class SittersController : Controller
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     //[ProducesResponseType(StatusCodes.Status404NotFound)]
-    public ActionResult UpdateSitter(int id)
+    public ActionResult UpdateSitter(SitterRequest sitterRequest, int id)
     {
+        var sitter = new Sitter
+        {
+            Name = sitterRequest.Name,
+            LastName = sitterRequest.LastName,
+            Phone = sitterRequest.Phone,
+            Email = sitterRequest.Email,
+            Age = sitterRequest.Age,
+            Experience = sitterRequest.Experience,
+            Sex = sitterRequest.Sex,
+            Description = sitterRequest.Description,
+            PriceCatalog = sitterRequest.PriceCatalog
+        };
+
+        _sittersRepository.UpdateSitter(sitter, id);
+
         return NoContent();
     }
 

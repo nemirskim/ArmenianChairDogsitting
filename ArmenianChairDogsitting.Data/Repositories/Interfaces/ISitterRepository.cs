@@ -12,7 +12,7 @@ namespace ArmenianChairDogsitting.Data.Repositories.Interfaces
         public Sitter? GetSitterById(int id);
         public List<Sitter> GetSitters();
         public int AddSitter(Sitter sitter);
-        public void UpdateSitter(Sitter sitter);
+        public void UpdateSitter(Sitter sitter, int id);
         public void RemoveSitterById(int id);
         public void RestoreSitterById(int id);
     }

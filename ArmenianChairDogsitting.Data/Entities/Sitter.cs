@@ -1,4 +1,4 @@
-﻿using ArmenianChairDogsitting.Data.Enum;
+﻿using ArmenianChairDogsitting.Data.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,4 +19,6 @@ public class Sitter
     public Sex Sex { get; set; }
     public string Description { get; set; }
     public Dictionary<Service, decimal> PriceCatalog { get; set; }
+    //public List<Order> Orders { get; set; } 
+    public bool IsDeleted {  get; set; }
 }
