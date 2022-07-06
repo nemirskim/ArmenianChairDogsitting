@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using ArmenianChairDogsitting.API.Models;
 using System.ComponentModel.DataAnnotations;
 using ArmenianChairDogsitting.API.Enums;
+using ArmenianChairDogsitting.Data.Entities;
 
 namespace ArmenianChairDogsitting.API.Tests
 {
@@ -19,7 +20,7 @@ namespace ArmenianChairDogsitting.API.Tests
         [SetUp]
         public void Setup()
         {
-            _sut = new OrdersController();
+            _sut = new OrdersController(null);
             _validationResult = new List<ValidationResult>();
         }
 
@@ -28,24 +29,7 @@ namespace ArmenianChairDogsitting.API.Tests
         {
             // given
             var expectedId = 1;
-            var order = new OrderWalkRequest()
-            {
-                Animals = new List<DogRequest>() { new DogRequest
-                    {
-                        
-                        Breed = "Haski",
-                        Name = "Bobik",
-                        Age = 2,
-                        ClientId = 1,
-                        RecommendationsForCare = "asd",
-                        Size = Enum.SizeOfAnimal.smaller_than_thirty_kg
-                    } 
-                },
-                IsTrial = false,
-                WalkQuantity = 2,
-                ClientId = 1,
-                Status = Status.Created
-            };
+            var order = new Order();
             
             // when
             var actual = _sut.AddOrder(order);
@@ -75,14 +59,7 @@ namespace ArmenianChairDogsitting.API.Tests
         {
             // given
             var expectedId = 1;
-            var order = new OrderWalkRequest()
-            {
-                Animals = new List<DogRequest>(),
-                IsTrial = false,
-                WalkQuantity = 2,
-                ClientId = 1,
-                Status = Status.Created
-            };
+            var order = new Order();
 
             // when
             var actual = _sut.AddOrder(order);
