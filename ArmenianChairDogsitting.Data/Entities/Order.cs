@@ -6,7 +6,7 @@ namespace ArmenianChairDogsitting.Data.Entities
     {
         public int Id { get; set; }
         public Service Type { get; set; }
-        public Client ClientId { get; set; }
+        public Client Client { get; set; }
         public List<Animal> Animals { get; set; }
         public List<Comment>? Comments { get; set; }
         public Status Status { get; set; }

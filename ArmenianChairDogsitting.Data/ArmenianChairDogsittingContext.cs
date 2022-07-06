@@ -28,7 +28,7 @@ namespace ArmenianChairDogsitting.Data
                 entity.HasKey(e => e.Id);
 
                 entity
-                    .HasMany(o => o.Order)
+                    .HasMany(o => o.Orders)
                     .WithMany(a => a.Animals);
             });
 

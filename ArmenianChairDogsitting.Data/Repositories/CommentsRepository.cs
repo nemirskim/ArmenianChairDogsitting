@@ -20,7 +20,7 @@ namespace ArmenianChairDogsitting.Data.Repositories
             return comment.Id;
         }
 
-        public void DelleteCommentById(int id)
+        public void DeleteCommentById(int id)
         {
             var choosenComment = _context.Comments.FirstOrDefault(c => c.Id == id);
             choosenComment.IsDeleted = true;
