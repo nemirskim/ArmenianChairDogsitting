@@ -1,4 +1,4 @@
-﻿using ArmenianChairDogsitting.API.Enums;
+﻿using ArmenianChairDogsitting.Data.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace ArmenianChairDogsitting.API.Models
@@ -7,9 +7,12 @@ namespace ArmenianChairDogsitting.API.Models
     {
         [Required]
         public int ClientId { get; set; }
+        public int SitterId { get; set; }
         [MinLength(1)]
         [MaxLength(4)]
-        public List<DogRequest> Animals { get; set; }
+        public List<DogAllInfoResponse> Animals { get; set; }
+        public List<CommentResponse>? Comments { get; set; }
+        public Service Type { get; set; }
         public Status Status { get; set; }
     }
 }

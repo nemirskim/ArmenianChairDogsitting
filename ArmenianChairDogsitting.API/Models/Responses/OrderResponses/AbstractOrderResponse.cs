@@ -7,6 +7,7 @@ namespace ArmenianChairDogsitting.API.Models
     {
         [Required]
         public int ClientId { get; set; }
+        public int SitterId { get; set; }
         [MinLength(1)]
         [MaxLength(4)]
         public List<DogAllInfoResponse> Animals { get; set; }

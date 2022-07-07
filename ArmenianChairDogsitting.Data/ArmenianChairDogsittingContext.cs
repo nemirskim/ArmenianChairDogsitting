@@ -16,22 +16,22 @@ namespace ArmenianChairDogsitting.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<OrderOverexpose>()
+                .HasBaseType<Order>()
+                .ToTable(nameof(Order))
+                .HasKey(e => e.Id);
+
             modelBuilder.Entity<OrderDailySitting>()
                 .HasBaseType<Order>()
                 .ToTable(nameof(Order))
                 .HasKey(e => e.Id);
 
-            modelBuilder.Entity<OrderOverexpose>().HasBaseType<Order>()
+            modelBuilder.Entity<OrderSittingForDay>()
                 .HasBaseType<Order>()
                 .ToTable(nameof(Order))
                 .HasKey(e => e.Id);
 
-            modelBuilder.Entity<OrderSittingForDay>().HasBaseType<Order>()
-                .HasBaseType<Order>()
-                .ToTable(nameof(Order))
-                .HasKey(e => e.Id);
-
-            modelBuilder.Entity<OrderWalk>().HasBaseType<Order>()
+            modelBuilder.Entity<OrderWalk>()                
                 .HasBaseType<Order>()
                 .ToTable(nameof(Order))
                 .HasKey(e => e.Id);
