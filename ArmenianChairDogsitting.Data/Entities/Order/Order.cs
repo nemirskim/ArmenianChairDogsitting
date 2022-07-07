@@ -2,7 +2,7 @@
 
 namespace ArmenianChairDogsitting.Data.Entities
 {
-    public class Order
+    public abstract class Order
     {
         public int Id { get; set; }
         public Service Type { get; set; }
@@ -10,11 +10,5 @@ namespace ArmenianChairDogsitting.Data.Entities
         public List<Animal> Animals { get; set; }
         public List<Comment>? Comments { get; set; }
         public Status Status { get; set; }
-        public int? DayQuantity { get; set; }
-        public int? WalkQuantity { get; set; }
-        public int? WalkPerDayQuantity { get; set; }
-        public int? HourQuantity { get; set; }
-        public int? VisitQuantity { get; set; }
-        public bool? IsTrial { get; set; }
     }
 }
