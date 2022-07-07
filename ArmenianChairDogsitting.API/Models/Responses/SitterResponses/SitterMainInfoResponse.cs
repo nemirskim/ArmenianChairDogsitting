@@ -12,5 +12,5 @@ public class SitterMainInfoResponse
     public int Experience { get; set; }
     public Sex Sex { get; set; }
     public string Description { get; set; }
-    public Dictionary<Service, decimal> PriceCatalog { get; set; }
+    public Dictionary<ServiceEnum, decimal> PriceCatalog { get; set; }
 }

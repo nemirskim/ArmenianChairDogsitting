@@ -1,6 +1,7 @@
 ﻿using ArmenianChairDogsitting.Data.Enums;
 using ArmenianChairDogsitting.API.Infrastructure;
 using System.ComponentModel.DataAnnotations;
+using ArmenianChairDogsitting.Data.Entities;
 
 namespace ArmenianChairDogsitting.API.Models;
 
@@ -38,5 +39,5 @@ public class SitterRequest
 
     public string Description { get; set; }
 
-    public Dictionary<Service, decimal> PriceCatalog { get; set; }
+    public Dictionary<ServiceEnum, decimal> PriceCatalog { get; set; }
 }

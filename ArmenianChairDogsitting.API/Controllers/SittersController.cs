@@ -104,6 +104,18 @@ public class SittersController : Controller
         return NoContent();
     }
 
+    [AuthorizeByRole(Role.Sitter)]
+    [HttpPatch("{id}/{password}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public ActionResult UpdatePasswordSitter(int id, string password)
+    {
+        _sittersRepository.UpdateSitterPassword(id, password);
+        return NoContent();
+    }
+
     [AuthorizeByRole(Role.Client)]
     [HttpGet("{id}/Schedule")]
     [ProducesResponseType(StatusCodes.Status200OK)]
