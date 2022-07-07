@@ -5,6 +5,9 @@ namespace ArmenianChairDogsitting.Data
 {
     public class ArmenianChairDogsittingContext : DbContext
     {
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<Animal> Animals { get; set; }
+        public DbSet<Comment> Comments { get; set; }
         public DbSet<Sitter> Sitters { get; set; }
 
         public ArmenianChairDogsittingContext(DbContextOptions<ArmenianChairDogsittingContext> options)
@@ -14,6 +17,31 @@ namespace ArmenianChairDogsitting.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Order>(entity =>
+            {
+                entity.ToTable(nameof(Order));
+                entity.HasKey(e => e.Id);
+            });
+
+            modelBuilder.Entity<Animal>(entity =>
+            {
+                entity.ToTable(nameof(Animal));
+                entity.HasKey(e => e.Id);
+
+                entity
+                    .HasMany(o => o.Orders)
+                    .WithMany(a => a.Animals);
+            });
+
+            modelBuilder.Entity<Comment>(entity =>
+            {
+                entity.ToTable(nameof(Comment));
+                entity.HasKey(e => e.Id);
+
+                entity
+                    .HasOne(o => o.Order)
+                    .WithMany(c => c.Comments);
+            });
             modelBuilder.Entity<Sitter>(entity =>
             {
                 entity.ToTable(nameof(Sitter));
