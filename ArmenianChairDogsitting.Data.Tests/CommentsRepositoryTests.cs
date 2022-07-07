@@ -9,6 +9,7 @@ public class CommentsRepositoryTests
     private DbContextOptions<ArmenianChairDogsittingContext> _dbContextOptions;
     private ArmenianChairDogsittingContext _context;
     private CommentsRepository _sut;
+    private DateTime _created;
 
     [SetUp]
     public void Setup()
@@ -19,14 +20,15 @@ public class CommentsRepositoryTests
 
         _context = new ArmenianChairDogsittingContext(_dbContextOptions);
         _sut = new CommentsRepository(_context);
+        _created = DateTime.Now;
 
         _context.Comments.Add(new Comment()
         {
             Id = 1,
             IsDeleted = false,
-            TimeCreated = DateTime.Now,
+            TimeCreated = _created,
             Title = "Chu papi mu nanyo",
-            Client = new() { Id = 1 },
+            Client = new() { Id = 1, Name = "Grisha" },
             Order = new OrderOverexpose() { Id = 1 },
             Rating = 3
         }) ;
@@ -35,9 +37,9 @@ public class CommentsRepositoryTests
         {
             Id = 2,
             IsDeleted = true,
-            TimeCreated = DateTime.Now,
+            TimeCreated = _created,
             Title = "Chiki briki v damki",
-            Client = new() { Id = 2 },
+            Client = new() { Id = 2, Name = "Egor" },
             Order = new OrderOverexpose() { Id = 2 },
             Rating = 1
         });
@@ -46,9 +48,9 @@ public class CommentsRepositoryTests
         {
             Id = 3,
             IsDeleted = false,
-            TimeCreated = DateTime.Now,
+            TimeCreated = _created,
             Title = "Sitter Lost My Dog",
-            Client = new() { Id = 1 },
+            Client = new() { Id = 3, Name = "Vova" },
             Order = new OrderWalk() { Id = 3 },
             Rating = 5
         });
@@ -60,7 +62,6 @@ public class CommentsRepositoryTests
     public void DeleteCommentById_WhenCorrectIdPassed_ThenDeleteComment()
     {
         //given 
-        var now = DateTime.Now;
         var id = 1;
         var comment = _context.Comments.FirstOrDefault(c => c.Id == id);
 
@@ -70,7 +71,7 @@ public class CommentsRepositoryTests
         //then
         Assert.IsTrue(comment!.IsDeleted);
         Assert.NotNull(comment.TimeUpdated);
-        Assert.AreEqual(now, comment.TimeCreated);
+        Assert.AreEqual(_created, comment.TimeCreated);
         Assert.IsTrue(comment.TimeUpdated > comment.TimeCreated);
     }
 

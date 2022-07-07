@@ -18,23 +18,19 @@ namespace ArmenianChairDogsitting.Data
         {
             modelBuilder.Entity<OrderOverexpose>()
                 .HasBaseType<Order>()
-                .ToTable(nameof(Order))
-                .HasKey(e => e.Id);
+                .ToTable(nameof(Order));
 
             modelBuilder.Entity<OrderDailySitting>()
                 .HasBaseType<Order>()
-                .ToTable(nameof(Order))
-                .HasKey(e => e.Id);
+                .ToTable(nameof(Order));
 
             modelBuilder.Entity<OrderSittingForDay>()
                 .HasBaseType<Order>()
-                .ToTable(nameof(Order))
-                .HasKey(e => e.Id);
+                .ToTable(nameof(Order));
 
-            modelBuilder.Entity<OrderWalk>()                
+            modelBuilder.Entity<OrderWalk>()
                 .HasBaseType<Order>()
-                .ToTable(nameof(Order))
-                .HasKey(e => e.Id);
+                .ToTable(nameof(Order));
 
             modelBuilder.Entity<Animal>(entity =>
             {
