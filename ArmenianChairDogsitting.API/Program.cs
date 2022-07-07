@@ -62,7 +62,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddDbContext<ArmenianChairDogsittingContext>(o =>
 {
-    o.UseSqlServer("Server=localhost;Database=test;Trusted_Connection=True;");
+    o.UseSqlServer("Server=80.78.240.16;Database=ArmenianChairDogsitting.DB;User Id=student;Password=qwe!23;");
 });
 
 builder.Services.AddScoped<ISitterRepository, SitterRepository>();
