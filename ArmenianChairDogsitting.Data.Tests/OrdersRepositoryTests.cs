@@ -27,7 +27,9 @@ public class OrderRepositoryTests
             WalkQuantity = 3,
             IsTrial = true,
             Status = Status.Created,
-            Type = Service.WalkOneHour
+            Type = Service.WalkOneHour,
+            Animals = new List<Animal>(),
+            Client = new() { Id = 1, Name = "Zhora"}            
         });
 
         _context.Orders.Add(new OrderDailySitting()
@@ -36,8 +38,11 @@ public class OrderRepositoryTests
             WalkQuantity = 3,
             Status = Status.Finished,
             Type = Service.WalkOneHour,
-            DayQuantity = 2            
-        });
+            DayQuantity = 2,
+            Animals = new List<Animal>(),
+            Client = new() { Id = 1, Name = "Zhora" },
+            Comments = new()
+        }); ;
 
         _context.Orders.Add(new OrderOverexpose()
         {
@@ -45,7 +50,10 @@ public class OrderRepositoryTests
             Status = Status.Created,
             Type = Service.WalkOneHour,
             DayQuantity = 3,
-            WalkPerDayQuantity = 3
+            WalkPerDayQuantity = 3,
+            Animals = new(),
+            Comments = new(),
+            Client = new() { Id = 2}
         });
 
         _context.SaveChanges();
