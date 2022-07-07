@@ -19,7 +19,7 @@ namespace ArmenianChairDogsitting.Data.Repositories
             _context = context;
         }
 
-        public int AddSitter(Sitter sitter)
+        public int Add(Sitter sitter)
         {
             _context.Sitters.Add(sitter);
             _context.SaveChanges();
@@ -27,11 +27,11 @@ namespace ArmenianChairDogsitting.Data.Repositories
             return sitter.Id;
         }
 
-        public Sitter? GetSitterById(int id) => _context.Sitters.FirstOrDefault(s => s.Id == id);
+        public Sitter? GetById(int id) => _context.Sitters.FirstOrDefault(s => s.Id == id);
 
         public List<Sitter> GetSitters() => _context.Sitters.ToList();
 
-        public void RemoveOrRestoreSitterById(int id)
+        public void RemoveOrRestoreById(int id)
         {
             var sitter = _context.Sitters.FirstOrDefault(s => s.Id == id);
 
@@ -41,7 +41,7 @@ namespace ArmenianChairDogsitting.Data.Repositories
             _context.SaveChanges();
         }
 
-        public void UpdateSitter(Sitter updateSitter, int id)
+        public void Update(Sitter updateSitter, int id)
         {
             var sitter = _context.Sitters.FirstOrDefault(s => s.Id == id);
             sitter = updateSitter;
@@ -49,7 +49,7 @@ namespace ArmenianChairDogsitting.Data.Repositories
             _context.SaveChanges();
         }
 
-        public void UpdateSitterPassword(int id, string newPassword)
+        public void UpdatePassword(int id, string newPassword)
         {
             var sitter = _context.Sitters.FirstOrDefault(s => s.Id == id);
             sitter.Password = newPassword;
@@ -57,9 +57,12 @@ namespace ArmenianChairDogsitting.Data.Repositories
             _context.SaveChanges();
         }
 
-        public void UpdateSitterPriceCatalog(int id, Dictionary<Service, decimal> priceCatalog)
+        public void UpdatePriceCatalog(int id, List<PriceCatalog> newPriceCatalog)
         {
-            throw new NotImplementedException();
+            var sitter = _context.Sitters.FirstOrDefault(s => s.Id == id);
+            sitter.PricesCatalog = newPriceCatalog;
+            _context.Sitters.Update(sitter);
+            _context.SaveChanges();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using ArmenianChairDogsitting.Data.Enums;
+﻿using ArmenianChairDogsitting.Data.Entities;
+using ArmenianChairDogsitting.Data.Enums;
 
 namespace ArmenianChairDogsitting.API.Models;
 
@@ -12,5 +13,5 @@ public class SitterMainInfoResponse
     public int Experience { get; set; }
     public Sex Sex { get; set; }
     public string Description { get; set; }
-    public Dictionary<ServiceEnum, decimal> PriceCatalog { get; set; }
+    public List<PriceCatalog> PriceCatalog { get; set; }
 }

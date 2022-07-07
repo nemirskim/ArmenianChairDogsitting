@@ -37,10 +37,10 @@ public class SittersController : Controller
             Experience = sitterRequest.Experience,
             Sex = sitterRequest.Sex,
             Description = sitterRequest.Description,
-            //PriceCatalog = sitterRequest.PriceCatalog
+            PricesCatalog = sitterRequest.PriceCatalog
         };
 
-        var result = _sittersRepository.AddSitter(sitter);
+        var result = _sittersRepository.Add(sitter);
         return Created($"{this.GetUri()}/{result}", result);
     }
 
@@ -50,7 +50,7 @@ public class SittersController : Controller
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult<SitterMainInfoResponse> GetSitterById(int id)
     {
-        var result = _sittersRepository.GetSitterById(id);
+        var result = _sittersRepository.GetById(id);
 
         if (result is null)
             return NotFound();
@@ -64,7 +64,8 @@ public class SittersController : Controller
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult<List<SitterAllInfoResponse>> GetAllSitters()
     {
-        return Ok(new List<SitterAllInfoResponse>());
+        var sitters = _sittersRepository.GetSitters();
+        return Ok(sitters);
     }
 
     [AuthorizeByRole(Role.Sitter)]
@@ -86,7 +87,7 @@ public class SittersController : Controller
             Description = sitterUpdateRequest.Description,
         };
 
-        _sittersRepository.UpdateSitter(sitter, id);
+        _sittersRepository.Update(sitter, id);
 
         return NoContent();
     }
@@ -99,7 +100,7 @@ public class SittersController : Controller
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public ActionResult RemoveOrRestoreSitterById(int id)
     {
-        _sittersRepository.RemoveOrRestoreSitterById(id);
+        _sittersRepository.RemoveOrRestoreById(id);
 
         return NoContent();
     }
@@ -112,11 +113,23 @@ public class SittersController : Controller
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public ActionResult UpdatePasswordSitter(int id, string password)
     {
-        _sittersRepository.UpdateSitterPassword(id, password);
+        _sittersRepository.UpdatePassword(id, password);
         return NoContent();
     }
 
-    [AuthorizeByRole(Role.Client)]
+    [AuthorizeByRole(Role.Sitter)]
+    [HttpPatch("{id}/{catalog}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public ActionResult UpdatePriceCatalogSitter(int id, List<PriceCatalog> priceCatalog)
+    {
+        _sittersRepository.UpdatePriceCatalog(id, priceCatalog);
+        return NoContent();
+    }
+
+    [AuthorizeByRole(Role.Sitter)]
     [HttpGet("{id}/Schedule")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]

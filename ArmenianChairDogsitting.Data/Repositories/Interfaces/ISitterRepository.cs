@@ -10,12 +10,12 @@ namespace ArmenianChairDogsitting.Data.Repositories.Interfaces
 {
     public interface ISitterRepository
     {
-        public Sitter? GetSitterById(int id);
+        public Sitter? GetById(int id);
         public List<Sitter> GetSitters();
-        public int AddSitter(Sitter sitter);
-        public void UpdateSitter(Sitter sitter, int id);
-        public void RemoveOrRestoreSitterById(int id);
-        public void UpdateSitterPriceCatalog(int id, Dictionary<Service, decimal> priceCatalog);
-        public void UpdateSitterPassword(int id, string password);
+        public int Add(Sitter sitter);
+        public void Update(Sitter sitter, int id);
+        public void RemoveOrRestoreById(int id);
+        public void UpdatePriceCatalog(int id, List<PriceCatalog> priceCatalog);
+        public void UpdatePassword(int id, string password);
     }
 }

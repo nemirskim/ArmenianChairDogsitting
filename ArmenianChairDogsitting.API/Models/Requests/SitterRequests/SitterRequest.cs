@@ -39,5 +39,5 @@ public class SitterRequest
 
     public string Description { get; set; }
 
-    public Dictionary<ServiceEnum, decimal> PriceCatalog { get; set; }
+    public List<PriceCatalog> PriceCatalog { get; set; }
 }

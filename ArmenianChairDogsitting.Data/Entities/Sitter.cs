@@ -19,7 +19,7 @@ public class Sitter
     public int Experience { get; set; }
     public Sex Sex { get; set; }
     public string Description { get; set; }
-    public Service PriceCatalog { get; set; }
+    public List<PriceCatalog> PricesCatalog { get; set; }
     //public List<Order> Orders { get; set; } 
     public bool IsDeleted {  get; set; }
 }

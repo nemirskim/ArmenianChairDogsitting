@@ -17,9 +17,9 @@ namespace ArmenianChairDogsitting.Data
             modelBuilder.Entity<Sitter>(entity =>
             {
                 entity.ToTable(nameof(Sitter));
-                entity.HasKey(e => e.Id);   
+                entity.HasKey(e => e.Id);
 
-
+                
             });
         }
     }
