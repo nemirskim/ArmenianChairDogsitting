@@ -64,14 +64,14 @@ public class ClientsController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
-    public ActionResult UpdateClient([FromBody] ClientUpdateRequest request)
+    public ActionResult UpdateClient([FromBody] ClientUpdateRequest request, int id)
     {
-        
+        var client = _clientsRepository.GetClientById(id);
         _clientsRepository.UpdateClient(client);
         return Ok();
     }
 
-    [AuthorizeByRole(Role.Client, Role.Admin)]
+    [AuthorizeByRole(Role.Client)]
     [HttpDelete]
     [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
