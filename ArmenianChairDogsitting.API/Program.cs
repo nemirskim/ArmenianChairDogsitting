@@ -66,6 +66,9 @@ builder.Services.AddDbContext<ArmenianChairDogsittingContext>(o =>
 
 builder.Services.AddScoped<IClientsRepository, ClientsRepository>();
 
+builder.Services.AddScoped<IOrdersRepository, OrdersRepository>();
+builder.Services.AddScoped<ICommentsRepository, CommentsRepository>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
