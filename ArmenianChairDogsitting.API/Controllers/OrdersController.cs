@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Authorization;
 using ArmenianChairDogsitting.API.Models;
 using ArmenianChairDogsitting.API.Roles;
 using ArmenianChairDogsitting.API.Extensions;
-using ArmenianChairDogsitting.API.Enums;
 using ArmenianChairDogsitting.Data.Repositories;
 using ArmenianChairDogsitting.Data.Entities;
+using ArmenianChairDogsitting.Data.Enums;
 
 namespace ArmenianChairDogsitting.API.Controllers
 {
@@ -44,7 +44,7 @@ namespace ArmenianChairDogsitting.API.Controllers
         [ProducesResponseType(typeof(void), StatusCodes.Status422UnprocessableEntity)]
         public ActionResult ChangeOrderStatus([FromBody] Status orderStatus, int id)
         {
-            _ordersRepository.UpdateOrderStatus(orderStatus.ToString(), id);
+            _ordersRepository.UpdateOrderStatus(orderStatus, id);
             return NoContent();
         }
 

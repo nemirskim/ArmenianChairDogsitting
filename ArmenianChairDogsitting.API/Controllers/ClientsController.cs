@@ -32,7 +32,7 @@ public class ClientsController : Controller
         return Created($"{this.GetUri()}/{id}", id);
     }
 
-    [AuthorizeByRole(Role.Client, Role.Admin)]
+    [AuthorizeByRole(Role.Client)]
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(ClientAllInfoResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
@@ -47,7 +47,7 @@ public class ClientsController : Controller
             return Ok(result);
     }
 
-    [AuthorizeByRole(Role.Admin)]
+    [AuthorizeByRole]
     [HttpGet]
     [ProducesResponseType(typeof(List<ClientAllInfoResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
@@ -83,7 +83,7 @@ public class ClientsController : Controller
         return NoContent();
     }
 
-    [AuthorizeByRole(Role.Admin)]
+    [AuthorizeByRole]
     [HttpPatch("{id}")]
     [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
@@ -94,5 +94,4 @@ public class ClientsController : Controller
     {
         return NoContent();
     }
-
 }
