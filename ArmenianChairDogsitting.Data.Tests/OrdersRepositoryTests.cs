@@ -27,7 +27,7 @@ public class OrderRepositoryTests
             WalkQuantity = 3,
             IsTrial = true,
             Status = Status.Created,
-            Type = Service.WalkOneHour,
+            Type = Service.Walk,
             Animals = new List<Animal>(),
             Client = new() { Id = 1, Name = "Zhora"}            
         });
@@ -37,7 +37,7 @@ public class OrderRepositoryTests
             Id = 2,
             WalkQuantity = 3,
             Status = Status.Finished,
-            Type = Service.WalkOneHour,
+            Type = Service.DailySitting,
             DayQuantity = 2,
             Animals = new List<Animal>(),
             Client = new() { Id = 1, Name = "Zhora" },
@@ -48,12 +48,13 @@ public class OrderRepositoryTests
         {
             Id = 3,
             Status = Status.Created,
-            Type = Service.WalkOneHour,
+            Type = Service.Overexpose,
             DayQuantity = 3,
             WalkPerDayQuantity = 3,
             Animals = new(),
             Comments = new(),
-            Client = new() { Id = 2}
+            Client = new() { Id = 2, Name = "Grisha"},
+            Sitter = new() { Id = 1, Name = "Antosha"}
         });
 
         _context.SaveChanges();
@@ -79,9 +80,13 @@ public class OrderRepositoryTests
         {
             Id = 3,
             Status = Status.Created,
-            Type = Service.WalkOneHour,
+            Type = Service.Overexpose,
             DayQuantity = 3,
-            WalkPerDayQuantity = 3
+            WalkPerDayQuantity = 3,
+            Animals = new(),
+            Comments = new(),
+            Client = new() { Id = 2, Name = "Grisha" },
+            Sitter = new() { Id = 1, Name = "Antosha" }
         };
 
         //when
@@ -89,6 +94,10 @@ public class OrderRepositoryTests
 
         //then
         Assert.AreEqual(expectedOrder.Id, actualOrder.Id);
+        Assert.AreEqual(expectedOrder.Sitter.Id, actualOrder.Sitter.Id);
+        Assert.AreEqual(expectedOrder.Client.Id, actualOrder.Client.Id);
+        Assert.AreEqual(expectedOrder.Animals.Count, actualOrder.Animals.Count);
+        Assert.AreEqual(expectedOrder.Comments.Count, actualOrder.Comments.Count);
     }
 
     [Test]
@@ -96,11 +105,15 @@ public class OrderRepositoryTests
     {
         //given 
         Status expectedStatus = Status.InProgress;
+        var orderId = 1;
 
         //when
-        _sut.UpdateOrderStatus(Status.InProgress, 1);
+        _sut.UpdateOrderStatus(Status.InProgress, orderId);
 
         //then
-        Assert.IsTrue(expectedStatus == Status.InProgress);
+        var changedOrder = _sut.GetOrderById(orderId);
+        var actualStatus = changedOrder!.Status;
+
+        Assert.IsTrue(expectedStatus == actualStatus);
     }
 }
