@@ -1,14 +1,14 @@
-﻿
-using ArmenianChairDogsitting.Business.Models;
+﻿using ArmenianChairDogsitting.Business.Models;
 using ArmenianChairDogsitting.Data.Entities;
 using ArmenianChairDogsitting.Data.Repositories;
 using ArmenianChairDogsitting.Business.ExceptionsStorage;
-using AutoMapper;
 using ArmenianChairDogsitting.Business.Exceptions;
+using ArmenianChairDogsitting.Business.Interfaces;
+using AutoMapper;
 
 namespace ArmenianChairDogsitting.Business.Services;
 
-public class CommentsService
+public class CommentsService : ICommentsService
 {
     CommentsRepository _commentsRepository;
     Mapper _map;

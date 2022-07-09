@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Authorization;
 using ArmenianChairDogsitting.API.Models;
 using ArmenianChairDogsitting.API.Roles;
 using ArmenianChairDogsitting.API.Extensions;
+using ArmenianChairDogsitting.Business.Interfaces;
+using ArmenianChairDogsitting.Business.Models;
+using AutoMapper;
 
 namespace ArmenianChairDogsitting.API.Controllers
 {
@@ -12,6 +15,14 @@ namespace ArmenianChairDogsitting.API.Controllers
     [Route("[controller]")]
     public class СommentsController : Controller
     {
+        private readonly ICommentsService _service;
+        private IMapper _mapper;
+        public СommentsController(ICommentsService commentService, IMapper mapper)
+        {
+            _service = commentService;
+            _mapper = mapper;
+        }
+
         [HttpPost]
         [AuthorizeByRole(Role.Client)]
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
@@ -20,30 +31,33 @@ namespace ArmenianChairDogsitting.API.Controllers
         [ProducesResponseType(typeof(void), StatusCodes.Status422UnprocessableEntity)]
         public ActionResult<int> AddComment([FromBody] CommentRequest comment)
         {
-            int id = 0;
-            return Created($"{this.GetUri()}/{id}", id);
+            var returnedId = _service.AddComment(_mapper.Map<CommentModel>(comment));
+            return Created($"{this.GetUri()}/{returnedId}", returnedId);
         }
 
         [HttpGet]
         [AuthorizeByRole(Role.Sitter, Role.Client)]
+        [ProducesResponseType(typeof(List<CommentResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(typeof(List<CommentResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
         public ActionResult<List<CommentResponse>> GetAllComments()
         {
-            return Ok(new List<CommentResponse>());
+            var comments = _service.GetComments();
+            var result = _mapper.Map<List<CommentResponse>>(comments);
+            return Ok(result);
         }
 
         [HttpDelete("{id}")]
         [AuthorizeByRole(Role.Client)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(typeof(CommentResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
         public ActionResult DeleteCommentById(int id)
         {
-            return Ok(new CommentResponse());
+            _service.DeleteCommentById(id);
+            return NoContent();
         }
 
     }
