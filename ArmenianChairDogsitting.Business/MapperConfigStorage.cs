@@ -12,15 +12,15 @@ public class MapperConfigStorage
     {
         if (_instance == null)
             InitializeInstance();
-        return _instance;
+        return _instance!;
     }
 
     private static void InitializeInstance()
     {
         _instance = new Mapper(new MapperConfiguration(cfg =>
         {
-            cfg.CreateMap<Comment, CommentModel>();
-            cfg.CreateMap<CommentModel, Comment>();
+            cfg.CreateMap<Comment, CommentModel>().ReverseMap();
+            cfg.CreateMap<CommentModel, Comment>().ReverseMap();
         }));
     }
 }

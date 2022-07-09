@@ -13,6 +13,8 @@ namespace ArmenianChairDogsitting.Data.Repositories
             _context = context;
         }
 
+        public Comment? GetCommentById(int id) => _context.Comments.FirstOrDefault();
+
         public int AddComment(Comment comment)
         {
             _context.Comments.Add(comment);

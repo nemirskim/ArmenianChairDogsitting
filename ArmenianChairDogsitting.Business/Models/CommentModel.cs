@@ -1,4 +1,6 @@
-﻿namespace ArmenianChairDogsitting.Business.Models;
+﻿using ArmenianChairDogsitting.Data.Entities;
+
+namespace ArmenianChairDogsitting.Business.Models;
 
 public class CommentModel
 {
