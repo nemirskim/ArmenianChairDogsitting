@@ -14,8 +14,10 @@ public class OrderRepositoryTests
     [SetUp]
     public void Setup()
     {
+        Random random = new Random();
+
         _dbContextOptions = new DbContextOptionsBuilder<ArmenianChairDogsittingContext>()
-        .UseInMemoryDatabase(databaseName: "TestDb")
+        .UseInMemoryDatabase(databaseName: $"TestDb{random.Next()}")
         .Options;
 
         _context = new ArmenianChairDogsittingContext(_dbContextOptions);
@@ -40,7 +42,7 @@ public class OrderRepositoryTests
             Type = Service.DailySitting,
             DayQuantity = 2,
             Animals = new List<Animal>(),
-            Client = new() { Id = 1, Name = "Zhora" },
+            Client = new() { Id = 2, Name = "Zhora" },
             Comments = new()
         }); ;
 
@@ -53,7 +55,7 @@ public class OrderRepositoryTests
             WalkPerDayQuantity = 3,
             Animals = new(),
             Comments = new(),
-            Client = new() { Id = 2, Name = "Grisha"},
+            Client = new() { Id = 3, Name = "Grisha"},
             Sitter = new() { Id = 1, Name = "Antosha"}
         });
 
@@ -85,7 +87,7 @@ public class OrderRepositoryTests
             WalkPerDayQuantity = 3,
             Animals = new(),
             Comments = new(),
-            Client = new() { Id = 2, Name = "Grisha" },
+            Client = new() { Id = 3, Name = "Grisha" },
             Sitter = new() { Id = 1, Name = "Antosha" }
         };
 

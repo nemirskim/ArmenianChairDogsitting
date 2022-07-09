@@ -14,8 +14,10 @@ public class CommentsRepositoryTests
     [SetUp]
     public void Setup()
     {
+        Random random = new Random();
+
         _dbContextOptions = new DbContextOptionsBuilder<ArmenianChairDogsittingContext>()
-        .UseInMemoryDatabase(databaseName: "TestDb")
+        .UseInMemoryDatabase(databaseName: $"TestDb{random.Next()}")
         .Options;
 
         _context = new ArmenianChairDogsittingContext(_dbContextOptions);
