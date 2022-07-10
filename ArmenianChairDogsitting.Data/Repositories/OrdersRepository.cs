@@ -29,12 +29,17 @@ namespace ArmenianChairDogsitting.Data.Repositories
             .Include(o => o.Comments)
             .FirstOrDefault(o => o.Id == id);
 
-        public void UpdateOrderStatus(string status, int orderId)
+        public void UpdateOrderStatus(Status status, int orderId)
         {
             var choosenOrder = _context.Orders.FirstOrDefault(o => o.Id == orderId);
             choosenOrder!.Status = status;
             _context.Orders.Update(choosenOrder);
             _context.SaveChanges();
+        }
+
+        public void UpdateOrderStatus(string status, int orderId)
+        {
+            throw new NotImplementedException();
         }
     }
 }
