@@ -1,3 +1,4 @@
+using ArmenianChairDogsitting.API.CustomExceptionMiddleware;
 using ArmenianChairDogsitting.API.Infrastructure;
 using ArmenianChairDogsitting.Data;
 using ArmenianChairDogsitting.Data.Repositories;
@@ -68,6 +69,8 @@ builder.Services.AddScoped<IOrdersRepository, OrdersRepository>();
 builder.Services.AddScoped<ICommentsRepository, CommentsRepository>();
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
