@@ -17,10 +17,11 @@ public class CommentsRepositoryTests
         Random random = new Random();
 
         _dbContextOptions = new DbContextOptionsBuilder<ArmenianChairDogsittingContext>()
-        .UseInMemoryDatabase(databaseName: $"TestDb{random.Next()}")
+        .UseInMemoryDatabase(databaseName: $"TestDb")
         .Options;
 
         _context = new ArmenianChairDogsittingContext(_dbContextOptions);
+        _context.Database.EnsureDeleted();
         _sut = new CommentsRepository(_context);
         _created = DateTime.Now;
 

@@ -17,46 +17,44 @@ public class OrderRepositoryTests
         Random random = new Random();
 
         _dbContextOptions = new DbContextOptionsBuilder<ArmenianChairDogsittingContext>()
-        .UseInMemoryDatabase(databaseName: $"TestDb{random.Next()}")
+        .UseInMemoryDatabase(databaseName: $"TestDb")
         .Options;
 
-        _context = new ArmenianChairDogsittingContext(_dbContextOptions);
+        _context = new ArmenianChairDogsittingContext(_dbContextOptions); 
+        _context.Database.EnsureDeleted();
         _sut = new OrdersRepository(_context);
 
         _context.Orders.Add(new OrderWalk()
         {
-            Id = 1,
             WalkQuantity = 3,
             IsTrial = true,
             Status = Status.Created,
             Type = Service.Walk,
             Animals = new List<Animal>(),
-            Client = new() { Id = 1, Name = "Zhora"}            
+            Client = new() { Name = "Zhora"}            
         });
 
         _context.Orders.Add(new OrderDailySitting()
         {
-            Id = 2,
             WalkQuantity = 3,
             Status = Status.Finished,
             Type = Service.DailySitting,
             DayQuantity = 2,
             Animals = new List<Animal>(),
-            Client = new() { Id = 2, Name = "Zhora" },
+            Client = new() { Name = "Zhora" },
             Comments = new()
         }); ;
 
         _context.Orders.Add(new OrderOverexpose()
         {
-            Id = 3,
             Status = Status.Created,
             Type = Service.Overexpose,
             DayQuantity = 3,
             WalkPerDayQuantity = 3,
             Animals = new(),
             Comments = new(),
-            Client = new() { Id = 3, Name = "Grisha"},
-            Sitter = new() { Id = 1, Name = "Antosha"}
+            Client = new() { Name = "Grisha"},
+            Sitter = new() { Name = "Antosha"}
         });
 
         _context.SaveChanges();
