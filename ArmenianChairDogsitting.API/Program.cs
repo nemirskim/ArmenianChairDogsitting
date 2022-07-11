@@ -1,5 +1,7 @@
 using ArmenianChairDogsitting.API.CustomExceptionMiddleware;
 using ArmenianChairDogsitting.API.Infrastructure;
+using ArmenianChairDogsitting.Business.Interfaces;
+using ArmenianChairDogsitting.Business.Services;
 using ArmenianChairDogsitting.Data;
 using ArmenianChairDogsitting.Data.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -67,6 +69,7 @@ builder.Services.AddDbContext<ArmenianChairDogsittingContext>(o =>
 
 builder.Services.AddScoped<IOrdersRepository, OrdersRepository>();
 builder.Services.AddScoped<ICommentsRepository, CommentsRepository>();
+builder.Services.AddScoped<ICommentsService, CommentsService>();
 
 var app = builder.Build();
 

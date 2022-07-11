@@ -54,7 +54,7 @@ public class CommentsServiceTests
         var commentToAddModel = new CommentModel()
         {
             Id = 34,
-            Title = "kwa kwa",
+            Text = "kwa kwa",
             TimeCreated = nowTime
         };
 

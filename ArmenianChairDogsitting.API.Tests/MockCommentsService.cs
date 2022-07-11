@@ -8,7 +8,7 @@ public class MockCommentsService : Mock<ICommentsService>
 {
     public MockCommentsService MockAddComment(CommentModel commentToAdd)
     {
-        Setup(x => x.AddComment(commentToAdd))
+        Setup(x => x.AddComment(It.IsAny<CommentModel>()))
             .Returns(commentToAdd.Id);
 
         return this;

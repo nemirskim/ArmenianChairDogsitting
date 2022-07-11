@@ -31,7 +31,8 @@ namespace ArmenianChairDogsitting.API.Controllers
         [ProducesResponseType(typeof(void), StatusCodes.Status422UnprocessableEntity)]
         public ActionResult<int> AddComment([FromBody] CommentRequest comment)
         {
-            var returnedId = _service.AddComment(_mapper.Map<CommentModel>(comment));
+            var model = _mapper.Map<CommentModel>(comment);
+            var returnedId = _service.AddComment(model);
             return Created($"{this.GetUri()}/{returnedId}", returnedId);
         }
 
