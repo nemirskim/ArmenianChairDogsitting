@@ -4,7 +4,7 @@ namespace ArmenianChairDogsitting.Data.Enums
 {
     public enum Service
     {
-        WalkOneHour,
+        WalkOneHour = 1,
         NannyOneHour,
         NannyOneDay,
         FeedAnimalAtClientsHouse

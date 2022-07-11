@@ -4,7 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using ArmenianChairDogsitting.API.Infrastructure;
 using ArmenianChairDogsitting.API.Models;
-using ArmenianChairDogsitting.API.Roles;
+using ArmenianChairDogsitting.Data.Enums;
 
 namespace ArmenianChairDogsitting.API.Controllers;
 

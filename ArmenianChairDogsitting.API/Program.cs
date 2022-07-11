@@ -1,6 +1,7 @@
 using ArmenianChairDogsitting.API.Infrastructure;
 using ArmenianChairDogsitting.Data;
 using ArmenianChairDogsitting.Data.Repositories;
+using ArmenianChairDogsitting.Data.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -63,6 +64,8 @@ builder.Services.AddDbContext<ArmenianChairDogsittingContext>(o =>
 {
     o.UseSqlServer("Server=80.78.240.16;Database=ArmenianChairDogsitting.DB;User Id=student;Password=qwe!23;");
 });
+
+builder.Services.AddScoped<ISitterRepository, SitterRepository>();
 
 builder.Services.AddScoped<IOrdersRepository, OrdersRepository>();
 builder.Services.AddScoped<ICommentsRepository, CommentsRepository>();
