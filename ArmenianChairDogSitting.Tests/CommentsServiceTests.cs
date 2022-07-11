@@ -7,8 +7,8 @@ namespace ArmenianChairDogSitting.Business.Tests;
 
 public class CommentsServiceTests
 {
-    MockCommentsRepository _commentsRepository;
-    CommentsService _commentsService;
+    private MockCommentsRepository _commentsRepository;
+    private CommentsService _commentsService;
 
     [SetUp]
     public void Setup()
@@ -46,6 +46,7 @@ public class CommentsServiceTests
         Assert.Throws<NotFoundException>(() => _commentsService.GetComments());
     }
 
+    [Test]
     public void AddComment_WhenCalled_ThenReturnIdOfAddedComment()
     {
         //given

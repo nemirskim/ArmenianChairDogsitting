@@ -11,12 +11,12 @@ namespace ArmenianChairDogsitting.Business.Services;
 public class CommentsService : ICommentsService
 {
     ICommentsRepository _commentsRepository;
-    Mapper _map;
+    IMapper _mapper;
 
     public CommentsService(ICommentsRepository commentsRepository)
     {
         _commentsRepository = commentsRepository;
-        _map = MapperConfigStorage.GetInstance();
+        _mapper = MapperConfigStorage.GetInstance();
     }
 
     public List<CommentModel> GetComments()
@@ -26,7 +26,7 @@ public class CommentsService : ICommentsService
         {
             throw new NotFoundException(CommentsExceptionStorage.NoCommentsYet);
         }
-        return _map.Map(comments, new List<CommentModel>());
+        return _mapper.Map(comments, new List<CommentModel>());
     }
 
     public void DeleteCommentById(int id)
@@ -43,7 +43,7 @@ public class CommentsService : ICommentsService
 
     public int AddComment(CommentModel comment)
     {
-        var commentToAdd = _map.Map(comment, new Comment());
+        var commentToAdd = _mapper.Map(comment, new Comment());
         return _commentsRepository.AddComment(commentToAdd);
     }
 }
