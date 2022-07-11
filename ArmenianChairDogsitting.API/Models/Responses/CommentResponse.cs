@@ -4,6 +4,7 @@ namespace ArmenianChairDogsitting.API.Models
 {
     public class CommentResponse
     {
+        [Required]
         public int Id { get; set; }
         [Required]
         public int OrderId { get; set; }

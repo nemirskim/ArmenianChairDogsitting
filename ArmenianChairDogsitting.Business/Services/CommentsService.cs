@@ -10,10 +10,10 @@ namespace ArmenianChairDogsitting.Business.Services;
 
 public class CommentsService : ICommentsService
 {
-    CommentsRepository _commentsRepository;
+    ICommentsRepository _commentsRepository;
     Mapper _map;
 
-    public CommentsService(CommentsRepository commentsRepository)
+    public CommentsService(ICommentsRepository commentsRepository)
     {
         _commentsRepository = commentsRepository;
         _map = MapperConfigStorage.GetInstance();
@@ -33,7 +33,7 @@ public class CommentsService : ICommentsService
     {
         var chosenComment = _commentsRepository.GetCommentById(id);
 
-        if(chosenComment != null)
+        if(chosenComment is null)
         {
             throw new NotFoundException($"{CommentsExceptionStorage.ChoosenCommentDoesNotExist}{id}");
         }

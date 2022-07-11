@@ -36,6 +36,7 @@ public class ClientsController : Controller
         return Ok(new ClientAllInfoResponse());
     }
 
+
     [AuthorizeByRole(Role.Admin)]
     [HttpGet]
     [ProducesResponseType(typeof(List<ClientAllInfoResponse>), StatusCodes.Status200OK)]
