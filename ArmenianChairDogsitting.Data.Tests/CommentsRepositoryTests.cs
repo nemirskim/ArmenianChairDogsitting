@@ -27,34 +27,31 @@ public class CommentsRepositoryTests
 
         _context.Comments.Add(new Comment()
         {
-            Id = 1,
             IsDeleted = false,
             TimeCreated = _created,
             Title = "Chu papi mu nanyo",
-            Client = new() { Id = 1, Name = "Grisha" },
-            Order = new OrderOverexpose() { Id = 1 },
+            Client = new() { Name = "Grisha" },
+            Order = new OrderOverexpose(),
             Rating = 3
         }) ;
 
         _context.Comments.Add(new Comment()
         {
-            Id = 2,
             IsDeleted = true,
             TimeCreated = _created,
             Title = "Chiki briki v damki",
-            Client = new() { Id = 2, Name = "Egor" },
-            Order = new OrderOverexpose() { Id = 2 },
+            Client = new() { Name = "Egor" },
+            Order = new OrderOverexpose(),
             Rating = 1
         });
 
         _context.Comments.Add(new Comment()
         {
-            Id = 3,
             IsDeleted = false,
             TimeCreated = _created,
             Title = "Sitter Lost My Dog",
-            Client = new() { Id = 3, Name = "Vova" },
-            Order = new OrderWalk() { Id = 3 },
+            Client = new() { Name = "Vova" },
+            Order = new OrderWalk(),
             Rating = 5
         });
 

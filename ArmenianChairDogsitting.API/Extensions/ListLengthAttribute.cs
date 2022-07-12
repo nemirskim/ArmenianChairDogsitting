@@ -5,8 +5,8 @@ namespace ArmenianChairDogsitting.API.Extensions;
 
 public class ListLengthAttribute : ValidationAttribute
 {
-    public int Minimum { get; set; }
-    public int Maximum { get; set; }
+    private int Minimum { get; set; }
+    private int Maximum { get; set; }
 
     public ListLengthAttribute(int min = int.MinValue, int max = int.MaxValue)
     {
