@@ -5,21 +5,21 @@ namespace ArmenianChairDogsitting.API.Extensions;
 
 public class ListLengthAttribute : ValidationAttribute
 {
-    private int Minimum { get; set; }
-    private int Maximum { get; set; }
+    private int _minimum;
+    private int _maximum;
 
     public ListLengthAttribute(int min = int.MinValue, int max = int.MaxValue)
     {
-        Minimum = min;
-        Maximum = max;
+        _minimum = min;
+        _maximum = max;
     }
 
     public override bool IsValid(object value)
     {
         var list = value as IList;
         if (list is null
-            || list.Count < Minimum 
-            || list.Count > Maximum)
+            || list.Count < _minimum
+            || list.Count > _maximum)
         {
             return false;
         }
