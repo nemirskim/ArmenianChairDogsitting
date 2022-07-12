@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using ArmenianChairDogsitting.API.Models;
-using ArmenianChairDogsitting.API.Roles;
+using ArmenianChairDogsitting.Data.Enums;
 using ArmenianChairDogsitting.API.Extensions;
+using ArmenianChairDogsitting.Data.Enums;
 using ArmenianChairDogsitting.Data.Repositories;
 using ArmenianChairDogsitting.Data.Entities;
 using ArmenianChairDogsitting.Data.Enums;
@@ -54,7 +55,7 @@ namespace ArmenianChairDogsitting.API.Controllers
         [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(AbstractOrderResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
-        public ActionResult<AbstractOrderResponse> GetOrderById(int id)
+        public ActionResult<AbstractOrderResponse> GetOrderById(int id, Service Type)
         {
             var result = _ordersRepository.GetOrderById(id);
             return Ok(new OrderWalkResponse()); //Ok(mapedResult)
@@ -63,7 +64,7 @@ namespace ArmenianChairDogsitting.API.Controllers
         [HttpGet]
         [AuthorizeByRole(Role.Sitter, Role.Client)]
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)] 
         [ProducesResponseType(typeof(List<AbstractOrderResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
         public ActionResult<List<AbstractOrderResponse>> GetAllOrders()

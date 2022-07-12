@@ -1,12 +1,10 @@
-﻿using ArmenianChairDogsitting.Data.Enums;
-using ArmenianChairDogsitting.API.Infrastructure;
+﻿using ArmenianChairDogsitting.API.Infrastructure;
 using ArmenianChairDogsitting.Data.Enums;
 using System.ComponentModel.DataAnnotations;
-using ArmenianChairDogsitting.Data.Entities;
 
 namespace ArmenianChairDogsitting.API.Models;
 
-public class SitterRequest
+public class SitterUpdateRequest
 {
     [Required(ErrorMessage = ApiErrorMessage.NameIsRequired)]
     [MaxLength(30)]
@@ -20,9 +18,6 @@ public class SitterRequest
     [MinLength(11)]
     [MaxLength(11)]
     public string Phone { get; set; }
-
-    [Required(ErrorMessage = ApiErrorMessage.EmailIsRequired)]
-    public string Email { get; set; }
 
     [MinLength(8)]
     [MaxLength(30)]
@@ -39,6 +34,4 @@ public class SitterRequest
     public Sex Sex { get; set; }
 
     public string Description { get; set; }
-
-    public List<PriceCatalog> PriceCatalog { get; set; }
 }
