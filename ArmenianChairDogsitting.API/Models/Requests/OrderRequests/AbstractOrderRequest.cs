@@ -13,7 +13,7 @@ namespace ArmenianChairDogsitting.API.Models
         [ListLength(1, 4, ErrorMessage = "Собак должно быть в колличестве от 1 до 4")]
         public List<DogAllInfoResponse> Animals { get; set; }
         public List<CommentResponse> Comments { get; set; }
-        public Service Type { get; set; }
+        public ServiceEnum Type { get; set; }
         public Status Status { get; set; }
     }
 }

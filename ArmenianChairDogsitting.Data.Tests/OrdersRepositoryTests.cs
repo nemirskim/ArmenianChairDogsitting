@@ -24,21 +24,21 @@ public class OrderRepositoryTests
         _context.Database.EnsureDeleted();
         _sut = new OrdersRepository(_context);
 
-        _context.Orders.Add(new OrderWalk()
+        _ = _context.Orders.Add(new OrderWalk()
         {
             WalkQuantity = 3,
             IsTrial = true,
             Status = Status.Created,
-            Type = Service.Walk,
+            Type = ServiceEnum.Walk,
             Animals = new List<Animal>(),
-            Client = new() { Name = "Zhora"}            
+            Client = new() { Name = "Zhora" }
         });
 
         _context.Orders.Add(new OrderDailySitting()
         {
             WalkQuantity = 3,
             Status = Status.Finished,
-            Type = Service.DailySitting,
+            Type = ServiceEnum.DailySitting,
             DayQuantity = 2,
             Animals = new List<Animal>(),
             Client = new() { Name = "Zhora" },
@@ -48,7 +48,7 @@ public class OrderRepositoryTests
         _context.Orders.Add(new OrderOverexpose()
         {
             Status = Status.Created,
-            Type = Service.Overexpose,
+            Type = ServiceEnum.Overexpose,
             DayQuantity = 3,
             WalkPerDayQuantity = 3,
             Animals = new(),
@@ -80,7 +80,7 @@ public class OrderRepositoryTests
         {
             Id = 3,
             Status = Status.Created,
-            Type = Service.Overexpose,
+            Type = ServiceEnum.Overexpose,
             DayQuantity = 3,
             WalkPerDayQuantity = 3,
             Animals = new(),
