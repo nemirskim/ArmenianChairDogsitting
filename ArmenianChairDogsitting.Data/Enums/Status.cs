@@ -2,7 +2,7 @@
 {
     public enum Status
     {
-        Created,
+        Created = 1,
         InProgress,
         Finished,
         Decline

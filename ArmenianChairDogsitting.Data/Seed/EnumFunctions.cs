@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace ArmenianChairDogsitting.Data.Seed;
 
-namespace ArmenianChairDogsitting.Data.Seed;
 public static class EnumFunctions
 {
     public static IEnumerable<TModel> GetModelsFromEnum<TModel, TEnum>() where TModel : IEnumModel<TModel, TEnum>, new()
@@ -14,8 +9,7 @@ public static class EnumFunctions
         {
             enums.Add(new TModel
             {
-                Id = enumVar//,
-                //Name = enumVar.ToString()
+                Id = enumVar
             });
         }
 

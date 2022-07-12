@@ -16,5 +16,6 @@
         public const string SizeIsRequired = "Size was not entered";
         public const string ExperienceIsRequired = "Experience was not entered";
         public const string SexIsRequired = "Sex was not entered";
+        public const string DogQuantityError = "Dog's quantity have to be less than 4 and more than 1";
     }
 }
