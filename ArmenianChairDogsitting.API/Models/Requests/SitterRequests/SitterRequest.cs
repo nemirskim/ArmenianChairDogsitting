@@ -15,7 +15,6 @@ public class SitterRequest
 
     [Required(ErrorMessage = ApiErrorMessage.PhoneIsRequired)]
     [MinLength(11, ErrorMessage = ApiErrorMessage.PhoneIsRange)]
-    //[MaxLength(11, ErrorMessage = ApiErrorMessage.PhoneIsRange)]
     public string Phone { get; set; }
 
     [Required(ErrorMessage = ApiErrorMessage.EmailIsRequired)]

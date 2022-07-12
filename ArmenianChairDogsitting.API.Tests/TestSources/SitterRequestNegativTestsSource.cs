@@ -33,14 +33,6 @@ namespace ArmenianChairDogsitting.API.Tests.TestSources
                 ApiErrorMessage.PhoneIsRequired
             };
 
-           /* sitter = GetSitterForTests();
-            sitter.LastName = "888888";
-            yield return new object[]
-            {
-                sitter,
-                ApiErrorMessage.PhoneIsRange
-            };*/
-
             sitter = GetSitterForTests();
             sitter.LastName = "8963";
             yield return new object[]
@@ -88,22 +80,6 @@ namespace ArmenianChairDogsitting.API.Tests.TestSources
                 sitter,
                 ApiErrorMessage.AgeIsRange
             };
-
-/*            sitter = GetSitterForTests();
-            sitter.Experience = 0;
-            yield return new object[]
-            {
-                sitter,
-                ApiErrorMessage.ExperienceIsRequired
-            };*/
-
-/*            sitter = GetSitterForTests();
-            sitter.Sex;
-            yield return new object[]
-            {
-                sitter,
-                ApiErrorMessage.AgeIsRequired
-            };*/
         }
 
         private SitterRequest GetSitterForTests()

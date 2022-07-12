@@ -29,23 +29,7 @@ public class SittersController : Controller
     [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
     public ActionResult<int> AddSitter([FromBody] SitterRequest sitterRequest)
-    {
-        /* var sitter = new Sitter
-         {
-             Name = sitterRequest.Name,
-             LastName = sitterRequest.LastName,
-             Phone = sitterRequest.Phone,
-             Email = sitterRequest.Email,
-             Password = sitterRequest.Password,
-             Age = sitterRequest.Age,
-             Experience = sitterRequest.Experience,
-             Sex = sitterRequest.Sex,
-             Description = sitterRequest.Description,
-             PricesCatalog = sitterRequest.PriceCatalog
-         };
-
-         var result = _sittersRepository.Add(sitter);*/
-
+    { 
         int result = 1;
         return Created($"{this.GetUri()}/{result}", result);
     }
@@ -56,13 +40,6 @@ public class SittersController : Controller
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult<SitterMainInfoResponse> GetSitterById(int id)
     {
-        //var result = _sittersRepository.GetById(id);
-
-        /*if (result is null)
-            return NotFound();
-        else
-            return Ok(result);*/
-
         return Ok(new SitterMainInfoResponse());
     }
 
@@ -72,8 +49,6 @@ public class SittersController : Controller
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult<List<SitterAllInfoResponse>> GetAllSitters()
     {
-        //var sitters = _sittersRepository.GetSitters();
-        //return Ok(sitters);
         return Ok(new List<SitterAllInfoResponse>());
     }
 
@@ -85,19 +60,6 @@ public class SittersController : Controller
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public ActionResult UpdateSitter(SitterUpdateRequest sitterUpdateRequest, int id)
     {
-        /*var sitter = new Sitter
-        {
-            Name = sitterUpdateRequest.Name,
-            LastName = sitterUpdateRequest.LastName,
-            Phone = sitterUpdateRequest.Phone,
-            Age = sitterUpdateRequest.Age,
-            Experience = sitterUpdateRequest.Experience,
-            Sex = sitterUpdateRequest.Sex,
-            Description = sitterUpdateRequest.Description,
-        };
-
-        _sittersRepository.Update(sitter, id);*/
-
         return NoContent();
     }
 
@@ -109,8 +71,6 @@ public class SittersController : Controller
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public ActionResult RemoveOrRestoreSitterById(int id)
     {
-        //_sittersRepository.RemoveOrRestoreById(id);
-
         return NoContent();
     }
 
@@ -122,7 +82,6 @@ public class SittersController : Controller
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public ActionResult UpdatePasswordSitter(int id, string password)
     {
-        //_sittersRepository.UpdatePassword(id, password);
         return NoContent();
     }
 
@@ -134,7 +93,6 @@ public class SittersController : Controller
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public ActionResult UpdatePriceCatalogSitter(int id, List<PriceCatalog> priceCatalog)
     {
-       //_sittersRepository.UpdatePriceCatalog(id, priceCatalog);
         return NoContent();
     }
 
