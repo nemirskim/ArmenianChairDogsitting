@@ -59,6 +59,12 @@ namespace ArmenianChairDogsitting.Data
 
                 
             });
+
+            modelBuilder.Entity<PriceCatalog>(entity =>
+            {
+                entity.ToTable(nameof(PriceCatalog));
+                entity.HasKey(e => e.Id);
+            });
         }
     }
 }

@@ -32,7 +32,7 @@ public class CommentsRepositoryTests
             Title = "Chu papi mu nanyo",
             Client = new() { Name = "Grisha" },
             Order = new OrderOverexpose(),
-            Rating = 3
+            Rating = 3,
         }) ;
 
         _context.Comments.Add(new Comment()

@@ -31,7 +31,7 @@ public class OrderRepositoryTests
             Status = Status.Created,
             Type = ServiceEnum.Walk,
             Animals = new List<Animal>(),
-            Client = new() { Name = "Zhora" }
+            Client = new() { Name = "Zhora" },
         });
 
         _context.Orders.Add(new OrderDailySitting()
@@ -54,7 +54,6 @@ public class OrderRepositoryTests
             Animals = new(),
             Comments = new(),
             Client = new() { Name = "Grisha"},
-            Sitter = new() { Name = "Antosha"}
         });
 
         _context.SaveChanges();
@@ -86,7 +85,6 @@ public class OrderRepositoryTests
             Animals = new(),
             Comments = new(),
             Client = new() { Id = 3, Name = "Grisha" },
-            Sitter = new() { Id = 1, Name = "Antosha" }
         };
 
         //when
@@ -94,7 +92,6 @@ public class OrderRepositoryTests
 
         //then
         Assert.AreEqual(expectedOrder.Id, actualOrder.Id);
-        Assert.AreEqual(expectedOrder.Sitter.Id, actualOrder.Sitter.Id);
         Assert.AreEqual(expectedOrder.Client.Id, actualOrder.Client.Id);
         Assert.AreEqual(expectedOrder.Animals.Count, actualOrder.Animals.Count);
         Assert.AreEqual(expectedOrder.Comments.Count, actualOrder.Comments.Count);
