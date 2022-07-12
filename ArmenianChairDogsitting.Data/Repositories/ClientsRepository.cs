@@ -32,17 +32,17 @@ public class ClientsRepository : IClientsRepository
         _context.SaveChanges();
     }
 
-    public void RemoveClient(int id)
+    public void RemoveOrRestoreClient(int id)
     {
         var client = GetClientById(id);
-        client.IsDeleted = true;
-        _context.SaveChanges();
-    }
-
-    public void RestoreClient(int id)
-    {
-        var client = GetClientById(id);
-        client.IsDeleted = false;
+        if (client!.IsDeleted is false)
+        {
+            client!.IsDeleted = true;
+        }
+        else
+        {
+            client!.IsDeleted = false;
+        }
         _context.SaveChanges();
     }
 }

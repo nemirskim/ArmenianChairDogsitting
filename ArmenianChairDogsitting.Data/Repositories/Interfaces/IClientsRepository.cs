@@ -8,6 +8,5 @@ public interface IClientsRepository
     Client GetClientById(int id);
     List<Client> GetAllClients();
     void UpdateClient(Client client);
-    void RemoveClient(int id);
-    void RestoreClient(int id);
+    public void RemoveOrRestoreClient(int id);
 }
