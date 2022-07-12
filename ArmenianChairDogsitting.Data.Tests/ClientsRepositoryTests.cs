@@ -80,6 +80,19 @@ public class ClientsRepositoryTests
     }
 
     [Test]
+    public void GetAllClientsTest_ShouldReturnAllOfExpectedClients()
+    {
+        //given
+        var expectedClientsQuantity = 2;
+
+        //when
+        var clients = _sut.GetAllClients();
+
+        //then
+        Assert.AreEqual(expectedClientsQuantity, clients.Count);
+    }
+
+    [Test]
     public void RemoveClientTest_WhenCorrectIdIsPassed_ThenSoftDeleteApplied()
     {
         //given
