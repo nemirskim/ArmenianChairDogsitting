@@ -93,6 +93,23 @@ public class ClientsRepositoryTests
     }
 
     [Test]
+    public void UpdateClientTest_WhenCorrectIdIsPassed_ThenUpdateClientProfileApplied()
+    {
+        //given
+        var id = 2;
+        var actual = _context.Clients.FirstOrDefault(c => c.Id == id);
+        actual!.LastName = "Prosnulsya";
+        _context.SaveChanges();
+
+        //when
+        _sut.UpdateClient(actual);
+
+        //then
+        Assert.AreEqual(id, actual.Id);
+        Assert.AreEqual("Prosnulsya", actual.LastName);
+    }
+
+    [Test]
     public void RemoveClientTest_WhenCorrectIdIsPassed_ThenSoftDeleteApplied()
     {
         //given
