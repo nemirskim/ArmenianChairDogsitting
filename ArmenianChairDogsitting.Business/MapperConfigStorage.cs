@@ -19,8 +19,11 @@ public class MapperConfigStorage
     {
         _instance = new Mapper(new MapperConfiguration(cfg =>
         {
-            cfg.CreateMap<Comment, CommentModel>().ReverseMap();
-            cfg.CreateMap<CommentModel, Comment>().ReverseMap();
+            cfg.CreateMap<Client, ClientModel>();
+            cfg.CreateMap<OrderWalk, OrderWalkModel>();
+            cfg.CreateMap<Comment, CommentModel>()
+               .ForMember(dest => dest.Client, opt => opt.MapFrom(src => src.Client))
+               .ForMember(dest => dest.Order, opt => opt.MapFrom(src => src.Order));
         }));
     }
 }

@@ -44,7 +44,7 @@ namespace ArmenianChairDogsitting.API.Tests
             var expectedCommentModel = new CommentModel
             {
                 Client = new() { Id = comment.ClientId },
-                Order = new() { Id = comment.OrderId },
+                Order = new OrderWalkModel() { Id = comment.OrderId },
                 Rating = comment.Rating,
                 Text = comment.Text,
                 IsDeleted = false,

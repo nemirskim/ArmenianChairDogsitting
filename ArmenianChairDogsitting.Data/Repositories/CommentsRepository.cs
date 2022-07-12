@@ -18,14 +18,9 @@ public class CommentsRepository : ICommentsRepository
         return comment.Id;
     }
 
-        public Comment? GetCommentById(int id) => _context.Comments.FirstOrDefault();
+    public Comment? GetCommentById(int id) => _context.Comments.FirstOrDefault();
 
-        public int AddComment(Comment comment)
-        {
-            _context.Comments.Add(comment);
-            _context.SaveChanges();
-            return comment.Id;
-        }
+
     public void DeleteCommentById(int id)
     {
         var choosenComment = _context.Comments
