@@ -13,10 +13,10 @@ public class CommentsRepositoryTests
 
     [SetUp]
     public void Setup()
-    {
+    {        
         _dbContextOptions = new DbContextOptionsBuilder<ArmenianChairDogsittingContext>()
-        .UseInMemoryDatabase(databaseName: $"TestDb")
-        .Options;
+            .UseInMemoryDatabase(databaseName: $"TestDb")
+            .Options;
 
         _context = new ArmenianChairDogsittingContext(_dbContextOptions);
         _context.Database.EnsureDeleted();
