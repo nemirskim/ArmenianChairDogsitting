@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using ArmenianChairDogsitting.Data.Entities;
 using ArmenianChairDogsitting.Data.Enums;
 
@@ -29,7 +29,7 @@ namespace ArmenianChairDogsitting.Data.Repositories
             .Include(o => o.Comments)
             .FirstOrDefault(o => o.Id == id);
 
-        public void UpdateOrderStatus(string status, int orderId)
+        public void UpdateOrderStatus(Status status, int orderId)
         {
             var choosenOrder = _context.Orders.FirstOrDefault(o => o.Id == orderId);
             choosenOrder!.Status = status;

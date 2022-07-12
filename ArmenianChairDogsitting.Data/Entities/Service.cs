@@ -6,7 +6,6 @@ namespace ArmenianChairDogsitting.Data.Entities;
 
 public class Service : IEnumModel<Service, ServiceEnum>
 {
-    [Key]
     public ServiceEnum Id { get; set; }
     public List<Sitter> Sitters { get; set; }
 }
