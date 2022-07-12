@@ -1,4 +1,4 @@
-﻿using ArmenianChairDogsitting.API.Roles;
+﻿using ArmenianChairDogsitting.Data.Enums;
 using Microsoft.AspNetCore.Authorization;
 
 namespace ArmenianChairDogsitting.API;

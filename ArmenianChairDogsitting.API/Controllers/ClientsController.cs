@@ -2,7 +2,7 @@
 using ArmenianChairDogsitting.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using ArmenianChairDogsitting.API.Extensions;
-using ArmenianChairDogsitting.API.Roles;
+using ArmenianChairDogsitting.Data.Enums;
 
 namespace ArmenianChairDogsitting.API.Controllers;
 

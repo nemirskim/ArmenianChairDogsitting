@@ -1,6 +1,6 @@
-﻿namespace ArmenianChairDogsitting.API.Enum
+﻿namespace ArmenianChairDogsitting.Data.Enums
 {
-    public enum Service
+    public enum ServiceEnum
     {
         Walk_one_hour,
         Nanny_one_hour,
