@@ -1,5 +1,4 @@
-﻿using ArmenianChairDogsitting.Business.Models;
-using ArmenianChairDogsitting.Data.Entities;
+﻿using ArmenianChairDogsitting.Data.Entities;
 using ArmenianChairDogsitting.Data.Repositories;
 using ArmenianChairDogsitting.Business.ExceptionsStorage;
 using ArmenianChairDogsitting.Business.Exceptions;
@@ -11,22 +10,20 @@ namespace ArmenianChairDogsitting.Business.Services;
 public class CommentsService : ICommentsService
 {
     ICommentsRepository _commentsRepository;
-    IMapper _mapper;
 
     public CommentsService(ICommentsRepository commentsRepository)
     {
         _commentsRepository = commentsRepository;
-        _mapper = MapperConfigStorage.GetInstance();
     }
 
-    public List<CommentModel> GetComments()
+    public List<Comment> GetComments()
     {
         var comments = _commentsRepository.GetAllComments();
         if(comments.Count == 0 || comments is null)
         {
             throw new NotFoundException(CommentsExceptionStorage.NoCommentsYet);
         }
-        return _mapper.Map(comments, new List<CommentModel>());
+        return comments;
     }
 
     public void DeleteCommentById(int id)
@@ -41,9 +38,7 @@ public class CommentsService : ICommentsService
         _commentsRepository.DeleteCommentById(id);
     }
 
-    public int AddComment(CommentModel comment)
-    {
-        var commentToAdd = _mapper.Map(comment, new Comment());
-        return _commentsRepository.AddComment(commentToAdd);
-    }
+    public int AddComment(Comment comment) => _commentsRepository.AddComment(comment);
+
+    public Comment GetCommentById(int id) => _commentsRepository.GetCommentById(id);
 }

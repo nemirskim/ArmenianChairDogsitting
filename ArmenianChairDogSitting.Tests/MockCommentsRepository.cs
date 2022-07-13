@@ -1,39 +1,39 @@
-﻿using ArmenianChairDogsitting.Data.Entities;
-using ArmenianChairDogsitting.Data.Repositories;
-using Moq;
+﻿//using ArmenianChairDogsitting.Data.Entities;
+//using ArmenianChairDogsitting.Data.Repositories;
+//using Moq;
 
-namespace ArmenianChairDogSitting.Business.Tests;
+//namespace ArmenianChairDogSitting.Business.Tests;
 
-public class MockCommentsRepository : Mock<ICommentsRepository>
-{
-    public MockCommentsRepository MockGetAllComments(List<Comment> result)
-    {
-        Setup(x => x.GetAllComments())
-            .Returns(result);
+//public class MockCommentsRepository : Mock<ICommentsRepository>
+//{
+//    public MockCommentsRepository MockGetAllComments(List<Comment> result)
+//    {
+//        Setup(x => x.GetAllComments())
+//            .Returns(result);
 
-        return this;
-    }
+//        return this;
+//    }
 
-    public MockCommentsRepository MockAddComment(Comment commentToAdd)
-    {
-        Setup(x => x.AddComment(commentToAdd))
-            .Returns(commentToAdd.Id);
+//    public MockCommentsRepository MockAddComment(Comment commentToAdd)
+//    {
+//        Setup(x => x.AddComment(commentToAdd))
+//            .Returns(commentToAdd.Id);
 
-        return this;
-    }
+//        return this;
+//    }
 
-    public MockCommentsRepository MockDeleteById(int id)
-    {
-        Setup(x => x.DeleteCommentById(id));
+//    public MockCommentsRepository MockDeleteById(int id)
+//    {
+//        Setup(x => x.DeleteCommentById(id));
 
-        return this;
-    }
+//        return this;
+//    }
 
-    public MockCommentsRepository MockGetById(int id, Comment returns)
-    {        
-        Setup(x => x.GetCommentById(id))
-            .Returns(returns);
+//    public MockCommentsRepository MockGetById(int id, Comment returns)
+//    {        
+//        Setup(x => x.GetCommentById(id))
+//            .Returns(returns);
 
-        return this;
-    }
-}
+//        return this;
+//    }
+//}

@@ -1,5 +1,4 @@
 using ArmenianChairDogsitting.Business.Exceptions;
-using ArmenianChairDogsitting.Business.Models;
 using ArmenianChairDogsitting.Business.Services;
 using ArmenianChairDogsitting.Data.Entities;
 using ArmenianChairDogsitting.Data.Repositories;
@@ -35,9 +34,9 @@ public class CommentsServiceTests
         //then
         Assert.IsTrue(actual is not null);
         Assert.IsTrue(actual!.Count > 0);
-        Assert.IsTrue(actual is List<CommentModel>);
-        Assert.IsTrue(actual[0].Client is ClientModel); //later: need create moedel & maping to this one
-        Assert.IsTrue(actual[0].Order is OrderModel);// later: need other branch
+        Assert.IsTrue(actual is List<Comment>);
+        Assert.IsTrue(actual[0].Client is Client);
+        Assert.IsTrue(actual[0].Order is Order);
     }
 
     [Test]
@@ -59,7 +58,7 @@ public class CommentsServiceTests
     {
         //given
         var nowTime = DateTime.Now;
-        var commentToAddModel = new CommentModel()
+        var commentToAddModel = new Comment()
         {
             Id = 34,
             Text = "kwa kwa",
@@ -84,11 +83,15 @@ public class CommentsServiceTests
     {
         //given
         var id = 2;
-        //_commentsRepository.MockGetById(id, new() { Id = id, IsDeleted = false});
-        //_commentsRepository.MockDeleteById(id);
 
-        ////when
-        //_commentsService.DeleteCommentById(id);
+        _commentsRepository
+            .Setup(x => x.GetCommentById(It.IsAny<int>()))
+            .Returns(new Comment() { Id = id, IsDeleted = false });
+        _commentsRepository
+            .Setup(x => x.DeleteCommentById(It.IsAny<int>()));
+
+        //when
+        _sut.DeleteCommentById(id);
 
         //then
         Assert.Pass();
@@ -98,12 +101,18 @@ public class CommentsServiceTests
     public void DeleteCommentById_WhenCommentDoesntExist_ThenThrowNotFoundException()
     {
         //given
-        //    var id = 2;
-        //    _commentsRepository.MockGetById(id, null);
-        //    _commentsRepository.MockDeleteById(id);
+        var id = 2;
 
-        //    //when then
-        //    Assert.Throws<NotFoundException>(() => _commentsService.DeleteCommentById(id));
+        Comment comment = null;
+
+        _commentsRepository
+            .Setup(x => x.GetCommentById(It.IsAny<int>()))
+            .Returns(comment);
+        _commentsRepository
+            .Setup(x => x.DeleteCommentById(It.IsAny<int>()));
+
+        //when then
+        Assert.Throws<NotFoundException>(() => _sut.DeleteCommentById(id));
     }
 
     private List<Comment> SetComments()

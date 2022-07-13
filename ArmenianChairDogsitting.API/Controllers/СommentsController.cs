@@ -4,8 +4,8 @@ using ArmenianChairDogsitting.API.Models;
 using ArmenianChairDogsitting.Data.Enums;
 using ArmenianChairDogsitting.API.Extensions;
 using ArmenianChairDogsitting.Business.Interfaces;
-using ArmenianChairDogsitting.Business.Models;
 using AutoMapper;
+using ArmenianChairDogsitting.Data.Entities;
 
 namespace ArmenianChairDogsitting.API.Controllers
 {
@@ -31,7 +31,7 @@ namespace ArmenianChairDogsitting.API.Controllers
         [ProducesResponseType(typeof(void), StatusCodes.Status422UnprocessableEntity)]
         public ActionResult<int> AddComment([FromBody] CommentRequest comment)
         {
-            var model = _mapper.Map<CommentModel>(comment);
+            var model = _mapper.Map<Comment>(comment);
             var returnedId = _service.AddComment(model);
             return Created($"{this.GetUri()}/{returnedId}", returnedId);
         }

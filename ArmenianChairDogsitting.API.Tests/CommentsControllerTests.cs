@@ -1,6 +1,5 @@
 using ArmenianChairDogsitting.API.Controllers;
 using ArmenianChairDogsitting.API.Models;
-using ArmenianChairDogsitting.Business.Models;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +7,7 @@ using AutoMapper;
 using Moq;
 using ArmenianChairDogsitting.Business.Services;
 using ArmenianChairDogsitting.Business.Interfaces;
+using ArmenianChairDogsitting.Data.Entities;
 
 namespace ArmenianChairDogsitting.API.Tests
 {
@@ -35,16 +35,12 @@ namespace ArmenianChairDogsitting.API.Tests
 
             var comment = new CommentRequest
             {
-                ClientId = 1,
-                OrderId = 2,
                 Rating = 3,
                 Text = "MinimanimanuMOO"
             };
 
-            var expectedCommentModel = new CommentModel
+            var expectedCommentModel = new Comment
             {
-                Client = new() { Id = comment.ClientId },
-                Order = new OrderWalkModel() { Id = comment.OrderId },
                 Rating = comment.Rating,
                 Text = comment.Text,
                 IsDeleted = false,
@@ -52,7 +48,7 @@ namespace ArmenianChairDogsitting.API.Tests
             };
 
             _commentsServiceMock
-                .Setup(x => x.AddComment(It.IsAny<CommentModel>()))
+                .Setup(x => x.AddComment(It.IsAny<Comment>()))
                 .Returns(expectedId);
 
             // when
@@ -74,13 +70,11 @@ namespace ArmenianChairDogsitting.API.Tests
             //        v.ErrorMessage!.Contains("required") &&
             //        v.ErrorMessage.Contains("Range(0, 5)")));
 
-            _commentsServiceMock.Verify(x => x.AddComment(It.Is<CommentModel>(c => 
+            _commentsServiceMock.Verify(x => x.AddComment(It.Is<Comment>(c => 
                 c.IsDeleted == expectedCommentModel.IsDeleted &&
                 c.Rating == expectedCommentModel.Rating &&
                 c.Text == expectedCommentModel.Text &&
-                c.TimeCreated == expectedCommentModel.TimeCreated &&
-                c.Order.Id == expectedCommentModel.Order.Id &&
-                c.Client.Id == expectedCommentModel.Client.Id
+                c.TimeCreated == expectedCommentModel.TimeCreated
             )), Times.Once);
         }
 

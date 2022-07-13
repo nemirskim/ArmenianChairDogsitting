@@ -1,5 +1,5 @@
 ﻿using ArmenianChairDogsitting.API.Models;
-using ArmenianChairDogsitting.Business.Models;
+using ArmenianChairDogsitting.Data.Entities;
 using AutoMapper;
 
 namespace ArmenianChairDogsitting.API;
@@ -19,23 +19,21 @@ public class APIMapperConfigStorage
     {
         _instance = new Mapper(new MapperConfiguration(cfg =>
         {
-            cfg.CreateMap<AbstractOrderRequest, OrderModel>().ReverseMap();
-            cfg.CreateMap<OrderWalkRequest, OrderWalkModel>()
-                .IncludeBase(typeof(AbstractOrderRequest), typeof(OrderModel))
+            cfg.CreateMap<AbstractOrderRequest, Order>().ReverseMap();
+            cfg.CreateMap<OrderWalkRequest, OrderWalk>()
+                .IncludeBase(typeof(AbstractOrderRequest), typeof(Order))
                 .ReverseMap();
-            cfg.CreateMap<OrderDailySittingRequest, OrderDailySittingModel>()
-                .IncludeBase(typeof(AbstractOrderRequest), typeof(OrderModel))
+            cfg.CreateMap<OrderDailySittingRequest, OrderDailySitting>()
+                .IncludeBase(typeof(AbstractOrderRequest), typeof(Order))
                 .ReverseMap();
-            cfg.CreateMap<OrderOverexposeRequest, OrderOverexposeModel>()
-                .IncludeBase(typeof(AbstractOrderRequest), typeof(OrderModel))
+            cfg.CreateMap<OrderOverexposeRequest, OrderOverexpose>()
+                .IncludeBase(typeof(AbstractOrderRequest), typeof(Order))
                 .ReverseMap();
-            cfg.CreateMap<OrderSittingForDayRequest, OrderSittingForDayModel>()
-                .IncludeBase(typeof(AbstractOrderRequest), typeof(OrderModel))
+            cfg.CreateMap<OrderSittingForDayRequest, OrderSittingForDay>()
+                .IncludeBase(typeof(AbstractOrderRequest), typeof(Order))
                 .ReverseMap();
 
-            cfg.CreateMap<CommentRequest, CommentModel>()
-                .ForPath(d => d.Client.Id, opt => opt.MapFrom(src => src.ClientId))
-                .ForPath(d => d.Order.Id, opt => opt.MapFrom(src => src.OrderId))
+            cfg.CreateMap<CommentRequest, Comment>()
                 .ForMember(d => d.Text, opt => opt.MapFrom(src => src.Text))
                 .ForMember(d => d.Rating, opt => opt.MapFrom(src => src.Rating));
         }));

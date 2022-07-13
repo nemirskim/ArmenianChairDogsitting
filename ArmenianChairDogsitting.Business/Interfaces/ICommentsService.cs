@@ -1,12 +1,12 @@
-﻿using ArmenianChairDogsitting.Business.Models;
+﻿using ArmenianChairDogsitting.Data.Entities;
 
 namespace ArmenianChairDogsitting.Business.Interfaces;
 
 public interface ICommentsService
 {
-    public List<CommentModel> GetComments();
+    public List<Comment> GetComments();
 
     public void DeleteCommentById(int id);
 
-    public int AddComment(CommentModel comment);
+    public int AddComment(Comment comment);
 }
