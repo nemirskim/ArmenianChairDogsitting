@@ -21,7 +21,7 @@ public class CommentsService : ICommentsService
         var comments = _commentsRepository.GetAllComments();
         if(comments.Count == 0 || comments is null)
         {
-            throw new NotFoundException(CommentsExceptionStorage.NoCommentsYet);
+            throw new NotFoundException(ExceptionStorage.NoCommentsYet);
         }
         return comments;
     }
@@ -32,7 +32,7 @@ public class CommentsService : ICommentsService
 
         if(chosenComment is null)
         {
-            throw new NotFoundException($"{CommentsExceptionStorage.ChoosenCommentDoesNotExist}{id}");
+            throw new NotFoundException($"{ExceptionStorage.ChoosenCommentDoesNotExist}{id}");
         }
 
         _commentsRepository.DeleteCommentById(id);
@@ -40,5 +40,15 @@ public class CommentsService : ICommentsService
 
     public int AddComment(Comment comment) => _commentsRepository.AddComment(comment);
 
-    public Comment GetCommentById(int id) => _commentsRepository.GetCommentById(id);
+    public Comment GetCommentById(int id)
+    {
+        var chosenComment = _commentsRepository.GetCommentById(id);
+
+        if (chosenComment is null)
+        {
+            throw new NotFoundException($"{ExceptionStorage.ChoosenCommentDoesNotExist}{id}");
+        }
+
+        return chosenComment;
+    }
 }

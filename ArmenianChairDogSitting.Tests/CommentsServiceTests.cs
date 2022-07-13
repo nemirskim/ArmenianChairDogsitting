@@ -33,7 +33,7 @@ public class CommentsServiceTests
 
         //then
         Assert.IsTrue(actual is not null);
-        Assert.IsTrue(actual!.Count > 0);
+        Assert.IsTrue(actual!.Count == 3);
         Assert.IsTrue(actual is List<Comment>);
         Assert.IsTrue(actual[0].Client is Client);
         Assert.IsTrue(actual[0].Order is Order);
