@@ -57,18 +57,8 @@ namespace ArmenianChairDogsitting.API.Tests
             // then
             var actualResult = actual.Result as CreatedResult;
 
-            //var ctx = new ValidationContext(comment, null, null);
-            //Validator.TryValidateObject(comment, ctx, _validationResult, true);
-
             Assert.AreEqual(StatusCodes.Status201Created, actualResult!.StatusCode);
             Assert.AreEqual(expectedId, actualResult.Value);
-            //Assert.IsTrue(_validationResult.Any(
-            //    v => v.MemberNames.Contains("ClientId") &&
-            //        v.MemberNames.Contains("OrderId") &&
-            //        v.MemberNames.Contains("Rating") &&
-            //        v.MemberNames.Contains("Text") &&
-            //        v.ErrorMessage!.Contains("required") &&
-            //        v.ErrorMessage.Contains("Range(0, 5)")));
 
             _commentsServiceMock.Verify(x => x.AddComment(It.Is<Comment>(c => 
                 c.IsDeleted == expectedCommentModel.IsDeleted &&
@@ -76,6 +66,46 @@ namespace ArmenianChairDogsitting.API.Tests
                 c.Text == expectedCommentModel.Text &&
                 c.TimeCreated == expectedCommentModel.TimeCreated
             )), Times.Once);
+        }
+
+        
+
+        [Test]
+        public void GetAllComments_WhenValidRequestPassed_ThenReturnListOfComments()
+        {
+            // given
+            var expectedComments = new List<Comment>();
+
+            _commentsServiceMock
+                .Setup(x => x.GetComments())
+                .Returns(expectedComments);
+
+            //when 
+            var comments = _sut.GetAllComments();
+
+            //then
+            var resultComments = comments.Result as OkObjectResult;
+            var actualComments = resultComments.Value as List<CommentResponse>;
+
+            Assert.AreEqual(expectedComments.Count, actualComments.Count);
+            Assert.AreEqual(StatusCodes.Status200OK, resultComments.StatusCode);
+        }
+
+        [Test]
+        public void DeleteCommentById_WhenValidRequestPassed_ThenNoContent()
+        {
+            //given
+            var id = 2;
+
+            _commentsServiceMock
+                .Setup(x => x.DeleteCommentById(id));
+
+            //when
+            var result = _sut.DeleteCommentById(id) as NoContentResult;
+
+            //then
+            Assert.AreEqual(StatusCodes.Status204NoContent, result.StatusCode);
+
         }
 
     }
