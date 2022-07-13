@@ -52,31 +52,36 @@ public class ClientsRepositoryTests
         _context.SaveChanges();
     }
 
-    [TestCaseSource(typeof(ClientsTestCaseSource))]
-    public void AddClientTest_WhenNewClientIsCorrect_ThenShouldAddExpectedClient(Client newClient, Client expected)
-    {
-        //given       
-        var actual = _context.Clients.FirstOrDefault(c => c.Id == newClient.Id);
-
-        //when
-        _sut.AddClient(newClient);
-
-        //then
-        Assert.AreEqual(expected, actual);
-    }
-
-    [TestCaseSource(typeof(ClientsTestCaseSource))]
-    public void GetClientByIdTest_WhenIdIsCorrect_ShouldReturnExpectedClient(Client newClient, Client expected)
+    [Test]
+    public void AddClientTest_WhenNewClientIsCorrect_ThenShouldAddExpectedClient()
     {
         //given
-        _context.Clients.Add(newClient);
-        _context.SaveChanges();
+        var client = new Client()
+        {
+            Id = 3,
+            Name = "Valery",
+            LastName = "Meladze"
+        };
 
         //when
-        _sut.GetClientById(5);
+        _sut.AddClient(client);
 
         //then
-        Assert.AreEqual(expected.Id, newClient.Id);
+        var expected = _context.Clients.FirstOrDefault(c => c.Id == client.Id);
+        Assert.AreEqual(expected.Id, client.Id);
+    }
+
+    [Test]
+    public void GetClientByIdTest_WhenIdIsCorrect_ShouldReturnExpectedClient()
+    {
+        //given in setup
+
+        //when
+        var client = _sut.GetClientById(2);
+
+        //then
+        Assert.AreEqual(2, client.Id);
+        Assert.NotNull(client);
     }
 
     [Test]
