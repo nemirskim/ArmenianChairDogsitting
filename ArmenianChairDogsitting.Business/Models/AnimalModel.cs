@@ -1,7 +1,7 @@
 ﻿
 namespace ArmenianChairDogsitting.Business.Models
 {
-    public class Animal
+    public class AnimalModel
     {
         public int Id { get; set; }
         public string Name { get; set;}
