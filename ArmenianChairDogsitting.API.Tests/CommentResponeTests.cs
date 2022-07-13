@@ -4,22 +4,24 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ArmenianChairDogsitting.API.Tests;
 
-public class CommentRequestTests
+public class CommentResponseTests
 {
     private List<ValidationResult> _validationResult;
 
     [SetUp]
     public void Setup()
-    {        
+    {
         _validationResult = new List<ValidationResult>();
     }
 
     [Test]
-    public void CommentRequest_ValidFill_ThenKeepProcessing()
+    public void CommentResponse_ValidFill_ThenKeepProcessing()
     {
         // given
-        var comment = new CommentRequest
+        var comment = new CommentResponse
         {
+            Id = 1,
+            OrderId = 2,
             Rating = 3,
             Text = "MinimanimanuMOO"
         };
@@ -33,11 +35,12 @@ public class CommentRequestTests
     }
 
     [Test]
-    public void CommentRequest_InValidFill_ThenBrakeProcessing()
+    public void CommentResponse_InValidFill_ThenBrakeProcessing()
     {
         // given
-        var comment = new CommentRequest
+        var comment = new CommentResponse
         {
+            OrderId = 2,
             Rating = 7,
             Text = "MinimanimanuMOO"
         };
