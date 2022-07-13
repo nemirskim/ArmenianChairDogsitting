@@ -9,26 +9,24 @@ namespace ArmenianChairDogsitting.API.Models;
 public class SitterRequest
 {
     [Required(ErrorMessage = ApiErrorMessage.NameIsRequired)]
-    [MaxLength(30)]
     public string Name { get; set; }
 
     [Required(ErrorMessage = ApiErrorMessage.LastNameIsRequired)]
-    [MaxLength(30)]
     public string LastName { get; set; }
 
     [Required(ErrorMessage = ApiErrorMessage.PhoneIsRequired)]
-    [MinLength(11)]
-    [MaxLength(11)]
+    [MinLength(11, ErrorMessage = ApiErrorMessage.PhoneIsRange)]
     public string Phone { get; set; }
 
     [Required(ErrorMessage = ApiErrorMessage.EmailIsRequired)]
+    [EmailAddress(ErrorMessage = ApiErrorMessage.EmailCharacterIsRequired)]
     public string Email { get; set; }
 
-    [MinLength(8)]
-    [MaxLength(30)]
+    [Required(ErrorMessage = ApiErrorMessage.PasswordIsRequired)]
+    [MinLength(8, ErrorMessage = ApiErrorMessage.PasswordLenghtIsLess)]
     public string Password { get; set; }
 
-    [Required(ErrorMessage = ApiErrorMessage.AgeIsRequired)]
+    [Required]
     [Range(1, 130, ErrorMessage = ApiErrorMessage.AgeIsRange)]
     public int Age { get; set; }
 
