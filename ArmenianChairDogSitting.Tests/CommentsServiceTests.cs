@@ -45,7 +45,10 @@ public class CommentsServiceTests
     {
         //given
         var commentsInRepo = new List<Comment>();
-        //_commentsRepository.MockGetAllComments(commentsInRepo);
+
+        _commentsRepository
+            .Setup(x => x.GetAllComments())
+            .Returns(commentsInRepo);
 
         //when then
         Assert.Throws<NotFoundException>(() => _sut.GetComments());
@@ -63,20 +66,17 @@ public class CommentsServiceTests
             TimeCreated = nowTime
         };
 
-        var commentToAdd = new Comment()
-        {
-            Id = 34,
-            Text = "kwa kwa",
-            TimeCreated = nowTime
-        };
+        var expectedId = 34;
 
-        //_commentsRepository.MockAddComment(commentToAdd);
+        _commentsRepository
+            .Setup(x => x.AddComment(It.IsAny<Comment>()))
+            .Returns(expectedId);
 
         //when
         var returnedInt = _sut.AddComment(commentToAddModel);
 
         //then
-        Assert.AreEqual(commentToAddModel.Id, returnedInt);
+        Assert.AreEqual(expectedId, returnedInt);
     }
 
     [Test]

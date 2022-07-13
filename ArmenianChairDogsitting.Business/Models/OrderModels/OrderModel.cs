@@ -10,5 +10,5 @@ public abstract class OrderModel
     public List<AnimalModel> Animals { get; set; }
     public List<CommentModel> Comments { get; set; }
     public ServiceEnum Type { get; set; }
-    public Status Status { get; set; }
+    public Status Status { get; set; }        
 }

@@ -19,16 +19,22 @@ public class MapperConfigStorage
     {
         _instance = new Mapper(new MapperConfiguration(cfg =>
         {
-            cfg.CreateMap<Client, ClientModel>();
-            cfg.CreateMap<Animal, AnimalModel>();
-            cfg.CreateMap<Order, OrderModel>();
-            cfg.CreateMap<OrderWalk, OrderWalkModel>().IncludeBase(typeof(Order), typeof(OrderModel));
-            cfg.CreateMap<OrderDailySitting, OrderDailySittingModel>().IncludeBase(typeof(Order), typeof(OrderModel));
-            cfg.CreateMap<OrderOverexpose, OrderOverexposeModel>().IncludeBase(typeof(Order), typeof(OrderModel));
-            cfg.CreateMap<OrderSittingForDay, OrderSittingForDayModel>().IncludeBase(typeof(Order), typeof(OrderModel));
-            cfg.CreateMap<Comment, CommentModel>()
-               .ForMember(dest => dest.Client, opt => opt.MapFrom(src => src.Client))
-               .ForMember(dest => dest.Order, opt => opt.MapFrom(src => src.Order));
+            cfg.CreateMap<Client, ClientModel>().ReverseMap();
+            cfg.CreateMap<Animal, AnimalModel>().ReverseMap();
+            cfg.CreateMap<Order, OrderModel>().ReverseMap();
+            cfg.CreateMap<OrderWalk, OrderWalkModel>()
+                .IncludeBase(typeof(Order), typeof(OrderModel))
+                .ReverseMap();
+            cfg.CreateMap<OrderDailySitting, OrderDailySittingModel>()
+                .IncludeBase(typeof(Order), typeof(OrderModel))
+                .ReverseMap();
+            cfg.CreateMap<OrderOverexpose, OrderOverexposeModel>()
+                .IncludeBase(typeof(Order), typeof(OrderModel))
+                .ReverseMap();
+            cfg.CreateMap<OrderSittingForDay, OrderSittingForDayModel>()
+                .IncludeBase(typeof(Order), typeof(OrderModel))
+                .ReverseMap();
+            cfg.CreateMap<Comment, CommentModel>().ReverseMap();
         }));
     }
 }
