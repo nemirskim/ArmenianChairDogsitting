@@ -81,7 +81,7 @@ public class ClientsController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     public ActionResult RemoveClient(int id)
     {
-        _clientsRepository.RemoveOrRestoreClient(id);
+        _clientsRepository.RemoveOrRestoreClient(id, true);
         return NoContent();
     }
 
@@ -94,7 +94,7 @@ public class ClientsController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     public ActionResult RestoreClient(int id)
     {
-        _clientsRepository.RemoveOrRestoreClient(id);
+        _clientsRepository.RemoveOrRestoreClient(id, false);
         return NoContent();
     }
 }

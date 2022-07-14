@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ArmenianChairDogsitting.Data.Entities;
-using ArmenianChairDogsitting.Data.Repositories;
+﻿using ArmenianChairDogsitting.Data.Entities;
 
 namespace ArmenianChairDogsitting.Data.Repositories;
 
@@ -34,20 +32,10 @@ public class ClientsRepository : IClientsRepository
         _context.SaveChanges();
     }
 
-    public void RemoveOrRestoreClient(int id)
+    public void RemoveOrRestoreClient(int id, bool isDeleting)
     {
-        bool flag;
         var client = GetClientById(id);
-        if (client!.IsDeleted is false)
-        {
-            client!.IsDeleted = true;
-            flag = true;
-        }
-        else
-        {
-            client!.IsDeleted = false;
-            flag = false;
-        }
+        client!.IsDeleted = isDeleting;
         _context.SaveChanges();
     }
 }
