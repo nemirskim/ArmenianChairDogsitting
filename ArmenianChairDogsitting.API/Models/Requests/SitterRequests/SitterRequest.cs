@@ -1,5 +1,6 @@
 ﻿using ArmenianChairDogsitting.Data.Enums;
 using ArmenianChairDogsitting.API.Infrastructure;
+using ArmenianChairDogsitting.Data.Enums;
 using System.ComponentModel.DataAnnotations;
 using ArmenianChairDogsitting.Data.Entities;
 
