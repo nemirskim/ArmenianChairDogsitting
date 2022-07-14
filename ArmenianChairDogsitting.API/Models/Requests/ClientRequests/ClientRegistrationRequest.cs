@@ -20,7 +20,7 @@ public class ClientRegistrationRequest
     public string? Email { get; set; }
 
     [Required(ErrorMessage = ApiErrorMessage.PasswordIsRequired)]
-    [MinLength(8, ErrorMessage = ApiErrorMessage.PasswordIsLessThanAdmitted)]
+    [MinLength(8, ErrorMessage = ApiErrorMessage.PasswordLenghtIsLess)]
     public string Password { get; set; }
 
     public List<DogMainInfoResponse> Dogs { get; set; }

@@ -22,26 +22,31 @@ public class ClientsRepository : IClientsRepository
 
     public Client? GetClientById(int id) => _context.Clients.FirstOrDefault(c => c.Id == id);
 
-    public List<Client> GetAllClients() => _context.Clients.ToList();
+    public List<Client> GetAllClients() 
+        => _context.Clients.Where(c => !c.IsDeleted).ToList();
 
-    public void UpdateClient(Client client)
+    public void UpdateClient(Client newClient)
     {
-        client.Name = client.Name;
-        client.LastName = client.LastName;
+        var client = GetClientById(newClient.Id);
+        client!.Name = newClient.Name;
+        client.LastName = newClient.LastName;
         _context.Clients.Update(client);
         _context.SaveChanges();
     }
 
     public void RemoveOrRestoreClient(int id)
     {
+        bool flag;
         var client = GetClientById(id);
         if (client!.IsDeleted is false)
         {
             client!.IsDeleted = true;
+            flag = true;
         }
         else
         {
             client!.IsDeleted = false;
+            flag = false;
         }
         _context.SaveChanges();
     }

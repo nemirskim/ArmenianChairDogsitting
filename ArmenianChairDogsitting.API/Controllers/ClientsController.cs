@@ -54,7 +54,8 @@ public class ClientsController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     public ActionResult<List<ClientAllInfoResponse>> GetAllClients()
     {
-        return Ok(new List<ClientAllInfoResponse>());
+        var clients = _clientsRepository.GetAllClients();
+        return Ok(clients);
     }
 
     [AuthorizeByRole(Role.Client)]
@@ -80,6 +81,7 @@ public class ClientsController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     public ActionResult RemoveClient(int id)
     {
+        _clientsRepository.RemoveOrRestoreClient(id);
         return NoContent();
     }
 
@@ -92,6 +94,7 @@ public class ClientsController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     public ActionResult RestoreClient(int id)
     {
+        _clientsRepository.RemoveOrRestoreClient(id);
         return NoContent();
     }
 }
