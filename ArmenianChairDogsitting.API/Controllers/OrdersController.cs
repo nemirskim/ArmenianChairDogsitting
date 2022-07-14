@@ -6,6 +6,7 @@ using ArmenianChairDogsitting.API.Extensions;
 using ArmenianChairDogsitting.Data.Enums;
 using ArmenianChairDogsitting.Data.Repositories;
 using ArmenianChairDogsitting.Data.Entities;
+using ArmenianChairDogsitting.Data.Enums;
 
 namespace ArmenianChairDogsitting.API.Controllers
 {
