@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Authorization;
 using ArmenianChairDogsitting.API.Models;
 using ArmenianChairDogsitting.Data.Enums;
 using ArmenianChairDogsitting.API.Extensions;
-using ArmenianChairDogsitting.Data.Enums;
-using ArmenianChairDogsitting.Data.Repositories;
 using ArmenianChairDogsitting.Data.Entities;
 using ArmenianChairDogsitting.Business.Interfaces;
 using AutoMapper;
@@ -58,10 +56,10 @@ namespace ArmenianChairDogsitting.API.Controllers
         [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(AbstractOrderResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
-        public ActionResult<AbstractOrderResponse> GetOrderById(int id, Service Type)
+        public ActionResult<AbstractOrderResponse> GetOrderById(int id)
         {
             var result = _ordersService.GetOrderById(id);
-            return Ok(new OrderWalkResponse()); //Ok(mapedResult)
+            return Ok(_mapper.Map<AbstractOrderResponse>(result));
         }
 
         [HttpGet]
@@ -73,7 +71,7 @@ namespace ArmenianChairDogsitting.API.Controllers
         public ActionResult<List<AbstractOrderResponse>> GetAllOrders()
         {
             var result = _ordersService.GetAllOrders();
-            return Ok(new List<AbstractOrderResponse>());//Ok(mapedResult)
+            return Ok(_mapper.Map<List<AbstractOrderResponse>>(result));
         }
     }
 }
