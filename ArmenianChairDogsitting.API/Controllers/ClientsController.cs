@@ -19,6 +19,10 @@ public class ClientsController : Controller
         _clientsRepository = clientsRepository;
     }
 
+    public ClientsController()
+    {
+    }
+
     [AllowAnonymous]
     [HttpPost]
     [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
