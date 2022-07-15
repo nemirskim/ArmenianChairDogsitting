@@ -36,10 +36,5 @@ namespace ArmenianChairDogsitting.Data.Repositories
             _context.Orders.Update(choosenOrder);
             _context.SaveChanges();
         }
-
-        public void UpdateOrderStatus(string status, int orderId)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

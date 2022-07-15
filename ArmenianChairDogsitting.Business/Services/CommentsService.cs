@@ -18,12 +18,7 @@ public class CommentsService : ICommentsService
 
     public List<Comment> GetComments()
     {
-        var comments = _commentsRepository.GetAllComments();
-        if(comments.Count == 0 || comments is null)
-        {
-            throw new NotFoundException(ExceptionStorage.NoCommentsYet);
-        }
-        return comments;
+        return _commentsRepository.GetAllComments();
     }
 
     public void DeleteCommentById(int id)
