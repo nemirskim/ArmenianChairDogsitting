@@ -60,7 +60,7 @@ public class ClientsControllerTests
     public void GetAllClientsTest_WhenRequestPassed_ThenShouldReturnClients()
     {
         //given
-        var expected = new ClientAllInfoResponse();
+        var expected = new List<ClientAllInfoResponse>();
 
         //when
         var actual = _sut.GetAllClients();
@@ -83,9 +83,9 @@ public class ClientsControllerTests
         var actual = _sut.UpdateClient(client, id);
 
         //then
-        var actualResult = actual as NoContentResult;
+        var actualResult = actual as OkResult;
 
-        Assert.AreEqual(StatusCodes.Status204NoContent, actualResult.StatusCode);
+        Assert.AreEqual(StatusCodes.Status200OK, actualResult.StatusCode);
     }
 
     [Test]
