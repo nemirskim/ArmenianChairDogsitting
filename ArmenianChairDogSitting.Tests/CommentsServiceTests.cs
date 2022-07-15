@@ -37,20 +37,7 @@ public class CommentsServiceTests
         Assert.IsTrue(actual is List<Comment>);
         Assert.IsTrue(actual[0].Client is Client);
         Assert.IsTrue(actual[0].Order is Order);
-    }
-
-    [Test]
-    public void GetAllComments_WhenCommentsDoesntExist_ThenThrowNotFoundException()
-    {
-        //given
-        var commentsInRepo = new List<Comment>();
-
-        _commentsRepository
-            .Setup(x => x.GetAllComments())
-            .Returns(commentsInRepo);
-
-        //when then
-        Assert.Throws<NotFoundException>(() => _sut.GetComments());
+        _commentsRepository.Verify(x => x.GetAllComments(), Times.Once);
     }
 
     [Test]
@@ -58,6 +45,7 @@ public class CommentsServiceTests
     {
         //given
         var nowTime = DateTime.Now;
+
         var commentToAddModel = new Comment()
         {
             Id = 34,
@@ -76,6 +64,7 @@ public class CommentsServiceTests
 
         //then
         Assert.AreEqual(expectedId, returnedInt);
+        _commentsRepository.Verify(x => x.AddComment(It.IsAny<Comment>()), Times.Once);
     }
 
     [Test]
@@ -94,7 +83,8 @@ public class CommentsServiceTests
         _sut.DeleteCommentById(id);
 
         //then
-        Assert.Pass();
+        _commentsRepository.Verify(x => x.GetCommentById(It.IsAny<int>()), Times.Once);
+        _commentsRepository.Verify(x => x.DeleteCommentById(It.IsAny<int>()), Times.Once);
     }
 
     [Test]
@@ -113,6 +103,8 @@ public class CommentsServiceTests
 
         //when then
         Assert.Throws<NotFoundException>(() => _sut.DeleteCommentById(id));
+        _commentsRepository.Verify(x => x.GetCommentById(It.IsAny<int>()), Times.Once);
+        _commentsRepository.Verify(x => x.DeleteCommentById(It.IsAny<int>()), Times.Never);
     }
 
     private List<Comment> SetComments()

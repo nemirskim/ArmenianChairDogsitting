@@ -82,14 +82,15 @@ public class OrdersControllerTests
         var statusToParam = Status.InProgress;
         var idToParam = 3;
 
-        _ordersServiceMock.Setup(x => x.UpdateOrderStatus(statusToParam, idToParam));
+        _ordersServiceMock.Setup(x => x.UpdateOrderStatus(It.IsAny<Status>(), It.IsAny<int>()));
 
         //when
         var result = _sut.ChangeOrderStatus(statusToParam, idToParam);
 
-        //
+        //then
         var actualResult = result as NoContentResult;
         Assert.AreEqual(StatusCodes.Status204NoContent, actualResult.StatusCode);
+        _ordersServiceMock.Verify(x => x.UpdateOrderStatus(It.IsAny<Status>(), It.IsAny<int>()), Times.Once);
     }
 
     [Test]
@@ -243,5 +244,6 @@ public class OrdersControllerTests
         Assert.AreEqual(StatusCodes.Status200OK, actualResult.StatusCode);
         Assert.IsTrue(actualValue is not null);
         Assert.AreEqual(expectedOrders.Count, actualValue.Count);
+        _ordersServiceMock.Verify(x => x.GetAllOrders(), Times.Once);
     }
 }

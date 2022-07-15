@@ -74,11 +74,13 @@ namespace ArmenianChairDogsitting.API.Tests
         public void GetAllComments_WhenValidRequestPassed_ThenReturnListOfComments()
         {
             // given
-            var expectedComments = new List<Comment>();
+            var derivedComments = new List<Comment>();
+
+            var expectedComments = new List<CommentResponse>();
 
             _commentsServiceMock
                 .Setup(x => x.GetComments())
-                .Returns(expectedComments);
+                .Returns(derivedComments);
 
             //when 
             var comments = _sut.GetAllComments();
@@ -87,8 +89,11 @@ namespace ArmenianChairDogsitting.API.Tests
             var resultComments = comments.Result as OkObjectResult;
             var actualComments = resultComments.Value as List<CommentResponse>;
 
+            Assert.AreEqual(derivedComments.Count, actualComments.Count);
             Assert.AreEqual(expectedComments.Count, actualComments.Count);
+            Assert.AreEqual(expectedComments.GetType(), actualComments.GetType());
             Assert.AreEqual(StatusCodes.Status200OK, resultComments.StatusCode);
+            _commentsServiceMock.Verify(x => x.GetComments(), Times.Once);
         }
 
         [Test]
@@ -98,13 +103,14 @@ namespace ArmenianChairDogsitting.API.Tests
             var id = 2;
 
             _commentsServiceMock
-                .Setup(x => x.DeleteCommentById(id));
+                .Setup(x => x.DeleteCommentById(It.IsAny<int>()));
 
             //when
             var result = _sut.DeleteCommentById(id) as NoContentResult;
 
             //then
             Assert.AreEqual(StatusCodes.Status204NoContent, result.StatusCode);
+            _commentsServiceMock.Verify(x => x.DeleteCommentById(It.IsAny<int>()), Times.Once);
 
         }
 

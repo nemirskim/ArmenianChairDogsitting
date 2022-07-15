@@ -16,7 +16,7 @@ public class CommentsService : ICommentsService
         _commentsRepository = commentsRepository;
     }
 
-    public List<Comment> GetComments()
+    public List<Comment> GetComments() 
     {
         return _commentsRepository.GetAllComments();
     }

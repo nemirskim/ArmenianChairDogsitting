@@ -21,9 +21,6 @@ public class OrdersService : IOrdersService
     {
         var allOrders = _ordersRepository.GetAllOrders();
 
-        if (allOrders == null)
-            throw new NotFoundException($"{ExceptionStorage.NoOrdersYet}");
-
         return allOrders;
     }
 

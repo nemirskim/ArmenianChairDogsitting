@@ -71,20 +71,6 @@ public class OrdersServiceTests
     }
 
     [Test]
-    public void GetAllOrders_WhenDDoesntExist_ThenThrowNotFound()
-    {
-        //given
-        List<Order> ordersFromRepo = null;
-
-        _ordersRepository
-            .Setup(x => x.GetAllOrders())
-            .Returns(ordersFromRepo);
-
-        //when then
-        Assert.Throws<NotFoundException>(() => _sut.GetAllOrders());
-    }
-
-    [Test]
     public void GetOrderById_WhenOrderExist_ReturnOrder()
     {
         //given
@@ -126,6 +112,7 @@ public class OrdersServiceTests
         Assert.AreEqual(actualOrder.Animals.Count, expectedOrder.Animals.Count);
         Assert.AreEqual(actualOrder.Sitter.Id, expectedOrder.Sitter.Id);
         Assert.AreEqual(actualOrder.Client.Id, expectedOrder.Client.Id);
+        _ordersRepository.Verify(x => x.GetOrderById(It.IsAny<int>()), Times.Once);
     }
 
     [Test]
@@ -140,6 +127,7 @@ public class OrdersServiceTests
 
         //when then
         Assert.Throws<NotFoundException>(() => _sut.GetOrderById(34));
+        _ordersRepository.Verify(x => x.GetOrderById(It.IsAny<int>()), Times.Once);
     }
 
     [Test]
@@ -187,6 +175,8 @@ public class OrdersServiceTests
 
         //when then
         Assert.Throws<NotFoundException>(() => _sut.UpdateOrderStatus(Status.InProgress, 34));
+        _ordersRepository.Verify(x => x.GetOrderById(It.IsAny<int>()), Times.Once);
+        _ordersRepository.Verify(x => x.UpdateOrderStatus(It.IsAny<Status>(), It.IsAny<int>()), Times.Never);
     }
 
     private List<Order> SetOrders()
