@@ -17,6 +17,20 @@ namespace ArmenianChairDogsitting.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Client>(entity =>
+            {
+                entity.ToTable(nameof(Client));
+                entity.HasKey(e => e.Id);
+
+                entity.Property(e => e.Name).HasMaxLength(30);
+                entity.Property(e => e.LastName).HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<Order>(entity =>
+            {
+                entity.ToTable(nameof(Order));
+                entity.HasKey(e => e.Id);
+            });
             modelBuilder.Entity<OrderOverexpose>()
                 .HasBaseType<Order>()
                 .ToTable(nameof(Order));
@@ -57,7 +71,7 @@ namespace ArmenianChairDogsitting.Data
                 entity.ToTable(nameof(Sitter));
                 entity.HasKey(e => e.Id);
 
-                
+
             });
 
             modelBuilder.Entity<PriceCatalog>(entity =>
