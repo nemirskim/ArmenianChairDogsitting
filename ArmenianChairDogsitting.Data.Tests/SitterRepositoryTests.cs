@@ -66,19 +66,37 @@ namespace ArmenianChairDogsitting.Data.Tests
                 Experience = 3,
                 Sex = Sex.Female,
                 Description = "",
-                PricesCatalog =
+                /*PricesCatalog =
                 {
                     new PriceCatalog
                     {
                         Id = 1,
-                        Service = new Service { Id = ServiceEnum.SittingForDay},
+                        Service = new Service 
+                        { 
+                            Id = ServiceEnum.SittingForDay, 
+                            Sitters = new List<Sitter>()
+                        },
+                        Price = 600,
+                        Sitter = new Sitter{Name = "Ludmila"}
+                    }
+                },*/
+                PricesCatalog = new List<PriceCatalog>
+                {
+                    new PriceCatalog
+                    {
+                        Id = 1,
+                        Service = new Service
+                        {
+                            Id = ServiceEnum.SittingForDay,
+                            Sitters = new List<Sitter>()
+                        },
                         Price = 600,
                         Sitter = new Sitter{Name = "Ludmila"}
                     }
                 },
                 Orders = new List<Order>(),
                 IsDeleted = false
-            });
+            }); 
 
             _context.Sitters.Add(new Sitter()
             {
