@@ -1,4 +1,5 @@
 ﻿using ArmenianChairDogsitting.Data.Entities;
+using ArmenianChairDogsitting.Data.Enums;
 using ArmenianChairDogsitting.Data.Repositories.Interfaces;
 
 namespace ArmenianChairDogsitting.Data.Repositories;
@@ -19,13 +20,13 @@ public class SearchRepository : ISearchRepository
             .Where(s =>
             {
                 var isPriceSuitable = s.PricesCatalog
-                .Exists(p => p.Price > searchEntity.PriceMinimum && p.Price < searchEntity.PriceMaximum);
+                .Exists(p => p.Price >= searchEntity.PriceMinimum && p.Price <= searchEntity.PriceMaximum);
                 var isDistrictSuitable = s.Districts.Contains(searchEntity.District);
-                var isCommentsQuantitySuitable = s.CommentsQuantity == searchEntity.CommentsQuantity;
+                var isCommentsQuantitySuitable = s.CommentsQuantity >= searchEntity.CommentsQuantity;
                 var isRatingSuitable = s.Rating >= searchEntity.Rating;
 
                 if (isPriceSuitable &&
-                isDistrictSuitable &&
+                (isDistrictSuitable || searchEntity.District == District.All) &&
                 isCommentsQuantitySuitable &&
                 isRatingSuitable &&
                 s.IsDeleted is false)
