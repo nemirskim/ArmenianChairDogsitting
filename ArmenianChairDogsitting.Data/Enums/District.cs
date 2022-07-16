@@ -2,7 +2,6 @@
 {
     public enum District
     {
-        All,
         Admiralteysky,
         Frunzensky,
         Kalininsky,

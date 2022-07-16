@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using ArmenianChairDogsitting.Data.Enums;
+﻿using ArmenianChairDogsitting.Data.Enums;
 using System.ComponentModel.DataAnnotations;
 using ArmenianChairDogsitting.API.Extensions;
 using ArmenianChairDogsitting.API.Infrastructure;

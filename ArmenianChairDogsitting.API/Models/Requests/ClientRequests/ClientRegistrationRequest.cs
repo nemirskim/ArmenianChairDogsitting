@@ -1,27 +1,24 @@
-﻿using ArmenianChairDogsitting.API.Infrastructure;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ArmenianChairDogsitting.API.Models;
 
 public class ClientRegistrationRequest
 {
-    [Required(ErrorMessage = ApiErrorMessage.NameIsRequired)]
+    [Required]
     public string? Name { get; set; }
 
-    [Required(ErrorMessage = ApiErrorMessage.LastNameIsRequired)]
+    [Required]
     public string? LastName { get; set; }
 
-    [Required(ErrorMessage = ApiErrorMessage.PhoneIsRequired)]
+    [Required]
     [MaxLength(12)]
     public string? Phone { get; set; }
 
-    [Required(ErrorMessage = ApiErrorMessage.PasswordIsRequired)]
+    [Required]
     [EmailAddress]
     public string? Email { get; set; }
 
-    [Required(ErrorMessage = ApiErrorMessage.PasswordIsRequired)]
-    [MinLength(8, ErrorMessage = ApiErrorMessage.PasswordLenghtIsLess)]
+    [Required]
+    [MinLength(8)]
     public string Password { get; set; }
-
-    public List<DogMainInfoResponse> Dogs { get; set; }
 }
