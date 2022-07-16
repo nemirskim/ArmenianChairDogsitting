@@ -1,8 +1,8 @@
 ﻿using ArmenianChairDogsitting.Data.Entities;
 
-namespace ArmenianChairDogsitting.Data.Repositories.Interfaces;
+namespace ArmenianChairDogsitting.Business.Interfaces;
 
-public interface ISearchRepository
+public interface ISearchService
 {
     List<Sitter> GetSitters(Search searchEntity);
 }

@@ -12,7 +12,7 @@ public class SearchRepository : ISearchRepository
         _context = context;
     }
 
-    public List<Sitter> GetSiiters(Search searchEntity)
+    public List<Sitter> GetSitters(Search searchEntity)
     {
         var suitableSitters =  (List<Sitter>)_context.Sitters
             .ToList()
