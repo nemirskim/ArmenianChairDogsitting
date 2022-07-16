@@ -14,6 +14,29 @@ public class SearchRepository : ISearchRepository
 
     public List<Sitter> GetSiiters(Search searchEntity)
     {
-        _context.Sitters.ToList().Where(s => s.PricesCatalog.)
+        var suitableSitters =  (List<Sitter>)_context.Sitters
+            .ToList()
+            .Where(s =>
+            {
+                var isPriceSuitable = s.PricesCatalog
+                .Exists(p => p.Price > searchEntity.PriceMinimum && p.Price < searchEntity.PriceMaximum);
+                var isDistrictSuitable = s.Districts.Contains(searchEntity.District);
+                var isCommentsQuantitySuitable = s.CommentsQuantity == searchEntity.CommentsQuantity;
+                var isRatingSuitable = s.Rating >= searchEntity.Rating;
+
+                if (isPriceSuitable &&
+                isDistrictSuitable &&
+                isCommentsQuantitySuitable &&
+                isRatingSuitable &&
+                s.IsDeleted is false)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            });
+        return suitableSitters;
     }
 }
