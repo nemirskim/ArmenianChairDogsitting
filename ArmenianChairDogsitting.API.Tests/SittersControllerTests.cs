@@ -10,6 +10,7 @@ namespace ArmenianChairDogsitting.API.Tests;
 public class SittersControllerTests
 {
     private SittersController _sut;
+
     [SetUp]
     public void Setup()
     {

@@ -1,5 +1,5 @@
-﻿using ArmenianChairDogsitting.Data.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using ArmenianChairDogsitting.Data.Entities;
 
 namespace ArmenianChairDogsitting.Data
 {
@@ -8,11 +8,13 @@ namespace ArmenianChairDogsitting.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<Animal> Animals { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<Client> Clients { get; set; }
         public DbSet<Sitter> Sitters { get; set; }
 
         public ArmenianChairDogsittingContext(DbContextOptions<ArmenianChairDogsittingContext> options)
-                : base(options)
+        : base(options)
         {
+            
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -25,7 +27,7 @@ namespace ArmenianChairDogsitting.Data
                 entity.Property(e => e.Name).HasMaxLength(30);
                 entity.Property(e => e.LastName).HasMaxLength(50);
             });
-
+           
             modelBuilder.Entity<Order>(entity =>
             {
                 entity.ToTable(nameof(Order));
