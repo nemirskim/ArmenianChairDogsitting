@@ -12,12 +12,11 @@ namespace ArmenianChairDogsitting.API.Controllers;
 [Route("[controller]")]
 public class AnimalsController : Controller
 {
-
     [AuthorizeByRole(Role.Client)]
     [HttpPost]
     [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(void), StatusCodes.Status422UnprocessableEntity)]
-    public ActionResult <int> Add([FromBody] DogRequest animal)
+    public ActionResult <int> AddAnimal([FromBody] DogRequest animal)
     {
         int id = 12;
         return Created($"{this.GetUri()}/{id}", id);
@@ -27,7 +26,7 @@ public class AnimalsController : Controller
     [ProducesResponseType(typeof(DogMainInfoResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
-    public ActionResult <DogMainInfoResponse> GetById(int id)
+    public ActionResult <DogMainInfoResponse> GetAnimalById(int id)
     {
         return Ok(new DogMainInfoResponse());
     }
@@ -36,11 +35,10 @@ public class AnimalsController : Controller
     [ProducesResponseType(typeof(List<DogAllInfoResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
-    public ActionResult<List<DogAllInfoResponse>> GetAllByClient(int id)
+    public ActionResult<List<DogAllInfoResponse>> GetAllAnimalsByClient(int id)
     {
         return Ok(new List<DogAllInfoResponse>());
     }
-
 
     [AuthorizeByRole(Role.Client)]
     [HttpPut("{id}")]
@@ -49,18 +47,17 @@ public class AnimalsController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
-    public ActionResult UpdateById(int id)
+    public ActionResult UpdateAnimalById(int id)
     {
         return NoContent();
     }
-
 
     [AuthorizeByRole(Role.Client)]
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
-    public ActionResult DeleteById(int id)
+    public ActionResult DeleteAnimalById(int id)
     {
         return NoContent();
     }

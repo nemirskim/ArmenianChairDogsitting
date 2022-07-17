@@ -5,4 +5,5 @@ namespace ArmenianChairDogsitting.Data.Repositories;
 
 public class AnimalsRepository : IAnimalsRepository
 {
+
 }
