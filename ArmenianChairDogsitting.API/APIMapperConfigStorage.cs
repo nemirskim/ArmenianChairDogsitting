@@ -4,28 +4,21 @@ using AutoMapper;
 
 namespace ArmenianChairDogsitting.API;
 
-public class APIMapperConfigStorage
+public class APIMapperConfigStorage : Profile
 {
-    private static Mapper _instance;
-
-    public static Mapper GetInstance()
+    public APIMapperConfigStorage()
     {
-        if (_instance == null)
-            InitializeInstance();
-        return _instance!;
+        CreateMap<SitterRequest, Sitter>();
+
+        CreateMap<SitterUpdateRequest, Sitter>();
+
+        CreateMap<SitterAllInfoResponse, Sitter>();
+
+        CreateMap<Sitter, SitterAllInfoResponse>();
+
+        CreateMap<SitterMainInfoResponse, Sitter>();
+
+        CreateMap<Sitter, SitterMainInfoResponse>();
     }
 
-    private static void InitializeInstance()
-    {
-        _instance = new Mapper(new MapperConfiguration(cfg =>
-        {
-            cfg.CreateMap<SitterRequest, Sitter>();
-
-            cfg.CreateMap<SitterUpdateRequest, Sitter>();
-
-            cfg.CreateMap<SitterAllInfoResponse, Sitter>();
-
-            cfg.CreateMap<SitterMainInfoResponse, Sitter>();
-        }));
-    }
 }

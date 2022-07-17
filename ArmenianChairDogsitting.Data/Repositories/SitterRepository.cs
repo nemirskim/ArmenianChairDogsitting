@@ -1,4 +1,6 @@
-﻿using ArmenianChairDogsitting.Data.Entities;
+﻿
+
+using ArmenianChairDogsitting.Data.Entities;
 using ArmenianChairDogsitting.Data.Repositories.Interfaces;
 
 namespace ArmenianChairDogsitting.Data.Repositories
@@ -38,7 +40,13 @@ namespace ArmenianChairDogsitting.Data.Repositories
         public void Update(Sitter updateSitter, int id)
         {
             var sitter = _context.Sitters.FirstOrDefault(s => s.Id == id);
-            sitter = updateSitter;
+            sitter.Name = updateSitter.Name;
+            sitter.LastName = updateSitter.LastName;
+            sitter.Phone = updateSitter.Phone;
+            sitter.Age = updateSitter.Age;
+            sitter.Experience = updateSitter.Experience;
+            sitter.Sex = updateSitter.Sex;
+            sitter.Description = updateSitter.Description;
             _context.Sitters.Update(sitter);
             _context.SaveChanges();
         }
