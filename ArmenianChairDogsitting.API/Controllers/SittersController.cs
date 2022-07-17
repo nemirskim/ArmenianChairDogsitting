@@ -3,6 +3,8 @@ using ArmenianChairDogsitting.API.Models;
 using ArmenianChairDogsitting.Data.Entities;
 using ArmenianChairDogsitting.Data.Enums;
 using ArmenianChairDogsitting.Data.Repositories.Interfaces;
+using ArmenianChairDogsitting.Business.Interfaces;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,11 +16,13 @@ namespace ArmenianChairDogsitting.API.Controllers;
 public class SittersController : Controller
 {
 
-    private readonly ISitterRepository _sittersRepository;
+    private readonly ISitterService _sittersRepository;
+    private readonly IMapper _mapper;
 
-    public SittersController(ISitterRepository sittersRepository)
+    public SittersController(ISitterService sittersRepository, IMapper mapper)
     {
         _sittersRepository = sittersRepository;
+        _mapper = mapper;
     }
 
     public SittersController()
@@ -29,8 +33,8 @@ public class SittersController : Controller
     [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
     public ActionResult<int> AddSitter([FromBody] SitterRequest sitterRequest)
-    { 
-        int result = 1;
+    {
+        var result = _sittersRepository.Add(_mapper.Map<Sitter>(sitterRequest));
         return Created($"{this.GetUri()}/{result}", result);
     }
 
@@ -40,7 +44,8 @@ public class SittersController : Controller
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult<SitterMainInfoResponse> GetSitterById(int id)
     {
-        return Ok(new SitterMainInfoResponse());
+        var result = _sittersRepository.GetById(id);
+        return Ok(_mapper.Map<Sitter>(result));
     }
 
     [HttpGet]
@@ -49,7 +54,8 @@ public class SittersController : Controller
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult<List<SitterAllInfoResponse>> GetAllSitters()
     {
-        return Ok(new List<SitterAllInfoResponse>());
+        var result = _sittersRepository.GetSitters();
+        return Ok(_mapper.Map<Sitter>(result));
     }
 
     [AuthorizeByRole(Role.Sitter)]
@@ -60,6 +66,7 @@ public class SittersController : Controller
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public ActionResult UpdateSitter(SitterUpdateRequest sitterUpdateRequest, int id)
     {
+        _sittersRepository.Update(_mapper.Map<Sitter>(sitterUpdateRequest), id);
         return NoContent();
     }
 
@@ -71,6 +78,7 @@ public class SittersController : Controller
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public ActionResult RemoveOrRestoreSitterById(int id)
     {
+        _sittersRepository.RemoveOrRestoreById(id);
         return NoContent();
     }
 
@@ -82,6 +90,7 @@ public class SittersController : Controller
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public ActionResult UpdatePasswordSitter(int id, string password)
     {
+        _sittersRepository.UpdatePassword(id, password);
         return NoContent();
     }
 
@@ -93,6 +102,7 @@ public class SittersController : Controller
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public ActionResult UpdatePriceCatalogSitter(int id, List<PriceCatalog> priceCatalog)
     {
+        _sittersRepository.UpdatePriceCatalog(id, priceCatalog);
         return NoContent();
     }
 

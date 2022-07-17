@@ -1,11 +1,5 @@
 ﻿using ArmenianChairDogsitting.Data.Entities;
-using ArmenianChairDogsitting.Data.Enums;
 using ArmenianChairDogsitting.Data.Repositories.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ArmenianChairDogsitting.Data.Repositories
 {

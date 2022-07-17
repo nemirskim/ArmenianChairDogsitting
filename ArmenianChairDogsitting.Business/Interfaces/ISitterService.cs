@@ -2,7 +2,7 @@
 
 namespace ArmenianChairDogsitting.Business.Interfaces;
 
-internal interface ISitterService
+public interface ISitterService
 {
     public Sitter? GetById(int id);
     public List<Sitter> GetSitters();
