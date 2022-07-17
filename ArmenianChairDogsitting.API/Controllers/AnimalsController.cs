@@ -3,6 +3,7 @@ using ArmenianChairDogsitting.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using ArmenianChairDogsitting.Data.Enums;
 using ArmenianChairDogsitting.API.Extensions;
+using ArmenianChairDogsitting.Data.Repositories;
 
 namespace ArmenianChairDogsitting.API.Controllers;
 
@@ -12,6 +13,12 @@ namespace ArmenianChairDogsitting.API.Controllers;
 [Route("[controller]")]
 public class AnimalsController : Controller
 {
+    private readonly IAnimalsRepository _animalsRepository;
+    public AnimalsController(IAnimalsRepository animalsRepository)
+    {
+        _animalsRepository = animalsRepository;
+    }
+
     [AuthorizeByRole(Role.Client)]
     [HttpPost]
     [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
@@ -47,7 +54,7 @@ public class AnimalsController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
-    public ActionResult UpdateAnimalById(int id)
+    public ActionResult UpdateAnimal([FromBody] DogUpdateRequest request, int id)
     {
         return NoContent();
     }
@@ -57,7 +64,7 @@ public class AnimalsController : Controller
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
-    public ActionResult DeleteAnimalById(int id)
+    public ActionResult RemoveAnimalById(int id)
     {
         return NoContent();
     }
