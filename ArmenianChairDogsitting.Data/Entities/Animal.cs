@@ -12,5 +12,5 @@ public class Animal
     public string RecommendationsForCare { get; set; }
     public int ClientId { get; set; }
     public bool IsDeleted { get; set; }
-    //public List<Order> Orders { get; set; }
+    public List<Order> Orders { get; set; }
 }
