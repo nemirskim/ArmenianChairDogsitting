@@ -84,14 +84,14 @@ public class SittersController : Controller
     }
 
     [AuthorizeByRole(Role.Sitter)]
-    [HttpPatch("{id}/{password}")]
+    [HttpPatch("{id}/Password")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult UpdatePasswordSitter(int id, string password)
+    public ActionResult UpdatePasswordSitter(int id, SitterUpdatePasswordRequest sitter)
     {
-        _sittersService.UpdatePassword(id, password);
+        _sittersService.UpdatePassword(id, sitter);
         return NoContent();
     }
 

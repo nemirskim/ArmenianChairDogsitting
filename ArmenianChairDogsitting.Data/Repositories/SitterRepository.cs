@@ -51,10 +51,10 @@ namespace ArmenianChairDogsitting.Data.Repositories
             _context.SaveChanges();
         }
 
-        public void UpdatePassword(int id, string newPassword)
+        public void UpdatePassword(int id, Sitter SitterPasswordForUpdate)
         {
             var sitter = _context.Sitters.FirstOrDefault(s => s.Id == id);
-            sitter.Password = newPassword;
+            sitter.Password = SitterPasswordForUpdate.Password;
             _context.Sitters.Update(sitter);
             _context.SaveChanges();
         }
