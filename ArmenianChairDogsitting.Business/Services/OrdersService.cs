@@ -43,4 +43,24 @@ public class OrdersService : IOrdersService
 
         _ordersRepository.UpdateOrderStatus(status, orderId);
     }
+
+    public List<Comment> GetCommentsByOrderId(int orderId)
+    {
+        var chosenOrder = _ordersRepository.GetOrderById(orderId);
+
+        if (chosenOrder == null)
+            throw new NotFoundException($"{ExceptionStorage.ChoosenCommentDoesNotExist}{orderId}");
+
+        return chosenOrder.Comments;
+    }
+
+    public int AddCommentToOrder(int orderId, Comment commentToAdd)
+    {
+        var chosenOrder = _ordersRepository.GetOrderById(orderId);
+
+        if (chosenOrder == null)
+            throw new NotFoundException($"{ExceptionStorage.ChoosenCommentDoesNotExist}{orderId}");
+
+        return _ordersRepository.AddCommentToOrder(orderId, commentToAdd);
+    }
 }

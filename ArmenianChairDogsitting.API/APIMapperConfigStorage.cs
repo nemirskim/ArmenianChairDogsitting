@@ -62,7 +62,10 @@ public class APIMapperConfigStorage
                 .ForMember(d => d.SitterId, opt => opt.MapFrom(s => s.Sitter.Id))
                 .IncludeBase(typeof(Order), typeof(AbstractOrderResponse));
 
-            cfg.CreateMap<CommentRequest, Comment>();
+            cfg.CreateMap<Client, ClientAllInfoRequest>().ReverseMap();
+            cfg.CreateMap<Client, ClientAllInfoResponse>().ReverseMap();
+
+            cfg.CreateMap<CommentRequest, Comment>().ReverseMap();
         }));
     }
 }

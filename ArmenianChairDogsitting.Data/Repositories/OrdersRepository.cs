@@ -36,5 +36,12 @@ namespace ArmenianChairDogsitting.Data.Repositories
             _context.Orders.Update(choosenOrder);
             _context.SaveChanges();
         }
+
+        public int AddCommentToOrder(int orderId, Comment commentToAdd)
+        {
+            _context.Orders.ElementAt(orderId).Comments?.Add(commentToAdd);
+            _context.SaveChanges();
+            return commentToAdd.Id;
+        }
     }
 }

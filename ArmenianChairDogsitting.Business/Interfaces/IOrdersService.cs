@@ -9,4 +9,6 @@ public interface IOrdersService
     void UpdateOrderStatus(Status status, int orderId);
     Order GetOrderById(int orderId);
     List<Order> GetAllOrders();
+    List<Comment> GetCommentsByOrderId(int orderId);
+    int AddCommentToOrder(int orderId, Comment commentToAdd);
 }
