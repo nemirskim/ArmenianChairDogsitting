@@ -22,4 +22,8 @@
     <ProjectReference Include="..\ArmenianChairDogsitting.Data\ArmenianChairDogsitting.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="TestCaseSources\" />
+  </ItemGroup>
+
 </Project>

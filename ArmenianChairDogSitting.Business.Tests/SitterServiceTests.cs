@@ -76,26 +76,9 @@ public class SitterServiceTests
             IsDeleted = false
         };
 
-        var sitterFromRepo = new Sitter()
-        {
-            Id = 1,
-            Name = "Alex",
-            LastName = "Pistoletov",
-            Phone = "89991116116",
-            Email = "pistol@pi.com",
-            Password = "123456789",
-            Age = 27,
-            Experience = 7,
-            Sex = Sex.Male,
-            Description = "",
-            PricesCatalog = new List<PriceCatalog>(),
-            Orders = new List<Order>(),
-            IsDeleted = false
-        };
-
         _sitterRepository
             .Setup(x => x.GetById(It.IsAny<int>()))
-            .Returns(sitterFromRepo);
+            .Returns(expectedSitter);
 
         //when
         var actualSitter = _sut.GetById(1);
@@ -127,6 +110,7 @@ public class SitterServiceTests
     [Test]
     public void GetSitters_WhenExist_ThenReturnListSitters()
     {
+        //given
         List<Sitter> expectedSitters = new List<Sitter> 
         { 
             new Sitter()
@@ -190,5 +174,39 @@ public class SitterServiceTests
         Assert.True(actual is not null);
         Assert.True(actual.Count == 3);
         Assert.True(actual is List<Sitter>);
+    }
+
+    [Test]
+    public void AddSitter_WhenValidRequestPassed_ThenReturnIdOfAddedSitter()
+    {
+        //given
+        _sitterRepository.Setup(c => c.Add(It.IsAny<Sitter>()))
+             .Returns(1);
+        var expectedId = 1;
+
+        var sitter = new Sitter()
+        {
+            Name = "Alex",
+            LastName = "Pistoletov",
+            Phone = "89991116116",
+            Email = "pistol@pi.com",
+            Password = "123456789",
+            Age = 27,
+            Experience = 7,
+            Sex = Sex.Male,
+            Description = "",
+            PricesCatalog = new List<PriceCatalog>(),
+            Orders = new List<Order>(),
+            IsDeleted = false
+        };
+
+        //when
+        var actual = _sut.Add(sitter);
+
+
+        //then
+
+        Assert.True(actual == expectedId);
+        _sitterRepository.Verify(c => c.Add(It.IsAny<Sitter>()), Times.Once);
     }
 }
