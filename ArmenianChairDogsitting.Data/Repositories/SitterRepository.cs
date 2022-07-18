@@ -2,6 +2,7 @@
 
 using ArmenianChairDogsitting.Data.Entities;
 using ArmenianChairDogsitting.Data.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace ArmenianChairDogsitting.Data.Repositories
 {
@@ -23,9 +24,13 @@ namespace ArmenianChairDogsitting.Data.Repositories
             return sitter.Id;
         }
 
-        public Sitter? GetById(int id) => _context.Sitters.FirstOrDefault(s => s.Id == id);
+        public Sitter? GetById(int id) => _context.Sitters
+            .FirstOrDefault(s => s.Id == id);
 
-        public List<Sitter> GetSitters() => _context.Sitters.ToList();
+        public List<Sitter> GetSitters() => _context.Sitters
+            .Where(s => s.IsDeleted == false)
+            .AsNoTracking()
+            .ToList();
 
         public void RemoveOrRestoreById(int id)
         {
