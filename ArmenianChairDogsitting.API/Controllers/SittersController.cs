@@ -89,9 +89,13 @@ public class SittersController : Controller
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult UpdatePasswordSitter(int id, SitterUpdatePasswordRequest sitter)
+    public ActionResult UpdatePasswordSitter
+        (
+        int id, 
+        [FromBody]SitterUpdatePasswordRequest sitterPasswordForUpdate
+        )
     {
-        _sittersService.UpdatePassword(id, sitter);
+        _sittersService.UpdatePassword(id, _mapper.Map<Sitter>(sitterPasswordForUpdate));
         return NoContent();
     }
 
