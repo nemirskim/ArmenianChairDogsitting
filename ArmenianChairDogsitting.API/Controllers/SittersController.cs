@@ -25,10 +25,6 @@ public class SittersController : Controller
         _mapper = mapper;
     }
 
-/*    public SittersController()
-    {
-    }*/
-
     [AllowAnonymous]
     [HttpPost]
     [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
