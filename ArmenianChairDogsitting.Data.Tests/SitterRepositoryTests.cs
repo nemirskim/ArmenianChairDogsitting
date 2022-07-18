@@ -66,20 +66,6 @@ namespace ArmenianChairDogsitting.Data.Tests
                 Experience = 3,
                 Sex = Sex.Female,
                 Description = "",
-                /*PricesCatalog =
-                {
-                    new PriceCatalog
-                    {
-                        Id = 1,
-                        Service = new Service 
-                        { 
-                            Id = ServiceEnum.SittingForDay, 
-                            Sitters = new List<Sitter>()
-                        },
-                        Price = 600,
-                        Sitter = new Sitter{Name = "Ludmila"}
-                    }
-                },*/
                 PricesCatalog = new List<PriceCatalog>
                 {
                     new PriceCatalog
