@@ -72,17 +72,4 @@ public class CommentsRepositoryTests
         Assert.AreEqual(_created, comment.TimeCreated);
         Assert.IsTrue(comment.TimeUpdated > comment.TimeCreated);
     }
-
-    [Test]
-    public void GetAllComments_WhenCalled_ReturnsAllComments()
-    {
-        //given
-        var expectedQuantityIttems = 2;
-
-        //when
-        var comments = _sut.GetAllComments();
-
-        //then
-        Assert.AreEqual(expectedQuantityIttems, comments.Count);
-    }
 }

@@ -15,12 +15,6 @@ public class CommentsService : ICommentsService
     {
         _commentsRepository = commentsRepository;
     }
-
-    public List<Comment> GetComments() 
-    {
-        return _commentsRepository.GetAllComments();
-    }
-
     public void DeleteCommentById(int id)
     {
         var chosenComment = _commentsRepository.GetCommentById(id);
@@ -31,19 +25,5 @@ public class CommentsService : ICommentsService
         }
 
         _commentsRepository.DeleteCommentById(id);
-    }
-
-    public int AddComment(Comment comment) => _commentsRepository.AddComment(comment);
-
-    public Comment GetCommentById(int id)
-    {
-        var chosenComment = _commentsRepository.GetCommentById(id);
-
-        if (chosenComment is null)
-        {
-            throw new NotFoundException($"{ExceptionStorage.ChoosenCommentDoesNotExist}{id}");
-        }
-
-        return chosenComment;
     }
 }
