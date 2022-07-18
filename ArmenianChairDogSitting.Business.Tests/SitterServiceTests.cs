@@ -181,8 +181,6 @@ public class SitterServiceTests
             IsDeleted = false
         };
 
-        var expectedIsDeleted = true;
-
         _sitterRepository.Setup(o => o.RemoveOrRestoreById(expectedSitter.Id));
 
         expectedSitter.IsDeleted = true;
@@ -200,7 +198,7 @@ public class SitterServiceTests
         var actualSitter = _sut.GetById(10);
 
         Assert.True(allSitters is null);
-        Assert.True(actualSitter.IsDeleted == expectedIsDeleted);
+        Assert.True(actualSitter.IsDeleted);
 
         _sitterRepository.Verify(c => c.RemoveOrRestoreById(It.IsAny<int>()), Times.Once);
         _sitterRepository.Verify(c => c.GetById(It.IsAny<int>()), Times.Exactly(2));
@@ -228,8 +226,6 @@ public class SitterServiceTests
             IsDeleted = true
         };
 
-        var expectedIsDeleted = false;
-
         _sitterRepository.Setup(o => o.RemoveOrRestoreById(expectedSitter.Id));
 
         expectedSitter.IsDeleted = false;
@@ -248,7 +244,7 @@ public class SitterServiceTests
         var actualSitter = _sut.GetById(10);
 
         Assert.True(allSitters is not null);
-        Assert.True(actualSitter.IsDeleted == expectedIsDeleted);
+        Assert.True(!actualSitter.IsDeleted);
 
         _sitterRepository.Verify(c => c.RemoveOrRestoreById(It.IsAny<int>()), Times.Once);
         _sitterRepository.Verify(c => c.GetById(It.IsAny<int>()), Times.Exactly(2));
