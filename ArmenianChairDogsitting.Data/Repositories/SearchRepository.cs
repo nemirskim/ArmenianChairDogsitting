@@ -1,6 +1,7 @@
 ﻿using ArmenianChairDogsitting.Data.Entities;
 using ArmenianChairDogsitting.Data.Enums;
 using ArmenianChairDogsitting.Data.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace ArmenianChairDogsitting.Data.Repositories;
 
@@ -13,31 +14,13 @@ public class SearchRepository : ISearchRepository
         _context = context;
     }
 
-    public List<Sitter> GetSitters(Search searchEntity)
+    public List<Sitter> GetSitters(SearchParams searchEntity)
     {
-        var suitableSitters =  (List<Sitter>)_context.Sitters
-            .ToList()
+        return (List<Sitter>)_context.Sitters
+            .Include(c => c.Orders)
             .Where(s =>
-            {
-                var isPriceSuitable = s.PricesCatalog
-                .Exists(p => p.Price >= searchEntity.PriceMinimum && p.Price <= searchEntity.PriceMaximum);
-                var isDistrictSuitable = s.Districts.Contains(searchEntity.District);
-                var isCommentsQuantitySuitable = s.CommentsQuantity >= searchEntity.CommentsQuantity;
-                var isRatingSuitable = s.Rating >= searchEntity.Rating;
-
-                if (isPriceSuitable &&
-                (isDistrictSuitable || searchEntity.District == District.All) &&
-                isCommentsQuantitySuitable &&
-                isRatingSuitable &&
-                s.IsDeleted is false)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            });
-        return suitableSitters;
+                s.PricesCatalog
+                .Exists(p => p.Price >= searchEntity.PriceMinimum && p.Price <= searchEntity.PriceMaximum))
+            .ToList();
     }
 }

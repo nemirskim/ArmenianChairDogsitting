@@ -4,5 +4,5 @@ namespace ArmenianChairDogsitting.Data.Repositories.Interfaces;
 
 public interface ISearchRepository
 {
-    List<Sitter> GetSitters(Search searchEntity);
+    List<Sitter> GetSitters(SearchParams searchEntity);
 }

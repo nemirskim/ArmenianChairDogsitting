@@ -12,5 +12,11 @@ public class SearchService : ISearchRepository
         _searchRepository = searchRepository;
     }
 
-    public List<Sitter> GetSitters(Search searchEntity) => _searchRepository.GetSitters(searchEntity);
+    public List<Sitter> GetSitters(SearchParams searchEntity)
+    {
+        var sitters = _searchRepository.GetSitters(searchEntity);
+
+
+
+    }
 }
