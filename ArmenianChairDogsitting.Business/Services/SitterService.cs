@@ -20,10 +20,6 @@ public class SitterService : ISitterService
     public Sitter? GetById(int id)
     {
         var sitter = _sitterRepository.GetById(id);
-
-        if (sitter == null)
-            throw new NotFoundException($"{ExceptionStorage.ChoosenSitterDoesNotExist}{id}");
-
         return sitter;
     }
 

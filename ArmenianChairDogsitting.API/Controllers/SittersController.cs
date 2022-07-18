@@ -28,7 +28,7 @@ public class SittersController : Controller
     [AllowAnonymous]
     [HttpPost]
     [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status422UnprocessableEntity)]
     public ActionResult<int> AddSitter([FromBody] SitterRequest sitterRequest)
     {
         var result = _sittersService.Add(_mapper.Map<Sitter>(sitterRequest));
@@ -37,18 +37,22 @@ public class SittersController : Controller
 
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(SitterMainInfoResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     public ActionResult<SitterMainInfoResponse> GetSitterById(int id)
     {
         var result = _sittersService.GetById(id);
+
+        if (result == null)
+            return NotFound();
+
         return Ok(_mapper.Map<SitterMainInfoResponse>(result));
     }
 
     [HttpGet]
     [ProducesResponseType(typeof(List<SitterAllInfoResponse>), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     public ActionResult<List<SitterAllInfoResponse>> GetAllSitters()
     {
         var result = _sittersService.GetSitters();
@@ -57,10 +61,10 @@ public class SittersController : Controller
 
     [AuthorizeByRole(Role.Sitter)]
     [HttpPut("{id}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     public ActionResult UpdateSitter(SitterUpdateRequest sitterUpdateRequest, int id)
     {
         _sittersService.Update(_mapper.Map<Sitter>(sitterUpdateRequest), id);
@@ -69,10 +73,10 @@ public class SittersController : Controller
 
     [AuthorizeByRole]
     [HttpDelete("{id}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     public ActionResult RemoveOrRestoreSitterById(int id)
     {
         _sittersService.RemoveOrRestoreById(id);
@@ -81,7 +85,7 @@ public class SittersController : Controller
 
     [AuthorizeByRole(Role.Sitter)]
     [HttpPatch("{id}/Password")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -97,10 +101,10 @@ public class SittersController : Controller
 
     [AuthorizeByRole(Role.Sitter)]
     [HttpPatch("{id}/{catalog}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     public ActionResult UpdatePriceCatalogSitter(int id, List<PriceCatalog> priceCatalog)
     {
         _sittersService.UpdatePriceCatalog(id, priceCatalog);
@@ -109,9 +113,9 @@ public class SittersController : Controller
 
     [AuthorizeByRole(Role.Sitter)]
     [HttpGet("{id}/Schedule")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     public ActionResult GetAllSittersWithWorkTimes(int id)
     {
         return NoContent();

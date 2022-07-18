@@ -12,7 +12,6 @@ public class SitterServiceTests
 {
     private Mock<ISitterRepository> _sitterRepository;
     private SitterService _sut;
-    private List<Claim> _identities;
 
     [SetUp]
     public void Setup()
