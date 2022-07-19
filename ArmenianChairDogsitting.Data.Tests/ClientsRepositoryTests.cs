@@ -1,12 +1,6 @@
 ﻿using ArmenianChairDogsitting.Data.Entities;
 using ArmenianChairDogsitting.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
-using ArmenianChairDogsitting.Data.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ArmenianChairDogsitting.Data.Tests;
 
