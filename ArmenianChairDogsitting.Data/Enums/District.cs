@@ -2,7 +2,7 @@
 {
     public enum District
     {
-        Admiralteysky,
+        Admiralteysky = 1,
         Frunzensky,
         Kalininsky,
         Kirovsky,
