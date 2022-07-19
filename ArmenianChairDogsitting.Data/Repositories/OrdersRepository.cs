@@ -39,7 +39,9 @@ namespace ArmenianChairDogsitting.Data.Repositories
 
         public int AddCommentToOrder(int orderId, Comment commentToAdd)
         {
-            _context.Orders.ElementAt(orderId).Comments?.Add(commentToAdd);
+            _context.Orders
+                .FirstOrDefault(o => o.Id == orderId)!.Comments
+                .Add(commentToAdd);
             _context.SaveChanges();
             return commentToAdd.Id;
         }

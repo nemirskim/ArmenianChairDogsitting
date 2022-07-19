@@ -23,17 +23,7 @@ public class OrdersServiceTests
     public void AddOrder_WhenCalled_ThenReturnIdOfAddedOrder()
     {
         //given
-        var orderToAdd = new OrderWalk()
-        {
-            Id = 34,
-            Animals = new(),
-            Client = new(),
-            WalkQuantity = 2,
-            IsTrial = true,
-            Sitter = new(),
-            Status = Status.Created,
-            Type = ServiceEnum.Walk
-        };
+        var orderToAdd = OrderToAdd();
 
         var expectedId = 34;
 
@@ -63,7 +53,7 @@ public class OrdersServiceTests
 
         //then
         Assert.IsTrue(actual is not null);
-        Assert.IsTrue(actual!.Count == 3);
+        Assert.IsTrue(actual!.Count == ordersFromRepo.Count);
         Assert.IsTrue(actual is List<Order>);
         Assert.IsTrue(actual[0].Client is Client);
         Assert.IsTrue(actual[0].Sitter is Sitter);
@@ -74,29 +64,9 @@ public class OrdersServiceTests
     public void GetOrderById_WhenOrderExist_ReturnOrder()
     {
         //given
-        var expectedOrder = new OrderWalk()
-        {
-            Id = 34,
-            Animals = new(),
-            Client = new() { Id = 1 },
-            WalkQuantity = 2,
-            IsTrial = true,
-            Sitter = new() { Id = 1 },
-            Status = Status.Created,
-            Type = ServiceEnum.Walk
-        };
+        var expectedOrder = ExpectedOrder();
 
-        Order orderFromRepo = new OrderWalk()
-        {
-            Id = 34,
-            Animals = new(),
-            Client = new() { Id = 1},
-            WalkQuantity = 2,
-            IsTrial = true,
-            Sitter = new() { Id = 1 },
-            Status = Status.Created,
-            Type = ServiceEnum.Walk
-        };
+        Order orderFromRepo = OrderFromRepo();
 
         _ordersRepository
             .Setup(x => x.GetOrderById(It.IsAny<int>()))
@@ -134,17 +104,7 @@ public class OrdersServiceTests
     public void UpdateOrderStatus_WhenOrderExist_KeepWorking()
     {
         //given
-        Order orderFromRepo = new OrderWalk()
-        {
-            Id = 34,
-            Animals = new(),
-            Client = new() { Id = 1 },
-            WalkQuantity = 2,
-            IsTrial = true,
-            Sitter = new() { Id = 1 },
-            Status = Status.Created,
-            Type = ServiceEnum.Walk
-        };
+        Order orderFromRepo = OrderFromRepo();
 
         _ordersRepository
             .Setup(x => x.GetOrderById(It.IsAny<int>()))
@@ -177,6 +137,48 @@ public class OrdersServiceTests
         Assert.Throws<NotFoundException>(() => _sut.UpdateOrderStatus(Status.InProgress, 34));
         _ordersRepository.Verify(x => x.GetOrderById(It.IsAny<int>()), Times.Once);
         _ordersRepository.Verify(x => x.UpdateOrderStatus(It.IsAny<Status>(), It.IsAny<int>()), Times.Never);
+    }
+
+    public void AddCommentToOrder_WhenOrderExist_ThenReturnIdOfNewComment()
+    {
+        //given
+        var orderFromRepo = SetOrders();
+        var commentToAdd = new Comment() { Id = 4, Text = "blah blah" };
+        var expectedId = 4;
+
+        _ordersRepository
+            .Setup(x => x.GetOrderById(It.IsAny<int>()))
+            .Returns(orderFromRepo[1]);
+
+        _ordersRepository
+            .Setup(x => x.AddCommentToOrder(It.IsAny<int>(), It.IsAny<Comment>()))
+            .Returns(orderFromRepo[1].Comments[0].Id);
+
+        //when
+        var actualId = _sut.AddCommentToOrder(42, commentToAdd);
+
+        //then
+        Assert.AreEqual(expectedId, actualId);
+        _ordersRepository.Verify(x => x.GetOrderById(It.IsAny<int>()), Times.Once);
+        _ordersRepository.Verify(x => x.AddCommentToOrder(It.IsAny<int>(), It.IsAny<Comment>()), Times.Once);
+    }
+
+    public void AddCommentToOrder_WhenOrderDoesntExist_ThenThrowNotFoundException()
+    {
+        //given
+        Order orderFromRepo = null;
+
+        _ordersRepository
+            .Setup(x => x.GetOrderById(It.IsAny<int>()))
+            .Returns(orderFromRepo);
+
+        _ordersRepository
+            .Setup(x => x.AddCommentToOrder(It.IsAny<int>(), It.IsAny<Comment>()));
+
+        //when then
+        Assert.Throws<NotFoundException>(() => _sut.GetOrderById(555));
+        _ordersRepository.Verify(x => x.GetOrderById(It.IsAny<int>()), Times.Once);
+        _ordersRepository.Verify(x => x.AddCommentToOrder(It.IsAny<int>(), It.IsAny<Comment>()), Times.Never);
     }
 
     private List<Order> SetOrders()
@@ -216,6 +218,51 @@ public class OrdersServiceTests
                 Status = Status.Created,
                 Type = ServiceEnum.Walk
             }
+        };
+    }
+
+    private Order OrderFromRepo()
+    {
+        return new OrderWalk()
+        {
+            Id = 34,
+            Animals = new(),
+            Client = new() { Id = 1 },
+            WalkQuantity = 2,
+            IsTrial = true,
+            Sitter = new() { Id = 1 },
+            Status = Status.Created,
+            Type = ServiceEnum.Walk
+        };
+    }
+
+    private OrderWalk ExpectedOrder()
+    {
+        return new OrderWalk()
+        {
+            Id = 34,
+            Animals = new(),
+            Client = new() { Id = 1 },
+            WalkQuantity = 2,
+            IsTrial = true,
+            Sitter = new() { Id = 1 },
+            Status = Status.Created,
+            Type = ServiceEnum.Walk
+        };
+    }
+
+    private OrderWalk OrderToAdd()
+    {
+        return new OrderWalk()
+        {
+            Id = 34,
+            Animals = new(),
+            Client = new(),
+            WalkQuantity = 2,
+            IsTrial = true,
+            Sitter = new(),
+            Status = Status.Created,
+            Type = ServiceEnum.Walk
         };
     }
 }

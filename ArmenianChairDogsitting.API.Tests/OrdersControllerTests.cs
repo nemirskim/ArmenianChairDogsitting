@@ -7,7 +7,6 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using System.ComponentModel.DataAnnotations;
 
 namespace ArmenianChairDogsitting.API.Tests;
 
@@ -152,7 +151,87 @@ public class OrdersControllerTests
     public void GetAllOrders_WhenValidRequestPassed_ThenStatusCodeOk()
     {
         //given
-        var orders = new List<Order>()
+        var orders = Orders();
+
+        var expectedOrders = ExpectedOrders(orders);
+
+        _ordersServiceMock
+            .Setup(x => x.GetAllOrders())
+            .Returns(orders);
+
+        //when
+        var actual = _sut.GetAllOrders();
+
+        //then
+        var actualResult = actual.Result as OkObjectResult;
+        var actualValue = actualResult.Value as List<AbstractOrderResponse>;
+
+        Assert.AreEqual(StatusCodes.Status200OK, actualResult.StatusCode);
+        Assert.IsTrue(actualValue is not null);
+        Assert.AreEqual(expectedOrders.Count, actualValue.Count);
+        _ordersServiceMock.Verify(x => x.GetAllOrders(), Times.Once);
+    }
+
+    public void GetCommentsByOrderId_WhenValidRequestPassed_ThenThrow200OK()
+    {
+        //given
+        var expectedComments = ExpectedComments();
+        var commentsToGet = CommentsToGet();
+        var targetOrder = new OrderWalk()
+        {
+            Id = 1,
+            Comments = new(),
+            Status = Status.Finished,
+            WalkQuantity = 4,
+            Sitter =new(),
+            Animals = new(),
+            Client = new(),
+            IsTrial = false,
+            Type = ServiceEnum.Walk
+        };
+
+        _ordersServiceMock
+            .Setup(x => x.GetCommentsByOrderId(It.IsAny<int>()))
+            .Returns(commentsToGet);
+
+        //when
+        var actual = _sut.GetCommentsByOrderId(targetOrder.Id);
+
+        //then
+        var actualResult = actual.Result as OkObjectResult;
+        var actualValue = actualResult.Value as List<CommentResponse>;
+
+        Assert.AreEqual(StatusCodes.Status200OK, actualResult.StatusCode);
+        Assert.IsTrue(actualValue is not null);
+        Assert.AreEqual(expectedComments.Count, actualValue.Count);
+        _ordersServiceMock.Verify(x => x.GetCommentsByOrderId(It.IsAny<int>()), Times.Once);
+    }
+
+    [Test]
+    public void AddCommentToOrder_WhenValidRequestPassed_ThenThrow200OK()
+    {
+        //given
+        var commentToAdd = new CommentRequest() { Rating = 3, Text = "blah blah" };
+        var expectedId = 4;
+
+        _ordersServiceMock
+            .Setup(x => x.AddCommentToOrder(It.IsAny<int>(), It.IsAny<Comment>()))
+            .Returns(expectedId);
+
+        //when
+        var actual = _sut.AddCommentToOrder(2, commentToAdd);
+
+        //then
+        var actualResult = actual.Result as OkObjectResult;
+        var actualValue = actualResult.Value;
+
+        Assert.AreEqual(StatusCodes.Status200OK, actualResult.StatusCode);
+        Assert.IsTrue(actualValue is not null);
+        Assert.AreEqual(expectedId, actualValue);
+        _ordersServiceMock.Verify(x => x.AddCommentToOrder(It.IsAny<int>(), It.IsAny<Comment>()), Times.Once);
+    }
+
+    private List<Order>  Orders() => new List<Order>()
         {
             new OrderWalk
             {
@@ -191,7 +270,7 @@ public class OrdersControllerTests
             },
         };
 
-        var expectedOrders = new List<AbstractOrderResponse>()
+    private List<AbstractOrderResponse> ExpectedOrders(List<Order> orders) => new List<AbstractOrderResponse>()
             {
             new OrderWalkResponse
             {
@@ -230,20 +309,17 @@ public class OrdersControllerTests
             },
         };
 
-        _ordersServiceMock
-            .Setup(x => x.GetAllOrders())
-            .Returns(orders);
+    private List<CommentResponse> ExpectedComments() => new List<CommentResponse>()
+    {
+        new(){Id = 1, OrderId = 1, Rating = 3, Text = "blah blah"},
+        new(){Id = 2, OrderId = 2, Rating = 5, Text = "Pudge is here"},
+        new(){Id = 3, OrderId = 3, Rating = 1, Text = "he he he he he"}
+    };
 
-        //when
-        var actual = _sut.GetAllOrders();
-
-        //then
-        var actualResult = actual.Result as OkObjectResult;
-        var actualValue = actualResult.Value as List<AbstractOrderResponse>;
-
-        Assert.AreEqual(StatusCodes.Status200OK, actualResult.StatusCode);
-        Assert.IsTrue(actualValue is not null);
-        Assert.AreEqual(expectedOrders.Count, actualValue.Count);
-        _ordersServiceMock.Verify(x => x.GetAllOrders(), Times.Once);
-    }
+    private List<Comment> CommentsToGet() => new List<Comment>()
+    {
+        new(){Id = 1, Order = new OrderWalk(){ Id = 1 }, Rating = 3, Text = "blah blah"},
+        new(){Id = 2, Order = new OrderWalk(){ Id = 2 }, Rating = 5, Text = "Pudge is here"},
+        new(){Id = 3, Order = new OrderWalk(){ Id = 3 }, Rating = 1, Text = "he he he he he"}
+    };
 }

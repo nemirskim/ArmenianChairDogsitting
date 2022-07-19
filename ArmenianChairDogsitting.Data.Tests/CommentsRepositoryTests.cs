@@ -27,8 +27,7 @@ public class CommentsRepositoryTests
         {
             IsDeleted = false,
             TimeCreated = _created,
-            Text = "Chu papi mu nanyo",
-            Client = new() { Name = "Grisha", LastName = "Grisha" },
+            Text = "Chu papi mu nanyo",            
             Order = new OrderOverexpose(),
             Rating = 3,
         }) ;
@@ -38,7 +37,6 @@ public class CommentsRepositoryTests
             IsDeleted = true,
             TimeCreated = _created,
             Text = "Chiki briki v damki",
-            Client = new() { Name = "Egor", LastName = "Egor" },
             Order = new OrderOverexpose(),
             Rating = 1
         });
@@ -48,7 +46,6 @@ public class CommentsRepositoryTests
             IsDeleted = false,
             TimeCreated = _created,
             Text = "Sitter Lost My Dog",
-            Client = new() { Name = "Vova", LastName = "Vova" },
             Order = new OrderWalk(),
             Rating = 5
         });

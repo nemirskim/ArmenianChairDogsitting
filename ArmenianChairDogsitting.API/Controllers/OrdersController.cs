@@ -79,7 +79,7 @@ namespace ArmenianChairDogsitting.API.Controllers
         [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(List<AbstractOrderResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
-        public ActionResult<List<Comment>> GetCommentsByOrderId([FromRoute] int id)
+        public ActionResult<List<CommentResponse>> GetCommentsByOrderId([FromRoute] int id)
         {
             var result = _ordersService.GetCommentsByOrderId(id);
             return Ok(_mapper.Map<List<Comment>>(result));
