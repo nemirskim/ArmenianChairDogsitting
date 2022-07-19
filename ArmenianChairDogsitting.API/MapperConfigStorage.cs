@@ -1,5 +1,5 @@
 ﻿using ArmenianChairDogsitting.API.Models;
-using ArmenianChairDogsitting.Data.Entities;
+using ArmenianChairDogsitting.Business;
 using AutoMapper;
 
 namespace ArmenianChairDogsitting.API;
@@ -8,8 +8,8 @@ public class MapperConfigStorage : Profile
 {
     public MapperConfigStorage()
     {
-        CreateMap<ClientRegistrationRequest, Client>();
-        CreateMap<ClientUpdateRequest, Client>();        
-        CreateMap<Client, ClientAllInfoResponse>();
+        CreateMap<ClientRegistrationRequest, ClientModel>();
+        CreateMap<ClientUpdateRequest, ClientModel>();        
+        CreateMap<ClientModel, ClientAllInfoResponse>();
     }
 }

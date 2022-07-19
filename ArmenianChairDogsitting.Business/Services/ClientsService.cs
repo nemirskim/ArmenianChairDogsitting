@@ -1,11 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ArmenianChairDogsitting.Data.Repositories;
+using ArmenianChairDogsitting.Data.Entities;
 
 namespace ArmenianChairDogsitting.Business;
 
 public class ClientsService : IClientsService
 {
+    IClientsRepository _clientsRepository;
+
+    public ClientsService(IClientsRepository clientsRepository)
+    {
+        _clientsRepository = clientsRepository;
+    }
+
+
+    
 }
