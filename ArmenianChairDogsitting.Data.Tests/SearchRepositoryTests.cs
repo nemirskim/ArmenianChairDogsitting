@@ -28,7 +28,7 @@ public class SearchRepositoryTests
 
         var ServiceWalk = new Service() { Id = ServiceEnum.Walk };
         var ServiceOverexpose = new Service() { Id = ServiceEnum.Overexpose };
-        // '{'Description', 'Email', 'LastName', 'Name', 'Password', 'Phone'}'
+
         _context.Sitters.Add(new Sitter
         {
             Name = "iamname",

@@ -17,20 +17,19 @@ public class SearchService : ISearchService
         _mapper = mapper;
     }
 
-    public List<SittersSearchModelResult> GetSitters(SearchParams searchEntity)
+    public List<SittersSearchModelResult> GetSittersBySearchParams(SearchParams searchEntity)
     {
         var sitters = _searchRepository.GetSittersBySearchParams(searchEntity);
         var sittersModel = _mapper.Map<List<SittersSearchModelResult>>(sitters);
 
         foreach(var sitter in sittersModel)
         {
-            if(!(sitter.Districts.Contains(new District()) &&
+            if(!(sitter.Districts.Any(d => d.Id == searchEntity.District) &&
                 (searchEntity.IsSitterHasComments && sitter.Comments.Count != 0) &&
                 sitter.Comments.Average(r => r.Rating) >= searchEntity.MinRating))
             {
                 sittersModel.Remove(sitter);
-            }
-                
+            }                
         }
         return sittersModel;
     }

@@ -1,7 +1,9 @@
 using ArmenianChairDogsitting.API.Infrastructure;
+using ArmenianChairDogsitting.Business;
 using ArmenianChairDogsitting.Data;
 using ArmenianChairDogsitting.Data.Repositories;
 using ArmenianChairDogsitting.Data.Repositories.Interfaces;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -72,6 +74,8 @@ builder.Services.AddScoped<IClientsRepository, ClientsRepository>();
 builder.Services.AddScoped<IOrdersRepository, OrdersRepository>();
 builder.Services.AddScoped<ICommentsRepository, CommentsRepository>();
 builder.Services.AddScoped<ISearchRepository, SearchRepository>();
+
+builder.Services.AddAutoMapper(typeof(MapperConfigStorage));
 
 var app = builder.Build();
 
