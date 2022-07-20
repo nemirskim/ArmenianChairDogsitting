@@ -26,6 +26,37 @@ public class ClientsService : IClientsService
         return id;
     }
 
+    public Client GetClientById(int id)
+    {
+        var client = _clientsRepository.GetClientById(id);
+        if (client is null)
+            throw new NotFoundException("Client was not found");
 
-    
+        return _mapper.Map<Client>(client);
+    }
+
+    public List<Client> GetAllClients()
+    {
+        var clients = _clientsRepository.GetAllClients();
+        return _mapper.Map<List<Client>>(clients);
+    }
+
+    public void UpdateClient(Client client, int id)
+    {
+        if (client is null)
+            throw new NotFoundException("Client was not found");
+
+        _clientsRepository.UpdateClient(client);
+        _mapper.Map<Client>(client);
+    }
+
+    public void RemoveOrRestoreClient(int id, bool isDeleted)
+    {
+        var client = _clientsRepository.GetClientById(id);
+
+        if (client is null)
+            throw new NotFoundException("Client was not found");
+
+        _clientsRepository.RemoveOrRestoreClient(id, isDeleted);   
+    } 
 }

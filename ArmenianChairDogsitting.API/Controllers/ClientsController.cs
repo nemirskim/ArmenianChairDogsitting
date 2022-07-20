@@ -52,7 +52,7 @@ public class ClientsController : Controller
         if (result is null)
             return NotFound();
         else
-            return Ok(result);
+            return Ok(_mapper.Map<ClientAllInfoResponse>(result));
     }
 
     [AuthorizeByRole]
@@ -62,8 +62,8 @@ public class ClientsController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     public ActionResult<List<ClientAllInfoResponse>> GetAllClients()
     {
-        //var clients = _clientsService.GetAllClients();
-        //return Ok(clients);
+        var clients = _clientsService.GetAllClients();
+        return Ok(_mapper.Map<List<ClientAllInfoResponse>>(clients));
     }
 
     [AuthorizeByRole(Role.Client)]
@@ -75,8 +75,7 @@ public class ClientsController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     public ActionResult UpdateClient([FromBody] ClientUpdateRequest request, int id)
     {
-        var client = _clientsService.GetClientById(id);
-        _clientsService.UpdateClient(client);
+        _clientsService.UpdateClient(_mapper.Map<Client>(request), id);
         return Ok();
     }
 
