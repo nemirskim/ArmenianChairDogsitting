@@ -146,9 +146,6 @@ public class ClientsControllerTests
             Name = "Lea"
         };
 
-        _clientsServiceMock
-            .Setup(c => c.UpdateClient(client, client.Id));
-
         //when
         var actual = _sut.UpdateClient(clientToUpdate, client.Id);
 
@@ -156,8 +153,6 @@ public class ClientsControllerTests
         var actualResult = actual as OkResult;
 
         Assert.AreEqual(StatusCodes.Status200OK, actualResult.StatusCode);
-
-        _clientsServiceMock.Verify(c => c.UpdateClient(It.Is<Client>, id), Times.Once);
     }
 
     [Test]
