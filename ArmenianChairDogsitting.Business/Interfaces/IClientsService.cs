@@ -1,6 +1,8 @@
-﻿namespace ArmenianChairDogsitting.Business;
+﻿using ArmenianChairDogsitting.Data.Entities;
+
+namespace ArmenianChairDogsitting.Business;
 
 public interface IClientsService
 {
-    int AddClient(ClientModel clientModel);
+    int AddClient(Client clientModel);
 }

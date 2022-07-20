@@ -16,7 +16,7 @@ public class ClientsService : IClientsService
         _mapper = mapper;
     }
 
-    public int AddClient(ClientModel clientModel)
+    public int AddClient(Client clientModel)
     {
         var client = _mapper.Map<Client>(clientModel);
         client.Role = Role.Client;
