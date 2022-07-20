@@ -57,6 +57,11 @@ public class ClientsService : IClientsService
         if (client is null)
             throw new NotFoundException("Client was not found");
 
-        _clientsRepository.RemoveOrRestoreClient(id, isDeleted);   
+        else if (client.Role != Role.Admin || client.Id != id)
+            throw new AccessDeniedException("Access denied");
+
+        else
+        _clientsRepository.RemoveOrRestoreClient(id, isDeleted);
+        _mapper.Map<Client>(client);
     } 
 }
