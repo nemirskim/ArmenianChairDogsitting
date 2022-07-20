@@ -22,6 +22,7 @@ public class ClientRegistrationRequest
     [Required(ErrorMessage = ApiErrorMessage.PasswordIsRequired)]
     [MinLength(8, ErrorMessage = ApiErrorMessage.PasswordLenghtIsLess)]
     public string Password { get; set; }
+    public string Promocode { get; set; }
 
     public List<DogMainInfoResponse> Dogs { get; set; }
 }

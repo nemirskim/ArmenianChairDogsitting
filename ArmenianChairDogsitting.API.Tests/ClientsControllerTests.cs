@@ -13,13 +13,14 @@ public class ClientsControllerTests
 {
     private ClientsController _sut;
     private Mock<IClientsService> _clientsServiceMock;
-    private IMapper _mapper;
+    private Mock<IMapper> _mapper;
 
     [SetUp]
     public void SetUp()
     {
+        _mapper = new Mock<IMapper>();
         _clientsServiceMock = new Mock<IClientsService>();
-        _sut = new ClientsController(_clientsServiceMock.Object, _mapper);
+        _sut = new ClientsController(_clientsServiceMock.Object, _mapper.Object);
     }
 
     [Test]
@@ -37,8 +38,7 @@ public class ClientsControllerTests
         };
 
         _clientsServiceMock
-            .Setup(c => c.AddClient(It.IsAny<Client>()))
-            .Returns(id);
+            .Setup(c => c.AddClient(It.IsAny<Client>())).Returns(id);
 
         //when
         var actual = _sut.AddClient(client);
@@ -64,13 +64,16 @@ public class ClientsControllerTests
         //given
         var client = new Client()
         {
-            Id = 1
+            Id = 1,
+            Name = "Lee",
+            LastName = "Takami",
+            Phone = "+79265418392",
+            Email = "traktor@gmail.com"
         };
         var id = 1;
 
         _clientsServiceMock
-            .Setup(c => c.GetClientById(It.IsAny<int>()));
-            //.Returns(client));
+            .Setup(c => c.GetClientById(It.IsAny<int>())).Returns(client);
 
         //when
         var actual = _sut.GetClientById(id);
@@ -88,7 +91,29 @@ public class ClientsControllerTests
     public void GetAllClientsTest_WhenRequestPassed_ThenShouldReturnClients()
     {
         //given
-        var expected = new List<ClientAllInfoResponse>();
+        var clients = new List<Client>
+        {
+            new Client()
+            {
+                Id = 323,
+                Name = "Kevin",
+                LastName = "Durant",
+                Phone = "+79651238738",
+                Email = "ar@gmail.com"
+            },
+
+            new Client()
+            {
+                Id = 11,
+                Name = "Mick",
+                LastName = "Rock",
+                Phone = "+79465412492",
+                Email = "rock@mail.ru"
+            }
+        };
+
+        _clientsServiceMock
+            .Setup(c => c.GetAllClients()).Returns(clients);
 
         //when
         var actual = _sut.GetAllClients();
@@ -97,33 +122,60 @@ public class ClientsControllerTests
         var actualResult = actual.Result as ObjectResult;
 
         Assert.AreEqual(StatusCodes.Status200OK, actualResult.StatusCode);
-        Assert.AreEqual(expected.GetType(), actualResult.Value.GetType());
+        Assert.AreEqual(clients.GetType(), actualResult.Value.GetType());
+
+        _clientsServiceMock.Verify(c => c.GetAllClients(), Times.Once);
     }
 
     [Test]
     public void UpdateClientTest_WhenCorrectIdPassed_ThenClientProfileUpdated()
     {
         //given
-        var client = new ClientUpdateRequest() { Name = "Marina" };
         var id = 1;
+        var client = new Client()
+        {
+            Id = 1,
+            Name = "Lee",
+            LastName = "Takami",
+            Phone = "+79265418392",
+            Email = "traktor@gmail.com"
+        };
+
+        var clientToUpdate = new ClientUpdateRequest()
+        {
+            Name = "Lea"
+        };
+
+        _clientsServiceMock
+            .Setup(c => c.UpdateClient(client, client.Id));
 
         //when
-        var actual = _sut.UpdateClient(client, id);
+        var actual = _sut.UpdateClient(clientToUpdate, client.Id);
 
         //then
         var actualResult = actual as OkResult;
 
         Assert.AreEqual(StatusCodes.Status200OK, actualResult.StatusCode);
+
+        _clientsServiceMock.Verify(c => c.UpdateClient(It.Is<Client>, id), Times.Once);
     }
 
     [Test]
     public void RemoveClientTest_WhenCorrectIdPassed_ThenSoftDeleteApplied()
     {
         //given
-        var id = 1;
+        var client = new Client()
+        {
+            Id = 1,
+            Name = "Lee",
+            LastName = "Takami",
+            Phone = "+79265418392",
+            Email = "traktor@gmail.com",
+            IsDeleted = false
+        };
 
         //when
-        var actual = _sut.RemoveClient(id);
+        var actual = _sut.RemoveClient(client.Id);
 
         //then
         var actualResult = actual as NoContentResult;
@@ -135,10 +187,18 @@ public class ClientsControllerTests
     public void RestoreClientTest_WhenCorrectIdIsPassed_ThenRestoreClientProfile()
     {
         //given
-        var id = 1;
+        var client = new Client()
+        {
+            Id = 1,
+            Name = "Lee",
+            LastName = "Takami",
+            Phone = "+79265418392",
+            Email = "traktor@gmail.com",
+            IsDeleted = true
+        };
 
         //when
-        var actual = _sut.RestoreClient(id);
+        var actual = _sut.RestoreClient(client.Id);
 
         //then
         var actualResult = actual as NoContentResult;
