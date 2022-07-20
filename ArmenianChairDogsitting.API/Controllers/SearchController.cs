@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
 using ArmenianChairDogsitting.API.Models;
-using ArmenianChairDogsitting.Data.Enums;
-using ArmenianChairDogsitting.API.Extensions;
 using ArmenianChairDogsitting.Business.Interfaces;
 using AutoMapper;
 using ArmenianChairDogsitting.Data.Entities;

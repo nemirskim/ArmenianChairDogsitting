@@ -22,7 +22,7 @@ public class OrderRepositoryTests
         _context.Database.EnsureDeleted();
         _sut = new OrdersRepository(_context);
 
-        _ = _context.Orders.Add(new OrderWalk()
+        _context.Orders.Add(new OrderWalk()
         {
             WalkQuantity = 3,
             IsTrial = true,

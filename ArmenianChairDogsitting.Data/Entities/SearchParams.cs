@@ -7,7 +7,9 @@ public class SearchParams
     public decimal PriceMinimum { get; set; }
     public decimal PriceMaximum { get; set; }
     public int MinRating { get; set; }
-    public District District { get; set; }
+    public bool IsSitterHasComments { get; set; }
+    public ServiceEnum ServiceType { get; set; }
+    public DistrictEnum District { get; set; }
     
     //породы
 }

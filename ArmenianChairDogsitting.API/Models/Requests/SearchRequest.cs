@@ -8,5 +8,5 @@ public class SearchRequest
     public decimal PriceMaximum { get; set; }
     public int Rating { get; set; }
     public int CommentsQuantity { get; set; }
-    public District District { get; set; }
+    public DistrictEnum District { get; set; }
 }

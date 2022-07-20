@@ -14,13 +14,14 @@ public class SearchRepository : ISearchRepository
         _context = context;
     }
 
-    public List<Sitter> GetSitters(SearchParams searchEntity)
+    public List<Sitter> GetSittersBySearchParams(SearchParams searchEntity)
     {
-        return (List<Sitter>)_context.Sitters
-            .Include(c => c.Orders)
-            .Where(s =>
+        return _context.Sitters
+            .Include(o => o.Orders)
+            .Where(s => !s.IsDeleted &&
                 s.PricesCatalog
-                .Exists(p => p.Price >= searchEntity.PriceMinimum && p.Price <= searchEntity.PriceMaximum))
+                .Any(p => p.Service.Id == searchEntity.ServiceType &&
+                p.Price >= searchEntity.PriceMinimum && p.Price <= searchEntity.PriceMaximum))
             .ToList();
     }
 }

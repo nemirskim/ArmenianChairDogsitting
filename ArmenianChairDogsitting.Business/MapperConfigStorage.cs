@@ -4,25 +4,13 @@ using AutoMapper;
 
 namespace ArmenianChairDogsitting.Business;
 
-public class MapperConfigStorage
+public class MapperConfigStorage : Profile
 {
-    private static Mapper _instance;
-
-    public static Mapper GetInstance()
+    public MapperConfigStorage()
     {
-        if (_instance == null)
-            InitializeInstance();
-        return _instance!;
-    }
+        CreateMap<IEnumerable<Comment>, IEnumerable<IEnumerable<Comment>>>();
 
-    private static void InitializeInstance()
-    {
-        _instance = new Mapper(new MapperConfiguration(cfg =>
-        {
-            cfg.CreateMap<IEnumerable<Comment>, IEnumerable<IEnumerable<Comment>>>();
-
-            cfg.CreateMap<Sitter, SittersSearchModelResult>()
+        CreateMap<Sitter, SittersSearchModelResult>()
             .ForMember(dest => dest.Comments, opt => opt.MapFrom(src => src.Orders.Select(t => t.Comments).ToList()));
-        }));
     }
 }

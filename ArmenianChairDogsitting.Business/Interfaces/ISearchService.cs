@@ -1,8 +1,9 @@
-﻿using ArmenianChairDogsitting.Data.Entities;
+﻿using ArmenianChairDogsitting.Business.Models;
+using ArmenianChairDogsitting.Data.Entities;
 
 namespace ArmenianChairDogsitting.Business.Interfaces;
 
 public interface ISearchService
 {
-    List<Sitter> GetSitters(SearchParams searchEntity);
+    List<SittersSearchModelResult> GetSitters(SearchParams searchEntity);
 }
