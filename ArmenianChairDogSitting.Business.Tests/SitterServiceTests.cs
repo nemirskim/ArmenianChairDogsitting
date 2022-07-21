@@ -21,11 +21,9 @@ public class SitterServiceTests
     }
 
     [Test]
-    public void AddSitter_WhenValidRequestPassed_ThenReturnIdOfAddedSitter()
+    public void AddSitter_WhenValidPassed_ThenReturnIdOfAddedSitter()
     {
         //given
-        _sitterRepository.Setup(c => c.Add(It.IsAny<Sitter>()))
-             .Returns(1);
         var expectedId = 1;
 
         var sitter = new Sitter()
@@ -44,6 +42,9 @@ public class SitterServiceTests
             IsDeleted = false
         };
 
+        _sitterRepository.Setup(c => c.Add(sitter))
+             .Returns(expectedId);
+
         //when
         var actual = _sut.Add(sitter);
 
@@ -51,7 +52,7 @@ public class SitterServiceTests
         //then
 
         Assert.True(actual == expectedId);
-        _sitterRepository.Verify(c => c.Add(It.IsAny<Sitter>()), Times.Once);
+        _sitterRepository.Verify(c => c.Add(sitter), Times.Once);
     }
 
     [Test]
@@ -76,7 +77,7 @@ public class SitterServiceTests
         };
 
         _sitterRepository
-            .Setup(x => x.GetById(It.IsAny<int>()))
+            .Setup(x => x.GetById(expectedSitter.Id))
             .Returns(expectedSitter);
 
         //when
@@ -88,7 +89,8 @@ public class SitterServiceTests
         Assert.True(actualSitter.LastName == expectedSitter.LastName);
         Assert.True(actualSitter.Email == expectedSitter.Email);
         Assert.True(actualSitter.Phone == expectedSitter.Phone);
-        _sitterRepository.Verify(x => x.GetById(It.IsAny<int>()), Times.Once);
+        
+        _sitterRepository.Verify(x => x.GetById(expectedSitter.Id), Times.Once);
     } 
 
     [Test]
@@ -200,8 +202,8 @@ public class SitterServiceTests
         Assert.True(allSitters is null);
         Assert.True(actualSitter.IsDeleted);
 
-        _sitterRepository.Verify(c => c.RemoveOrRestoreById(It.IsAny<int>()), Times.Once);
-        _sitterRepository.Verify(c => c.GetById(It.IsAny<int>()), Times.Exactly(2));
+        _sitterRepository.Verify(c => c.RemoveOrRestoreById(expectedSitter.Id), Times.Once);
+        _sitterRepository.Verify(c => c.GetById(expectedSitter.Id), Times.Exactly(2));
         _sitterRepository.Verify(c => c.GetSitters(), Times.Once);
     }
 
@@ -246,13 +248,13 @@ public class SitterServiceTests
         Assert.True(allSitters is not null);
         Assert.True(!actualSitter.IsDeleted);
 
-        _sitterRepository.Verify(c => c.RemoveOrRestoreById(It.IsAny<int>()), Times.Once);
-        _sitterRepository.Verify(c => c.GetById(It.IsAny<int>()), Times.Exactly(2));
+        _sitterRepository.Verify(c => c.RemoveOrRestoreById(expectedSitter.Id), Times.Once);
+        _sitterRepository.Verify(c => c.GetById(expectedSitter.Id), Times.Exactly(2));
         _sitterRepository.Verify(c => c.GetSitters(), Times.Once);
     }
 
     [Test]
-    public void UpdateSitter_WhenValidRequestPassed_ThenUpdateProperties()
+    public void UpdateSitter_WhenValidPassed_ThenUpdateProperties()
     {
         //given
 
@@ -304,12 +306,12 @@ public class SitterServiceTests
         Assert.True(sitter.Sex == actual.Sex);
         Assert.True(sitter.Description == actual.Description);
 
-        _sitterRepository.Verify(c => c.GetById(It.IsAny<int>()), Times.Exactly(2));
-        _sitterRepository.Verify(c => c.Update(It.IsAny<Sitter>(), It.IsAny<int>()), Times.Once);
+        _sitterRepository.Verify(c => c.GetById(sitter.Id), Times.Exactly(2));
+        _sitterRepository.Verify(c => c.Update(sitterForUpdate, sitter.Id), Times.Once);
     }
 
     [Test]
-    public void UpdatePassword_ValidRequestPassed_ThenUpdatePassword()
+    public void UpdatePassword_WhenValidPassed_ThenUpdatePassword()
     {
         //given
 
@@ -351,12 +353,12 @@ public class SitterServiceTests
 
         Assert.True(actual.Password == sitter.Password);
 
-        _sitterRepository.Verify(c => c.GetById(It.IsAny<int>()), Times.Exactly(2));
-        _sitterRepository.Verify(c => c.UpdatePassword(It.IsAny<int>(), It.IsAny<Sitter>()), Times.Once);
+        _sitterRepository.Verify(c => c.GetById(sitter.Id), Times.Exactly(2));
+        _sitterRepository.Verify(c => c.UpdatePassword(sitter.Id, sitterPasswordForUpdate), Times.Once);
     }
 
     [Test]
-    public void UpdatePriceCatalog_ValidRequestPassed_ThenUpdatePriceCatalog()
+    public void UpdatePriceCatalog_WhenValidPassed_ThenUpdatePriceCatalog()
     {
         //given
 
@@ -406,7 +408,7 @@ public class SitterServiceTests
         Assert.True(actual.PricesCatalog[0].Sitter.Id == sitter.PricesCatalog[0].Sitter.Id);
         Assert.True(actual.PricesCatalog[0].Service.Id == sitter.PricesCatalog[0].Service.Id);
 
-        _sitterRepository.Verify(c => c.GetById(It.IsAny<int>()), Times.Exactly(2));
-        _sitterRepository.Verify(c => c.UpdatePriceCatalog(It.IsAny<int>(), It.IsAny<List<PriceCatalog>>()), Times.Once);
+        _sitterRepository.Verify(c => c.GetById(sitter.Id), Times.Exactly(2));
+        _sitterRepository.Verify(c => c.UpdatePriceCatalog(sitter.Id, priceCatalogForUpdate), Times.Once);
     }
 }
