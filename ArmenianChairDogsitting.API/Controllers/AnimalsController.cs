@@ -19,6 +19,10 @@ public class AnimalsController : Controller
         _animalsRepository = animalsRepository;
     }
 
+    public AnimalsController()
+    {
+    }
+
     [AuthorizeByRole(Role.Client)]
     [HttpPost]
     [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
@@ -54,7 +58,7 @@ public class AnimalsController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
-    public ActionResult UpdateAnimal([FromBody] DogUpdateRequest request, int id)
+    public ActionResult UpdateAnimalById([FromBody] DogUpdateRequest request, int id)
     {
         return NoContent();
     }
