@@ -70,8 +70,6 @@ namespace ArmenianChairDogsitting.Data
             {
                 entity.ToTable(nameof(Sitter));
                 entity.HasKey(e => e.Id);
-
-
             });
 
             modelBuilder.Entity<PriceCatalog>(entity =>
