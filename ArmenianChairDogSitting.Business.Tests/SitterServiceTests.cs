@@ -51,7 +51,7 @@ public class SitterServiceTests
 
         //then
 
-        Assert.True(actual == expectedId);
+        Assert.Equals(actual, expectedId);
         _sitterRepository.Verify(c => c.Add(sitter), Times.Once);
     }
 
@@ -84,11 +84,11 @@ public class SitterServiceTests
         var actualSitter = _sut.GetById(1);
 
         //then
-        Assert.True(actualSitter.Id == expectedSitter.Id);
-        Assert.True(actualSitter.Name == expectedSitter.Name);
-        Assert.True(actualSitter.LastName == expectedSitter.LastName);
-        Assert.True(actualSitter.Email == expectedSitter.Email);
-        Assert.True(actualSitter.Phone == expectedSitter.Phone);
+        Assert.Equals(actualSitter.Id, expectedSitter.Id);
+        Assert.Equals(actualSitter.Name, expectedSitter.Name);
+        Assert.Equals(actualSitter.LastName, expectedSitter.LastName);
+        Assert.Equals(actualSitter.Email, expectedSitter.Email);
+        Assert.Equals(actualSitter.Phone, expectedSitter.Phone);
         
         _sitterRepository.Verify(x => x.GetById(expectedSitter.Id), Times.Once);
     } 
@@ -158,7 +158,7 @@ public class SitterServiceTests
 
         //then
         Assert.True(actual is not null);
-        Assert.True(actual.Count == 3);
+        Assert.Equals(actual.Count, expectedSitters.Count);
         Assert.True(actual is List<Sitter>);
     }
 
@@ -298,13 +298,13 @@ public class SitterServiceTests
         var actual = _sut.GetById(sitter.Id);
 
 
-        Assert.True(sitter.Name == actual.Name);
-        Assert.True(sitter.LastName == actual.LastName);
-        Assert.True(sitter.Phone == actual.Phone);
-        Assert.True(sitter.Age == actual.Age);
-        Assert.True(sitter.Experience == actual.Experience);
-        Assert.True(sitter.Sex == actual.Sex);
-        Assert.True(sitter.Description == actual.Description);
+        Assert.Equals(sitter.Name, actual.Name);
+        Assert.Equals(sitter.LastName, actual.LastName);
+        Assert.Equals(sitter.Phone, actual.Phone);
+        Assert.Equals(sitter.Age, actual.Age);
+        Assert.Equals(sitter.Experience, actual.Experience);
+        Assert.Equals(sitter.Sex, actual.Sex);
+        Assert.Equals(sitter.Description, actual.Description);
 
         _sitterRepository.Verify(c => c.GetById(sitter.Id), Times.Exactly(2));
         _sitterRepository.Verify(c => c.Update(sitterForUpdate, sitter.Id), Times.Once);
@@ -351,7 +351,7 @@ public class SitterServiceTests
         var actual = _sut.GetById(sitter.Id);
 
 
-        Assert.True(actual.Password == sitter.Password);
+        Assert.Equals(actual.Password, sitter.Password);
 
         _sitterRepository.Verify(c => c.GetById(sitter.Id), Times.Exactly(2));
         _sitterRepository.Verify(c => c.UpdatePassword(sitter.Id, sitterPasswordForUpdate), Times.Once);
@@ -403,10 +403,10 @@ public class SitterServiceTests
 
 
         Assert.True(actual.PricesCatalog is not null);
-        Assert.True(actual.PricesCatalog[0].Price == sitter.PricesCatalog[0].Price);
-        Assert.True(actual.PricesCatalog[0].Id == sitter.PricesCatalog[0].Id);
-        Assert.True(actual.PricesCatalog[0].Sitter.Id == sitter.PricesCatalog[0].Sitter.Id);
-        Assert.True(actual.PricesCatalog[0].Service.Id == sitter.PricesCatalog[0].Service.Id);
+        Assert.Equals(actual.PricesCatalog[0].Price, sitter.PricesCatalog[0].Price);
+        Assert.Equals(actual.PricesCatalog[0].Id, sitter.PricesCatalog[0].Id);
+        Assert.Equals(actual.PricesCatalog[0].Sitter.Id, sitter.PricesCatalog[0].Sitter.Id);
+        Assert.Equals(actual.PricesCatalog[0].Service.Id, sitter.PricesCatalog[0].Service.Id);
 
         _sitterRepository.Verify(c => c.GetById(sitter.Id), Times.Exactly(2));
         _sitterRepository.Verify(c => c.UpdatePriceCatalog(sitter.Id, priceCatalogForUpdate), Times.Once);
