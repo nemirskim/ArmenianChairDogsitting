@@ -76,7 +76,33 @@ namespace ArmenianChairDogsitting.Business.Tests
                     Phone = "89567234581",
                     Districts = new List<District> { districtOne, districtTwo },
                     Orders = new List<Order>() { new OrderWalk()
-                { Comments = new List<Comment>() { new Comment() { Rating = 5, Text = "blaah blah" } } } },
+                { Comments = new List<Comment>() { new Comment() { Rating = 4, Text = "blaah blah" } } } },
+                    PricesCatalog = new List<PriceCatalog>()
+                        {
+                        new PriceCatalog()
+                        {
+                            Price = 3500, Service = ServiceOverexpose
+                        },
+                        {
+                        new PriceCatalog()
+                        {
+                            Price = 2000, Service = ServiceWalk
+                        }
+                        }
+                    }
+                },
+
+                new Sitter
+                {
+                    Name = "iamname",
+                    Description = "qweqwe",
+                    Email = "qwe qwe",
+                    LastName = "lstname",
+                    Password = "wwwwwww",
+                    Phone = "89567234581",
+                    Districts = new List<District> { districtOne, districtTwo },
+                    Orders = new List<Order>() { new OrderWalk()
+                { Comments = new List<Comment>() { new Comment() } } },
                     PricesCatalog = new List<PriceCatalog>()
                         {
                         new PriceCatalog()
@@ -104,7 +130,7 @@ namespace ArmenianChairDogsitting.Business.Tests
                 IsSitterHasComments = true,
                 District = DistrictEnum.Kalininsky,
                 ServiceType = ServiceEnum.Overexpose,
-                PriceMinimum = 3500,
+                PriceMinimum = 2500,
                 PriceMaximum = 4000
             };
 
@@ -128,11 +154,11 @@ namespace ArmenianChairDogsitting.Business.Tests
             //given
             var searchParams = new SearchParams()
             {
-                MinRating = 4,
+                MinRating = 5,
                 IsSitterHasComments = true,
                 District = DistrictEnum.Kalininsky,
                 ServiceType = ServiceEnum.Overexpose,
-                PriceMinimum = 3500,
+                PriceMinimum = 2500,
                 PriceMaximum = 4000
             };
 

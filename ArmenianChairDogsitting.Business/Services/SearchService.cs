@@ -21,16 +21,28 @@ public class SearchService : ISearchService
     {
         var sitters = _searchRepository.GetSittersBySearchParams(searchEntity);
         var sittersModel = _mapper.Map<List<SittersSearchModelResult>>(sitters);
-
-        foreach(var sitter in sittersModel)
+        var result = new List<SittersSearchModelResult>();
+        RelocateComments(sitters, sittersModel);
+        foreach (var sitter in sittersModel)
         {
-            if(!(sitter.Districts.Any(d => d.Id == searchEntity.District) &&
+            if(sitter.Districts.Any(d => d.Id == searchEntity.District) &&
                 (searchEntity.IsSitterHasComments && sitter.Comments.Count != 0) &&
-                sitter.Comments.Average(r => r.Rating) >= searchEntity.MinRating))
+                sitter.Comments.Average(r => r.Rating) >= searchEntity.MinRating)
             {
-                sittersModel.Remove(sitter);
+                result.Add(sitter);
             }                
         }
-        return sittersModel;
+        return result;
+    }
+
+    private void RelocateComments(List<Sitter> sitters, List<SittersSearchModelResult> sittersModel)
+    {
+        for(int i = 0; i < sitters.Count; i++)
+        {
+            foreach(var item in sitters[i].Orders)
+            {
+                sittersModel[i].Comments.AddRange(item.Comments);
+            }
+        }
     }
 }

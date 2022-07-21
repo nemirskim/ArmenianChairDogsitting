@@ -135,10 +135,10 @@ public class SearchRepositoryTests
         {
             District =  DistrictEnum.Kalininsky,
             ServiceType = ServiceEnum.Overexpose,
-            PriceMinimum = 2000,
+            PriceMinimum = 3000,
             PriceMaximum = 3500
         };
-        var expectedSittersQuantity = 2;
+        var expectedSittersQuantity = 1;
 
         //when
         var actualSitters = _sut.GetSittersBySearchParams(searchParam);
