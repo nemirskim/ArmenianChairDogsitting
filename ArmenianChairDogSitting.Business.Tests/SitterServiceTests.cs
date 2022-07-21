@@ -51,7 +51,7 @@ public class SitterServiceTests
 
         //then
 
-        Assert.Equals(actual, expectedId);
+        Assert.AreEqual(actual, expectedId);
         _sitterRepository.Verify(c => c.Add(sitter), Times.Once);
     }
 
@@ -84,11 +84,11 @@ public class SitterServiceTests
         var actualSitter = _sut.GetById(1);
 
         //then
-        Assert.Equals(actualSitter.Id, expectedSitter.Id);
-        Assert.Equals(actualSitter.Name, expectedSitter.Name);
-        Assert.Equals(actualSitter.LastName, expectedSitter.LastName);
-        Assert.Equals(actualSitter.Email, expectedSitter.Email);
-        Assert.Equals(actualSitter.Phone, expectedSitter.Phone);
+        Assert.AreEqual(actualSitter.Id, expectedSitter.Id);
+        Assert.AreEqual(actualSitter.Name, expectedSitter.Name);
+        Assert.AreEqual(actualSitter.LastName, expectedSitter.LastName);
+        Assert.AreEqual(actualSitter.Email, expectedSitter.Email);
+        Assert.AreEqual(actualSitter.Phone, expectedSitter.Phone);
         
         _sitterRepository.Verify(x => x.GetById(expectedSitter.Id), Times.Once);
     } 
@@ -158,7 +158,7 @@ public class SitterServiceTests
 
         //then
         Assert.True(actual is not null);
-        Assert.Equals(actual.Count, expectedSitters.Count);
+        Assert.AreEqual(actual.Count, expectedSitters.Count);
         Assert.True(actual is List<Sitter>);
     }
 
@@ -183,9 +183,7 @@ public class SitterServiceTests
             IsDeleted = false
         };
 
-        _sitterRepository.Setup(o => o.RemoveOrRestoreById(expectedSitter.Id));
-
-        expectedSitter.IsDeleted = true;
+        _sitterRepository.Setup(o => o.RemoveOrRestoreById(expectedSitter));
 
         _sitterRepository.Setup(o => o.GetById(expectedSitter.Id)).Returns(expectedSitter);
 
@@ -202,7 +200,7 @@ public class SitterServiceTests
         Assert.True(allSitters is null);
         Assert.True(actualSitter.IsDeleted);
 
-        _sitterRepository.Verify(c => c.RemoveOrRestoreById(expectedSitter.Id), Times.Once);
+        _sitterRepository.Verify(c => c.RemoveOrRestoreById(expectedSitter), Times.Once);
         _sitterRepository.Verify(c => c.GetById(expectedSitter.Id), Times.Exactly(2));
         _sitterRepository.Verify(c => c.GetSitters(), Times.Once);
     }
@@ -228,9 +226,7 @@ public class SitterServiceTests
             IsDeleted = true
         };
 
-        _sitterRepository.Setup(o => o.RemoveOrRestoreById(expectedSitter.Id));
-
-        expectedSitter.IsDeleted = false;
+        _sitterRepository.Setup(o => o.RemoveOrRestoreById(expectedSitter));
 
         _sitterRepository.Setup(o => o.GetById(expectedSitter.Id)).Returns(expectedSitter);
         _sitterRepository.Setup(o => o.GetSitters()).Returns(new List<Sitter> { expectedSitter });
@@ -248,7 +244,7 @@ public class SitterServiceTests
         Assert.True(allSitters is not null);
         Assert.True(!actualSitter.IsDeleted);
 
-        _sitterRepository.Verify(c => c.RemoveOrRestoreById(expectedSitter.Id), Times.Once);
+        _sitterRepository.Verify(c => c.RemoveOrRestoreById(expectedSitter), Times.Once);
         _sitterRepository.Verify(c => c.GetById(expectedSitter.Id), Times.Exactly(2));
         _sitterRepository.Verify(c => c.GetSitters(), Times.Once);
     }
@@ -279,7 +275,7 @@ public class SitterServiceTests
         var sitterForUpdate = new Sitter()
         {
             Name = "Alex",
-            LastName = "Pistoletov",
+            LastName = "Abramov",
             Phone = "89991116116",
             Age = 27,
             Experience = 7,
@@ -288,7 +284,7 @@ public class SitterServiceTests
         };
 
         _sitterRepository.Setup(o => o.GetById(sitter.Id)).Returns(sitter);
-        _sitterRepository.Setup(o => o.Update(sitterForUpdate, sitter.Id));
+        _sitterRepository.Setup(o => o.Update(sitter));
 
 
         //when
@@ -298,16 +294,16 @@ public class SitterServiceTests
         var actual = _sut.GetById(sitter.Id);
 
 
-        Assert.Equals(sitter.Name, actual.Name);
-        Assert.Equals(sitter.LastName, actual.LastName);
-        Assert.Equals(sitter.Phone, actual.Phone);
-        Assert.Equals(sitter.Age, actual.Age);
-        Assert.Equals(sitter.Experience, actual.Experience);
-        Assert.Equals(sitter.Sex, actual.Sex);
-        Assert.Equals(sitter.Description, actual.Description);
+        Assert.AreEqual(sitter.Name, actual.Name);
+        Assert.AreEqual(sitter.LastName, actual.LastName);
+        Assert.AreEqual(sitter.Phone, actual.Phone);
+        Assert.AreEqual(sitter.Age, actual.Age);
+        Assert.AreEqual(sitter.Experience, actual.Experience);
+        Assert.AreEqual(sitter.Sex, actual.Sex);
+        Assert.AreEqual(sitter.Description, actual.Description);
 
         _sitterRepository.Verify(c => c.GetById(sitter.Id), Times.Exactly(2));
-        _sitterRepository.Verify(c => c.Update(sitterForUpdate, sitter.Id), Times.Once);
+        _sitterRepository.Verify(c => c.Update(sitter), Times.Once);
     }
 
     [Test]
@@ -339,8 +335,7 @@ public class SitterServiceTests
         };
 
 
-        _sitterRepository.Setup(o => o.UpdatePassword(sitter.Id, sitterPasswordForUpdate));
-        sitter.Password = sitterPasswordForUpdate.Password;
+        _sitterRepository.Setup(o => o.UpdatePassword(sitter));
         _sitterRepository.Setup(o => o.GetById(sitter.Id)).Returns(sitter);
 
 
@@ -351,10 +346,10 @@ public class SitterServiceTests
         var actual = _sut.GetById(sitter.Id);
 
 
-        Assert.Equals(actual.Password, sitter.Password);
+        Assert.AreEqual(actual.Password, sitter.Password);
 
         _sitterRepository.Verify(c => c.GetById(sitter.Id), Times.Exactly(2));
-        _sitterRepository.Verify(c => c.UpdatePassword(sitter.Id, sitterPasswordForUpdate), Times.Once);
+        _sitterRepository.Verify(c => c.UpdatePassword(sitter), Times.Once);
     }
 
     [Test]
@@ -391,8 +386,7 @@ public class SitterServiceTests
             }
         };
 
-        _sitterRepository.Setup(o => o.UpdatePriceCatalog(sitter.Id, priceCatalogForUpdate));
-        sitter.PricesCatalog = priceCatalogForUpdate;
+        _sitterRepository.Setup(o => o.UpdatePriceCatalog(sitter));
         _sitterRepository.Setup(o => o.GetById(sitter.Id)).Returns(sitter);
 
         //when
@@ -403,12 +397,12 @@ public class SitterServiceTests
 
 
         Assert.True(actual.PricesCatalog is not null);
-        Assert.Equals(actual.PricesCatalog[0].Price, sitter.PricesCatalog[0].Price);
-        Assert.Equals(actual.PricesCatalog[0].Id, sitter.PricesCatalog[0].Id);
-        Assert.Equals(actual.PricesCatalog[0].Sitter.Id, sitter.PricesCatalog[0].Sitter.Id);
-        Assert.Equals(actual.PricesCatalog[0].Service.Id, sitter.PricesCatalog[0].Service.Id);
+        Assert.AreEqual(actual.PricesCatalog[0].Price, sitter.PricesCatalog[0].Price);
+        Assert.AreEqual(actual.PricesCatalog[0].Id, sitter.PricesCatalog[0].Id);
+        Assert.AreEqual(actual.PricesCatalog[0].Sitter.Id, sitter.PricesCatalog[0].Sitter.Id);
+        Assert.AreEqual(actual.PricesCatalog[0].Service.Id, sitter.PricesCatalog[0].Service.Id);
 
         _sitterRepository.Verify(c => c.GetById(sitter.Id), Times.Exactly(2));
-        _sitterRepository.Verify(c => c.UpdatePriceCatalog(sitter.Id, priceCatalogForUpdate), Times.Once);
+        _sitterRepository.Verify(c => c.UpdatePriceCatalog(sitter), Times.Once);
     }
 }

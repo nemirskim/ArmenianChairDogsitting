@@ -28,47 +28,31 @@ namespace ArmenianChairDogsitting.Data.Repositories
             .FirstOrDefault(s => s.Id == id);
 
         public List<Sitter> GetSitters() => _context.Sitters
-            .Where(s => s.IsDeleted == false)
+            .Where(s => !s.IsDeleted)
             .AsNoTracking()
             .ToList();
 
-        public void RemoveOrRestoreById(int id)
+        public void RemoveOrRestoreById(Sitter sitter)
         {
-            var sitter = _context.Sitters.FirstOrDefault(s => s.Id == id);
-
-            sitter.IsDeleted = sitter.IsDeleted == true ? false : true;
-
             _context.Sitters.Update(sitter);
             _context.SaveChanges();
         }
 
-        public void Update(Sitter updateSitter, int id)
+        public void Update(Sitter newSitter)
         {
-            var sitter = _context.Sitters.FirstOrDefault(s => s.Id == id);
-            sitter.Name = updateSitter.Name;
-            sitter.LastName = updateSitter.LastName;
-            sitter.Phone = updateSitter.Phone;
-            sitter.Age = updateSitter.Age;
-            sitter.Experience = updateSitter.Experience;
-            sitter.Sex = updateSitter.Sex;
-            sitter.Description = updateSitter.Description;
-            _context.Sitters.Update(sitter);
+            _context.Sitters.Update(newSitter);
             _context.SaveChanges();
         }
 
-        public void UpdatePassword(int id, Sitter SitterPasswordForUpdate)
-        {
-            var sitter = _context.Sitters.FirstOrDefault(s => s.Id == id);
-            sitter.Password = SitterPasswordForUpdate.Password;
-            _context.Sitters.Update(sitter);
+        public void UpdatePassword(Sitter SitterPasswordForUpdate)
+        {   
+            _context.Sitters.Update(SitterPasswordForUpdate);
             _context.SaveChanges();
         }
 
-        public void UpdatePriceCatalog(int id, List<PriceCatalog> newPriceCatalog)
-        {
-            var sitter = _context.Sitters.FirstOrDefault(s => s.Id == id);
-            sitter.PricesCatalog = newPriceCatalog;
-            _context.Sitters.Update(sitter);
+        public void UpdatePriceCatalog(Sitter sitterWithNewPriceCatalog)
+        {   
+            _context.Sitters.Update(sitterWithNewPriceCatalog);
             _context.SaveChanges();
         }
     }

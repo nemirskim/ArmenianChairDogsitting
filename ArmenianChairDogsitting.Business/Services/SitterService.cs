@@ -17,11 +17,7 @@ public class SitterService : ISitterService
 
     public int Add(Sitter sitter) => _sitterRepository.Add(sitter);
 
-    public Sitter? GetById(int id)
-    {
-        var sitter = _sitterRepository.GetById(id);
-        return sitter;
-    }
+    public Sitter? GetById(int id) => _sitterRepository.GetById(id);
 
     public List<Sitter> GetSitters() => _sitterRepository.GetSitters();
 
@@ -32,7 +28,9 @@ public class SitterService : ISitterService
         if (sitter == null)
             throw new NotFoundException($"{ExceptionStorage.ChoosenSitterDoesNotExist}{id}");
 
-        _sitterRepository.RemoveOrRestoreById(id);
+        sitter.IsDeleted = sitter.IsDeleted == true ? false : true;
+
+        _sitterRepository.RemoveOrRestoreById(sitter);
     }
 
     public void Update(Sitter sitterForUpdate, int id)
@@ -42,7 +40,15 @@ public class SitterService : ISitterService
         if (sitter == null)
             throw new NotFoundException($"{ExceptionStorage.ChoosenSitterDoesNotExist}{id}");
 
-        _sitterRepository.Update(sitterForUpdate, id);
+        sitter.Name = sitterForUpdate.Name;
+        sitter.LastName = sitterForUpdate.LastName;
+        sitter.Phone = sitterForUpdate.Phone;
+        sitter.Age = sitterForUpdate.Age;
+        sitter.Experience = sitterForUpdate.Experience;
+        sitter.Sex = sitterForUpdate.Sex;
+        sitter.Description = sitterForUpdate.Description;
+
+        _sitterRepository.Update(sitter);
     }
 
     public void UpdatePassword(int id, Sitter passwordSitterForUpadate)
@@ -52,7 +58,9 @@ public class SitterService : ISitterService
         if (sitter == null)
             throw new NotFoundException($"{ExceptionStorage.ChoosenSitterDoesNotExist}{id}");
 
-        _sitterRepository.UpdatePassword(id, passwordSitterForUpadate);
+        sitter.Password = passwordSitterForUpadate.Password;
+
+        _sitterRepository.UpdatePassword(sitter);
     }
 
     public void UpdatePriceCatalog(int id, List<PriceCatalog> priceCatalog)
@@ -62,6 +70,8 @@ public class SitterService : ISitterService
         if (sitter == null)
             throw new NotFoundException($"{ExceptionStorage.ChoosenSitterDoesNotExist}{id}");
 
-        _sitterRepository.UpdatePriceCatalog(id, priceCatalog);
+        sitter.PricesCatalog = priceCatalog;
+
+        _sitterRepository.UpdatePriceCatalog(sitter);
     }
 }
