@@ -143,7 +143,7 @@ public class SitterRepositoryTests
     public void GetSitters_WhenCalled_ReturnsAllSitters()
     {
         //given
-        int expectedCount = 4;
+        int expectedCount = 3;
 
         //when
         var actualSitters = _sut.GetSitters();
@@ -159,9 +159,11 @@ public class SitterRepositoryTests
     {
         //given
         int sitterId = 2;
+        var sitter = _sut.GetById(sitterId);
+        sitter.IsDeleted = true;
 
         //when
-        _sut.RemoveOrRestoreById(sitterId);
+        _sut.RemoveOrRestoreById(sitter);
 
         //then
         var actualSitter = _sut.GetById(sitterId);
@@ -175,9 +177,11 @@ public class SitterRepositoryTests
     {
         //given
         int sitterId = 4;
+        var sitter = _sut.GetById(sitterId);
+        sitter.IsDeleted = false;
 
         //when
-        _sut.RemoveOrRestoreById(sitterId);
+        _sut.RemoveOrRestoreById(sitter);
 
         //then
         var actualSitter = _sut.GetById(sitterId);
@@ -191,31 +195,24 @@ public class SitterRepositoryTests
     {
         //given
         int sitterId = 1;
+        var sitter = _sut.GetById(sitterId);
 
-        var sitterForUpdate = new Sitter
-        {
-            Name = "Andrey",
-            LastName = "Pistoletov",
-            Phone = "89992226116",
-            Age = 28,
-            Experience = 7,
-            Sex = Sex.Male,
-            Description = "I love dogs"
-        };
-
+        sitter.Name = "Evgeniu";
+        sitter.LastName = "Ponasenkov";
+        sitter.Phone = "89997778866";
         //when
-        _sut.Update(sitterForUpdate, sitterId);
+        _sut.Update(sitter);
 
         //then
         var actualSitter = _sut.GetById(sitterId);
 
-        Assert.True(actualSitter.Name == sitterForUpdate.Name);
-        Assert.True(actualSitter.LastName == sitterForUpdate.LastName);
-        Assert.True(actualSitter.Phone == sitterForUpdate.Phone);
-        Assert.True(actualSitter.Age == sitterForUpdate.Age);
-        Assert.True(actualSitter.Experience == sitterForUpdate.Experience);
-        Assert.True(actualSitter.Sex == sitterForUpdate.Sex);
-        Assert.True(actualSitter.Description == sitterForUpdate.Description);
+        Assert.True(actualSitter.Name == sitter.Name);
+        Assert.True(actualSitter.LastName == sitter.LastName);
+        Assert.True(actualSitter.Phone == sitter.Phone);
+        Assert.True(actualSitter.Age == sitter.Age);
+        Assert.True(actualSitter.Experience == sitter.Experience);
+        Assert.True(actualSitter.Sex == sitter.Sex);
+        Assert.True(actualSitter.Description == sitter.Description);
     }
 
     [Test]
@@ -224,14 +221,16 @@ public class SitterRepositoryTests
         //given
         string passwordForUpdate = "987654321";
         int sitterId = 2;
+        var sitter = _sut.GetById(sitterId);
+        sitter.Password = passwordForUpdate;
 
         //when
-        _sut.UpdatePassword(sitterId, passwordForUpdate);
+        _sut.UpdatePassword(sitter);
 
         //then
         var actualSitter = _sut.GetById(sitterId);
 
-        Assert.True(actualSitter.Password == passwordForUpdate);
+        Assert.True(actualSitter.Password == sitter.Password);
     }
 
     [Test]
@@ -287,9 +286,11 @@ public class SitterRepositoryTests
         };
                     
         int sitterId = 3;
+        var sitter = _sut.GetById(sitterId);
+        sitter.PricesCatalog = priceCatalogForUpdate;
 
         //when
-        _sut.UpdatePriceCatalog(sitterId, priceCatalogForUpdate);
+        _sut.UpdatePriceCatalog(sitter);
 
         //then
         var actualSitter = _sut.GetById(sitterId);
