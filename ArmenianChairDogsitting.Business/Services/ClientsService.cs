@@ -8,17 +8,14 @@ namespace ArmenianChairDogsitting.Business;
 public class ClientsService : IClientsService
 {
     private readonly IClientsRepository _clientsRepository;
-    private readonly IMapper _mapper;
 
-    public ClientsService(IClientsRepository clientsRepository, IMapper mapper)
+    public ClientsService(IClientsRepository clientsRepository)
     {
         _clientsRepository = clientsRepository;
-        _mapper = mapper;
     }
 
-    public int AddClient(Client clientModel)
+    public int AddClient(Client client)
     {
-        var client = _mapper.Map<Client>(clientModel);
         client.Role = Role.Client;
 
         var id = _clientsRepository.AddClient(client);
@@ -32,13 +29,13 @@ public class ClientsService : IClientsService
         if (client is null)
             throw new NotFoundException("Client was not found");
 
-        return _mapper.Map<Client>(client);
+        return client;
     }
 
     public List<Client> GetAllClients()
     {
         var clients = _clientsRepository.GetAllClients();
-        return _mapper.Map<List<Client>>(clients);
+        return clients;
     }
 
     public void UpdateClient(Client client, int id)
@@ -47,7 +44,6 @@ public class ClientsService : IClientsService
             throw new NotFoundException("Client was not found");
 
         _clientsRepository.UpdateClient(client);
-        _mapper.Map<Client>(client);
     }
 
     public void RemoveOrRestoreClient(int id, bool isDeleted)
@@ -62,6 +58,5 @@ public class ClientsService : IClientsService
 
         else
         _clientsRepository.RemoveOrRestoreClient(id, isDeleted);
-        _mapper.Map<Client>(client);
     } 
 }
