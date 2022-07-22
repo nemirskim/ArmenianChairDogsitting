@@ -26,7 +26,7 @@ public class SitterService : ISitterService
         var sitter = _sitterRepository.GetById(id);
 
         if (sitter == null)
-            throw new NotFoundException($"{ExceptionStorage.ChoosenSitterDoesNotExist}{id}");
+            throw new NotFoundException($"{ExceptionMessage.ChoosenSitterDoesNotExist}{id}");
 
         sitter.IsDeleted = sitter.IsDeleted == true ? false : true;
 
@@ -38,7 +38,7 @@ public class SitterService : ISitterService
         var sitter = _sitterRepository.GetById(id);
 
         if (sitter == null)
-            throw new NotFoundException($"{ExceptionStorage.ChoosenSitterDoesNotExist}{id}");
+            throw new NotFoundException($"{ExceptionMessage.ChoosenSitterDoesNotExist}{id}");
 
         sitter.Name = sitterForUpdate.Name;
         sitter.LastName = sitterForUpdate.LastName;
@@ -56,7 +56,7 @@ public class SitterService : ISitterService
         var sitter = _sitterRepository.GetById(id);
 
         if (sitter == null)
-            throw new NotFoundException($"{ExceptionStorage.ChoosenSitterDoesNotExist}{id}");
+            throw new NotFoundException($"{ExceptionMessage.ChoosenSitterDoesNotExist}{id}");
 
         sitter.Password = passwordSitterForUpadate.Password;
 
@@ -68,7 +68,7 @@ public class SitterService : ISitterService
         var sitter = _sitterRepository.GetById(id);
 
         if (sitter == null)
-            throw new NotFoundException($"{ExceptionStorage.ChoosenSitterDoesNotExist}{id}");
+            throw new NotFoundException($"{ExceptionMessage.ChoosenSitterDoesNotExist}{id}");
 
         sitter.PricesCatalog = priceCatalog;
 

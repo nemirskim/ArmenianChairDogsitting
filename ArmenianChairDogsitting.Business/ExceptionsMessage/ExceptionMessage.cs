@@ -1,6 +1,6 @@
 ﻿namespace ArmenianChairDogsitting.Business.ExceptionsStorage;
 
-public class ExceptionStorage
+public class ExceptionMessage
 {
     public const string ChoosenSitterDoesNotExist = "Нет ситера с id = ";
 }
