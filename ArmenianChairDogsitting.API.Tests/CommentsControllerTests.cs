@@ -11,18 +11,12 @@ namespace ArmenianChairDogsitting.API.Tests
     {
         private ÑommentsController _sut;
         private Mock<ICommentsService> _commentsServiceMock;
-        private IMapper _mapper;
 
         [SetUp]
         public void Setup()
         {
-            var mockMapper = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile(new APIMapperConfigStorage());
-            });
-            _mapper = mockMapper.CreateMapper();
             _commentsServiceMock = new Mock<ICommentsService>();
-            _sut = new ÑommentsController(_commentsServiceMock.Object, _mapper);
+            _sut = new ÑommentsController(_commentsServiceMock.Object);
         }
 
         [Test]
