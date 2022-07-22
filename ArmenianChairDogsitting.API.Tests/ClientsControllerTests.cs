@@ -13,18 +13,17 @@ public class ClientsControllerTests
 {
     private ClientsController _sut;
     private Mock<IClientsService> _clientsServiceMock;
-    private Mock<IMapper> _mapper;
+    private IMapper _mapper;
 
     [SetUp]
     public void SetUp()
     {
-        _mapper = new Mock<IMapper>();
         _clientsServiceMock = new Mock<IClientsService>();
-        _sut = new ClientsController(_clientsServiceMock.Object, _mapper.Object);
+        _sut = new ClientsController(_clientsServiceMock.Object, _mapper);
     }
 
     [Test]
-    public void AddClientTest_WhenRequestPassed_ThenNewProfileCreated()
+    public void AddClientTest_WhenRequestPassed_ThenCreatedResultReceived()
     {
         //given
         var id = 23;
@@ -70,13 +69,12 @@ public class ClientsControllerTests
             Phone = "+79265418392",
             Email = "traktor@gmail.com"
         };
-        var id = 1;
 
         _clientsServiceMock
-            .Setup(c => c.GetClientById(It.IsAny<int>())).Returns(client);
+            .Setup(c => c.GetClientById(client.Id)).Returns(client);
 
         //when
-        var actual = _sut.GetClientById(id);
+        var actual = _sut.GetClientById(client.Id);
 
         //then
         var actualResult = actual.Result as ObjectResult;
@@ -84,7 +82,7 @@ public class ClientsControllerTests
         Assert.AreEqual(StatusCodes.Status200OK, actualResult.StatusCode);
         Assert.AreEqual(client.GetType(), actualResult.Value.GetType());
 
-        _clientsServiceMock.Verify(c => c.GetClientById(id), Times.Once);
+        _clientsServiceMock.Verify(c => c.GetClientById(client.Id), Times.Once);
     }
 
     [Test]
@@ -132,73 +130,64 @@ public class ClientsControllerTests
     {
         //given
         var id = 1;
-        var client = new Client()
-        {
-            Id = 1,
-            Name = "Lee",
-            LastName = "Takami",
-            Phone = "+79265418392",
-            Email = "traktor@gmail.com"
-        };
-
         var clientToUpdate = new ClientUpdateRequest()
         {
-            Name = "Lea"
+            Name = "Lea",
+            LastName = "Lea",
+            Phone = "+79450186206",
+            Email = "nti@gmail.com"
         };
 
+        _clientsServiceMock.Setup(c => c.UpdateClient(It.IsAny<Client>(), id));
+
         //when
-        var actual = _sut.UpdateClient(clientToUpdate, client.Id);
+        var actual = _sut.UpdateClient(clientToUpdate, id);
 
         //then
         var actualResult = actual as OkResult;
 
         Assert.AreEqual(StatusCodes.Status200OK, actualResult.StatusCode);
+
+        _clientsServiceMock.Verify(c => c.UpdateClient(It.Is<Client>, id (c =>
+            c.Name == clientToUpdate.Name &&
+            c.LastName == clientToUpdate.LastName &&
+            c.Phone == clientToUpdate.Phone &&
+            c.Email == clientToUpdate.Email
+        )), Times.Once);
     }
 
     [Test]
-    public void RemoveClientTest_WhenCorrectIdPassed_ThenSoftDeleteApplied()
+    public void RemoveClientTest_WhenCorrectIdPassed_ThenNoContentResultReceived()
     {
         //given
-        var client = new Client()
-        {
-            Id = 1,
-            Name = "Lee",
-            LastName = "Takami",
-            Phone = "+79265418392",
-            Email = "traktor@gmail.com",
-            IsDeleted = false
-        };
+        var id = 1;
 
         //when
-        var actual = _sut.RemoveClient(client.Id);
+        var actual = _sut.RemoveClient(id);
 
         //then
         var actualResult = actual as NoContentResult;
 
         Assert.AreEqual(StatusCodes.Status204NoContent, actualResult.StatusCode);
+
+        _clientsServiceMock.Verify(c => c.RemoveOrRestoreClient(id, true), Times.Once);
     }
 
     [Test]
     public void RestoreClientTest_WhenCorrectIdIsPassed_ThenRestoreClientProfile()
     {
         //given
-        var client = new Client()
-        {
-            Id = 1,
-            Name = "Lee",
-            LastName = "Takami",
-            Phone = "+79265418392",
-            Email = "traktor@gmail.com",
-            IsDeleted = true
-        };
+        var id = 1;
 
         //when
-        var actual = _sut.RestoreClient(client.Id);
+        var actual = _sut.RestoreClient(id);
 
         //then
         var actualResult = actual as NoContentResult;
 
         Assert.AreEqual(StatusCodes.Status204NoContent, actualResult.StatusCode);
+
+        _clientsServiceMock.Verify(c => c.RemoveOrRestoreClient(id, false), Times.Once);
     }
 
 }
