@@ -8,6 +8,7 @@ namespace ArmenianChairDogsitting.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<Animal> Animals { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<Client> Clients { get; set; }
         public DbSet<Sitter> Sitters { get; set; }
 
         public ArmenianChairDogsittingContext(DbContextOptions<ArmenianChairDogsittingContext> options)

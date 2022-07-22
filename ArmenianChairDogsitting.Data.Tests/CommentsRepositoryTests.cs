@@ -14,11 +14,9 @@ public class CommentsRepositoryTests
     [SetUp]
     public void Setup()
     {
-        Random random = new Random();
-
         _dbContextOptions = new DbContextOptionsBuilder<ArmenianChairDogsittingContext>()
-        .UseInMemoryDatabase(databaseName: $"TestDb")
-        .Options;
+            .UseInMemoryDatabase(databaseName: $"TestDb")
+            .Options;
 
         _context = new ArmenianChairDogsittingContext(_dbContextOptions);
         _context.Database.EnsureDeleted();
@@ -30,17 +28,17 @@ public class CommentsRepositoryTests
             IsDeleted = false,
             TimeCreated = _created,
             Title = "Chu papi mu nanyo",
-            Client = new() { Name = "Grisha" },
+            Client = new() { Name = "Grisha", LastName = "Grisha" },
             Order = new OrderOverexpose(),
             Rating = 3,
-        }) ;
+        });
 
         _context.Comments.Add(new Comment()
         {
             IsDeleted = true,
             TimeCreated = _created,
             Title = "Chiki briki v damki",
-            Client = new() { Name = "Egor" },
+            Client = new() { Name = "Egor", LastName = "Egor" },
             Order = new OrderOverexpose(),
             Rating = 1
         });
@@ -50,7 +48,7 @@ public class CommentsRepositoryTests
             IsDeleted = false,
             TimeCreated = _created,
             Title = "Sitter Lost My Dog",
-            Client = new() { Name = "Vova" },
+            Client = new() { Name = "Vova", LastName = "Vova" },
             Order = new OrderWalk(),
             Rating = 5
         });
