@@ -21,7 +21,7 @@ public class CommentsService : ICommentsService
 
         if(chosenComment is null)
         {
-            throw new NotFoundException($"{ExceptionStorage.ChoosenCommentDoesNotExist}{id}");
+            throw new NotFoundException($"{ExceptionMessage.ChoosenCommentDoesNotExist}{id}");
         }
 
         _commentsRepository.DeleteCommentById(id);

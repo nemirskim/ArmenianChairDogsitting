@@ -27,8 +27,6 @@ public class CommentsServiceTests
         _commentsRepository
             .Setup(x => x.GetCommentById(It.IsAny<int>()))
             .Returns(new Comment() { Id = id, IsDeleted = false });
-        _commentsRepository
-            .Setup(x => x.DeleteCommentById(It.IsAny<int>()));
 
         //when
         _sut.DeleteCommentById(id);
@@ -49,12 +47,10 @@ public class CommentsServiceTests
         _commentsRepository
             .Setup(x => x.GetCommentById(It.IsAny<int>()))
             .Returns(comment);
-        _commentsRepository
-            .Setup(x => x.DeleteCommentById(It.IsAny<int>()));
 
         //when then
         Assert.Throws<NotFoundException>(() => _sut.DeleteCommentById(id));
-        _commentsRepository.Verify(x => x.GetCommentById(It.IsAny<int>()), Times.Once);
-        _commentsRepository.Verify(x => x.DeleteCommentById(It.IsAny<int>()), Times.Never);
+        _commentsRepository.Verify(x => x.GetCommentById(id), Times.Once);
+        _commentsRepository.Verify(x => x.DeleteCommentById(id), Times.Never);
     }
 }

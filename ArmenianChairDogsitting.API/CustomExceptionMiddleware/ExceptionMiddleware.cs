@@ -21,11 +21,11 @@ public class ExceptionMiddleware
         }
         catch (NotFoundException error)
         {
-            await HandleExceptionAsync(httpContext, HttpStatusCode.NotFound, error.Message);
+            await HandleExceptionAsync(httpContext, HttpStatusCode.BadRequest, error.Message);
         }
         catch (Exception error)
         {
-            await HandleExceptionAsync(httpContext, HttpStatusCode.BadRequest, error.Message);
+            await HandleExceptionAsync(httpContext, HttpStatusCode.InternalServerError, error.Message);
         }
     }
 

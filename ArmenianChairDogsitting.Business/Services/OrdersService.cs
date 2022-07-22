@@ -28,9 +28,6 @@ public class OrdersService : IOrdersService
     {
         var chosenOrder = _ordersRepository.GetOrderById(orderId);
 
-        if(chosenOrder == null) 
-            throw new NotFoundException($"{ExceptionStorage.ChoosenCommentDoesNotExist}{orderId}");
-
         return chosenOrder;
     }
 
@@ -39,7 +36,7 @@ public class OrdersService : IOrdersService
         var chosenOrder = _ordersRepository.GetOrderById(orderId);
 
         if (chosenOrder == null)
-            throw new NotFoundException($"{ExceptionStorage.ChoosenCommentDoesNotExist}{orderId}");
+            throw new NotFoundException($"{ExceptionMessage.ChoosenCommentDoesNotExist}{orderId}");
 
         _ordersRepository.UpdateOrderStatus(status, orderId);
     }
@@ -49,7 +46,7 @@ public class OrdersService : IOrdersService
         var chosenOrder = _ordersRepository.GetOrderById(orderId);
 
         if (chosenOrder == null)
-            throw new NotFoundException($"{ExceptionStorage.ChoosenCommentDoesNotExist}{orderId}");
+            throw new NotFoundException($"{ExceptionMessage.ChoosenCommentDoesNotExist}{orderId}");
 
         return chosenOrder.Comments;
     }
@@ -59,7 +56,7 @@ public class OrdersService : IOrdersService
         var chosenOrder = _ordersRepository.GetOrderById(orderId);
 
         if (chosenOrder == null)
-            throw new NotFoundException($"{ExceptionStorage.ChoosenCommentDoesNotExist}{orderId}");
+            throw new NotFoundException($"{ExceptionMessage.ChoosenCommentDoesNotExist}{orderId}");
 
         return _ordersRepository.AddCommentToOrder(orderId, commentToAdd);
     }

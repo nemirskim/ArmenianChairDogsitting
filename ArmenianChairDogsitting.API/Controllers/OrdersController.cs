@@ -41,7 +41,7 @@ namespace ArmenianChairDogsitting.API.Controllers
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(void), StatusCodes.Status405MethodNotAllowed)]
         [ProducesResponseType(typeof(void), StatusCodes.Status422UnprocessableEntity)]
         public ActionResult ChangeOrderStatus([FromBody] Status orderStatus, int id)
@@ -59,7 +59,14 @@ namespace ArmenianChairDogsitting.API.Controllers
         public ActionResult<AbstractOrderResponse> GetOrderById(int id)
         {
             var result = _ordersService.GetOrderById(id);
-            return Ok(_mapper.Map<AbstractOrderResponse>(result));
+            if (result is null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(_mapper.Map<AbstractOrderResponse>(result));
+            }
         }
 
         [HttpGet]
@@ -78,7 +85,7 @@ namespace ArmenianChairDogsitting.API.Controllers
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(List<AbstractOrderResponse>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
         public ActionResult<List<CommentResponse>> GetCommentsByOrderId([FromRoute] int id)
         {
             var result = _ordersService.GetCommentsByOrderId(id);
@@ -90,7 +97,7 @@ namespace ArmenianChairDogsitting.API.Controllers
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(List<AbstractOrderResponse>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
         public ActionResult<int> AddCommentToOrder([FromRoute]int id, [FromBody]CommentRequest commentToAdd)
         {
             var result = _ordersService.AddCommentToOrder(id, _mapper.Map<Comment>(commentToAdd));
