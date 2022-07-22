@@ -22,9 +22,10 @@ public class SearchController : Controller
     [HttpPost]
     [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status422UnprocessableEntity)]
-    public ActionResult<List<SitterAllInfoResponse>> GetSitters([FromBody] SearchRequest searchOptions)
+    public ActionResult<List<SitterAllInfoResponse>> GetSittersBySearchParams([FromBody] SearchRequest searchOptions)
     {
-        var result = _searchService.GetSittersBySearchParams(_mapper.Map<SearchParams>(searchOptions));
-        return _mapper.Map<List<SitterAllInfoResponse>>(result);
+        var a = _mapper.Map<SearchParams>(searchOptions);
+        var result = _searchService.GetSittersBySearchParams(a);
+        return Ok(_mapper.Map<List<SitterAllInfoResponse>>(result));
     }
 }

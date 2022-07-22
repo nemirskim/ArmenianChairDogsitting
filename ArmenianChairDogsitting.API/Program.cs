@@ -1,3 +1,4 @@
+using ArmenianChairDogsitting.API;
 using ArmenianChairDogsitting.API.Infrastructure;
 using ArmenianChairDogsitting.Business;
 using ArmenianChairDogsitting.Data;
@@ -75,7 +76,7 @@ builder.Services.AddScoped<IOrdersRepository, OrdersRepository>();
 builder.Services.AddScoped<ICommentsRepository, CommentsRepository>();
 builder.Services.AddScoped<ISearchRepository, SearchRepository>();
 
-builder.Services.AddAutoMapper(typeof(MapperConfigStorage));
+builder.Services.AddAutoMapper(typeof(MapperConfigStorage), typeof(APIMapperConfigStorage));
 
 var app = builder.Build();
 
