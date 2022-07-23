@@ -298,26 +298,17 @@ public class SitterRepositoryTests
         //sitter.PricesCatalog = priceCatalogForUpdate;
 
         bool isExist = false;
-        var deleteServices = new List<PriceCatalog>();
 
-        foreach (var sitterPrice in sitter.PricesCatalog)
+        sitter.PricesCatalog.RemoveAll(sitterService =>
         {
-            foreach (var price in priceCatalogForUpdate)
+            foreach(var service in priceCatalogForUpdate)
             {
-                if (price.Service.Id == sitterPrice.Service.Id)
-                {
-                    isExist = true;
-                    break;
-                }
+                if (service.Service.Id == sitterService.Service.Id)
+                    return false;
             }
 
-            if (!isExist)
-                deleteServices.Add(sitterPrice);
-
-            isExist = false;
-        }
-
-        sitter.PricesCatalog.RemoveAll(price => deleteServices.Contains(price));
+            return true;
+        });
 
         foreach (var price in priceCatalogForUpdate)
         {
