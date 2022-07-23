@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using ArmenianChairDogsitting.Data.Enums;
-using System.ComponentModel.DataAnnotations;
 using ArmenianChairDogsitting.API.Extensions;
 using ArmenianChairDogsitting.API.Infrastructure;
 
@@ -8,6 +7,7 @@ namespace ArmenianChairDogsitting.API.Models;
 
 public abstract class AbstractOrderResponse
 {
+    public int Id { get; set; }
     [Required]
     public int ClientId { get; set; }
     [Required]

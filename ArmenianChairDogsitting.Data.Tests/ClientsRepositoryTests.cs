@@ -1,12 +1,6 @@
 ﻿using ArmenianChairDogsitting.Data.Entities;
 using ArmenianChairDogsitting.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
-using ArmenianChairDogsitting.Data.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ArmenianChairDogsitting.Data.Tests;
 
@@ -35,7 +29,6 @@ public class ClientsRepositoryTests
             Dogs = new()
                 { new() { Id = 1, Name = "Bob" }},
             IsDeleted = false
-            //Orders = new Order() { Id = 1, Type = new DailySitting() },       
         });
 
         _context.Clients.Add(new Client()
@@ -45,8 +38,7 @@ public class ClientsRepositoryTests
             LastName = "Zasnul",
             Dogs = new()
                 { new() { Id = 65, Name = "Persik" }},
-            IsDeleted = true
-            //Orders = new Order() { Id = 1, Type = new DailySitting() },       
+            IsDeleted = true 
         });
 
         _context.SaveChanges();
