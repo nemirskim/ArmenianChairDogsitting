@@ -77,23 +77,31 @@ public class SittersController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
-    public ActionResult RemoveOrRestoreSitterById(int id)
+    public ActionResult RemoveSitterById(int id)
     {
-        _sittersService.RemoveOrRestoreById(id);
+        _sittersService.RemoveById(id);
         return NoContent();
     }
 
     [AuthorizeByRole(Role.Sitter)]
-    [HttpPatch("{id}/Password")]
+    [HttpPatch("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult UpdatePasswordSitter
-        (
-        int id, 
-        [FromBody]SitterUpdatePasswordRequest sitterPasswordForUpdate
-        )
+    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
+    public ActionResult RestoreSitterById(int id)
+    {
+        _sittersService.RestoreById(id);
+        return NoContent();
+    }
+
+    [AuthorizeByRole(Role.Sitter)]
+    [HttpPatch("{id}/password")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
+    public ActionResult UpdatePasswordSitter(int id, [FromBody]SitterUpdatePasswordRequest sitterPasswordForUpdate)
     {
         _sittersService.UpdatePassword(id, _mapper.Map<Sitter>(sitterPasswordForUpdate));
         return NoContent();
@@ -112,7 +120,7 @@ public class SittersController : Controller
     }
 
     [AuthorizeByRole(Role.Sitter)]
-    [HttpGet("{id}/Schedule")]
+    [HttpGet("{id}/schedule")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]

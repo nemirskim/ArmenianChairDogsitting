@@ -21,14 +21,26 @@ public class SitterService : ISitterService
 
     public List<Sitter> GetSitters() => _sitterRepository.GetSitters();
 
-    public void RemoveOrRestoreById(int id)
+    public void RemoveById(int id)
     {
         var sitter = _sitterRepository.GetById(id);
 
         if (sitter == null)
             throw new NotFoundException($"{ExceptionMessage.ChoosenSitterDoesNotExist}{id}");
 
-        sitter.IsDeleted = sitter.IsDeleted == true ? false : true;
+        sitter.IsDeleted = true;
+
+        _sitterRepository.RemoveOrRestoreById(sitter);
+    }
+    
+    public void RestoreById(int id)
+    {
+        var sitter = _sitterRepository.GetById(id);
+
+        if (sitter == null)
+            throw new NotFoundException($"{ExceptionMessage.ChoosenSitterDoesNotExist}{id}");
+
+        sitter.IsDeleted = false;
 
         _sitterRepository.RemoveOrRestoreById(sitter);
     }
