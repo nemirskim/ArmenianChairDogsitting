@@ -21,7 +21,7 @@ public class SitterServiceTests
     }
 
     [Test]
-    public void AddSitter_WhenValidPassed_ThenReturnIdOfAddedSitter()
+    public void AddSitter_WhenValidationPassed_ThenReturnIdOfAddedSitter()
     {
         //given
         var expectedId = 1;
@@ -245,7 +245,7 @@ public class SitterServiceTests
     }
 
     [Test]
-    public void UpdateSitter_WhenValidPassed_ThenUpdateProperties()
+    public void UpdateSitter_WhenValidationPassed_ThenUpdateProperties()
     {
         //given
 
