@@ -163,7 +163,7 @@ public class SitterServiceTests
     }
 
     [Test]
-    public void RemoveOrRestoreById_WhenIsDeletedEqualsFalse_ThenDeleteSitter()
+    public void RemoveById_WhenIsDeletedEqualsFalse_ThenDeleteSitter()
     {
         ///given
         var expectedSitter = new Sitter()
@@ -186,7 +186,7 @@ public class SitterServiceTests
         _sitterRepository.Setup(o => o.GetById(expectedSitter.Id)).Returns(expectedSitter);
 
         //when
-        _sut.RemoveOrRestoreById(expectedSitter.Id);
+        _sut.RemoveById(expectedSitter.Id);
 
 
         //then
@@ -203,7 +203,7 @@ public class SitterServiceTests
     }
 
     [Test]
-    public void RemoveOrRestoreById_WhenIsDeletedEqualsTrue_ThenRestoreSitter()
+    public void RemoveById_WhenIsDeletedEqualsTrue_ThenRestoreSitter()
     {
         ///given
         var expectedSitter = new Sitter()
@@ -228,7 +228,7 @@ public class SitterServiceTests
 
 
         //when
-        _sut.RemoveOrRestoreById(expectedSitter.Id);
+        _sut.RestoreById(expectedSitter.Id);
 
 
         //then
@@ -294,13 +294,60 @@ public class SitterServiceTests
         Assert.AreEqual(sitter.Experience, actual.Experience);
         Assert.AreEqual(sitter.Sex, actual.Sex);
         Assert.AreEqual(sitter.Description, actual.Description);
+        Assert.AreEqual(sitter.Id, 10);
+        Assert.AreEqual(sitter.Password, "123456789");
+        Assert.AreEqual(sitter.Email, "pistol@pi.com");
+        Assert.False(actual.IsDeleted);
 
         _sitterRepository.Verify(c => c.GetById(sitter.Id), Times.Exactly(2));
         _sitterRepository.Verify(c => c.Update(sitter), Times.Once);
     }
 
     [Test]
-    public void UpdatePassword_WhenValidPassed_ThenUpdatePassword()
+    public void UpdateSitter_WhenSitterIsNotExist_ThenNotFoundExeption()
+    {
+        //given
+        int sitterId = 1;
+
+        var sitter = new Sitter()
+        {
+            Id = 10,
+            Name = "Alex",
+            LastName = "Pistoletov",
+            Phone = "89991116116",
+            Email = "pistol@pi.com",
+            Password = "123456789",
+            Age = 27,
+            Experience = 7,
+            Sex = Sex.Male,
+            Description = "",
+            PricesCatalog = new List<PriceCatalog>(),
+            Orders = new List<Order>(),
+            IsDeleted = false
+        };
+
+
+        var sitterForUpdate = new Sitter()
+        {
+            Name = "Alex",
+            LastName = "Abramov",
+            Phone = "89991116116",
+            Age = 27,
+            Experience = 7,
+            Sex = Sex.Male,
+            Description = ""
+        };
+
+        _sitterRepository.Setup(o => o.GetById(sitter.Id)).Returns(sitter);
+
+        //when
+
+        //then
+        Assert.Throws<NotFoundException>(() => _sut.Update(sitterForUpdate, sitterId));
+    }
+
+    [Test]
+    public void UpdatePassword_WhenValidationPassed_ThenUpdatePassword()
     {
         //given
 
@@ -322,10 +369,7 @@ public class SitterServiceTests
         };
 
 
-        var sitterPasswordForUpdate = new Sitter
-        {
-            Password = "987654321"
-        };
+        string sitterPasswordForUpdate = "987654321";
 
         _sitterRepository.Setup(o => o.GetById(sitter.Id)).Returns(sitter);
 
@@ -343,9 +387,116 @@ public class SitterServiceTests
     }
 
     [Test]
-    public void UpdatePriceCatalog_WhenValidPassed_ThenUpdatePriceCatalog()
+    public void UpdatePassword_WhenSitterIsNotExist_ThenNotFoundExeption()
     {
         //given
+        int sitterId = 1;
+
+        var sitter = new Sitter()
+        {
+            Id = 10,
+            Name = "Alex",
+            LastName = "Pistoletov",
+            Phone = "89991116116",
+            Email = "pistol@pi.com",
+            Password = "123456789",
+            Age = 27,
+            Experience = 7,
+            Sex = Sex.Male,
+            Description = "",
+            PricesCatalog = new List<PriceCatalog>(),
+            Orders = new List<Order>(),
+            IsDeleted = false
+        };
+
+
+        var sitterPasswordForUpdate = "987654321";
+
+        _sitterRepository.Setup(o => o.GetById(sitter.Id)).Returns(sitter);
+
+        //when
+
+        //then
+        Assert.Throws<NotFoundException>(() => _sut.UpdatePassword(sitterId, sitterPasswordForUpdate));
+    }
+
+    [Test]
+    public void UpdatePriceCatalog_WhenValidationPassed_ThenUpdatePriceCatalog()
+    {
+        //given
+
+        var sitter = new Sitter()
+        {
+            Id = 10,
+            Name = "Alex",
+            LastName = "Pistoletov",
+            Phone = "89991116116",
+            Email = "pistol@pi.com",
+            Password = "123456789",
+            Age = 27,
+            Experience = 7,
+            Sex = Sex.Male,
+            Description = "",
+            PricesCatalog = new List<PriceCatalog>{
+                new PriceCatalog
+                {
+                    Id = 2,
+                    Price = 500,
+                    Sitter = new Sitter {Id = 1 },
+                    Service = new Service {Id = ServiceEnum.DailySitting }
+                }
+            },
+            Orders = new List<Order>(),
+            IsDeleted = false
+        };
+
+
+        var priceCatalogForUpdate = new List<PriceCatalog>
+        {
+            new PriceCatalog
+            {
+                Id = 1,
+                Price = 800,
+                Sitter = new Sitter {Id = 1 },
+                Service = new Service {Id = ServiceEnum.Overexpose }
+            },
+            new PriceCatalog
+            {
+                Id = 2,
+                Price = 600,
+                Sitter = new Sitter {Id = 1 },
+                Service = new Service {Id = ServiceEnum.DailySitting }
+            }
+        };
+
+        _sitterRepository.Setup(o => o.GetById(sitter.Id)).Returns(sitter);
+
+        //when
+        _sut.UpdatePriceCatalog(sitter.Id, priceCatalogForUpdate);
+
+        //then
+        var actual = _sut.GetById(sitter.Id);
+
+
+        Assert.True(actual.PricesCatalog is not null);
+        Assert.AreEqual(actual.PricesCatalog[0].Price, sitter.PricesCatalog[0].Price);
+        Assert.AreEqual(actual.PricesCatalog[1].Price, sitter.PricesCatalog[1].Price);
+        Assert.AreEqual(actual.PricesCatalog[0].Id, sitter.PricesCatalog[0].Id);
+        Assert.AreEqual(actual.PricesCatalog[1].Id, sitter.PricesCatalog[1].Id);
+        Assert.AreEqual(actual.PricesCatalog[0].Sitter.Id, sitter.PricesCatalog[0].Sitter.Id);
+        Assert.AreEqual(actual.PricesCatalog[1].Sitter.Id, sitter.PricesCatalog[1].Sitter.Id);
+        Assert.AreEqual(actual.PricesCatalog[0].Service.Id, sitter.PricesCatalog[0].Service.Id);
+        Assert.AreEqual(actual.PricesCatalog[1].Service.Id, sitter.PricesCatalog[1].Service.Id);
+
+        _sitterRepository.Verify(c => c.GetById(sitter.Id), Times.Exactly(2));
+        _sitterRepository.Verify(c => c.UpdatePriceCatalog(sitter), Times.Once);
+    }
+
+    [Test]
+    public void UpdatePriceCatalog_WhenSitterIsNotExist_ThenNotFoundExeption()
+    {
+        //given
+        int sitterId = 5;
 
         var sitter = new Sitter()
         {
@@ -369,8 +520,15 @@ public class SitterServiceTests
         {
             new PriceCatalog
             {
+                Id = 1,
+                Price = 800,
+                Sitter = new Sitter {Id = 1 },
+                Service = new Service {Id = ServiceEnum.Overexpose }
+            },
+            new PriceCatalog
+            {
                 Id = 2,
-                Price = 500,
+                Price = 600,
                 Sitter = new Sitter {Id = 1 },
                 Service = new Service {Id = ServiceEnum.DailySitting }
             }
@@ -379,19 +537,9 @@ public class SitterServiceTests
         _sitterRepository.Setup(o => o.GetById(sitter.Id)).Returns(sitter);
 
         //when
-        _sut.UpdatePriceCatalog(sitter.Id, priceCatalogForUpdate);
 
         //then
-        var actual = _sut.GetById(sitter.Id);
 
-
-        Assert.True(actual.PricesCatalog is not null);
-        Assert.AreEqual(actual.PricesCatalog[0].Price, sitter.PricesCatalog[0].Price);
-        Assert.AreEqual(actual.PricesCatalog[0].Id, sitter.PricesCatalog[0].Id);
-        Assert.AreEqual(actual.PricesCatalog[0].Sitter.Id, sitter.PricesCatalog[0].Sitter.Id);
-        Assert.AreEqual(actual.PricesCatalog[0].Service.Id, sitter.PricesCatalog[0].Service.Id);
-
-        _sitterRepository.Verify(c => c.GetById(sitter.Id), Times.Exactly(2));
-        _sitterRepository.Verify(c => c.UpdatePriceCatalog(sitter), Times.Once);
+        Assert.Throws<NotFoundException>(() => _sut.UpdatePriceCatalog(sitterId, priceCatalogForUpdate));
     }
 }

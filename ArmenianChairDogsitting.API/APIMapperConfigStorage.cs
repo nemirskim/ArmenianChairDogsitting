@@ -12,13 +12,9 @@ public class APIMapperConfigStorage : Profile
 
         CreateMap<SitterUpdateRequest, Sitter>();
 
-        CreateMap<SitterAllInfoResponse, Sitter>();
-
         CreateMap<Sitter, SitterAllInfoResponse>();
 
-        CreateMap<SitterMainInfoResponse, Sitter>();
-
-        CreateMap<SitterUpdatePasswordRequest, Sitter>();
+        CreateMap<UserUpdatePasswordRequest, Sitter>();
 
         CreateMap<Sitter, SitterMainInfoResponse>();
     }

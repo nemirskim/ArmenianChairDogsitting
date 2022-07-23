@@ -56,6 +56,10 @@ public class SittersController : Controller
     public ActionResult<List<SitterAllInfoResponse>> GetAllSitters()
     {
         var result = _sittersService.GetSitters();
+
+        if (result == null)
+            return NotFound();
+
         return Ok(_mapper.Map<List<SitterAllInfoResponse>>(result));
     }
 
@@ -101,7 +105,7 @@ public class SittersController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
-    public ActionResult UpdatePasswordSitter(int id, [FromBody]SitterUpdatePasswordRequest sitterPasswordForUpdate)
+    public ActionResult UpdatePasswordSitter(int id, [FromBody]UserUpdatePasswordRequest sitterPasswordForUpdate)
     {
         _sittersService.UpdatePassword(id, _mapper.Map<Sitter>(sitterPasswordForUpdate));
         return NoContent();

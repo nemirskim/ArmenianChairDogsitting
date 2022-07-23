@@ -63,14 +63,14 @@ public class SitterService : ISitterService
         _sitterRepository.Update(sitter);
     }
 
-    public void UpdatePassword(int id, Sitter passwordSitterForUpadate)
+    public void UpdatePassword(int id, string passwordSitterForUpadate)
     {
         var sitter = _sitterRepository.GetById(id);
 
         if (sitter == null)
             throw new NotFoundException($"{ExceptionMessage.ChoosenSitterDoesNotExist}{id}");
 
-        sitter.Password = passwordSitterForUpadate.Password;
+        sitter.Password = passwordSitterForUpadate;
 
         _sitterRepository.UpdatePassword(sitter);
     }
