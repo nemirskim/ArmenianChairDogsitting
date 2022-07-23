@@ -76,7 +76,7 @@ public class SitterRepositoryTests
                         Sitters = new List<Sitter>()
                     },
                     Price = 600,
-                    Sitter = new Sitter{Name = "Ludmila"}
+                    Sitter = new Sitter{Name = "Ludmila"},
                 },
                 new PriceCatalog
                 {
@@ -86,7 +86,7 @@ public class SitterRepositoryTests
                         Sitters = new List<Sitter>()
                     },
                     Price = 300,
-                    Sitter = new Sitter{Name = "Ludmila"}
+                    Sitter = new Sitter{Name = "Ludmila"},
                 }
             },
             Orders = new List<Order>(),
@@ -113,7 +113,7 @@ public class SitterRepositoryTests
     }
 
     [Test]
-    public void GetById_WhenValidTitlePassed_ThenReturnSitter()
+    public void GetById_WhenSitterIsExist_ThenReturnSitter()
     {
         //given
         var expectedSitter = new Sitter
@@ -133,10 +133,10 @@ public class SitterRepositoryTests
         var actualSitter = _sut.GetById(3);
 
         //then
-        Assert.True(expectedSitter.Id == actualSitter.Id);
-        Assert.True(expectedSitter.Name == actualSitter.Name);
-        Assert.True(expectedSitter.LastName == actualSitter.LastName);
-        Assert.True(expectedSitter.Email == actualSitter.Email);
+        Assert.AreEqual(expectedSitter.Id, actualSitter.Id);
+        Assert.AreEqual(expectedSitter.Name, actualSitter.Name);
+        Assert.AreEqual(expectedSitter.LastName, actualSitter.LastName);
+        Assert.AreEqual(expectedSitter.Email, actualSitter.Email);
     }
 
     [Test]
@@ -151,11 +151,11 @@ public class SitterRepositoryTests
         //then
 
         Assert.NotNull(actualSitters);
-        Assert.True(actualSitters.Count == expectedCount);
+        Assert.AreEqual(actualSitters.Count, expectedCount);
     }
 
     [Test]
-    public void RemoveOrRestoreById_WhenIsDeletedEqualsFalse_ThenSoftDeleted()
+    public void RemoveOrRestoreById_WhenSitterIsNotDeleted_ThenSitterDelete()
     {
         //given
         int sitterId = 2;
@@ -173,7 +173,7 @@ public class SitterRepositoryTests
     }
 
     [Test]
-    public void RemoveOrRestoreById_WhenIsDeletedEqualsTrue_ThenSoftRestored()
+    public void RemoveOrRestoreById_WhenSitterIsDeleted_ThenSitterRestored()
     {
         //given
         int sitterId = 4;
@@ -206,13 +206,13 @@ public class SitterRepositoryTests
         //then
         var actualSitter = _sut.GetById(sitterId);
 
-        Assert.True(actualSitter.Name == sitter.Name);
-        Assert.True(actualSitter.LastName == sitter.LastName);
-        Assert.True(actualSitter.Phone == sitter.Phone);
-        Assert.True(actualSitter.Age == sitter.Age);
-        Assert.True(actualSitter.Experience == sitter.Experience);
-        Assert.True(actualSitter.Sex == sitter.Sex);
-        Assert.True(actualSitter.Description == sitter.Description);
+        Assert.AreEqual(actualSitter.Name, sitter.Name);
+        Assert.AreEqual(actualSitter.LastName, sitter.LastName);
+        Assert.AreEqual(actualSitter.Phone, sitter.Phone);
+        Assert.AreEqual(actualSitter.Age, sitter.Age);
+        Assert.AreEqual(actualSitter.Experience, sitter.Experience);
+        Assert.AreEqual(actualSitter.Sex, sitter.Sex);
+        Assert.AreEqual(actualSitter.Description, sitter.Description);
     }
 
     [Test]
@@ -230,7 +230,7 @@ public class SitterRepositoryTests
         //then
         var actualSitter = _sut.GetById(sitterId);
 
-        Assert.True(actualSitter.Password == sitter.Password);
+        Assert.AreEqual(actualSitter.Password, sitter.Password);
     }
 
     [Test]
@@ -241,7 +241,16 @@ public class SitterRepositoryTests
         {
             new PriceCatalog
             {
-                Id = 1,
+                Service = new Service
+                {
+                    Id = ServiceEnum.SittingForDay,
+                    Sitters = new List<Sitter>()
+                },
+                Price = 2000,
+                Sitter = new Sitter{Name = "Ludmila"},
+            },
+            new PriceCatalog
+            {
                 Service = new Service
                 {
                     Id = ServiceEnum.DailySitting,
@@ -263,7 +272,6 @@ public class SitterRepositoryTests
             },
             new PriceCatalog
             {
-                Id = 2,
                 Service = new Service
                 {
                     Id = ServiceEnum.Overexpose,
@@ -287,7 +295,51 @@ public class SitterRepositoryTests
                     
         int sitterId = 3;
         var sitter = _sut.GetById(sitterId);
-        sitter.PricesCatalog = priceCatalogForUpdate;
+        //sitter.PricesCatalog = priceCatalogForUpdate;
+
+        bool isExist = false;
+        var deleteServices = new List<PriceCatalog>();
+
+        foreach (var sitterPrice in sitter.PricesCatalog)
+        {
+            foreach (var price in priceCatalogForUpdate)
+            {
+                if (price.Service.Id == sitterPrice.Service.Id)
+                {
+                    isExist = true;
+                    break;
+                }
+            }
+
+            if (!isExist)
+                deleteServices.Add(sitterPrice);
+
+            isExist = false;
+        }
+
+        sitter.PricesCatalog.RemoveAll(price => deleteServices.Contains(price));
+
+        foreach (var price in priceCatalogForUpdate)
+        {
+            foreach (var sitterPrice in sitter.PricesCatalog)
+            {
+                if(price.Service.Id == sitterPrice.Service.Id)
+                {
+                    sitterPrice.Price = price.Price;
+                    sitterPrice.Sitter = sitterPrice.Sitter;
+                    isExist = true;
+                    break;
+                }
+            }
+
+            if(isExist)
+            {
+                isExist = false;
+                continue;
+            }
+
+            sitter.PricesCatalog.Add(price);
+        }
 
         //when
         _sut.UpdatePriceCatalog(sitter);
@@ -295,11 +347,13 @@ public class SitterRepositoryTests
         //then
         var actualSitter = _sut.GetById(sitterId);
 
-        Assert.True(actualSitter.PricesCatalog[0].Price == priceCatalogForUpdate[0].Price);
-        Assert.True(priceCatalogForUpdate[1].Price == actualSitter.PricesCatalog[1].Price);
-        Assert.True(actualSitter.PricesCatalog.Count == priceCatalogForUpdate.Count);
-        Assert.True(actualSitter.PricesCatalog[0].Service.Id == priceCatalogForUpdate[0].Service.Id);
-        Assert.True(actualSitter.PricesCatalog[1].Service.Id == priceCatalogForUpdate[1].Service.Id);
+        Assert.AreEqual(actualSitter.PricesCatalog[0].Price, priceCatalogForUpdate[0].Price);
+        Assert.AreEqual(priceCatalogForUpdate[1].Price, actualSitter.PricesCatalog[1].Price);
+        Assert.AreEqual(priceCatalogForUpdate[2].Price, actualSitter.PricesCatalog[2].Price);
+        Assert.AreEqual(actualSitter.PricesCatalog.Count, priceCatalogForUpdate.Count);
+        Assert.AreEqual(actualSitter.PricesCatalog[0].Service.Id, priceCatalogForUpdate[0].Service.Id);
+        Assert.AreEqual(actualSitter.PricesCatalog[1].Service.Id, priceCatalogForUpdate[1].Service.Id);
+        Assert.AreEqual(actualSitter.PricesCatalog[2].Service.Id, priceCatalogForUpdate[2].Service.Id);
 
     }
 }

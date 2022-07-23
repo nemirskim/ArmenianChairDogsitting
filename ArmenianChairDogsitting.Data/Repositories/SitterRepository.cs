@@ -48,9 +48,9 @@ public class SitterRepository : ISitterRepository
         _context.SaveChanges();
     }
 
-    public void UpdatePassword(Sitter SitterPasswordForUpdate)
+    public void UpdatePassword(Sitter SitterWithNewPassword)
     {
-        _context.Sitters.Update(SitterPasswordForUpdate);
+        _context.Sitters.Update(SitterWithNewPassword);
         _context.SaveChanges();
     }
 
