@@ -183,10 +183,7 @@ public class SitterServiceTests
             IsDeleted = false
         };
 
-        _sitterRepository.Setup(o => o.RemoveOrRestoreById(expectedSitter));
-
         _sitterRepository.Setup(o => o.GetById(expectedSitter.Id)).Returns(expectedSitter);
-
 
         //when
         _sut.RemoveOrRestoreById(expectedSitter.Id);
@@ -225,8 +222,6 @@ public class SitterServiceTests
             Orders = new List<Order>(),
             IsDeleted = true
         };
-
-        _sitterRepository.Setup(o => o.RemoveOrRestoreById(expectedSitter));
 
         _sitterRepository.Setup(o => o.GetById(expectedSitter.Id)).Returns(expectedSitter);
         _sitterRepository.Setup(o => o.GetSitters()).Returns(new List<Sitter> { expectedSitter });
@@ -284,8 +279,6 @@ public class SitterServiceTests
         };
 
         _sitterRepository.Setup(o => o.GetById(sitter.Id)).Returns(sitter);
-        _sitterRepository.Setup(o => o.Update(sitter));
-
 
         //when
         _sut.Update(sitterForUpdate, sitter.Id);
@@ -334,10 +327,7 @@ public class SitterServiceTests
             Password = "987654321"
         };
 
-
-        _sitterRepository.Setup(o => o.UpdatePassword(sitter));
         _sitterRepository.Setup(o => o.GetById(sitter.Id)).Returns(sitter);
-
 
         //when
         _sut.UpdatePassword(sitter.Id, sitterPasswordForUpdate);
@@ -386,7 +376,6 @@ public class SitterServiceTests
             }
         };
 
-        _sitterRepository.Setup(o => o.UpdatePriceCatalog(sitter));
         _sitterRepository.Setup(o => o.GetById(sitter.Id)).Returns(sitter);
 
         //when
