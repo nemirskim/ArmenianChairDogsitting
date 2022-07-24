@@ -1,11 +1,4 @@
 ﻿using ArmenianChairDogsitting.Data.Entities;
-using ArmenianChairDogsitting.Data.Enums;
-using ArmenianChairDogsitting.Data.Repositories.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ArmenianChairDogsitting.Data.Repositories
 {
@@ -28,6 +21,8 @@ namespace ArmenianChairDogsitting.Data.Repositories
         }
 
         public Sitter? GetById(int id) => _context.Sitters.FirstOrDefault(s => s.Id == id);
+
+        public Sitter? GetSitterByEmail(string email) => _context.Sitters.FirstOrDefault(sitter => sitter.Email == email);
 
         public List<Sitter> GetSitters() => _context.Sitters.ToList();
 

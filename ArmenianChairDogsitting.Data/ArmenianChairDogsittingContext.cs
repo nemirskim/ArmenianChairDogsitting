@@ -10,6 +10,7 @@ namespace ArmenianChairDogsitting.Data
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<Sitter> Sitters { get; set; }
+        public DbSet<Admin> Admins { get; set; }
 
         public ArmenianChairDogsittingContext(DbContextOptions<ArmenianChairDogsittingContext> options)
         : base(options)

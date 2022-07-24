@@ -1,10 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using ArmenianChairDogsitting.API.Infrastructure;
 using ArmenianChairDogsitting.API.Models;
-using ArmenianChairDogsitting.Data.Enums;
+using ArmenianChairDogsitting.Business.Interfaces;
 
 namespace ArmenianChairDogsitting.API.Controllers;
 
@@ -12,31 +8,19 @@ namespace ArmenianChairDogsitting.API.Controllers;
 [Route("[controller]")]
 public class AuthController : Controller
 {
+    private readonly IAuthService _authService;
+
+    public AuthController(IAuthService authService)
+    {
+        _authService = authService;
+    }
+
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
     public string Login([FromBody] UserLoginRequest request)
     {
-        if (request == default || request.Email == default) return string.Empty;
-        var roleClaim = new Claim(ClaimTypes.Role, Role.Client.ToString());
+        var user = _authService.GetUserForLogin(request.Email, request.Password);
 
-        switch (request.Email)
-        {
-            case "dogsitter@dd.d":
-                roleClaim = new Claim(ClaimTypes.Role, Role.Sitter.ToString());
-                break;
-            case "admin@mm.m":
-                roleClaim = new Claim(ClaimTypes.Role, Role.Admin.ToString());
-                break;
-        }
-
-        var claims = new List<Claim> { new Claim(ClaimTypes.Name, request.Email), roleClaim };
-        
-        var jwt = new JwtSecurityToken(
-                issuer: AuthOptions.Issuer,
-                audience: AuthOptions.Audience,
-                claims: claims,
-                expires: DateTime.UtcNow.Add(TimeSpan.FromHours(2)), // время действия 2 часа
-                signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
-
-        return new JwtSecurityTokenHandler().WriteToken(jwt);
+        return _authService.GetToken(user);
     }
 }
