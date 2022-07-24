@@ -1,5 +1,8 @@
 using ArmenianChairDogsitting.API;
+using ArmenianChairDogsitting.API.CustomExceptionMiddleware;
 using ArmenianChairDogsitting.API.Infrastructure;
+using ArmenianChairDogsitting.Business.Interfaces;
+using ArmenianChairDogsitting.Business.Services;
 using ArmenianChairDogsitting.Business;
 using ArmenianChairDogsitting.Data;
 using ArmenianChairDogsitting.Data.Repositories;
@@ -73,19 +76,21 @@ builder.Services.AddScoped<ISitterRepository, SitterRepository>();
 builder.Services.AddScoped<IClientsRepository, ClientsRepository>();
 
 builder.Services.AddScoped<IOrdersRepository, OrdersRepository>();
+builder.Services.AddScoped<IOrdersService, OrdersService>();
+
 builder.Services.AddScoped<ICommentsRepository, CommentsRepository>();
 builder.Services.AddScoped<ISearchRepository, SearchRepository>();
+builder.Services.AddScoped<ICommentsService, CommentsService>();
 
 builder.Services.AddAutoMapper(typeof(MapperConfigStorage), typeof(APIMapperConfigStorage));
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseMiddleware<ExceptionMiddleware>();
+
+app.UseSwagger();
+app.UseSwaggerUI();
+
 
 app.UseHttpsRedirection();
 

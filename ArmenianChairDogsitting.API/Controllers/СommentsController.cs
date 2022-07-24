@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using ArmenianChairDogsitting.API.Models;
 using ArmenianChairDogsitting.Data.Enums;
-using ArmenianChairDogsitting.API.Extensions;
+using ArmenianChairDogsitting.Business.Interfaces;
 
 namespace ArmenianChairDogsitting.API.Controllers
 {
@@ -12,38 +11,22 @@ namespace ArmenianChairDogsitting.API.Controllers
     [Route("[controller]")]
     public class СommentsController : Controller
     {
-        [HttpPost]
-        [AuthorizeByRole(Role.Client)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status422UnprocessableEntity)]
-        public ActionResult<int> AddComment([FromBody] CommentRequest comment)
+        private readonly ICommentsService _service;
+        public СommentsController(ICommentsService commentService)
         {
-            int id = 0;
-            return Created($"{this.GetUri()}/{id}", id);
-        }
-
-        [HttpGet]
-        [AuthorizeByRole(Role.Sitter, Role.Client)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(typeof(List<CommentResponse>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
-        public ActionResult<List<CommentResponse>> GetAllComments()
-        {
-            return Ok(new List<CommentResponse>());
+            _service = commentService;
         }
 
         [HttpDelete("{id}")]
         [AuthorizeByRole(Role.Client)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(typeof(CommentResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
         public ActionResult DeleteCommentById(int id)
         {
-            return Ok(new CommentResponse());
+            _service.DeleteCommentById(id);
+            return NoContent();
         }
 
     }
