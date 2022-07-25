@@ -295,7 +295,6 @@ public class SitterRepositoryTests
                     
         int sitterId = 3;
         var sitter = _sut.GetById(sitterId);
-        //sitter.PricesCatalog = priceCatalogForUpdate;
 
         bool isExist = false;
 
