@@ -14,7 +14,7 @@ public class SearchRepository : ISearchRepository
         _context = context;
     }
 
-    public List<Sitter> GetSittersBySearchParams(SearchParams searchEntity)
+    public List<Sitter> GetSittersBySearchParams(ParamsToSearchSitter searchEntity)
     {
         return _context.Sitters
             .Include(o => o.Orders)

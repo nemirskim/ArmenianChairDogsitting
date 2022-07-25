@@ -24,8 +24,7 @@ public class SearchController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status422UnprocessableEntity)]
     public ActionResult<List<SitterAllInfoResponse>> GetSittersBySearchParams([FromBody] SearchRequest searchOptions)
     {
-        var a = _mapper.Map<SearchParams>(searchOptions);
-        var result = _searchService.GetSittersBySearchParams(a);
+        var result = _searchService.GetSittersBySearchParams(_mapper.Map<ParamsToSearchSitter>(searchOptions));
         return Ok(_mapper.Map<List<SitterAllInfoResponse>>(result));
     }
 }

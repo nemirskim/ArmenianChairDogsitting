@@ -37,7 +37,7 @@ public class SearchControllerTests
         //given
         var sittersFromService = GetSittersFromService();
         _searchServiceMock
-            .Setup(x => x.GetSittersBySearchParams(It.IsAny<SearchParams>()))
+            .Setup(x => x.GetSittersBySearchParams(It.IsAny<ParamsToSearchSitter>()))
             .Returns(sittersFromService);
 
         var searchRequest = new SearchRequest()
@@ -50,7 +50,7 @@ public class SearchControllerTests
             PriceMaximum = 4000
         };
 
-        var searchParams = new SearchParams()
+        var searchParams = new ParamsToSearchSitter()
         {
             MinRating = 5,
             IsSitterHasComments = true,
@@ -69,7 +69,7 @@ public class SearchControllerTests
 
         Assert.AreEqual(StatusCodes.Status200OK, actualResult.StatusCode);
         Assert.AreEqual(sittersFromService.Count, actualValue.Count);
-        _searchServiceMock.Verify(x => x.GetSittersBySearchParams(It.Is<SearchParams>(s =>
+        _searchServiceMock.Verify(x => x.GetSittersBySearchParams(It.Is<ParamsToSearchSitter>(s =>
             s.MinRating == searchRequest.MinRating &&
             s.PriceMinimum == searchRequest.PriceMinimum &&
             s.PriceMaximum == searchRequest.PriceMaximum &&
@@ -78,55 +78,7 @@ public class SearchControllerTests
             s.IsSitterHasComments == searchRequest.IsSitterHasComments
         )), Times.Once);
     }
-
-    [Test]
-    public void GetSittersBySearchParams_WhenParamsNotMatched_ReturnEmpty()
-    {
-        //given
-        var sittersFromService = new List<SittersSearchModelResult>();
-        _searchServiceMock
-            .Setup(x => x.GetSittersBySearchParams(It.IsAny<SearchParams>()))
-            .Returns(sittersFromService);
-
-        var searchRequest = new SearchRequest()
-        {
-            MinRating = 5,
-            IsSitterHasComments = true,
-            District = DistrictEnum.Kalininsky,
-            ServiceType = ServiceEnum.Overexpose,
-            PriceMinimum = 2500,
-            PriceMaximum = 4000
-        };
-
-        var searchParams = new SearchParams()
-        {
-            MinRating = 5,
-            IsSitterHasComments = true,
-            District = DistrictEnum.Kalininsky,
-            ServiceType = ServiceEnum.Overexpose,
-            PriceMinimum = 2500,
-            PriceMaximum = 4000
-        };
-
-        //when
-        var actual = _sut.GetSittersBySearchParams(searchRequest);
-
-        //then
-        var actualResult = actual.Result as OkObjectResult;
-        var actualValue = actualResult.Value as List<SitterAllInfoResponse>;
-
-        Assert.AreEqual(StatusCodes.Status200OK, actualResult.StatusCode);
-        Assert.AreEqual(sittersFromService.Count, actualValue.Count);
-        _searchServiceMock.Verify(x => x.GetSittersBySearchParams(It.Is<SearchParams>(s =>
-            s.MinRating == searchRequest.MinRating &&
-            s.PriceMinimum == searchRequest.PriceMinimum &&
-            s.PriceMaximum == searchRequest.PriceMaximum &&
-            s.ServiceType == searchRequest.ServiceType &&
-            s.District == searchRequest.District &&
-            s.IsSitterHasComments == searchRequest.IsSitterHasComments
-        )), Times.Once);
-    }
-
+        
     private List<SittersSearchModelResult> GetSittersFromService()
     {
         var districtOne = new District() { Id = DistrictEnum.Kalininsky };

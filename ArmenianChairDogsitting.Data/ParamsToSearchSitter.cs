@@ -1,8 +1,8 @@
 ﻿using ArmenianChairDogsitting.Data.Enums;
 
 namespace ArmenianChairDogsitting.Data.Entities;
-//цена услуг, общая оценка, наличие отзывов, районы, породы собак.
-public class SearchParams
+
+public class ParamsToSearchSitter
 {
     public decimal PriceMinimum { get; set; }
     public decimal PriceMaximum { get; set; }

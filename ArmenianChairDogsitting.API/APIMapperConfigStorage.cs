@@ -9,7 +9,7 @@ public class APIMapperConfigStorage : Profile
 {
     public APIMapperConfigStorage()
     {
-        CreateMap<SearchRequest, SearchParams>();
+        CreateMap<SearchRequest, ParamsToSearchSitter>();
         CreateMap<SittersSearchModelResult, SitterAllInfoResponse>();
         CreateMap<AbstractOrderRequest, Order>().ReverseMap();
         CreateMap<AbstractOrderResponse, Order>().ReverseMap();

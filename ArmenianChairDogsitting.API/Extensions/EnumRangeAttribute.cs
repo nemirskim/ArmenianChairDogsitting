@@ -6,10 +6,10 @@ public class EnumRangeAttribute : ValidationAttribute
 {
     private int _minLength;
     private int _maxLength;
-    public EnumRangeAttribute(int min, int max)
+    public EnumRangeAttribute(Type obj)
     {
-        _minLength = min;
-        _maxLength = max;
+        _minLength = GetEnumMin(obj);
+        _maxLength = GetEnumMax(obj);
     }
 
     public override bool IsValid(object value)
@@ -23,4 +23,15 @@ public class EnumRangeAttribute : ValidationAttribute
         }
         return true;
     }
+
+    private int GetEnumMax<T>(T obj)
+    {
+        return Enum.GetValues(typeof(T)).Cast<int>().Max();
+    }
+
+    private int GetEnumMin<T>(T obj)
+    {
+        return Enum.GetValues(typeof(T)).Cast<int>().Min();
+    }
+
 }

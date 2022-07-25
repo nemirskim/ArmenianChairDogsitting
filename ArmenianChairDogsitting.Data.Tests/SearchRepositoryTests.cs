@@ -131,7 +131,7 @@ public class SearchRepositoryTests
     public void GetSittersBySeaarchParams_WhenParamsMatched_ReturnSitters()
     {
         //given
-        var searchParam = new SearchParams()
+        var searchParam = new ParamsToSearchSitter()
         {
             District =  DistrictEnum.Kalininsky,
             ServiceType = ServiceEnum.Overexpose,
@@ -151,7 +151,7 @@ public class SearchRepositoryTests
     public void GetSittersBySeaarchParams_WhenParamsNotMatched_ReturnEmpty()
     {
         //given
-        var searchParam = new SearchParams()
+        var searchParam = new ParamsToSearchSitter()
         {
             District = DistrictEnum.Kalininsky,
             ServiceType = ServiceEnum.Overexpose,

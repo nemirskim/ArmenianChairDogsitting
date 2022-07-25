@@ -17,11 +17,11 @@ namespace ArmenianChairDogsitting.Business.Tests
         [SetUp]
         public void Setup()
         {
-            var mockMapper = new MapperConfiguration(cfg =>
+            var mapper = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new MapperConfigStorage());
             });
-            _mapper = mockMapper.CreateMapper();
+            _mapper = mapper.CreateMapper();
 
             _searchRepository = new Mock<ISearchRepository>();
             _sut = new SearchService(_searchRepository.Object, _mapper);
@@ -30,8 +30,8 @@ namespace ArmenianChairDogsitting.Business.Tests
             var districtTwo = new District() { Id = DistrictEnum.Tsentralny };
             var districtThree = new District() { Id = DistrictEnum.Primorsky };
 
-            var ServiceWalk = new Service() { Id = ServiceEnum.Walk };
-            var ServiceOverexpose = new Service() { Id = ServiceEnum.Overexpose };          
+            var serviceWalk = new Service() { Id = ServiceEnum.Walk };
+            var serviceOverexpose = new Service() { Id = ServiceEnum.Overexpose };          
 
             _sitterList = new List<Sitter>() 
             {
@@ -54,12 +54,12 @@ namespace ArmenianChairDogsitting.Business.Tests
                     {
                         new PriceCatalog()
                         {
-                            Price = 2500, Service = ServiceOverexpose
+                            Price = 2500, Service = serviceOverexpose
                         },
                     {
                         new PriceCatalog()
                         {
-                            Price = 1500, Service = ServiceWalk
+                            Price = 1500, Service = serviceWalk
                         }
                         }
                     }
@@ -74,19 +74,19 @@ namespace ArmenianChairDogsitting.Business.Tests
                     LastName = "lstname",
                     Password = "wwwwwww",
                     Phone = "89567234581",
-                    Districts = new List<District> { districtOne, districtTwo },
+                    Districts = new List<District> { districtThree, districtTwo },
                     Orders = new List<Order>() { new OrderWalk()
                 { Comments = new List<Comment>() { new Comment() { Rating = 4, Text = "blaah blah" } } } },
                     PricesCatalog = new List<PriceCatalog>()
                         {
                         new PriceCatalog()
                         {
-                            Price = 3500, Service = ServiceOverexpose
+                            Price = 3500, Service = serviceOverexpose
                         },
                         {
                         new PriceCatalog()
                         {
-                            Price = 2000, Service = ServiceWalk
+                            Price = 2000, Service = serviceWalk
                         }
                         }
                     }
@@ -100,19 +100,19 @@ namespace ArmenianChairDogsitting.Business.Tests
                     LastName = "lstname",
                     Password = "wwwwwww",
                     Phone = "89567234581",
-                    Districts = new List<District> { districtOne, districtTwo },
+                    Districts = new List<District> { districtOne, districtThree },
                     Orders = new List<Order>() { new OrderWalk()
-                { Comments = new List<Comment>() { new Comment() } } },
+                { Comments = new List<Comment>() { } } },
                     PricesCatalog = new List<PriceCatalog>()
                         {
                         new PriceCatalog()
                         {
-                            Price = 3500, Service = ServiceOverexpose
+                            Price = 2000, Service = serviceOverexpose
                         },
                         {
                         new PriceCatalog()
                         {
-                            Price = 2000, Service = ServiceWalk
+                            Price = 1500, Service = serviceWalk
                         }
                         }
                     }
@@ -120,24 +120,20 @@ namespace ArmenianChairDogsitting.Business.Tests
             };
         }
 
+        //District - Comments - Rating
         [Test]
-        public void GetSittersBySearchPaarams_WhenParamsMatched_ReturnSitters()
+        public void GetSittersBySearchPaarams_RatingAndDistrictPassed_OneSittersReceived()
         {
             //given
-            var searchParams = new SearchParams()
+            var searchParams = new ParamsToSearchSitter()
             {
                 MinRating = 3,
-                IsSitterHasComments = true,
                 District = DistrictEnum.Kalininsky,
-                ServiceType = ServiceEnum.Overexpose,
-                PriceMinimum = 2500,
-                PriceMaximum = 4000
             };
-
-            var expectedSittersQuantity = 2;
+            var expectedSittersQuantity = 1;
 
             _searchRepository
-                .Setup(x => x.GetSittersBySearchParams(It.IsAny<SearchParams>()))
+                .Setup(x => x.GetSittersBySearchParams(It.IsAny<ParamsToSearchSitter>()))
                 .Returns(_sitterList);
 
             //when
@@ -149,23 +145,43 @@ namespace ArmenianChairDogsitting.Business.Tests
         }
 
         [Test]
-        public void GetSittersBySearchPaaramsWhenParamsNotMatched_ReturnEmpty()
+        public void GetSittersBySearchParams_CommentsAndRatingPassed_ZeroSittersReceived()
         {
             //given
-            var searchParams = new SearchParams()
+            var searchParams = new ParamsToSearchSitter()
             {
-                MinRating = 5,
-                IsSitterHasComments = true,
-                District = DistrictEnum.Kalininsky,
-                ServiceType = ServiceEnum.Overexpose,
-                PriceMinimum = 2500,
-                PriceMaximum = 4000
+                MinRating = 3,
+                IsSitterHasComments = false,
             };
 
             var expectedSittersQuantity = 0;
 
             _searchRepository
-                .Setup(x => x.GetSittersBySearchParams(It.IsAny<SearchParams>()))
+                .Setup(x => x.GetSittersBySearchParams(It.IsAny<ParamsToSearchSitter>()))
+                .Returns(_sitterList);
+
+            //when
+            var actual = _sut.GetSittersBySearchParams(searchParams);
+
+            //then
+            Assert.AreEqual(expectedSittersQuantity, actual.Count);
+            _searchRepository.Verify(x => x.GetSittersBySearchParams(searchParams), Times.Once);
+        }
+
+        [Test]
+        public void GetSittersBySearchParams_ComentsAndDistrictPassed_OneSittersReceived()
+        {
+            //given
+            var searchParams = new ParamsToSearchSitter()
+            {
+                District = DistrictEnum.All,
+                IsSitterHasComments = false,
+            };
+
+            var expectedSittersQuantity = 1;
+
+            _searchRepository
+                .Setup(x => x.GetSittersBySearchParams(It.IsAny<ParamsToSearchSitter>()))
                 .Returns(_sitterList);
 
             //when

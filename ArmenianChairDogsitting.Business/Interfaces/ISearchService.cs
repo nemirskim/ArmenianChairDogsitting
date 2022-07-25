@@ -5,5 +5,5 @@ namespace ArmenianChairDogsitting.Business.Interfaces;
 
 public interface ISearchService
 {
-    List<SittersSearchModelResult> GetSittersBySearchParams(SearchParams searchEntity);
+    List<SittersSearchModelResult> GetSittersBySearchParams(ParamsToSearchSitter searchEntity);
 }
