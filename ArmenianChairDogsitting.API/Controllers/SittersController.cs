@@ -83,7 +83,7 @@ public class SittersController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     public ActionResult RemoveSitterById(int id)
     {
-        _sittersService.RemoveById(id);
+        _sittersService.RemoveOrRestoreById(id, true);
         return NoContent();
     }
 
@@ -95,7 +95,7 @@ public class SittersController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     public ActionResult RestoreSitterById(int id)
     {
-        _sittersService.RestoreById(id);
+        _sittersService.RemoveOrRestoreById(id, false);
         return NoContent();
     }
 
@@ -107,7 +107,7 @@ public class SittersController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     public ActionResult UpdatePasswordSitter(int id, [FromBody]UserUpdatePasswordRequest sitterPasswordForUpdate)
     {
-        _sittersService.UpdatePassword(id, _mapper.Map<Sitter>(sitterPasswordForUpdate));
+        _sittersService.UpdatePassword(id, sitterPasswordForUpdate.Password);
         return NoContent();
     }
 

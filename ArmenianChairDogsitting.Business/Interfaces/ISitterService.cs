@@ -8,8 +8,7 @@ public interface ISitterService
     public List<Sitter> GetSitters();
     public int Add(Sitter sitter);
     public void Update(Sitter sitter, int id);
-    public void RemoveById(int id);
-    public void RestoreById(int id);
+    public void RemoveOrRestoreById(int id, bool isDelete);
     public void UpdatePriceCatalog(int id, List<PriceCatalog> priceCatalog);
     public void UpdatePassword(int id, string password);
 }

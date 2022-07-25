@@ -21,26 +21,14 @@ public class SitterService : ISitterService
 
     public List<Sitter> GetSitters() => _sitterRepository.GetSitters();
 
-    public void RemoveById(int id)
+    public void RemoveOrRestoreById(int id, bool isDelete)
     {
         var sitter = _sitterRepository.GetById(id);
 
         if (sitter == null)
             throw new NotFoundException($"{ExceptionMessage.ChoosenSitterDoesNotExist}{id}");
 
-        sitter.IsDeleted = true;
-
-        _sitterRepository.RemoveOrRestoreById(sitter);
-    }
-    
-    public void RestoreById(int id)
-    {
-        var sitter = _sitterRepository.GetById(id);
-
-        if (sitter == null)
-            throw new NotFoundException($"{ExceptionMessage.ChoosenSitterDoesNotExist}{id}");
-
-        sitter.IsDeleted = false;
+        sitter.IsDeleted = isDelete;
 
         _sitterRepository.RemoveOrRestoreById(sitter);
     }
@@ -82,7 +70,40 @@ public class SitterService : ISitterService
         if (sitter == null)
             throw new NotFoundException($"{ExceptionMessage.ChoosenSitterDoesNotExist}{id}");
 
-        sitter.PricesCatalog = priceCatalog;
+        bool isExist = false;
+
+        sitter.PricesCatalog.RemoveAll(sitterService =>
+        {
+            foreach (var service in priceCatalog)
+            {
+                if (service.Service.Id == sitterService.Service.Id)
+                    return false;
+            }
+
+            return true;
+        });
+
+        foreach (var price in priceCatalog)
+        {
+            foreach (var sitterPrice in sitter.PricesCatalog)
+            {
+                if (price.Service.Id == sitterPrice.Service.Id)
+                {
+                    sitterPrice.Price = price.Price;
+                    sitterPrice.Sitter = sitterPrice.Sitter;
+                    isExist = true;
+                    break;
+                }
+            }
+
+            if (isExist)
+            {
+                isExist = false;
+                continue;
+            }
+
+            sitter.PricesCatalog.Add(price);
+        }
 
         _sitterRepository.UpdatePriceCatalog(sitter);
     }

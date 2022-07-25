@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArmenianChairDogsitting.API
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArmenianChairDogsitting.Data.Tests", "ArmenianChairDogsitting.Data.Tests\ArmenianChairDogsitting.Data.Tests.csproj", "{64EEFBB0-288A-4107-BA7E-E3210372C0C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArmenianChairDogSitting.Business.Tests", "ArmenianChairDogSitting.Business.Tests\ArmenianChairDogSitting.Business.Tests.csproj", "{90D4460A-6490-4A69-9786-06157BF890CB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArmenianChairDogsitting.Business.Tests", "ArmenianChairDogSitting.Business.Tests\ArmenianChairDogsitting.Business.Tests.csproj", "{90D4460A-6490-4A69-9786-06157BF890CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

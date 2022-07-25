@@ -163,7 +163,7 @@ public class SitterServiceTests
     }
 
     [Test]
-    public void RemoveById_WhenIsDeletedEqualsFalse_ThenDeleteSitter()
+    public void RemoveOrRestoreById_WhenSitterIsNotDeleted_ThenDeleteSitter()
     {
         ///given
         var expectedSitter = new Sitter()
@@ -186,7 +186,7 @@ public class SitterServiceTests
         _sitterRepository.Setup(o => o.GetById(expectedSitter.Id)).Returns(expectedSitter);
 
         //when
-        _sut.RemoveById(expectedSitter.Id);
+        _sut.RemoveOrRestoreById(expectedSitter.Id, true);
 
 
         //then
@@ -203,7 +203,7 @@ public class SitterServiceTests
     }
 
     [Test]
-    public void RemoveById_WhenIsDeletedEqualsTrue_ThenRestoreSitter()
+    public void RemoveOrRestoreById_WhenSitterIsDeleted_ThenRestoreSitter()
     {
         ///given
         var expectedSitter = new Sitter()
@@ -228,7 +228,7 @@ public class SitterServiceTests
 
 
         //when
-        _sut.RestoreById(expectedSitter.Id);
+        _sut.RemoveOrRestoreById(expectedSitter.Id, false);
 
 
         //then
@@ -242,6 +242,35 @@ public class SitterServiceTests
         _sitterRepository.Verify(c => c.RemoveOrRestoreById(expectedSitter), Times.Once);
         _sitterRepository.Verify(c => c.GetById(expectedSitter.Id), Times.Exactly(2));
         _sitterRepository.Verify(c => c.GetSitters(), Times.Once);
+    }
+
+    [Test]
+    public void RemoveOrRestoreById_WhenSitterIsNotExist_ThenNotFoundExeption()
+    {
+        //given
+        int sitterId = 1;
+
+        var sitter = new Sitter()
+        {
+            Id = 10,
+            Name = "Alex",
+            LastName = "Pistoletov",
+            Phone = "89991116116",
+            Email = "pistol@pi.com",
+            Password = "123456789",
+            Age = 27,
+            Experience = 7,
+            Sex = Sex.Male,
+            Description = "",
+            PricesCatalog = new List<PriceCatalog>(),
+            Orders = new List<Order>(),
+            IsDeleted = false
+        };
+
+        _sitterRepository.Setup(o => o.GetById(sitter.Id)).Returns(sitter);
+
+        //then, when
+        Assert.Throws<NotFoundException>(() => _sut.RemoveOrRestoreById(sitterId, true));
     }
 
     [Test]
@@ -269,13 +298,31 @@ public class SitterServiceTests
 
         var sitterForUpdate = new Sitter()
         {
+            Id = 11,
             Name = "Alex",
             LastName = "Abramov",
             Phone = "89991116116",
+            Email = "nepistol@pi.com",
+            Password = "qwertyuio",
             Age = 27,
             Experience = 7,
             Sex = Sex.Male,
-            Description = ""
+            Description = "",
+            PricesCatalog = new List<PriceCatalog>
+            {
+                new PriceCatalog()
+                {
+                    Price = 500,
+                    Service = new Service
+                    {
+                        Id = ServiceEnum.Overexpose
+                    },
+                    Sitter = new Sitter(),
+                    Id = 10,
+                }
+            },
+            Orders = new List<Order>(),
+            IsDeleted = true
         };
 
         _sitterRepository.Setup(o => o.GetById(sitter.Id)).Returns(sitter);
@@ -286,21 +333,22 @@ public class SitterServiceTests
         //then
         var actual = _sut.GetById(sitter.Id);
 
-
-        Assert.AreEqual(sitter.Name, actual.Name);
-        Assert.AreEqual(sitter.LastName, actual.LastName);
-        Assert.AreEqual(sitter.Phone, actual.Phone);
-        Assert.AreEqual(sitter.Age, actual.Age);
-        Assert.AreEqual(sitter.Experience, actual.Experience);
-        Assert.AreEqual(sitter.Sex, actual.Sex);
-        Assert.AreEqual(sitter.Description, actual.Description);
-        Assert.AreEqual(sitter.Id, 10);
-        Assert.AreEqual(sitter.Password, "123456789");
-        Assert.AreEqual(sitter.Email, "pistol@pi.com");
-        Assert.False(actual.IsDeleted);
-
         _sitterRepository.Verify(c => c.GetById(sitter.Id), Times.Exactly(2));
-        _sitterRepository.Verify(c => c.Update(sitter), Times.Once);
+        _sitterRepository.Verify(c => c.Update(It.Is<Sitter>(s =>
+        s.IsDeleted == sitter.IsDeleted &&
+        s.Name == sitterForUpdate.Name &&
+        s.LastName == sitterForUpdate.LastName &&
+        s.Phone == sitterForUpdate.Phone &&
+        s.Age == sitterForUpdate.Age &&
+        s.Experience == sitterForUpdate.Experience &&
+        s.Sex == sitterForUpdate.Sex &&
+        s.Description == sitterForUpdate.Description &&
+        s.Id == sitter.Id &&
+        s.Password == sitter.Password &&
+        s.Email == sitter.Email &&
+        s.PricesCatalog == sitter.PricesCatalog &&
+        s.Orders == sitter.Orders
+        )), Times.Once);
     }
 
     [Test]
