@@ -27,7 +27,7 @@ public class AuthService : IAuthService
     {
         if (user is null || user.Email is null || user.Role is null)
         {
-            throw new DataException("The object is empty or parts of it are not filled in");
+            throw new DataException("Object or part of it is empty");
         }
         Claim idClaim = new Claim(ClaimTypes.NameIdentifier, user.Id.ToString());
         var claims = new List<Claim> { new Claim(ClaimTypes.Name, user.Email), { new Claim(ClaimTypes.Role, user.Role) }, idClaim };
@@ -73,7 +73,7 @@ public class AuthService : IAuthService
 
             if (!PasswordHash.ValidatePassword(password, user.Password))
             {
-                throw new NotFoundException("Invalid  password");
+                throw new NotFoundException("The user with such login and password was not found");
             }
 
             result.Email = user.Email;
