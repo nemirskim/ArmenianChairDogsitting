@@ -2,6 +2,7 @@
 
 public class ClientAllInfoResponse
 {
+    public int Id { get; set; }
     public string? Name { get; set; }
     public string? LastName { get; set; }
     public string? Phone { get; set; }
@@ -10,4 +11,5 @@ public class ClientAllInfoResponse
     public DateTime RegistrationDate { get; set; }
     public List<DogAllInfoResponse> Dogs { get; set; }
     public List<AbstractOrderResponse> Orders { get; set; }
+    public bool IsDeleted { get; set; }
 }

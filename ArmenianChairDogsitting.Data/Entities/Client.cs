@@ -15,10 +15,10 @@ public class Client
     [Required]
     public string? Email { get; set; }
     public string Address { get; set; }
+    public DateTime RegistrationDate { get; set; }
     [Required]
     public string? Password { get; set; }
     public List<Animal> Dogs { get; set; }
-    public List<Comment> Comments { get; set; }
     public Role Role { get; set; }
     public bool IsDeleted { get; set; }
 }
