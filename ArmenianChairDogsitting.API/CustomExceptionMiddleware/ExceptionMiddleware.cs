@@ -1,5 +1,5 @@
 ﻿using ArmenianChairDogsitting.API.Models;
-using ArmenianChairDogsitting.Business.Exceptions;
+using ArmenianChairDogsitting.Business;
 using System.Net;
 
 namespace ArmenianChairDogsitting.API.CustomExceptionMiddleware;

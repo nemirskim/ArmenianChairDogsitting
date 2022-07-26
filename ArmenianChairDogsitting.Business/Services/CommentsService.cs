@@ -1,9 +1,6 @@
-﻿using ArmenianChairDogsitting.Data.Entities;
-using ArmenianChairDogsitting.Data.Repositories;
+﻿using ArmenianChairDogsitting.Data.Repositories;
 using ArmenianChairDogsitting.Business.ExceptionsStorage;
-using ArmenianChairDogsitting.Business.Exceptions;
 using ArmenianChairDogsitting.Business.Interfaces;
-using AutoMapper;
 
 namespace ArmenianChairDogsitting.Business.Services;
 

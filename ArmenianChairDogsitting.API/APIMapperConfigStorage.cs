@@ -53,6 +53,9 @@ public class APIMapperConfigStorage : Profile
 
         CreateMap<Client, ClientAllInfoRequest>().ReverseMap();
         CreateMap<Client, ClientAllInfoResponse>().ReverseMap();
+        CreateMap<ClientRegistrationRequest, Client>();
+        CreateMap<ClientUpdateRequest, Client>();
+        CreateMap<Client, ClientAllInfoResponse>();
 
         CreateMap<CommentRequest, Comment>().ReverseMap();
     }

@@ -43,7 +43,7 @@ public class ClientsService : IClientsService
         if (client is null)
             throw new NotFoundException("Client was not found");
 
-        _clientsRepository.UpdateClient(client);
+        _clientsRepository.UpdateClient(client, id);
     }
 
     public void RemoveOrRestoreClient(int id, bool isDeleted)

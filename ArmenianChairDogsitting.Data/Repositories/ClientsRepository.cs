@@ -23,7 +23,7 @@ public class ClientsRepository : IClientsRepository
     public List<Client> GetAllClients() 
         => _context.Clients.Where(c => !c.IsDeleted).ToList();
 
-    public void UpdateClient(Client newClient)
+    public void UpdateClient(Client newClient, int id)
     {
         var client = GetClientById(newClient.Id);
         client!.Name = newClient.Name;

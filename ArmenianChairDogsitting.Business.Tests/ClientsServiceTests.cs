@@ -37,17 +37,35 @@ public class ClientsServiceTests
         //then
         Assert.AreEqual(id, actual);
 
-        _clientsRepositoryMock.Verify(c => c.AddClient(It.IsAny<Client>()), Times.Once);
+        _clientsRepositoryMock.Verify(c => c.AddClient(It.IsAny<Client>()), Times.Once);//верифаи
     }
 
     [Test]
     public void GetClientById_WhenRequestPassed_ClientReceived()
     {
+        //given
+        var client = new Client()
+        {
+            Id = 57,
+            Name = "Ite",
+            LastName = "Nat",
+            Phone = "+79061911882",
+            Email = "korovka@gmail.com",
+        };
 
+        _clientsRepositoryMock.Setup(c => c.GetClientById(client.Id)).Returns(client);
+
+        //when
+        var actual = _sut.GetClientById(client.Id);
+
+        //then
+        Assert.AreEqual(client, actual);
+
+        _clientsRepositoryMock.Verify(c => c.GetClientById(client.Id), Times.Once);
     }
 
     [Test]
-    public void GetClientsTest_WhenRequestPassed_ClientsReceived()
+    public void GetAllClientsTest_WhenRequestPassed_ClientsReceived()
     {
         //given
         var clients = new List<Client>()
@@ -86,8 +104,96 @@ public class ClientsServiceTests
         var actual = _sut.GetAllClients();
 
         //then
+        Assert.That(actual, Is.EquivalentTo(clients));
         Assert.AreEqual(clients.Count, actual.Count);
 
         _clientsRepositoryMock.Verify(c => c.GetAllClients(), Times.Once);
+    }
+
+    [Test]
+    public void UpdateClientTest_WhenRequestPassed_UpdateClientReceived()
+    {
+        //given
+        var client = new Client()
+        {
+            Id = 1,
+            Name = "Leeat",
+            LastName = "Tami",
+            Phone = "+790283418392",
+            Email = "traktor@mail.com"
+        };
+
+        var clientToUpdate = new Client()
+        {
+            Name = "Leeati",
+            LastName = "Tamil",
+            Phone = "+790283412392",
+            Email = "traktor@mail.com"
+        };
+
+        _clientsRepositoryMock.Setup(c => c.GetClientById(client.Id)).Returns(client);
+        _clientsRepositoryMock.Setup(c => c.UpdateClient(clientToUpdate, client.Id)); 
+
+        //when
+        _sut.UpdateClient(client, client.Id);
+
+        //then
+        var actual = _sut.GetClientById(client.Id);
+
+        Assert.AreEqual(client.Id, clientToUpdate.Id);
+        Assert.AreNotSame(client, clientToUpdate);
+
+        _clientsRepositoryMock.Verify(c => c.GetClientById(client.Id), Times.Exactly(2));
+        _clientsRepositoryMock.Verify(c => c.UpdateClient(It.IsAny<Client>(), It.IsAny<int>()));
+    }
+
+    [Test]
+    public void RemoveClientTest_WhenRequestPassed_ThenRemoveClientReceived()
+    {
+        //given
+        var client = new Client()
+        {
+            Id = 1,
+            Name = "Leeat",
+            LastName = "Tami",
+            Phone = "+790283418392",
+            Email = "traktor@mail.com",
+            IsDeleted = false
+        };
+
+        _clientsRepositoryMock.Setup(c => c.RemoveOrRestoreClient(client.Id, true));
+
+        //when
+        _sut.RemoveOrRestoreClient(client.Id, true);
+
+        //then
+        Assert.IsTrue(client.IsDeleted);
+
+        _clientsRepositoryMock.Verify(c => c.RemoveOrRestoreClient(It.IsAny<int>(), true), Times.Once);
+    }
+
+    [Test]
+    public void RestoreClientTest_WhenRequestPassed_ThenRestoreClientReceived()
+    {
+        //given
+        var client = new Client()
+        {
+            Id = 1,
+            Name = "Leeat",
+            LastName = "Tami",
+            Phone = "+790283418392",
+            Email = "traktor@mail.com",
+            IsDeleted = true
+        };
+
+        _clientsRepositoryMock.Setup(c => c.RemoveOrRestoreClient(client.Id, false));
+
+        //when
+        _sut.RemoveOrRestoreClient(client.Id, false);
+
+        //then
+        Assert.IsTrue(client.IsDeleted);
+
+        _clientsRepositoryMock.Verify(c => c.RemoveOrRestoreClient(It.IsAny<int>(), false), Times.Once);
     }
 }
