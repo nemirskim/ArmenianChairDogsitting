@@ -52,7 +52,7 @@ public class SearchRepositoryTests
             Phone = "89567234581",
             Districts = new List<District> { districtOne,  districtTwo},
             Orders = new List<Order>() { new OrderWalk() 
-            { Comments = new List<Comment>() { new Comment() { Rating = 5, Text = "blaah blah" } } } },
+            { Comments = new List<Comment>() {  } } },
             PricesCatalog = new List<PriceCatalog>()
             { 
                 new PriceCatalog() 
@@ -80,7 +80,8 @@ public class SearchRepositoryTests
             Phone = "89567234581",
             Districts = new List<District> { districtOne, districtTwo },
             Orders = new List<Order>() { new OrderWalk()
-            { Comments = new List<Comment>() { new Comment() { Rating = 5, Text = "blaah blah" } } } },
+            { Comments = new List<Comment>() { new Comment() { Rating = 5, Text = "blaah blah" },
+            new Comment() { Rating = 3, Text = "bddd rrrr" }} } },
             PricesCatalog = new List<PriceCatalog>()
             {
                 new PriceCatalog()
@@ -135,8 +136,8 @@ public class SearchRepositoryTests
         {
             District =  DistrictEnum.Kalininsky,
             ServiceType = ServiceEnum.Overexpose,
-            PriceMinimum = 3000,
-            PriceMaximum = 3500
+            PriceMinimum = 2000,
+            PriceMaximum = 3600
         };
         var expectedSittersQuantity = 1;
 
@@ -165,5 +166,62 @@ public class SearchRepositoryTests
 
         //then
         Assert.AreEqual(expectedSittersQuantity, actualSitters.Count);
+    }
+
+    [Test]
+    public void GetSittersBySearchPaarams_RatingAndDistrictPassed_OneSittersReceived()
+    {
+        //given
+        var searchParams = new ParamsToSearchSitter()
+        {
+            MinRating = 3,
+            District = DistrictEnum.Kalininsky,
+        };
+        var expectedSittersQuantity = 1;
+
+        //when
+        var actual = _sut.GetSittersBySearchParams(searchParams);
+
+        //then
+        Assert.AreEqual(expectedSittersQuantity, actual.Count);
+    }
+
+    [Test]
+    public void GetSittersBySearchParams_CommentsAndRatingPassed_ZeroSittersReceived()
+    {
+        //given
+        var searchParams = new ParamsToSearchSitter()
+        {
+            MinRating = 3,
+            IsSitterHasComments = false,
+        };
+
+        var expectedSittersQuantity = 0;
+
+
+        //when
+        var actual = _sut.GetSittersBySearchParams(searchParams);
+
+        //then
+        Assert.AreEqual(expectedSittersQuantity, actual.Count);
+    }
+
+    [Test]
+    public void GetSittersBySearchParams_ComentsAndDistrictPassed_OneSittersReceived()
+    {
+        //given
+        var searchParams = new ParamsToSearchSitter()
+        {
+            District = DistrictEnum.All,
+            IsSitterHasComments = false,
+        };
+
+        var expectedSittersQuantity = 1;
+
+        //when
+        var actual = _sut.GetSittersBySearchParams(searchParams);
+
+        //then
+        Assert.AreEqual(expectedSittersQuantity, actual.Count);
     }
 }

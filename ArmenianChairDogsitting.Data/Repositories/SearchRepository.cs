@@ -16,12 +16,42 @@ public class SearchRepository : ISearchRepository
 
     public List<Sitter> GetSittersBySearchParams(ParamsToSearchSitter searchEntity)
     {
+        if (searchEntity.MinRating > 0)
+            searchEntity.IsSitterHasComments = true;
+
         return _context.Sitters
             .Include(o => o.Orders)
             .Where(s => !s.IsDeleted &&
-                s.PricesCatalog
-                .Any(p => p.Service.Id == searchEntity.ServiceType &&
-                p.Price >= searchEntity.PriceMinimum && p.Price <= searchEntity.PriceMaximum))
+                s.PricesCatalog.Any
+                (
+                    p => (p.Service.Id == searchEntity.ServiceType &&
+                        (
+                            searchEntity.PriceMinimum != null && p.Price >= searchEntity.PriceMinimum &&
+                            searchEntity.PriceMaximum != null && p.Price <= searchEntity.PriceMaximum
+                        )) ||
+                        (
+                            p.Service.Id == searchEntity.ServiceType &&
+                            searchEntity.PriceMinimum != null && p.Price >= searchEntity.PriceMinimum
+                        ) ||
+                        (
+                            p.Service.Id == searchEntity.ServiceType &&
+                            searchEntity.PriceMaximum != null && p.Price <= searchEntity.PriceMaximum
+                        )
+                ) &&
+                ((                    
+                    searchEntity.IsSitterHasComments &&
+                    s.Orders.Any(c => c.Comments.Count != 0) &&
+                    (
+                        searchEntity.MinRating != null &&
+                        s.Orders.Any(c => c.Comments.Average(r => r.Rating) >= searchEntity.MinRating)
+                    )
+                ) ||
+                (
+                    !searchEntity.IsSitterHasComments &&
+                    s.Orders.Any(c => c.Comments.Count == 0)
+                )) &&
+                s.Districts.Any(d => d.Id == searchEntity.District || 
+                searchEntity.District == DistrictEnum.All))
             .ToList();
     }
-}
+}//selectMany
