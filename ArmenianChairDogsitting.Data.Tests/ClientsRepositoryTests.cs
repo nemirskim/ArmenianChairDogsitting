@@ -29,7 +29,6 @@ public class ClientsRepositoryTests
             Dogs = new()
                 { new() { Id = 1, Name = "Bob" }},
             IsDeleted = false
-            //Orders = new Order() { Id = 1, Type = new DailySitting() },       
         });
 
         _context.Clients.Add(new Client()
@@ -39,8 +38,7 @@ public class ClientsRepositoryTests
             LastName = "Zasnul",
             Dogs = new()
                 { new() { Id = 65, Name = "Persik" }},
-            IsDeleted = true
-            //Orders = new Order() { Id = 1, Type = new DailySitting() },       
+            IsDeleted = true 
         });
 
         _context.SaveChanges();

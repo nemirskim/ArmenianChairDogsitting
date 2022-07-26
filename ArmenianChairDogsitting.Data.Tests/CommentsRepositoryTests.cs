@@ -27,8 +27,7 @@ public class CommentsRepositoryTests
         {
             IsDeleted = false,
             TimeCreated = _created,
-            Title = "Chu papi mu nanyo",
-            Client = new() { Name = "Grisha", LastName = "Grisha" },
+            Text = "Chu papi mu nanyo",            
             Order = new OrderOverexpose(),
             Rating = 3,
         }) ;
@@ -37,8 +36,7 @@ public class CommentsRepositoryTests
         {
             IsDeleted = true,
             TimeCreated = _created,
-            Title = "Chiki briki v damki",
-            Client = new() { Name = "Egor", LastName = "Egor" },
+            Text = "Chiki briki v damki",
             Order = new OrderOverexpose(),
             Rating = 1
         });
@@ -47,8 +45,7 @@ public class CommentsRepositoryTests
         {
             IsDeleted = false,
             TimeCreated = _created,
-            Title = "Sitter Lost My Dog",
-            Client = new() { Name = "Vova", LastName = "Vova" },
+            Text = "Sitter Lost My Dog",
             Order = new OrderWalk(),
             Rating = 5
         });
@@ -71,18 +68,5 @@ public class CommentsRepositoryTests
         Assert.NotNull(comment.TimeUpdated);
         Assert.AreEqual(_created, comment.TimeCreated);
         Assert.IsTrue(comment.TimeUpdated > comment.TimeCreated);
-    }
-
-    [Test]
-    public void GetAllComments_WhenCalled_ReturnsAllComments()
-    {
-        //given
-        var expectedQuantityIttems = 2;
-
-        //when
-        var comments = _sut.GetAllComments();
-
-        //then
-        Assert.AreEqual(expectedQuantityIttems, comments.Count);
     }
 }

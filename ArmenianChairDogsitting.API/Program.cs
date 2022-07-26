@@ -1,7 +1,12 @@
+using ArmenianChairDogsitting.API;
+using ArmenianChairDogsitting.API.CustomExceptionMiddleware;
 using ArmenianChairDogsitting.API.Infrastructure;
+using ArmenianChairDogsitting.Business.Interfaces;
+using ArmenianChairDogsitting.Business.Services;
 using ArmenianChairDogsitting.Data;
 using ArmenianChairDogsitting.Data.Repositories;
 using ArmenianChairDogsitting.Data.Repositories.Interfaces;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -70,10 +75,16 @@ builder.Services.AddScoped<ISitterRepository, SitterRepository>();
 builder.Services.AddScoped<IClientsRepository, ClientsRepository>();
 
 builder.Services.AddScoped<IOrdersRepository, OrdersRepository>();
+builder.Services.AddScoped<IOrdersService, OrdersService>();
+
 builder.Services.AddScoped<ICommentsRepository, CommentsRepository>();
+builder.Services.AddScoped<ICommentsService, CommentsService>();
+
+builder.Services.AddAutoMapper(typeof(APIMapperConfigStorage));
 
 var app = builder.Build();
 
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseSwagger();
 app.UseSwaggerUI();

@@ -11,12 +11,8 @@ public class CommentsRepository : ICommentsRepository
         _context = context;
     }
 
-    public int AddComment(Comment comment)
-    {
-        _context.Comments.Add(comment);
-        _context.SaveChanges();
-        return comment.Id;
-    }
+    public Comment? GetCommentById(int id) => _context.Comments.FirstOrDefault();
+
 
     public void DeleteCommentById(int id)
     {
@@ -28,7 +24,5 @@ public class CommentsRepository : ICommentsRepository
         choosenComment.TimeUpdated = DateTime.Now;
         _context.Comments.Update(choosenComment);
         _context.SaveChanges();
-    }
-
-    public List<Comment> GetAllComments() => _context.Comments.Where(o => !o.IsDeleted).ToList();            
+    }           
 }
