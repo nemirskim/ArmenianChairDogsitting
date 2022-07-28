@@ -2,7 +2,6 @@
 using System.ComponentModel.DataAnnotations;
 using ArmenianChairDogsitting.API.Extensions;
 using ArmenianChairDogsitting.API.Infrastructure;
-using ArmenianChairDogsitting.Data.Enums;
 
 namespace ArmenianChairDogsitting.API.Models;
 

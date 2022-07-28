@@ -14,7 +14,7 @@ public class SittersControllerTests
     [SetUp]
     public void Setup()
     {
-        _sut = new SittersController();
+        _sut = new SittersController(null, null);
     }
 
     [Test]
