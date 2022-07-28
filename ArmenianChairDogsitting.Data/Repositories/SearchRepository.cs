@@ -21,31 +21,16 @@ public class SearchRepository : ISearchRepository
 
         return _context.Sitters
             .Include(o => o.Orders)
-            .Where(s => !s.IsDeleted &&
+            .Where(s => 
+                !s.IsDeleted &&
                 s.PricesCatalog.Any
-                (
-                    p => (p.Service.Id == searchEntity.ServiceType &&
-                        (
-                            searchEntity.PriceMinimum != null && p.Price >= searchEntity.PriceMinimum &&
-                            searchEntity.PriceMaximum != null && p.Price <= searchEntity.PriceMaximum
-                        )) ||
-                        (
-                            p.Service.Id == searchEntity.ServiceType &&
-                            searchEntity.PriceMaximum == null &&
-                            searchEntity.PriceMinimum != null && p.Price >= searchEntity.PriceMinimum
-                        ) ||
-                        (
-                            p.Service.Id == searchEntity.ServiceType &&
-                            searchEntity.PriceMinimum == null &&
-                            searchEntity.PriceMaximum != null && p.Price <= searchEntity.PriceMaximum
-                        ) ||
-                        (
-                            p.Service.Id == searchEntity.ServiceType &&
-                            searchEntity.PriceMinimum == null &&
-                            searchEntity.PriceMaximum == null
-                        )
+                (p => (
+                        p.Service.Id == searchEntity.ServiceType &&
+                        (searchEntity.PriceMinimum == null || searchEntity.PriceMinimum != null && p.Price >= searchEntity.PriceMinimum) &&
+                        (searchEntity.PriceMaximum == null || searchEntity.PriceMaximum != null && p.Price <= searchEntity.PriceMaximum)
+                    )
                 ) &&
-                ((                    
+                ((
                     searchEntity.IsSitterHasComments &&
                     s.Orders.Any(c => c.Comments.Count != 0) &&
                     (
@@ -57,8 +42,8 @@ public class SearchRepository : ISearchRepository
                     !searchEntity.IsSitterHasComments &&
                     s.Orders.Any(c => c.Comments.Count == 0)
                 )) &&
-                s.Districts.Any(d => d.Id == searchEntity.District || 
-                searchEntity.District == DistrictEnum.All))
+                (searchEntity.District == DistrictEnum.All || s.Districts.Any(d => d.Id == searchEntity.District))
+             )
             .ToList();
     }
 }//selectMany
