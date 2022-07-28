@@ -3,8 +3,8 @@ using ArmenianChairDogsitting.Data.Seed;
 
 namespace ArmenianChairDogsitting.Data.Entities;
 
-public class Service : IEnumModel<Service, ServiceEnum>
+public class District : IEnumModel<District, DistrictEnum>
 {
-    public ServiceEnum Id { get; set; }
+    public DistrictEnum Id { get; set; }
     public List<Sitter> Sitters { get; set; }
 }

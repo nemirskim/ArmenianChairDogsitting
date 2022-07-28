@@ -3,6 +3,7 @@ using ArmenianChairDogsitting.API.CustomExceptionMiddleware;
 using ArmenianChairDogsitting.API.Infrastructure;
 using ArmenianChairDogsitting.Business.Interfaces;
 using ArmenianChairDogsitting.Business.Services;
+using ArmenianChairDogsitting.Business;
 using ArmenianChairDogsitting.Data;
 using ArmenianChairDogsitting.Data.Repositories;
 using ArmenianChairDogsitting.Data.Repositories.Interfaces;
@@ -79,9 +80,10 @@ builder.Services.AddScoped<IOrdersRepository, OrdersRepository>();
 builder.Services.AddScoped<IOrdersService, OrdersService>();
 
 builder.Services.AddScoped<ICommentsRepository, CommentsRepository>();
+builder.Services.AddScoped<ISearchRepository, SearchRepository>();
 builder.Services.AddScoped<ICommentsService, CommentsService>();
 
-builder.Services.AddAutoMapper(typeof(APIMapperConfigStorage));
+builder.Services.AddAutoMapper(typeof(MapperConfigStorage), typeof(APIMapperConfigStorage));
 
 var app = builder.Build();
 
