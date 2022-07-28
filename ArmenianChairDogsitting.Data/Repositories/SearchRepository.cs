@@ -31,11 +31,18 @@ public class SearchRepository : ISearchRepository
                         )) ||
                         (
                             p.Service.Id == searchEntity.ServiceType &&
+                            searchEntity.PriceMaximum == null &&
                             searchEntity.PriceMinimum != null && p.Price >= searchEntity.PriceMinimum
                         ) ||
                         (
                             p.Service.Id == searchEntity.ServiceType &&
+                            searchEntity.PriceMinimum == null &&
                             searchEntity.PriceMaximum != null && p.Price <= searchEntity.PriceMaximum
+                        ) ||
+                        (
+                            p.Service.Id == searchEntity.ServiceType &&
+                            searchEntity.PriceMinimum == null &&
+                            searchEntity.PriceMaximum == null
                         )
                 ) &&
                 ((                    

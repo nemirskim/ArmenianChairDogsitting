@@ -52,7 +52,7 @@ public class SearchRepositoryTests
             Phone = "89567234581",
             Districts = new List<District> { districtOne,  districtTwo},
             Orders = new List<Order>() { new OrderWalk() 
-            { Comments = new List<Comment>() {  } } },
+            { Comments = new List<Comment>() } },
             PricesCatalog = new List<PriceCatalog>()
             { 
                 new PriceCatalog() 
@@ -174,8 +174,9 @@ public class SearchRepositoryTests
         //given
         var searchParams = new ParamsToSearchSitter()
         {
-            MinRating = 3,
+            MinRating = 4,
             District = DistrictEnum.Kalininsky,
+            ServiceType = ServiceEnum.Overexpose
         };
         var expectedSittersQuantity = 1;
 
@@ -214,6 +215,7 @@ public class SearchRepositoryTests
         {
             District = DistrictEnum.All,
             IsSitterHasComments = false,
+            ServiceType = ServiceEnum.Overexpose
         };
 
         var expectedSittersQuantity = 1;
