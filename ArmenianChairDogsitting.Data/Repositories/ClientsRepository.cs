@@ -32,6 +32,8 @@ public class ClientsRepository : IClientsRepository
         _context.SaveChanges();
     }
 
+    public Client? GetClientByEmail(string email) => _context.Clients.FirstOrDefault(c => c.Email == email);
+
     public void RemoveOrRestoreClient(int id, bool isDeleting)
     {
         var client = GetClientById(id);

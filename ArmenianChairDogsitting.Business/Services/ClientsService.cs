@@ -1,6 +1,5 @@
 ﻿using ArmenianChairDogsitting.Data.Repositories;
 using ArmenianChairDogsitting.Data.Entities;
-using AutoMapper;
 using ArmenianChairDogsitting.Data.Enums;
 
 namespace ArmenianChairDogsitting.Business;
@@ -16,11 +15,16 @@ public class ClientsService : IClientsService
 
     public int AddClient(Client client)
     {
-        client.Role = Role.Client;
+        var isExist = CheckEmailForExisting(client.Email);
 
-        var id = _clientsRepository.AddClient(client);
+        if (!isExist)
+            throw new ExistingEmailException("This email already exists");
 
-        return id;
+        else
+            client.Password = PasswordHash.HashPassword(client.Password);
+            client.Role = Role.Client;            
+
+        return _clientsRepository.AddClient(client);
     }
 
     public Client GetClientById(int id)
@@ -58,5 +62,7 @@ public class ClientsService : IClientsService
 
         else
         _clientsRepository.RemoveOrRestoreClient(id, isDeleted);
-    } 
+    }
+
+    private bool CheckEmailForExisting(string email) => _clientsRepository.GetClientByEmail(email) == null;
 }

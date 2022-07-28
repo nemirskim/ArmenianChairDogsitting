@@ -99,7 +99,7 @@ public class ClientsRepositoryTests
         _context.SaveChanges();
 
         //when
-        _sut.UpdateClient(actual);
+        _sut.UpdateClient(actual, id);
 
         //then
         Assert.AreEqual(id, actual.Id);
