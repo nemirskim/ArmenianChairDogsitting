@@ -9,14 +9,14 @@ namespace ArmenianChairDogsitting.API.Tests
 {
     public class CommentsControllerTests
     {
-        private ÑommentsController _sut;
+        private CommentsController _sut;
         private Mock<ICommentsService> _commentsServiceMock;
 
         [SetUp]
         public void Setup()
         {
             _commentsServiceMock = new Mock<ICommentsService>();
-            _sut = new ÑommentsController(_commentsServiceMock.Object);
+            _sut = new CommentsController(_commentsServiceMock.Object);
         }
 
         [Test]

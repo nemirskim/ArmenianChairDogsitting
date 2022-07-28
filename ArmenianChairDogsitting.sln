@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArmenianChairDogsitting.Dat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArmenianChairDogsitting.Business", "ArmenianChairDogsitting.Business\ArmenianChairDogsitting.Business.csproj", "{DB63A9F4-C8B8-4366-9C38-3CBEE5B8064F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArmenianChairDogsitting.API.Tests", "ArmenianChairDogsitting.API.Tests\ArmenianChairDogsitting.API.Tests.csproj", "{0C4FE0C9-61EA-4D84-ABA8-884BB7E7CB10}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArmenianChairDogsitting.API.Tests", "ArmenianChairDogsitting.API.Tests\ArmenianChairDogsitting.API.Tests.csproj", "{0C4FE0C9-61EA-4D84-ABA8-884BB7E7CB10}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArmenianChairDogsitting.Data.Tests", "ArmenianChairDogsitting.Data.Tests\ArmenianChairDogsitting.Data.Tests.csproj", "{64EEFBB0-288A-4107-BA7E-E3210372C0C1}"
 EndProject
