@@ -288,8 +288,8 @@ public class SitterRepositoryTests
         Assert.AreEqual(priceCatalogForUpdate[1].Price, actualSitter.PricesCatalog[1].Price);
         Assert.AreEqual(priceCatalogForUpdate[2].Price, actualSitter.PricesCatalog[2].Price);
         Assert.AreEqual(actualSitter.PricesCatalog.Count, priceCatalogForUpdate.Count);
+        Assert.AreEqual(actualSitter.PricesCatalog[0].Service, priceCatalogForUpdate[0].Service);
         Assert.AreEqual(actualSitter.PricesCatalog[1].Service, priceCatalogForUpdate[1].Service);
         Assert.AreEqual(actualSitter.PricesCatalog[2].Service, priceCatalogForUpdate[2].Service);
-        Assert.AreEqual(actualSitter.PricesCatalog[3].Service, priceCatalogForUpdate[3].Service);
     }
 }
