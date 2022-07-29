@@ -59,6 +59,7 @@ public class APIMapperConfigStorage : Profile
 
         CreateMap<CommentRequest, Comment>().ReverseMap();
         CreateMap<SitterRequest, Sitter>();
+        CreateMap<SitterUpdatePriceCatalogRequest, Sitter>();
         CreateMap<SitterUpdateRequest, Sitter>();
         CreateMap<Sitter, SitterAllInfoResponse>();
         CreateMap<UserUpdatePasswordRequest, Sitter>();

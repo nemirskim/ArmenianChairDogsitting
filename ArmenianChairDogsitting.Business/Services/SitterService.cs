@@ -62,47 +62,14 @@ public class SitterService : ISitterService
         _sitterRepository.UpdatePassword(sitter);
     }
 
-    public void UpdatePriceCatalog(int id, List<PriceCatalog> priceCatalog)
+    public void UpdatePriceCatalog(int id, Sitter sitterForUpdate)
     {
         var sitter = _sitterRepository.GetById(id);
 
         if (sitter == null)
             throw new NotFoundException($"{ExceptionMessage.ChoosenSitterDoesNotExist}{id}");
 
-        bool isExist = false;
-
-        sitter.PricesCatalog.RemoveAll(sitterService =>
-        {
-            foreach (var service in priceCatalog)
-            {
-                if (service.Service == sitterService.Service)
-                    return false;
-            }
-
-            return true;
-        });
-
-        foreach (var price in priceCatalog)
-        {
-            foreach (var sitterPrice in sitter.PricesCatalog)
-            {
-                if (price.Service == sitterPrice.Service)
-                {
-                    sitterPrice.Price = price.Price;
-                    sitterPrice.Sitter = sitterPrice.Sitter;
-                    isExist = true;
-                    break;
-                }
-            }
-
-            if (isExist)
-            {
-                isExist = false;
-                continue;
-            }
-
-            sitter.PricesCatalog.Add(price);
-        }
+        sitter.PricesCatalog = sitterForUpdate.PricesCatalog;
 
         _sitterRepository.UpdatePriceCatalog(sitter);
     }

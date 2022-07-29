@@ -7,6 +7,7 @@ using ArmenianChairDogsitting.Business.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ArmenianChairDogsitting.API.Models.Requests.SitterRequests;
 
 namespace ArmenianChairDogsitting.API.Controllers;
 
@@ -69,7 +70,7 @@ public class SittersController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
-    public ActionResult UpdateSitter(SitterUpdateRequest sitterUpdateRequest, int id)
+    public ActionResult UpdateSitter([FromBody] SitterUpdateRequest sitterUpdateRequest, int id)
     {
         _sittersService.Update(_mapper.Map<Sitter>(sitterUpdateRequest), id);
         return NoContent();
@@ -112,14 +113,14 @@ public class SittersController : Controller
     }
 
     [AuthorizeByRole(Role.Sitter)]
-    [HttpPatch("{id}/{catalog}")]
+    [HttpPatch("{id}/prices")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
-    public ActionResult UpdatePriceCatalogSitter(int id, List<PriceCatalog> priceCatalog)
+    public ActionResult UpdatePriceCatalogSitter(int id, [FromBody] SitterUpdatePriceCatalogRequest sitterForUpdate)
     {
-        _sittersService.UpdatePriceCatalog(id, priceCatalog);
+        _sittersService.UpdatePriceCatalog(id, _mapper.Map<Sitter>(sitterForUpdate));
         return NoContent();
     }
 
