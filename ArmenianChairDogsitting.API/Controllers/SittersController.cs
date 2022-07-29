@@ -2,12 +2,10 @@
 using ArmenianChairDogsitting.API.Models;
 using ArmenianChairDogsitting.Data.Entities;
 using ArmenianChairDogsitting.Data.Enums;
-using ArmenianChairDogsitting.Data.Repositories.Interfaces;
 using ArmenianChairDogsitting.Business.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ArmenianChairDogsitting.API.Models.Requests.SitterRequests;
 
 namespace ArmenianChairDogsitting.API.Controllers;
 
