@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ArmenianChairDogsitting.Data.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,7 @@ namespace ArmenianChairDogsitting.Data.Entities
     public class PriceCatalog
     {
         public int Id { get; set; }
-        public Service Service { get; set; }
+        public ServiceEnum Service { get; set; }
         public decimal Price { get; set; }
         public Sitter Sitter { get; set; }
     }

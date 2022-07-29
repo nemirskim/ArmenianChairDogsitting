@@ -70,21 +70,13 @@ public class SitterRepositoryTests
             {
                 new PriceCatalog
                 {
-                    Service = new Service
-                    {
-                        Id = ServiceEnum.SittingForDay,
-                        Sitters = new List<Sitter>()
-                    },
+                    Service = ServiceEnum.SittingForDay,
                     Price = 600,
                     Sitter = new Sitter{Name = "Ludmila"},
                 },
                 new PriceCatalog
                 {
-                    Service = new Service
-                    {
-                        Id = ServiceEnum.Walk,
-                        Sitters = new List<Sitter>()
-                    },
+                    Service = ServiceEnum.DailySitting,
                     Price = 300,
                     Sitter = new Sitter{Name = "Ludmila"},
                 }
@@ -241,21 +233,13 @@ public class SitterRepositoryTests
         {
             new PriceCatalog
             {
-                Service = new Service
-                {
-                    Id = ServiceEnum.SittingForDay,
-                    Sitters = new List<Sitter>()
-                },
+                Service = ServiceEnum.SittingForDay,
                 Price = 2000,
                 Sitter = new Sitter{Name = "Ludmila"},
             },
             new PriceCatalog
             {
-                Service = new Service
-                {
-                    Id = ServiceEnum.DailySitting,
-                    Sitters = new List<Sitter>()
-                },
+                Service = ServiceEnum.DailySitting,
                 Price = 800,
                 Sitter = new Sitter
                 {
@@ -272,11 +256,7 @@ public class SitterRepositoryTests
             },
             new PriceCatalog
             {
-                Service = new Service
-                {
-                    Id = ServiceEnum.Overexpose,
-                    Sitters = new List<Sitter>()
-                },
+                Service = ServiceEnum.Overexpose,
                 Price = 300,
                 Sitter = new Sitter
                 {
@@ -292,44 +272,11 @@ public class SitterRepositoryTests
                 }
             }
         };
-                    
+
         int sitterId = 3;
         var sitter = _sut.GetById(sitterId);
 
-        bool isExist = false;
-
-        sitter.PricesCatalog.RemoveAll(sitterService =>
-        {
-            foreach(var service in priceCatalogForUpdate)
-            {
-                if (service.Service.Id == sitterService.Service.Id)
-                    return false;
-            }
-
-            return true;
-        });
-
-        foreach (var price in priceCatalogForUpdate)
-        {
-            foreach (var sitterPrice in sitter.PricesCatalog)
-            {
-                if(price.Service.Id == sitterPrice.Service.Id)
-                {
-                    sitterPrice.Price = price.Price;
-                    sitterPrice.Sitter = sitterPrice.Sitter;
-                    isExist = true;
-                    break;
-                }
-            }
-
-            if(isExist)
-            {
-                isExist = false;
-                continue;
-            }
-
-            sitter.PricesCatalog.Add(price);
-        }
+        sitter.PricesCatalog = priceCatalogForUpdate;
 
         //when
         _sut.UpdatePriceCatalog(sitter);
@@ -341,9 +288,8 @@ public class SitterRepositoryTests
         Assert.AreEqual(priceCatalogForUpdate[1].Price, actualSitter.PricesCatalog[1].Price);
         Assert.AreEqual(priceCatalogForUpdate[2].Price, actualSitter.PricesCatalog[2].Price);
         Assert.AreEqual(actualSitter.PricesCatalog.Count, priceCatalogForUpdate.Count);
-        Assert.AreEqual(actualSitter.PricesCatalog[0].Service.Id, priceCatalogForUpdate[0].Service.Id);
-        Assert.AreEqual(actualSitter.PricesCatalog[1].Service.Id, priceCatalogForUpdate[1].Service.Id);
-        Assert.AreEqual(actualSitter.PricesCatalog[2].Service.Id, priceCatalogForUpdate[2].Service.Id);
-
+        Assert.AreEqual(actualSitter.PricesCatalog[1].Service, priceCatalogForUpdate[1].Service);
+        Assert.AreEqual(actualSitter.PricesCatalog[2].Service, priceCatalogForUpdate[2].Service);
+        Assert.AreEqual(actualSitter.PricesCatalog[3].Service, priceCatalogForUpdate[3].Service);
     }
 }

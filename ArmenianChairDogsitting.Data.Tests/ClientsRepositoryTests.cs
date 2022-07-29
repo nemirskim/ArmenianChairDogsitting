@@ -141,3 +141,4 @@ public class ClientsRepositoryTests
         //then 
         Assert.False(client!.IsDeleted);
     }
+}
