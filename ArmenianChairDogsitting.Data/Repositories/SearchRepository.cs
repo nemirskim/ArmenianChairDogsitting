@@ -21,7 +21,7 @@ public class SearchRepository : ISearchRepository
 
         return _context.Sitters
             .Include(o => o.Orders)
-            .Where(s =>
+            .Where(s => 
                 !s.IsDeleted &&
                 s.PricesCatalog.Any
                 (p => (

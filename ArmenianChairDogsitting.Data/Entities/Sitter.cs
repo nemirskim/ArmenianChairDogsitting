@@ -1,9 +1,4 @@
 ﻿using ArmenianChairDogsitting.Data.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ArmenianChairDogsitting.Data.Entities;
 
@@ -19,6 +14,7 @@ public class Sitter
     public int Experience { get; set; }
     public Sex Sex { get; set; }
     public string Description { get; set; }
+    public List<District> Districts { get; set; }
     public List<PriceCatalog> PricesCatalog { get; set; }
     public List<Order> Orders { get; set; } 
     public bool IsDeleted {  get; set; }

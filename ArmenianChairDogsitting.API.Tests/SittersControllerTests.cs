@@ -14,7 +14,7 @@ public class SittersControllerTests
     [SetUp]
     public void Setup()
     {
-        _sut = new SittersController();
+        _sut = new SittersController(null, null);
     }
 
     [Test]
@@ -94,13 +94,28 @@ public class SittersControllerTests
     }
 
     [Test]
-    public void RemoveOrRestoreSitterById_ValidRequestPassed_NoContentReceived()
+    public void RemoveSitterById_ValidRequestPassed_NoContentReceived()
     {
         //given
         var sitterId = 1;
 
         //when
-        var actual = _sut.RemoveOrRestoreSitterById(sitterId);
+        var actual = _sut.RemoveSitterById(sitterId);
+
+        //then
+        var actualResult = actual as NoContentResult;
+
+        Assert.AreEqual(StatusCodes.Status204NoContent, actualResult.StatusCode);
+    }
+
+    [Test]
+    public void RestoreSitterById_ValidRequestPassed_NoContentReceived()
+    {
+        //given
+        var sitterId = 1;
+
+        //when
+        var actual = _sut.RestoreSitterById(sitterId);
 
         //then
         var actualResult = actual as NoContentResult;
@@ -112,11 +127,14 @@ public class SittersControllerTests
     public void UpdatePasswordSitter_ValidRequestPassed_NoContentReceived()
     {
         //given
+        var newPassword = new UserUpdatePasswordRequest
+        {
+            Password = "123456789"
+        };
         var sitterId = 1;
-        var password = "123456789";
 
         //when
-        var actual = _sut.UpdatePasswordSitter(sitterId, password);
+        var actual = _sut.UpdatePasswordSitter(sitterId, newPassword);
 
         //then
         var actualResult = actual as NoContentResult;
