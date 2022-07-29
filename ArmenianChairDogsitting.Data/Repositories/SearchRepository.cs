@@ -25,7 +25,7 @@ public class SearchRepository : ISearchRepository
                 !s.IsDeleted &&
                 s.PricesCatalog.Any
                 (p => (
-                        p.Service.Id == searchEntity.ServiceType &&
+                        p.Service == searchEntity.ServiceType &&
                         (searchEntity.PriceMinimum == null || searchEntity.PriceMinimum != null && p.Price >= searchEntity.PriceMinimum) &&
                         (searchEntity.PriceMaximum == null || searchEntity.PriceMaximum != null && p.Price <= searchEntity.PriceMaximum)
                     )

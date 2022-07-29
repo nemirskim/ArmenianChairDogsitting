@@ -26,9 +26,6 @@ public class SearchRepositoryTests
         var districtTwo = new District() { Id = DistrictEnum.Tsentralny };
         var districtThree = new District() { Id = DistrictEnum.Primorsky };
 
-        var ServiceWalk = new Service() { Id = ServiceEnum.Walk };
-        var ServiceOverexpose = new Service() { Id = ServiceEnum.Overexpose };
-
         _context.Sitters.Add(new Sitter
         {
             Name = "iamname",
@@ -57,12 +54,12 @@ public class SearchRepositoryTests
             { 
                 new PriceCatalog() 
                 { 
-                    Price = 2500, Service = ServiceOverexpose
+                    Price = 2500, Service = ServiceEnum.Overexpose
                 },
             { 
                 new PriceCatalog() 
                 {
-                    Price = 1500, Service = ServiceWalk
+                    Price = 1500, Service = ServiceEnum.Walk
                 }
                 }
             }
@@ -86,12 +83,12 @@ public class SearchRepositoryTests
             {
                 new PriceCatalog()
                 {
-                    Price = 3500, Service = ServiceOverexpose
+                    Price = 3500, Service = ServiceEnum.Overexpose
                 },
             {
                 new PriceCatalog()
                 {
-                    Price = 2000, Service = ServiceWalk
+                    Price = 2000, Service = ServiceEnum.Walk
                 }
                 }
             }
@@ -114,12 +111,12 @@ public class SearchRepositoryTests
             {
                 new PriceCatalog()
                 {
-                    Price = 1500, Service = ServiceOverexpose
+                    Price = 1500, Service = ServiceEnum.Overexpose
                 },
             {
                 new PriceCatalog()
                 {
-                    Price = 1000, Service = ServiceWalk
+                    Price = 1000, Service = ServiceEnum.Walk
                 }
                 }
             }

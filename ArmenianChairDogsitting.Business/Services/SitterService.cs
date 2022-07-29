@@ -75,7 +75,7 @@ public class SitterService : ISitterService
         {
             foreach (var service in priceCatalog)
             {
-                if (service.Service.Id == sitterService.Service.Id)
+                if (service.Service == sitterService.Service)
                     return false;
             }
 
@@ -86,7 +86,7 @@ public class SitterService : ISitterService
         {
             foreach (var sitterPrice in sitter.PricesCatalog)
             {
-                if (price.Service.Id == sitterPrice.Service.Id)
+                if (price.Service == sitterPrice.Service)
                 {
                     sitterPrice.Price = price.Price;
                     sitterPrice.Sitter = sitterPrice.Sitter;

@@ -90,23 +90,6 @@ public class OrdersServiceTests
     }
 
     [Test]
-    public void GetOrderById_WhenOrderDoesntExist_ReturnOrder()
-    {
-        //given
-        Order orderFromRepo = null;
-
-        var orderId = 34;
-
-        _ordersRepository
-            .Setup(x => x.GetOrderById(It.IsAny<int>()))
-            .Returns(orderFromRepo);
-
-        //when then
-        Assert.Throws<NotFoundException>(() => _sut.GetOrderById(orderId));
-        _ordersRepository.Verify(x => x.GetOrderById(orderId), Times.Once);
-    }
-
-    [Test]
     public void UpdateOrderStatus_WhenOrderExist_KeepWorking()
     {
         //given

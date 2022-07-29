@@ -80,7 +80,7 @@ public class ClientsRepositoryTests
     public void GetAllClientsTest_ShouldReturnAllOfExpectedClients()
     {
         //given 
-        var expectedClientsQuantity = 2;
+        var expectedClientsQuantity = 1;
 
         //when 
         var clients = _sut.GetAllClients();
