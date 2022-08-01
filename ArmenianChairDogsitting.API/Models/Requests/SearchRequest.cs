@@ -9,8 +9,8 @@ public class SearchRequest
     public decimal PriceMaximum { get; set; }
     public int MinRating { get; set; }
     public bool IsSitterHasComments { get; set; }
-    [EnumRange(typeof(ServiceEnum))]
+   // [EnumRange(typeof(ServiceEnum))]
     public ServiceEnum ServiceType { get; set; }
-    [EnumRange(typeof(DistrictEnum))]
+   // [EnumRange(typeof(DistrictEnum))]
     public DistrictEnum District { get; set; }
 }
