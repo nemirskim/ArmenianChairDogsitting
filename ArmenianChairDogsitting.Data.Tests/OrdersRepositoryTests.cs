@@ -18,7 +18,7 @@ public class OrderRepositoryTests
         .UseInMemoryDatabase(databaseName: $"TestDb")
         .Options;
 
-        _context = new ArmenianChairDogsittingContext(_dbContextOptions); 
+        _context = new ArmenianChairDogsittingContext(_dbContextOptions);
         _context.Database.EnsureDeleted();
         _sut = new OrdersRepository(_context);
 

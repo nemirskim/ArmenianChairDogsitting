@@ -9,6 +9,6 @@ public interface ISitterService
     public int Add(Sitter sitter);
     public void Update(Sitter sitter, int id);
     public void RemoveOrRestoreById(int id, bool isDelete);
-    public void UpdatePriceCatalog(int id, List<PriceCatalog> priceCatalog);
+    public void UpdatePriceCatalog(int id, Sitter sitterForUpdate);
     public void UpdatePassword(int id, string password);
 }

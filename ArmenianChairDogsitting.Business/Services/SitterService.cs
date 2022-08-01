@@ -62,7 +62,7 @@ public class SitterService : ISitterService
         _sitterRepository.UpdatePassword(sitter);
     }
 
-    public void UpdatePriceCatalog(int id, List<PriceCatalog> priceCatalog)
+    public void UpdatePriceCatalog(int id, Sitter sitterForUpdate)
     {
         var sitter = _sitterRepository.GetById(id);
 
@@ -71,27 +71,32 @@ public class SitterService : ISitterService
 
         bool isExist = false;
 
-        sitter.PricesCatalog.RemoveAll(sitterService =>
+        if (sitter.PriceCatalog is not null)
         {
-            foreach (var service in priceCatalog)
+            sitter.PriceCatalog.RemoveAll(sitterService =>
             {
-                if (service.Service.Id == sitterService.Service.Id)
-                    return false;
-            }
-
-            return true;
-        });
-
-        foreach (var price in priceCatalog)
-        {
-            foreach (var sitterPrice in sitter.PricesCatalog)
-            {
-                if (price.Service.Id == sitterPrice.Service.Id)
+                foreach (var service in sitterForUpdate.PriceCatalog)
                 {
-                    sitterPrice.Price = price.Price;
-                    sitterPrice.Sitter = sitterPrice.Sitter;
-                    isExist = true;
-                    break;
+                    if (service.Service == sitterService.Service)
+                        return false;
+                }
+
+                return true;
+            });
+        }
+
+        foreach (var price in sitterForUpdate.PriceCatalog)
+        {
+            if (sitter.PriceCatalog is not null)
+            {
+                foreach (var sitterPrice in sitter.PriceCatalog)
+                {
+                    if (price.Service == sitterPrice.Service)
+                    {
+                        sitterPrice.Price = price.Price;
+                        isExist = true;
+                        break;
+                    }
                 }
             }
 
@@ -101,7 +106,10 @@ public class SitterService : ISitterService
                 continue;
             }
 
-            sitter.PricesCatalog.Add(price);
+            if (sitter.PriceCatalog is null)
+                sitter.PriceCatalog = new List<PriceCatalog>();
+
+            sitter.PriceCatalog.Add(new PriceCatalog { Price = price.Price, Service = price.Service, Sitter = new Sitter {Id = id } });
         }
 
         _sitterRepository.UpdatePriceCatalog(sitter);

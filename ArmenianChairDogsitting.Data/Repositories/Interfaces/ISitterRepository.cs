@@ -18,3 +18,4 @@ public interface ISitterRepository
     public void UpdatePriceCatalog(Sitter sitterWithNewPriceCatalog);
     public void UpdatePassword(Sitter newPassword);
 }
+

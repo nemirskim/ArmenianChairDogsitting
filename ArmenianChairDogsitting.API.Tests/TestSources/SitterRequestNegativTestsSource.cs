@@ -34,7 +34,7 @@ namespace ArmenianChairDogsitting.API.Tests.TestSources
             };
 
             sitter = GetSitterForTests();
-            sitter.LastName = "8963";
+            sitter.Phone = "8963";
             yield return new object[]
             {
                 sitter,
