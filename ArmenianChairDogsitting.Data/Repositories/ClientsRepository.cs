@@ -20,7 +20,7 @@ public class ClientsRepository : IClientsRepository
 
     public Client? GetClientById(int id) => _context.Clients.FirstOrDefault(c => c.Id == id);
 
-    public List<Client> GetAllClients() 
+    public List<Client> GetAllClients()
         => _context.Clients.Where(c => !c.IsDeleted).ToList();
 
     public void UpdateClient(Client newClient)

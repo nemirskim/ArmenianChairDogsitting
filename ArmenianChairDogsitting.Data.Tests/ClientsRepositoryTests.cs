@@ -1,12 +1,6 @@
 ﻿using ArmenianChairDogsitting.Data.Entities;
 using ArmenianChairDogsitting.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
-using ArmenianChairDogsitting.Data.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ArmenianChairDogsitting.Data.Tests;
 
@@ -35,7 +29,6 @@ public class ClientsRepositoryTests
             Dogs = new()
                 { new() { Id = 1, Name = "Bob" }},
             IsDeleted = false
-            //Orders = new Order() { Id = 1, Type = new DailySitting() },       
         });
 
         _context.Clients.Add(new Client()
@@ -45,8 +38,7 @@ public class ClientsRepositoryTests
             LastName = "Zasnul",
             Dogs = new()
                 { new() { Id = 65, Name = "Persik" }},
-            IsDeleted = true
-            //Orders = new Order() { Id = 1, Type = new DailySitting() },       
+            IsDeleted = true 
         });
 
         _context.SaveChanges();
@@ -55,7 +47,7 @@ public class ClientsRepositoryTests
     [Test]
     public void AddClientTest_WhenNewClientIsCorrect_ThenShouldAddExpectedClient()
     {
-        //given
+        //given 
         var client = new Client()
         {
             Id = 3,
@@ -63,10 +55,10 @@ public class ClientsRepositoryTests
             LastName = "Meladze"
         };
 
-        //when
+        //when 
         _sut.AddClient(client);
 
-        //then
+        //then 
         var expected = _context.Clients.FirstOrDefault(c => c.Id == client.Id);
         Assert.AreEqual(expected.Id, client.Id);
     }
@@ -74,12 +66,12 @@ public class ClientsRepositoryTests
     [Test]
     public void GetClientByIdTest_WhenIdIsCorrect_ShouldReturnExpectedClient()
     {
-        //given in setup
+        //given in setup 
 
-        //when
+        //when 
         var client = _sut.GetClientById(2);
 
-        //then
+        //then 
         Assert.AreEqual(2, client.Id);
         Assert.NotNull(client);
     }
@@ -87,29 +79,29 @@ public class ClientsRepositoryTests
     [Test]
     public void GetAllClientsTest_ShouldReturnAllOfExpectedClients()
     {
-        //given
-        var expectedClientsQuantity = 2;
+        //given 
+        var expectedClientsQuantity = 1;
 
-        //when
+        //when 
         var clients = _sut.GetAllClients();
 
-        //then
+        //then 
         Assert.AreEqual(expectedClientsQuantity, clients.Count);
     }
 
     [Test]
     public void UpdateClientTest_WhenCorrectIdIsPassed_ThenUpdateClientProfileApplied()
     {
-        //given
+        //given 
         var id = 2;
         var actual = _context.Clients.FirstOrDefault(c => c.Id == id);
         actual!.LastName = "Prosnulsya";
         _context.SaveChanges();
 
-        //when
+        //when 
         _sut.UpdateClient(actual);
 
-        //then
+        //then 
         Assert.AreEqual(id, actual.Id);
         Assert.AreEqual("Prosnulsya", actual.LastName);
     }
@@ -117,30 +109,28 @@ public class ClientsRepositoryTests
     [Test]
     public void RemoveClientTest_WhenCorrectIdIsPassed_ThenSoftDeleteApplied()
     {
-        //given
+        //given 
         var id = 1;
         var client = _context.Clients.FirstOrDefault(c => c.Id == id);
 
-        //when
+        //when 
         _sut.RemoveOrRestoreClient(id, true);
 
-        //then
+        //then 
         Assert.True(client!.IsDeleted);
     }
 
     [Test]
     public void RestoreClientTest_WhenCorrectIdIsPassed_ThenRestoreProfileApplied()
     {
-        //given
+        //given 
         var id = 2;
         var client = _context.Clients.FirstOrDefault(c => c.Id == id);
 
-        //when
+        //when 
         _sut.RemoveOrRestoreClient(id, false);
 
-        //then
+        //then 
         Assert.False(client!.IsDeleted);
     }
-
-
 }

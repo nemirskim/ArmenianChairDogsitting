@@ -18,11 +18,11 @@ public class OrderRepositoryTests
         .UseInMemoryDatabase(databaseName: $"TestDb")
         .Options;
 
-        _context = new ArmenianChairDogsittingContext(_dbContextOptions); 
+        _context = new ArmenianChairDogsittingContext(_dbContextOptions);
         _context.Database.EnsureDeleted();
         _sut = new OrdersRepository(_context);
 
-        _ = _context.Orders.Add(new OrderWalk()
+        _context.Orders.Add(new OrderWalk()
         {
             WalkQuantity = 3,
             IsTrial = true,
@@ -66,7 +66,7 @@ public class OrderRepositoryTests
         var returnedOrders = _sut.GetAllOrders();
 
         //then
-        Assert.AreEqual(3, returnedOrders.Count());
+        Assert.AreEqual(_context.Orders.Count(), returnedOrders.Count);
     }
 
     [Test]
@@ -111,4 +111,40 @@ public class OrderRepositoryTests
 
         Assert.IsTrue(expectedStatus == actualStatus);
     }
+
+    [Test]
+    public void AddCommentToOrder_WhenParamsIsValid_ThenReturnIdOfNewComment()
+    {
+        //given
+        var expectedChangesInOrder = ExpectedChangesInOrder();
+        var commentToAdd = CommentToAdd();
+        var orderIdToChange = 3;
+        var expectedId = 1;
+
+        //when
+        var actualId = _sut.AddCommentToOrder(orderIdToChange, commentToAdd);
+
+        //then
+        var actualOrder = _sut.GetOrderById(orderIdToChange);
+
+        Assert.AreEqual(expectedChangesInOrder.Id, actualOrder.Id);
+        Assert.AreEqual(expectedChangesInOrder.Comments.Count, actualOrder.Comments.Count);
+        Assert.AreEqual(expectedId, actualId);
+        Assert.AreEqual(expectedChangesInOrder.Comments[0].Text, actualOrder.Comments[0].Text);
+    }
+
+    private OrderOverexpose ExpectedChangesInOrder() =>
+        new OrderOverexpose()
+        {
+            Id = 3,
+            Status = Status.Created,
+            Type = ServiceEnum.Overexpose,
+            DayQuantity = 3,
+            WalkPerDayQuantity = 3,
+            Animals = new(),
+            Comments = new() { new() { Id = 4, Text = "blah blah" } },
+            Client = new() { Id = 3, Name = "Grisha" },
+        };
+
+    private Comment CommentToAdd() => new() { Text = "blah blah" };
 }

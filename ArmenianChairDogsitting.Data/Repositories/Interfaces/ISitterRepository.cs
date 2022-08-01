@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmenianChairDogsitting.Data.Repositories;
+namespace ArmenianChairDogsitting.Data.Repositories.Interfaces;
 
 public interface ISitterRepository
 {
@@ -19,3 +19,4 @@ public interface ISitterRepository
     public void UpdatePassword(int id, string password);
     public Sitter? GetSitterByEmail(string email);
 }
+

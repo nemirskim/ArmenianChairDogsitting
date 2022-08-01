@@ -3,10 +3,9 @@ using Microsoft.AspNetCore.Authorization;
 using ArmenianChairDogsitting.API.Models;
 using ArmenianChairDogsitting.Data.Enums;
 using ArmenianChairDogsitting.API.Extensions;
-using ArmenianChairDogsitting.Data.Enums;
-using ArmenianChairDogsitting.Data.Repositories;
 using ArmenianChairDogsitting.Data.Entities;
-using ArmenianChairDogsitting.Data.Enums;
+using ArmenianChairDogsitting.Business.Interfaces;
+using AutoMapper;
 
 namespace ArmenianChairDogsitting.API.Controllers
 {
@@ -16,11 +15,13 @@ namespace ArmenianChairDogsitting.API.Controllers
     [Route("[controller]")]
     public class OrdersController : Controller
     {
-        private readonly IOrdersRepository _ordersRepository;
+        private readonly IOrdersService _ordersService;
+        private readonly IMapper _mapper;
 
-        public OrdersController(IOrdersRepository ordersRepository)
+        public OrdersController(IOrdersService ordersService, IMapper mapper)
         {
-            _ordersRepository = ordersRepository;
+            _ordersService = ordersService;
+            _mapper = mapper;
         }
 
         [HttpPost]
@@ -29,9 +30,9 @@ namespace ArmenianChairDogsitting.API.Controllers
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(void), StatusCodes.Status422UnprocessableEntity)]
-        public ActionResult<int> AddOrder([FromBody] Order order) //AbstractOrderRequest order
+        public ActionResult<int> AddOrder([FromBody] AbstractOrderRequest order)
         {
-            var result = _ordersRepository.AddOrder(order); // AddOrder(mapedOrder)
+            var result = _ordersService.AddOrder(_mapper.Map<Order>(order));
             return Created($"{this.GetUri()}/{result}", result);
         }
 
@@ -40,12 +41,12 @@ namespace ArmenianChairDogsitting.API.Controllers
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(void), StatusCodes.Status405MethodNotAllowed)]
         [ProducesResponseType(typeof(void), StatusCodes.Status422UnprocessableEntity)]
         public ActionResult ChangeOrderStatus([FromBody] Status orderStatus, int id)
         {
-            _ordersRepository.UpdateOrderStatus(orderStatus, id);
+            _ordersService.UpdateOrderStatus(orderStatus, id);
             return NoContent();
         }
 
@@ -55,10 +56,17 @@ namespace ArmenianChairDogsitting.API.Controllers
         [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(AbstractOrderResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
-        public ActionResult<AbstractOrderResponse> GetOrderById(int id, Service Type)
+        public ActionResult<AbstractOrderResponse> GetOrderById(int id)
         {
-            var result = _ordersRepository.GetOrderById(id);
-            return Ok(new OrderWalkResponse()); //Ok(mapedResult)
+            var result = _ordersService.GetOrderById(id);
+            if (result is null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(_mapper.Map<AbstractOrderResponse>(result));
+            }
         }
 
         [HttpGet]
@@ -66,11 +74,34 @@ namespace ArmenianChairDogsitting.API.Controllers
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)] 
         [ProducesResponseType(typeof(List<AbstractOrderResponse>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
         public ActionResult<List<AbstractOrderResponse>> GetAllOrders()
         {
-            var result = _ordersRepository.GetAllOrders();
-            return Ok(new List<AbstractOrderResponse>());//Ok(mapedResult)
+            var result = _ordersService.GetAllOrders();
+            return Ok(_mapper.Map<List<AbstractOrderResponse>>(result));
+        }
+
+        [HttpGet("{id}/comments")]
+        [AuthorizeByRole(Role.Sitter, Role.Client)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(List<AbstractOrderResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
+        public ActionResult<List<CommentResponse>> GetCommentsByOrderId([FromRoute] int id)
+        {
+            var result = _ordersService.GetCommentsByOrderId(id);
+            return Ok(_mapper.Map<List<Comment>>(result));
+        }
+
+        [HttpPost("{id}/comments")]
+        [AuthorizeByRole(Role.Sitter, Role.Client)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(List<AbstractOrderResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
+        public ActionResult<int> AddCommentToOrder([FromRoute]int id, [FromBody]CommentRequest commentToAdd)
+        {
+            var result = _ordersService.AddCommentToOrder(id, _mapper.Map<Comment>(commentToAdd));
+            return Ok(result);
         }
     }
 }

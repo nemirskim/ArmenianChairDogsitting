@@ -1,8 +1,6 @@
 ﻿using ArmenianChairDogsitting.Data.Enums;
 using ArmenianChairDogsitting.API.Infrastructure;
-using ArmenianChairDogsitting.Data.Enums;
 using System.ComponentModel.DataAnnotations;
-using ArmenianChairDogsitting.Data.Entities;
 
 namespace ArmenianChairDogsitting.API.Models;
 
@@ -37,6 +35,4 @@ public class SitterRequest
     public Sex Sex { get; set; }
 
     public string Description { get; set; }
-
-    public List<PriceCatalog> PriceCatalog { get; set; }
 }
