@@ -69,7 +69,48 @@ public class SitterService : ISitterService
         if (sitter == null)
             throw new NotFoundException($"{ExceptionMessage.ChoosenSitterDoesNotExist}{id}");
 
-        sitter.PricesCatalog = sitterForUpdate.PricesCatalog;
+        bool isExist = false;
+
+        if (sitter.PricesCatalog is not null)
+        {
+            sitter.PricesCatalog.RemoveAll(sitterService =>
+            {
+                foreach (var service in sitterForUpdate.PricesCatalog)
+                {
+                    if (service.Service == sitterService.Service)
+                        return false;
+                }
+
+                return true;
+            });
+        }
+
+        foreach (var price in sitterForUpdate.PricesCatalog)
+        {
+            if (sitter.PricesCatalog is not null)
+            {
+                foreach (var sitterPrice in sitter.PricesCatalog)
+                {
+                    if (price.Service == sitterPrice.Service)
+                    {
+                        sitterPrice.Price = price.Price;
+                        isExist = true;
+                        break;
+                    }
+                }
+            }
+
+            if (isExist)
+            {
+                isExist = false;
+                continue;
+            }
+
+            if (sitter.PricesCatalog is null)
+                sitter.PricesCatalog = new List<PriceCatalog>();
+
+            sitter.PricesCatalog.Add(new PriceCatalog { Price = price.Price, Service = price.Service, Sitter = new Sitter {Id = id } });
+        }
 
         _sitterRepository.UpdatePriceCatalog(sitter);
     }

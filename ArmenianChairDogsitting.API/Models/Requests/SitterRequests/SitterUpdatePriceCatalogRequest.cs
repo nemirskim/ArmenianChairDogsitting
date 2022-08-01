@@ -1,10 +1,10 @@
-﻿using ArmenianChairDogsitting.Data.Entities;
+﻿using ArmenianChairDogsitting.API.Infrastructure;
 using System.ComponentModel.DataAnnotations;
 
 namespace ArmenianChairDogsitting.API.Models;
 
 public class SitterUpdatePriceCatalogRequest
 {
-    [Required]
-    public List<PriceCatalog> PriceCatalog { get; set; }
+    [Required(ErrorMessage = ApiErrorMessage.PriceCatalogIsRequired)]
+    public List<PriceCatalogRequest> PriceCatalog { get; set; }
 }

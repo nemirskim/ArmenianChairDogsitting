@@ -40,12 +40,15 @@ public class SittersController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     public ActionResult<SitterMainInfoResponse> GetSitterById(int id)
     {
-        var result = _sittersService.GetById(id);
+        var sitter = _sittersService.GetById(id);
 
-        if (result == null)
+        if (sitter == null)
             return NotFound();
 
-        return Ok(_mapper.Map<SitterMainInfoResponse>(result));
+        var result = _mapper.Map<SitterMainInfoResponse>(sitter);
+        result.PriceCatalog = _mapper.Map<List<PriceCatalogResponse>>(sitter.PricesCatalog);
+
+        return Ok(result);
     }
 
     [HttpGet]
@@ -118,17 +121,9 @@ public class SittersController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     public ActionResult UpdatePriceCatalogSitter(int id, [FromBody] SitterUpdatePriceCatalogRequest sitterForUpdate)
     {
-        _sittersService.UpdatePriceCatalog(id, _mapper.Map<Sitter>(sitterForUpdate));
-        return NoContent();
-    }
-
-    [AuthorizeByRole(Role.Sitter)]
-    [HttpGet("{id}/schedule")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
-    public ActionResult GetAllSittersWithWorkTimes(int id)
-    {
+        var sitter = _mapper.Map<Sitter>(sitterForUpdate);
+        sitter.PricesCatalog = _mapper.Map<List<PriceCatalog>>(sitterForUpdate.PriceCatalog);
+        _sittersService.UpdatePriceCatalog(id, sitter);
         return NoContent();
     }
 }

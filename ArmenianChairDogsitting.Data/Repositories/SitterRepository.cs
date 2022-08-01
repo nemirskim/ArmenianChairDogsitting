@@ -24,12 +24,16 @@ public class SitterRepository : ISitterRepository
         return sitter.Id;
     }
 
-    public Sitter? GetById(int id) => _context.Sitters
-        .FirstOrDefault(s => s.Id == id);
+    public Sitter? GetById(int id)
+    {
+        var sitter = _context.Sitters.FirstOrDefault(s => s.Id == id);
+        var priceCatalog = _context.PriceCatalogs.Where(pr => pr.Sitter.Id == sitter.Id).ToList();
+        sitter.PricesCatalog = priceCatalog;
+        return sitter;
+    } 
 
     public List<Sitter> GetSitters() => _context.Sitters
         .Where(s => !s.IsDeleted)
-        .AsNoTracking()
         .ToList();
 
     public void RemoveOrRestoreById(Sitter sitter)
@@ -54,6 +58,12 @@ public class SitterRepository : ISitterRepository
     {
         _context.Sitters.Update(sitterWithNewPriceCatalog);
         _context.SaveChanges();
-    }
 
+        foreach (var price in sitterWithNewPriceCatalog.PricesCatalog)
+        {
+            _context.PriceCatalogs.Update(price);
+            _context.SaveChanges();
+            continue;
+        }
+    }
 }
