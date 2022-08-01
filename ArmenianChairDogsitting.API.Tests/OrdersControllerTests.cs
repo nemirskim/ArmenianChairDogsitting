@@ -38,10 +38,8 @@ public class OrdersControllerTests
         {
             ClientId = 3,
             WalkQuantity = 2,
-            Animals = new(),
             IsTrial = true,
             SitterId = 2,
-            Status = Status.Created,
             Type = ServiceEnum.Walk
         };
 
@@ -50,7 +48,6 @@ public class OrdersControllerTests
             WalkQuantity = order.WalkQuantity,
             Animals = new(),
             Client = new() { Id = order.ClientId},
-            Status = order.Status,
             Type = order.Type,
             IsTrial = order.IsTrial,
             Sitter = new() { Id = order.SitterId }
