@@ -28,7 +28,7 @@ public class SitterRepository : ISitterRepository
     {
         var sitter = _context.Sitters.FirstOrDefault(s => s.Id == id);
         var priceCatalog = _context.PriceCatalogs.Where(pr => pr.Sitter.Id == sitter.Id).ToList();
-        sitter.PricesCatalog = priceCatalog;
+        sitter.PriceCatalog = priceCatalog;
         return sitter;
     } 
 
@@ -59,11 +59,11 @@ public class SitterRepository : ISitterRepository
         _context.Sitters.Update(sitterWithNewPriceCatalog);
         _context.SaveChanges();
 
-        foreach (var price in sitterWithNewPriceCatalog.PricesCatalog)
+/*        foreach (var price in sitterWithNewPriceCatalog.PriceCatalog)
         {
             _context.PriceCatalogs.Update(price);
             _context.SaveChanges();
             continue;
-        }
+        }*/
     }
 }

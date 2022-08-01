@@ -34,7 +34,7 @@ public class SitterRepositoryTests
             Experience = 7,
             Sex = Sex.Male,
             Description = "",
-            PricesCatalog = new List<PriceCatalog>(),
+            PriceCatalog = new List<PriceCatalog>(),
             Orders = new List<Order>(),
             IsDeleted = false
         });
@@ -50,7 +50,7 @@ public class SitterRepositoryTests
             Experience = 2,
             Sex = Sex.Male,
             Description = "",
-            PricesCatalog = new List<PriceCatalog>(),
+            PriceCatalog = new List<PriceCatalog>(),
             Orders = new List<Order>(),
             IsDeleted = false
         });
@@ -66,7 +66,7 @@ public class SitterRepositoryTests
             Experience = 3,
             Sex = Sex.Female,
             Description = "",
-            PricesCatalog = new List<PriceCatalog>
+            PriceCatalog = new List<PriceCatalog>
             {
                 new PriceCatalog
                 {
@@ -96,7 +96,7 @@ public class SitterRepositoryTests
             Experience = 12,
             Sex = Sex.Female,
             Description = "",
-            PricesCatalog = new List<PriceCatalog>(),
+            PriceCatalog = new List<PriceCatalog>(),
             Orders = new List<Order>(),
             IsDeleted = true
         });
@@ -276,7 +276,48 @@ public class SitterRepositoryTests
         int sitterId = 3;
         var sitter = _sut.GetById(sitterId);
 
-        sitter.PricesCatalog = priceCatalogForUpdate;
+        bool isExist = false;
+
+        if (sitter.PriceCatalog is not null)
+        {
+            sitter.PriceCatalog.RemoveAll(sitterService =>
+            {
+                foreach (var service in priceCatalogForUpdate)
+                {
+                    if (service.Service == sitterService.Service)
+                        return false;
+                }
+
+                return true;
+            });
+        }
+
+        foreach (var price in priceCatalogForUpdate)
+        {
+            if (sitter.PriceCatalog is not null)
+            {
+                foreach (var sitterPrice in sitter.PriceCatalog)
+                {
+                    if (price.Service == sitterPrice.Service)
+                    {
+                        sitterPrice.Price = price.Price;
+                        isExist = true;
+                        break;
+                    }
+                }
+            }
+
+            if (isExist)
+            {
+                isExist = false;
+                continue;
+            }
+
+            if (sitter.PriceCatalog is null)
+                sitter.PriceCatalog = new List<PriceCatalog>();
+
+            sitter.PriceCatalog.Add(new PriceCatalog { Price = price.Price, Service = price.Service, Sitter = new Sitter { Id = sitterId } });
+        }
 
         //when
         _sut.UpdatePriceCatalog(sitter);
@@ -284,12 +325,12 @@ public class SitterRepositoryTests
         //then
         var actualSitter = _sut.GetById(sitterId);
 
-        Assert.AreEqual(actualSitter.PricesCatalog[0].Price, priceCatalogForUpdate[0].Price);
-        Assert.AreEqual(priceCatalogForUpdate[1].Price, actualSitter.PricesCatalog[1].Price);
-        Assert.AreEqual(priceCatalogForUpdate[2].Price, actualSitter.PricesCatalog[2].Price);
-        Assert.AreEqual(actualSitter.PricesCatalog.Count, priceCatalogForUpdate.Count);
-        Assert.AreEqual(actualSitter.PricesCatalog[0].Service, priceCatalogForUpdate[0].Service);
-        Assert.AreEqual(actualSitter.PricesCatalog[1].Service, priceCatalogForUpdate[1].Service);
-        Assert.AreEqual(actualSitter.PricesCatalog[2].Service, priceCatalogForUpdate[2].Service);
+        Assert.AreEqual(actualSitter.PriceCatalog[0].Price, priceCatalogForUpdate[0].Price);
+        Assert.AreEqual(priceCatalogForUpdate[1].Price, actualSitter.PriceCatalog[1].Price);
+        Assert.AreEqual(priceCatalogForUpdate[2].Price, actualSitter.PriceCatalog[2].Price);
+        Assert.AreEqual(actualSitter.PriceCatalog.Count, priceCatalogForUpdate.Count);
+        Assert.AreEqual(actualSitter.PriceCatalog[0].Service, priceCatalogForUpdate[0].Service);
+        Assert.AreEqual(actualSitter.PriceCatalog[1].Service, priceCatalogForUpdate[1].Service);
+        Assert.AreEqual(actualSitter.PriceCatalog[2].Service, priceCatalogForUpdate[2].Service);
     }
 }

@@ -46,7 +46,7 @@ public class SittersController : Controller
             return NotFound();
 
         var result = _mapper.Map<SitterMainInfoResponse>(sitter);
-        result.PriceCatalog = _mapper.Map<List<PriceCatalogResponse>>(sitter.PricesCatalog);
+        result.PriceCatalog = _mapper.Map<List<PriceCatalogResponse>>(sitter.PriceCatalog);
 
         return Ok(result);
     }
@@ -122,7 +122,7 @@ public class SittersController : Controller
     public ActionResult UpdatePriceCatalogSitter(int id, [FromBody] SitterUpdatePriceCatalogRequest sitterForUpdate)
     {
         var sitter = _mapper.Map<Sitter>(sitterForUpdate);
-        sitter.PricesCatalog = _mapper.Map<List<PriceCatalog>>(sitterForUpdate.PriceCatalog);
+        sitter.PriceCatalog = _mapper.Map<List<PriceCatalog>>(sitterForUpdate.PriceCatalog);
         _sittersService.UpdatePriceCatalog(id, sitter);
         return NoContent();
     }

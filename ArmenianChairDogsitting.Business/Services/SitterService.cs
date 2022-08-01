@@ -71,11 +71,11 @@ public class SitterService : ISitterService
 
         bool isExist = false;
 
-        if (sitter.PricesCatalog is not null)
+        if (sitter.PriceCatalog is not null)
         {
-            sitter.PricesCatalog.RemoveAll(sitterService =>
+            sitter.PriceCatalog.RemoveAll(sitterService =>
             {
-                foreach (var service in sitterForUpdate.PricesCatalog)
+                foreach (var service in sitterForUpdate.PriceCatalog)
                 {
                     if (service.Service == sitterService.Service)
                         return false;
@@ -85,11 +85,11 @@ public class SitterService : ISitterService
             });
         }
 
-        foreach (var price in sitterForUpdate.PricesCatalog)
+        foreach (var price in sitterForUpdate.PriceCatalog)
         {
-            if (sitter.PricesCatalog is not null)
+            if (sitter.PriceCatalog is not null)
             {
-                foreach (var sitterPrice in sitter.PricesCatalog)
+                foreach (var sitterPrice in sitter.PriceCatalog)
                 {
                     if (price.Service == sitterPrice.Service)
                     {
@@ -106,10 +106,10 @@ public class SitterService : ISitterService
                 continue;
             }
 
-            if (sitter.PricesCatalog is null)
-                sitter.PricesCatalog = new List<PriceCatalog>();
+            if (sitter.PriceCatalog is null)
+                sitter.PriceCatalog = new List<PriceCatalog>();
 
-            sitter.PricesCatalog.Add(new PriceCatalog { Price = price.Price, Service = price.Service, Sitter = new Sitter {Id = id } });
+            sitter.PriceCatalog.Add(new PriceCatalog { Price = price.Price, Service = price.Service, Sitter = new Sitter {Id = id } });
         }
 
         _sitterRepository.UpdatePriceCatalog(sitter);

@@ -15,7 +15,7 @@ public class Sitter
     public Sex Sex { get; set; }
     public string Description { get; set; }
     public List<District> Districts { get; set; }
-    public List<PriceCatalog> PricesCatalog { get; set; }
+    public List<PriceCatalog> PriceCatalog { get; set; }
     public List<Order> Orders { get; set; } 
     public bool IsDeleted {  get; set; }
 }
