@@ -11,5 +11,21 @@ public class AdminRepository : IAdminRepository
         _context = context;
     }
 
-    public Admin? GetAdminByEmail(string email) => _context.Admins.FirstOrDefault(admin => admin.Email == email);
+    public int Add(Admin admin)
+    {
+        _context.Admins.Add(admin);
+        _context.SaveChanges();
+
+        return admin.Id;
+    }
+
+    public Admin? GetAdminByEmail(string email) => _context.Admins.FirstOrDefault(a => a.Email == email);
+
+    public Admin? GetAdminById(int id) => _context.Admins.FirstOrDefault(a => a.Id == id);
+
+    public void RemoveOrRestoreById(Admin admin)
+    {
+        _context.Admins.Update(admin);
+        _context.SaveChanges();
+    }
 }
