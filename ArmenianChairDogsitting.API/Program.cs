@@ -71,6 +71,10 @@ builder.Services.AddDbContext<ArmenianChairDogsittingContext>(o =>
     o.UseSqlServer("Server=80.78.240.16;Database=ArmenianChairDogsitting.DB;User Id=student;Password=qwe!23;");
 });
 
+builder.Services.AddScoped<IAuthService, AuthService>();
+
+builder.Services.AddScoped<IAdminRepository, AdminRepository>();
+
 builder.Services.AddScoped<ISitterRepository, SitterRepository>();
 builder.Services.AddScoped<ISitterService, SitterService>();
 

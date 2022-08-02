@@ -5,8 +5,8 @@ namespace ArmenianChairDogsitting.Business.Hashing;
 public class PasswordHash
 {
     public const int SaltByteSize = 24;
-    public const int HashByteSize = 20; 
-    public const int Pbkdf2Iterations = 1000;
+    public const int HashByteSize = 52; 
+    public const int Pbkdf2Iterations = 999;
     public const int IterationIndex = 0;
     public const int SaltIndex = 1;
     public const int Pbkdf2Index = 2;
@@ -18,16 +18,14 @@ public class PasswordHash
         cryptoProvider.GetBytes(salt);
 
         var hash = GetPbkdf2Bytes(password, salt, Pbkdf2Iterations, HashByteSize);
-        return Pbkdf2Iterations + ":" +
-               Convert.ToBase64String(salt) + ":" +
-               Convert.ToBase64String(hash);
+        return $"{Pbkdf2Iterations}:{Convert.ToBase64String(salt)}:{Convert.ToBase64String(hash)}";
     }
 
     public static bool ValidatePassword(string password, string correctHash)
     {
         char[] delimiter = { ':' };
         var split = correctHash.Split(delimiter);
-        var iterations = Int32.Parse(split[IterationIndex]);
+        var iterations = int.Parse(split[IterationIndex]);
         var salt = Convert.FromBase64String(split[SaltIndex]);
         var hash = Convert.FromBase64String(split[Pbkdf2Index]);
 
