@@ -2,14 +2,14 @@
 
 namespace ArmenianChairDogsitting.API.Extensions;
 
-public class EnumRangeAttribute : ValidationAttribute
+public class EnumRangeAttribute<T> : ValidationAttribute
 {
     private int _minLength;
     private int _maxLength;
-    public EnumRangeAttribute(Type obj)
+    public EnumRangeAttribute()
     {
-        _minLength = GetEnumMin(obj);
-        _maxLength = GetEnumMax(obj);
+        _minLength = GetEnumMin<T>();
+        _maxLength = GetEnumMax<T>();
     }
 
     public override bool IsValid(object value)
@@ -24,14 +24,14 @@ public class EnumRangeAttribute : ValidationAttribute
         return true;
     }
 
-    private int GetEnumMax<T>(T obj)
+    private int GetEnumMax<F>()
     {
-        return Enum.GetValues(typeof(T)).Cast<int>().Max();
+        return Enum.GetValues(typeof(F)).Cast<int>().Max();
     }
 
-    private int GetEnumMin<T>(T obj)
+    private int GetEnumMin<F>()
     {
-        return Enum.GetValues(typeof(T)).Cast<int>().Min();
+        return Enum.GetValues(typeof(F)).Cast<int>().Min();
     }
 
 }

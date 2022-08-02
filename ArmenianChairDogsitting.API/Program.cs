@@ -80,8 +80,10 @@ builder.Services.AddScoped<IOrdersRepository, OrdersRepository>();
 builder.Services.AddScoped<IOrdersService, OrdersService>();
 
 builder.Services.AddScoped<ICommentsRepository, CommentsRepository>();
-builder.Services.AddScoped<ISearchRepository, SearchRepository>();
 builder.Services.AddScoped<ICommentsService, CommentsService>();
+
+builder.Services.AddScoped<ISearchRepository, SearchRepository>();
+builder.Services.AddScoped<ISearchService, SearchService>();
 
 builder.Services.AddAutoMapper(typeof(MapperConfigStorage), typeof(APIMapperConfigStorage));
 

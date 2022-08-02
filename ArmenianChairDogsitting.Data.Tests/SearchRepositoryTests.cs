@@ -26,6 +26,9 @@ public class SearchRepositoryTests
         var districtTwo = new District() { Id = DistrictEnum.Tsentralny };
         var districtThree = new District() { Id = DistrictEnum.Primorsky };
 
+        var ServiceWalk = ServiceEnum.Walk;
+        var ServiceOverexpose = ServiceEnum.Overexpose;
+
         _context.Sitters.Add(new Sitter
         {
             Name = "iamname",

@@ -20,7 +20,7 @@ public class SearchController : Controller
     }
 
     [HttpPost]
-    [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(SitterAllInfoResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status422UnprocessableEntity)]
     public ActionResult<List<SitterAllInfoResponse>> GetSittersBySearchParams([FromBody] SearchRequest searchOptions)
     {

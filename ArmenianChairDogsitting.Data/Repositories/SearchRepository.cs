@@ -18,6 +18,8 @@ public class SearchRepository : ISearchRepository
     {
         if (searchEntity.MinRating > 0)
             searchEntity.IsSitterHasComments = true;
+        else
+            searchEntity.IsSitterHasComments = false;
 
         return _context.Sitters
             .Include(o => o.Orders)

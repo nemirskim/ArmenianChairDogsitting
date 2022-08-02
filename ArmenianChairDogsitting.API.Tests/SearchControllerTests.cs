@@ -84,6 +84,9 @@ public class SearchControllerTests
         var districtOne = new District() { Id = DistrictEnum.Kalininsky };
         var districtTwo = new District() { Id = DistrictEnum.Tsentralny };
 
+        var ServiceWalk = ServiceEnum.Walk;
+        var ServiceOverexpose = ServiceEnum.Overexpose;
+
         var result = new List<SittersSearchModelResult>()
             {
                 new SittersSearchModelResult
