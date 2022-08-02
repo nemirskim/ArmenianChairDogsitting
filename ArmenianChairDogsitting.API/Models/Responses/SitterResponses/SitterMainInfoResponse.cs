@@ -13,5 +13,5 @@ public class SitterMainInfoResponse
     public int Experience { get; set; }
     public Sex Sex { get; set; }
     public string Description { get; set; }
-    public List<PriceCatalog> PriceCatalog { get; set; }
+    public List<PriceCatalogResponse> PriceCatalog { get; set; }
 }

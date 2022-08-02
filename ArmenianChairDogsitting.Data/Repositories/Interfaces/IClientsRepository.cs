@@ -9,4 +9,5 @@ public interface IClientsRepository
     List<Client> GetAllClients();
     void UpdateClient(Client client);
     public void RemoveOrRestoreClient(int id, bool isDeleting);
+    public Client? GetClientByEmail(string email);
 }

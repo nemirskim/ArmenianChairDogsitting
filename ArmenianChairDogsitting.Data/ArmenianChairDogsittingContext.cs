@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ArmenianChairDogsitting.Data.Entities;
+﻿using ArmenianChairDogsitting.Data.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace ArmenianChairDogsitting.Data
 {
@@ -10,11 +10,11 @@ namespace ArmenianChairDogsitting.Data
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<Sitter> Sitters { get; set; }
-
+        public DbSet<Admin> Admins { get; set; }
+        public DbSet<PriceCatalog> PriceCatalogs { get; set; }
         public ArmenianChairDogsittingContext(DbContextOptions<ArmenianChairDogsittingContext> options)
-        : base(options)
+                : base(options)
         {
-            
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -27,7 +27,7 @@ namespace ArmenianChairDogsitting.Data
                 entity.Property(e => e.Name).HasMaxLength(30);
                 entity.Property(e => e.LastName).HasMaxLength(50);
             });
-           
+
             modelBuilder.Entity<Order>(entity =>
             {
                 entity.ToTable(nameof(Order));
@@ -73,7 +73,9 @@ namespace ArmenianChairDogsitting.Data
                 entity.ToTable(nameof(Sitter));
                 entity.HasKey(e => e.Id);
 
-                
+                entity
+                    .HasMany(pr => pr.PriceCatalog)
+                    .WithOne(o => o.Sitter);
             });
 
             modelBuilder.Entity<PriceCatalog>(entity =>

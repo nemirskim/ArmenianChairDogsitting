@@ -147,10 +147,10 @@ public class SittersControllerTests
     {
         //given
         var sitterId = 1;
-        var priceCatalog = new List<PriceCatalog>();
+        var sitter = new SitterUpdatePriceCatalogRequest { PriceCatalog = new List<PriceCatalogRequest>() };
 
         //when
-        var actual = _sut.UpdatePriceCatalogSitter(sitterId, priceCatalog);
+        var actual = _sut.UpdatePriceCatalogSitter(sitterId, sitter);
 
         //then
         var actualResult = actual as NoContentResult;

@@ -2,7 +2,6 @@
 using ArmenianChairDogsitting.API.Models;
 using ArmenianChairDogsitting.Data.Entities;
 using ArmenianChairDogsitting.Data.Enums;
-using ArmenianChairDogsitting.Data.Repositories.Interfaces;
 using ArmenianChairDogsitting.Business.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -41,12 +40,15 @@ public class SittersController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     public ActionResult<SitterMainInfoResponse> GetSitterById(int id)
     {
-        var result = _sittersService.GetById(id);
+        var sitter = _sittersService.GetById(id);
 
-        if (result == null)
+        if (sitter == null)
             return NotFound();
 
-        return Ok(_mapper.Map<SitterMainInfoResponse>(result));
+        var result = _mapper.Map<SitterMainInfoResponse>(sitter);
+        result.PriceCatalog = _mapper.Map<List<PriceCatalogResponse>>(sitter.PriceCatalog);
+
+        return Ok(result);
     }
 
     [HttpGet]
@@ -69,7 +71,7 @@ public class SittersController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
-    public ActionResult UpdateSitter(SitterUpdateRequest sitterUpdateRequest, int id)
+    public ActionResult UpdateSitter([FromBody] SitterUpdateRequest sitterUpdateRequest, int id)
     {
         _sittersService.Update(_mapper.Map<Sitter>(sitterUpdateRequest), id);
         return NoContent();
@@ -112,24 +114,16 @@ public class SittersController : Controller
     }
 
     [AuthorizeByRole(Role.Sitter)]
-    [HttpPatch("{id}/{catalog}")]
+    [HttpPatch("{id}/prices")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
-    public ActionResult UpdatePriceCatalogSitter(int id, List<PriceCatalog> priceCatalog)
+    public ActionResult UpdatePriceCatalogSitter(int id, [FromBody] SitterUpdatePriceCatalogRequest sitterForUpdate)
     {
-        _sittersService.UpdatePriceCatalog(id, priceCatalog);
-        return NoContent();
-    }
-
-    [AuthorizeByRole(Role.Sitter)]
-    [HttpGet("{id}/schedule")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
-    public ActionResult GetAllSittersWithWorkTimes(int id)
-    {
+        var sitter = _mapper.Map<Sitter>(sitterForUpdate);
+        sitter.PriceCatalog = _mapper.Map<List<PriceCatalog>>(sitterForUpdate.PriceCatalog);
+        _sittersService.UpdatePriceCatalog(id, sitter);
         return NoContent();
     }
 }

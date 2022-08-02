@@ -102,12 +102,12 @@ public class SearchControllerTests
                     {
                         new PriceCatalog()
                         {
-                            Price = 2500, Service = ServiceOverexpose
+                            Price = 2500, Service = ServiceEnum.Overexpose
                         },
                     {
                         new PriceCatalog()
                         {
-                            Price = 1500, Service = ServiceWalk
+                            Price = 1500, Service = ServiceEnum.Walk
                         }
                         }
                     }
@@ -124,12 +124,12 @@ public class SearchControllerTests
                         {
                         new PriceCatalog()
                         {
-                            Price = 3500, Service = ServiceOverexpose
+                            Price = 3500, Service = ServiceEnum.Overexpose
                         },
                         {
                         new PriceCatalog()
                         {
-                            Price = 2000, Service = ServiceWalk
+                            Price = 2000, Service = ServiceEnum.Walk
                         }
                         }
                     }
@@ -145,12 +145,12 @@ public class SearchControllerTests
                         {
                         new PriceCatalog()
                         {
-                            Price = 3500, Service = ServiceOverexpose
+                            Price = 3500, Service = ServiceEnum.Overexpose
                         },
                         {
                         new PriceCatalog()
                         {
-                            Price = 2000, Service = ServiceWalk
+                            Price = 2000, Service = ServiceEnum.Walk
                         }
                         }
                     }

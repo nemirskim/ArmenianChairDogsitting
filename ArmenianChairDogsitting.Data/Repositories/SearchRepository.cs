@@ -25,7 +25,7 @@ public class SearchRepository : ISearchRepository
             .Include(o => o.Orders)
             .Where(s => 
                 !s.IsDeleted &&
-                s.PriceCatalog.Any
+                 s.PriceCatalog.Any
                 (p => (
                         p.Service == searchEntity.ServiceType &&
                         (searchEntity.PriceMinimum == null || searchEntity.PriceMinimum != null && p.Price >= searchEntity.PriceMinimum) &&

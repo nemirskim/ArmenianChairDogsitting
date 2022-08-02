@@ -13,7 +13,7 @@ public class CommentsRepositoryTests
 
     [SetUp]
     public void Setup()
-    {        
+    {
         _dbContextOptions = new DbContextOptionsBuilder<ArmenianChairDogsittingContext>()
             .UseInMemoryDatabase(databaseName: $"TestDb")
             .Options;
@@ -31,7 +31,7 @@ public class CommentsRepositoryTests
             Client = new() { Name = "Grisha", LastName = "Grisha" },
             Order = new OrderOverexpose(),
             Rating = 3,
-        }) ;
+        });
 
         _context.Comments.Add(new Comment()
         {

@@ -1,4 +1,5 @@
 ﻿using ArmenianChairDogsitting.Business.Exceptions;
+using ArmenianChairDogsitting.Business.Hashing;
 using ArmenianChairDogsitting.Business.Interfaces;
 using ArmenianChairDogsitting.Data.Entities;
 using ArmenianChairDogsitting.Data.Repositories.Interfaces;
@@ -8,13 +9,17 @@ namespace ArmenianChairDogsitting.Business.Services;
 public class SitterService : ISitterService
 {
     ISitterRepository _sitterRepository;
-
+  
     public SitterService(ISitterRepository sitterRepository)
     {
         _sitterRepository = sitterRepository;
     }
 
-    public int Add(Sitter sitter) => _sitterRepository.Add(sitter);
+    public int Add(Sitter sitter)
+    {
+        sitter.Password = PasswordHash.HashPassword(sitter.Password);
+        return _sitterRepository.Add(sitter);
+    }
 
     public Sitter? GetById(int id) => _sitterRepository.GetById(id);
 
@@ -62,7 +67,7 @@ public class SitterService : ISitterService
         _sitterRepository.UpdatePassword(sitter);
     }
 
-    public void UpdatePriceCatalog(int id, List<PriceCatalog> priceCatalog)
+    public void UpdatePriceCatalog(int id, Sitter sitterForUpdate)
     {
         var sitter = _sitterRepository.GetById(id);
 
@@ -71,27 +76,32 @@ public class SitterService : ISitterService
 
         bool isExist = false;
 
-        sitter.PriceCatalog.RemoveAll(sitterService =>
+        if (sitter.PriceCatalog is not null)
         {
-            foreach (var service in priceCatalog)
+            sitter.PriceCatalog.RemoveAll(sitterService =>
             {
-                if (service.Service == sitterService.Service)
-                    return false;
-            }
-
-            return true;
-        });
-
-        foreach (var price in priceCatalog)
-        {
-            foreach (var sitterPrice in sitter.PriceCatalog)
-            {
-                if (price.Service == sitterPrice.Service)
+                foreach (var service in sitterForUpdate.PriceCatalog)
                 {
-                    sitterPrice.Price = price.Price;
-                    sitterPrice.Sitter = sitterPrice.Sitter;
-                    isExist = true;
-                    break;
+                    if (service.Service == sitterService.Service)
+                        return false;
+                }
+
+                return true;
+            });
+        }
+
+        foreach (var price in sitterForUpdate.PriceCatalog)
+        {
+            if (sitter.PriceCatalog is not null)
+            {
+                foreach (var sitterPrice in sitter.PriceCatalog)
+                {
+                    if (price.Service == sitterPrice.Service)
+                    {
+                        sitterPrice.Price = price.Price;
+                        isExist = true;
+                        break;
+                    }
                 }
             }
 
@@ -101,7 +111,10 @@ public class SitterService : ISitterService
                 continue;
             }
 
-            sitter.PriceCatalog.Add(price);
+            if (sitter.PriceCatalog is null)
+                sitter.PriceCatalog = new List<PriceCatalog>();
+
+            sitter.PriceCatalog.Add(new PriceCatalog { Price = price.Price, Service = price.Service, Sitter = new Sitter {Id = id } });
         }
 
         _sitterRepository.UpdatePriceCatalog(sitter);
