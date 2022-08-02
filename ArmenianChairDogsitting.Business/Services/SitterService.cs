@@ -1,4 +1,5 @@
 ﻿using ArmenianChairDogsitting.Business.Exceptions;
+using ArmenianChairDogsitting.Business.Hashing;
 using ArmenianChairDogsitting.Business.Interfaces;
 using ArmenianChairDogsitting.Data.Entities;
 using ArmenianChairDogsitting.Data.Repositories.Interfaces;
@@ -8,13 +9,17 @@ namespace ArmenianChairDogsitting.Business.Services;
 public class SitterService : ISitterService
 {
     ISitterRepository _sitterRepository;
-
+  
     public SitterService(ISitterRepository sitterRepository)
     {
         _sitterRepository = sitterRepository;
     }
 
-    public int Add(Sitter sitter) => _sitterRepository.Add(sitter);
+    public int Add(Sitter sitter)
+    {
+        sitter.Password = PasswordHash.HashPassword(sitter.Password);
+        return _sitterRepository.Add(sitter);
+    }
 
     public Sitter? GetById(int id) => _sitterRepository.GetById(id);
 

@@ -32,7 +32,8 @@ public class SitterRepository : ISitterRepository
         return sitter;
     } 
 
-        public Sitter? GetSitterByEmail(string email) => _context.Sitters.FirstOrDefault(sitter => sitter.Email == email);
+    public Sitter? GetSitterByEmail(string email) => _context.Sitters
+        .FirstOrDefault(sitter => sitter.Email == email);
 
     public List<Sitter> GetSitters() => _context.Sitters
         .Where(s => !s.IsDeleted)
@@ -60,12 +61,5 @@ public class SitterRepository : ISitterRepository
     {
         _context.Sitters.Update(sitterWithNewPriceCatalog);
         _context.SaveChanges();
-
-/*        foreach (var price in sitterWithNewPriceCatalog.PriceCatalog)
-        {
-            _context.PriceCatalogs.Update(price);
-            _context.SaveChanges();
-            continue;
-        }*/
     }
 }

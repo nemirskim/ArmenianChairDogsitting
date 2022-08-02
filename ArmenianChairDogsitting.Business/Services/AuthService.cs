@@ -4,6 +4,7 @@ using ArmenianChairDogsitting.Business.Infrastructure;
 using ArmenianChairDogsitting.Business.Interfaces;
 using ArmenianChairDogsitting.Data.Enums;
 using ArmenianChairDogsitting.Data.Repositories;
+using ArmenianChairDogsitting.Data.Repositories.Interfaces;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
