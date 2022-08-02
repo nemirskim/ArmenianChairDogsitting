@@ -71,11 +71,11 @@ public class SitterService : ISitterService
 
         bool isExist = false;
 
-        sitter.PricesCatalog.RemoveAll(sitterService =>
+        sitter.PriceCatalog.RemoveAll(sitterService =>
         {
             foreach (var service in priceCatalog)
             {
-                if (service.Service.Id == sitterService.Service.Id)
+                if (service.Service == sitterService.Service)
                     return false;
             }
 
@@ -84,9 +84,9 @@ public class SitterService : ISitterService
 
         foreach (var price in priceCatalog)
         {
-            foreach (var sitterPrice in sitter.PricesCatalog)
+            foreach (var sitterPrice in sitter.PriceCatalog)
             {
-                if (price.Service.Id == sitterPrice.Service.Id)
+                if (price.Service == sitterPrice.Service)
                 {
                     sitterPrice.Price = price.Price;
                     sitterPrice.Sitter = sitterPrice.Sitter;
@@ -101,7 +101,7 @@ public class SitterService : ISitterService
                 continue;
             }
 
-            sitter.PricesCatalog.Add(price);
+            sitter.PriceCatalog.Add(price);
         }
 
         _sitterRepository.UpdatePriceCatalog(sitter);

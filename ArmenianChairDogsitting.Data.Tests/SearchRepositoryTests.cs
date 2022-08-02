@@ -26,8 +26,8 @@ public class SearchRepositoryTests
         var districtTwo = new District() { Id = DistrictEnum.Tsentralny };
         var districtThree = new District() { Id = DistrictEnum.Primorsky };
 
-        var ServiceWalk = new Service() { Id = ServiceEnum.Walk };
-        var ServiceOverexpose = new Service() { Id = ServiceEnum.Overexpose };
+        var ServiceWalk = ServiceEnum.Walk;
+        var ServiceOverexpose = ServiceEnum.Overexpose;
 
         _context.Sitters.Add(new Sitter
         {
@@ -53,7 +53,7 @@ public class SearchRepositoryTests
             Districts = new List<District> { districtOne,  districtTwo},
             Orders = new List<Order>() { new OrderWalk() 
             { Comments = new List<Comment>() } },
-            PricesCatalog = new List<PriceCatalog>()
+            PriceCatalog = new List<PriceCatalog>()
             { 
                 new PriceCatalog() 
                 { 
@@ -82,7 +82,7 @@ public class SearchRepositoryTests
             Orders = new List<Order>() { new OrderWalk()
             { Comments = new List<Comment>() { new Comment() { Rating = 5, Text = "blaah blah" },
             new Comment() { Rating = 3, Text = "bddd rrrr" }} } },
-            PricesCatalog = new List<PriceCatalog>()
+            PriceCatalog = new List<PriceCatalog>()
             {
                 new PriceCatalog()
                 {
@@ -110,7 +110,7 @@ public class SearchRepositoryTests
             Districts = new List<District> { districtThree, districtTwo },
             Orders = new List<Order>() { new OrderWalk()
             { Comments = new List<Comment>() { new Comment() { Rating = 5, Text = "blaah blah"} } } },
-            PricesCatalog = new List<PriceCatalog>()
+            PriceCatalog = new List<PriceCatalog>()
             {
                 new PriceCatalog()
                 {

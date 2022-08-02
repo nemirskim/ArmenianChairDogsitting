@@ -87,12 +87,6 @@ namespace ArmenianChairDogsitting.Data
                 entity.ToTable(nameof(District));
                 entity.HasKey(e => e.Id);
             });
-
-            modelBuilder.Entity<Service>(entity =>
-            {
-                entity.ToTable(nameof(Service));
-                entity.HasKey(e => e.Id);
-            });
         }
     }
 }
