@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ArmenianChairDogsitting.Business\ArmenianChairDogsitting.Business.csproj" />
+    <ProjectReference Include="..\ArmenianChairDogsitting.Data\ArmenianChairDogsitting.Data.csproj" />
   </ItemGroup>
 
 </Project>

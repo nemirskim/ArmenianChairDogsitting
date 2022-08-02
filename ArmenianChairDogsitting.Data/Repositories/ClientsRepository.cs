@@ -38,4 +38,6 @@ public class ClientsRepository : IClientsRepository
         client!.IsDeleted = isDeleting;
         _context.SaveChanges();
     }
+
+    public Client? GetClientByEmail(string email) => _context.Clients.FirstOrDefault(client => client.Email == email);
 }
