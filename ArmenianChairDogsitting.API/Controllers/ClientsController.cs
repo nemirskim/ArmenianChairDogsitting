@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using ArmenianChairDogsitting.API.Extensions;
 using ArmenianChairDogsitting.Data.Enums;
 using ArmenianChairDogsitting.Data.Repositories;
+using AutoMapper;
 
 namespace ArmenianChairDogsitting.API.Controllers;
 
@@ -14,9 +15,12 @@ namespace ArmenianChairDogsitting.API.Controllers;
 public class ClientsController : Controller
 {
     private readonly IClientsRepository _clientsRepository;
-    public ClientsController(IClientsRepository clientsRepository)
+    private readonly IMapper _mapper;
+
+    public ClientsController(IClientsRepository clientsRepository, IMapper mapper)
     {
         _clientsRepository = clientsRepository;
+        _mapper = mapper;
     }
 
     [AllowAnonymous]
@@ -28,8 +32,8 @@ public class ClientsController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status422UnprocessableEntity)]
     public ActionResult<int> AddClient([FromBody] ClientRegistrationRequest request)
     {
-        int id = 23;
-        return Created($"{this.GetUri()}/{id}", id);
+        var result = _clientService.Add(_mapper.Map<Sitter>(sitterRequest));
+        return Created($"{this.GetUri()}/{result}", result);
     }
 
     [AuthorizeByRole(Role.Client)]
