@@ -21,6 +21,8 @@ public class AdminService : IAdminService
         return _adminRepository.Add(admin);
     }
 
+    public Admin? GetAdminById(int id) => _adminRepository.GetAdminById(id);
+
     public void RemoveOrRestoreById(int id, bool isDelete)
     {
         var sitter = _adminRepository.GetAdminById(id);

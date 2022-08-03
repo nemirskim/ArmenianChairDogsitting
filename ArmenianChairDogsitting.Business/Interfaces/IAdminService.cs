@@ -7,4 +7,5 @@ public interface IAdminService
 {
     public int AddAdmin(Admin admin);
     public void RemoveOrRestoreById(int id, bool isDelete);
+    public Admin? GetAdminById(int id);
 }

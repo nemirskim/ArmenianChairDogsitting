@@ -46,7 +46,7 @@ public class AdminController : Controller
     }
 
     [AuthorizeByRole]
-    [HttpPatch("{id}")]
+    [HttpPatch("{id}/restore")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
