@@ -2,11 +2,11 @@
 
 namespace ArmenianChairDogsitting.Data.Repositories;
 
-public class AdminRepository : IAdminRepository
+public class AdminsRepository : IAdminsRepository
 {
     private readonly ArmenianChairDogsittingContext _context;
 
-    public AdminRepository(ArmenianChairDogsittingContext context)
+    public AdminsRepository(ArmenianChairDogsittingContext context)
     {
         _context = context;
     }

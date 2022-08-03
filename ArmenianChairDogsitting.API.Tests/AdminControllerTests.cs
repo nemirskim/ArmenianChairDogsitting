@@ -11,8 +11,8 @@ namespace ArmenianChairDogsitting.API.Tests;
 
 public class AdminControllerTests
 {
-    private AdminController _sut;
-    private Mock<IAdminService> _adminServiceMock;
+    private AdminsController _sut;
+    private Mock<IAdminsService> _adminServiceMock;
     private IMapper _mapper;
 
     [SetUp]
@@ -23,8 +23,8 @@ public class AdminControllerTests
             cfg.AddProfile(new APIMapperConfigStorage());
         });
         _mapper = mockMapper.CreateMapper();
-        _adminServiceMock = new Mock<IAdminService>();
-        _sut = new AdminController(_adminServiceMock.Object, _mapper);
+        _adminServiceMock = new Mock<IAdminsService>();
+        _sut = new AdminsController(_adminServiceMock.Object, _mapper);
     }
 
 

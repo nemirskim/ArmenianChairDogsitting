@@ -2,7 +2,7 @@
 
 namespace ArmenianChairDogsitting.Data.Repositories;
 
-public interface IAdminRepository
+public interface IAdminsRepository
 {
     public Admin? GetAdminById(int id);
     public Admin? GetAdminByEmail(string email);

@@ -6,11 +6,11 @@ using ArmenianChairDogsitting.Data.Repositories;
 
 namespace ArmenianChairDogsitting.Business.Services;
 
-public class AdminService : IAdminService
+public class AdminsService : IAdminsService
 {
-    IAdminRepository _adminRepository;
+    IAdminsRepository _adminRepository;
 
-    public AdminService(IAdminRepository adminRepository)
+    public AdminsService(IAdminsRepository adminRepository)
     {
         _adminRepository = adminRepository;
     }

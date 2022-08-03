@@ -73,10 +73,10 @@ builder.Services.AddDbContext<ArmenianChairDogsittingContext>(o =>
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 
-builder.Services.AddScoped<IAdminRepository, AdminRepository>();
+builder.Services.AddScoped<IAdminsRepository, AdminsRepository>();
 
-builder.Services.AddScoped<ISitterRepository, SitterRepository>();
-builder.Services.AddScoped<ISitterService, SitterService>();
+builder.Services.AddScoped<ISittersRepository, SittersRepository>();
+builder.Services.AddScoped<ISittersService, SittersService>();
 
 builder.Services.AddScoped<IClientsRepository, ClientsRepository>();
 

@@ -8,14 +8,14 @@ namespace ArmenianChairDogsitting.Business.Tests;
 
 public class AdminServiceTests
 {
-    private Mock<IAdminRepository> _adminRepository;
-    private AdminService _sut;
+    private Mock<IAdminsRepository> _adminRepository;
+    private AdminsService _sut;
 
     [SetUp]
     public void Setup()
     {
-        _adminRepository = new Mock<IAdminRepository>();
-        _sut = new AdminService(_adminRepository.Object);
+        _adminRepository = new Mock<IAdminsRepository>();
+        _sut = new AdminsService(_adminRepository.Object);
     }
 
     [Test]

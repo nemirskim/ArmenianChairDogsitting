@@ -8,7 +8,7 @@ public class AdminRepositoryTests
 {
     private DbContextOptions<ArmenianChairDogsittingContext> _dbContextOptions;
     private ArmenianChairDogsittingContext _context;
-    private AdminRepository _sut;
+    private AdminsRepository _sut;
 
     [SetUp]
     public void Setup()
@@ -20,7 +20,7 @@ public class AdminRepositoryTests
         _context = new ArmenianChairDogsittingContext(_dbContextOptions);
         _context.Database.EnsureDeleted();
 
-        _sut = new AdminRepository(_context);
+        _sut = new AdminsRepository(_context);
 
         _context.Admins.Add(new Admin
         {

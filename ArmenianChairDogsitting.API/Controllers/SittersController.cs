@@ -15,10 +15,10 @@ namespace ArmenianChairDogsitting.API.Controllers;
 public class SittersController : Controller
 {
 
-    private readonly ISitterService _sittersService;
+    private readonly ISittersService _sittersService;
     private readonly IMapper _mapper;
 
-    public SittersController(ISitterService sittersService, IMapper mapper)
+    public SittersController(ISittersService sittersService, IMapper mapper)
     {
         _sittersService = sittersService;
         _mapper = mapper;

@@ -10,14 +10,14 @@ namespace ArmenianChairDogSitting.Business.Tests;
 
 public class SitterServiceTests
 {
-    private Mock<ISitterRepository> _sitterRepository;
-    private SitterService _sut;
+    private Mock<ISittersRepository> _sitterRepository;
+    private SittersService _sut;
 
     [SetUp]
     public void Setup()
     {
-        _sitterRepository = new Mock<ISitterRepository>();
-        _sut = new SitterService(_sitterRepository.Object);
+        _sitterRepository = new Mock<ISittersRepository>();
+        _sut = new SittersService(_sitterRepository.Object);
     }
 
     [Test]

@@ -11,13 +11,13 @@ namespace ArmenianChairDogsitting.API.Controllers;
 [ApiController]
 [Authorize]
 [Route("[controller]")]
-public class AdminController : Controller
+public class AdminsController : Controller
 {
 
-    private readonly IAdminService _adminsService;
+    private readonly IAdminsService _adminsService;
     private readonly IMapper _mapper;
 
-    public AdminController(IAdminService adminsService, IMapper mapper)
+    public AdminsController(IAdminsService adminsService, IMapper mapper)
     {
         _adminsService = adminsService;
         _mapper = mapper;
