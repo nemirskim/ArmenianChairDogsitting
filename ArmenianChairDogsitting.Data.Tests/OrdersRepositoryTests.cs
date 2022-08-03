@@ -133,6 +133,22 @@ public class OrderRepositoryTests
         Assert.AreEqual(expectedChangesInOrder.Comments[0].Text, actualOrder.Comments[0].Text);
     }
 
+    [Test]
+    public void DeleteOrderById_WhenCorrectIdAndStatusPassed_ThenDeleteOrder()
+    {
+        //given 
+        var id = 1;
+        var comment = _context.Orders.FirstOrDefault(c => c.Id == id);
+        var expectedCount = 2;
+
+        //When
+        _sut.DeleteOrderById(id);
+
+        //then
+        var orders = _sut.GetAllOrders();
+        Assert.AreEqual(expectedCount, orders.Count);
+    }
+
     private OrderOverexpose ExpectedChangesInOrder() =>
         new OrderOverexpose()
         {
