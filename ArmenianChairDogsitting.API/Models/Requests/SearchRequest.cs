@@ -11,6 +11,5 @@ public class SearchRequest
     public bool IsSitterHasComments { get; set; }
     [EnumRange<ServiceEnum>]
     public ServiceEnum ServiceType { get; set; }
-    [EnumRange<DistrictEnum>]
     public DistrictEnum District { get; set; }
 }
