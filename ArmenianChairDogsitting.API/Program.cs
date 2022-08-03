@@ -13,6 +13,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using Newtonsoft.Json.Converters;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,14 +23,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers()
     .ConfigureApiBehaviorOptions(options =>
-     {
-         options.InvalidModelStateResponseFactory = context =>
-         {
-             var result = new BadRequestObjectResult(context.ModelState);
-             result.StatusCode = StatusCodes.Status422UnprocessableEntity;
-             return result;
-         };
-     });
+    {
+        options.InvalidModelStateResponseFactory = context =>
+        {
+            var result = new BadRequestObjectResult(context.ModelState);
+            result.StatusCode = StatusCodes.Status422UnprocessableEntity;
+            return result;
+        };
+    });
 
 builder.Services.AddEndpointsApiExplorer();
 
@@ -44,6 +47,7 @@ builder.Services.AddSwaggerGen(options =>
         BearerFormat = "JWT",
         Scheme = "Bearer",
     });
+
     options.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {

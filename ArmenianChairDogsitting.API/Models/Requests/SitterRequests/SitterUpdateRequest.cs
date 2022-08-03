@@ -27,6 +27,7 @@ public class SitterUpdateRequest
     public int Experience { get; set; }
 
     [Required(ErrorMessage = ApiErrorMessage.SexIsRequired)]
+    [Range(1, 2, ErrorMessage = ApiErrorMessage.SexRange)]
     public Sex Sex { get; set; }
 
     public string Description { get; set; }
