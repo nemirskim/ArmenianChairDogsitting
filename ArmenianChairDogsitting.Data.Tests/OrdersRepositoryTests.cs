@@ -55,18 +55,33 @@ public class OrderRepositoryTests
         });
 
         _context.SaveChanges();
+
+        _context.Orders.Add(new OrderOverexpose()
+        {
+            Status = Status.Created,
+            Type = ServiceEnum.Overexpose,
+            DayQuantity = 3,
+            WalkPerDayQuantity = 3,
+            Animals = new(),
+            Comments = new(),
+            Client = new() { Name = "Grisha", LastName = "Grisha", Email = "ugabuga@kek.com", Password = " monkeySleep" },
+            IsDeleted = true
+        });
+
+        _context.SaveChanges();
     }
 
     [Test]
     public void GetAllOrders_WhenCalled_ReturnsAllOrders()
     {
-        //given in SetUp
+        //given
+        var expectedCount = 3;
 
         //when
         var returnedOrders = _sut.GetAllOrders();
 
         //then
-        Assert.AreEqual(_context.Orders.Count(), returnedOrders.Count);
+        Assert.AreEqual(3, returnedOrders.Count);
     }
 
     [Test]
@@ -131,6 +146,22 @@ public class OrderRepositoryTests
         Assert.AreEqual(expectedChangesInOrder.Comments.Count, actualOrder.Comments.Count);
         Assert.AreEqual(expectedId, actualId);
         Assert.AreEqual(expectedChangesInOrder.Comments[0].Text, actualOrder.Comments[0].Text);
+    }
+
+    [Test]
+    public void DeleteOrderById_WhenCorrectIdAndStatusPassed_ThenDeleteOrder()
+    {
+        //given 
+        var id = 1;
+        var comment = _context.Orders.FirstOrDefault(c => c.Id == id);
+        var expectedCount = 2;
+
+        //When
+        _sut.DeleteOrderById(id);
+
+        //then
+        var orders = _sut.GetAllOrders();
+        Assert.AreEqual(expectedCount, orders.Count);
     }
 
     private OrderOverexpose ExpectedChangesInOrder() =>

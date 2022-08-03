@@ -36,7 +36,13 @@ public class OrdersServiceTests
 
         //then
         Assert.AreEqual(expectedId, returnedInt);
-        _ordersRepository.Verify(x => x.AddOrder(orderToAdd), Times.Once);
+        _ordersRepository.Verify(x => x.AddOrder(It.Is<OrderWalk>(o =>
+        o.IsTrial == orderToAdd.IsTrial &&
+        o.WalkQuantity == orderToAdd.WalkQuantity &&
+        o.Status == orderToAdd.Status &&
+        o.Animals.Count == orderToAdd.Animals.Count &&
+        o.Comments.Count == orderToAdd.Comments.Count &&
+        o.Id == orderToAdd.Id)), Times.Once);
     }
 
     [Test]
@@ -73,7 +79,7 @@ public class OrdersServiceTests
         var orderID = 34;
 
         _ordersRepository
-            .Setup(x => x.GetOrderById(It.IsAny<int>()))
+            .Setup(x => x.GetOrderById(orderID))
             .Returns(orderFromRepo);
 
         //when
@@ -96,19 +102,19 @@ public class OrdersServiceTests
         Order orderFromRepo = OrderFromRepo();
 
         var orderId = 34;
-
+        var status = Status.InProgress;
         _ordersRepository
-            .Setup(x => x.GetOrderById(It.IsAny<int>()))
+            .Setup(x => x.GetOrderById(orderId))
             .Returns(orderFromRepo);
 
         _ordersRepository
-            .Setup(x => x.UpdateOrderStatus(It.IsAny<Status>(), It.IsAny<int>()));
+            .Setup(x => x.UpdateOrderStatus(status, orderId));
 
         //when
         _sut.UpdateOrderStatus(Status.InProgress, orderId);
 
         //then
-        _ordersRepository.Verify(x => x.UpdateOrderStatus(Status.InProgress, orderId), Times.Once);
+        _ordersRepository.Verify(x => x.UpdateOrderStatus(status, orderId), Times.Once);
     }
 
     [Test]
@@ -120,11 +126,8 @@ public class OrdersServiceTests
         var orderId = 34;
 
         _ordersRepository
-            .Setup(x => x.GetOrderById(It.IsAny<int>()))
+            .Setup(x => x.GetOrderById(orderId))
             .Returns(orderFromRepo);
-
-        _ordersRepository
-            .Setup(x => x.UpdateOrderStatus(It.IsAny<Status>(), It.IsAny<int>()));
 
         //when then
         Assert.Throws<NotFoundException>(() => _sut.UpdateOrderStatus(Status.InProgress, orderId));
@@ -132,6 +135,7 @@ public class OrdersServiceTests
         _ordersRepository.Verify(x => x.UpdateOrderStatus(Status.InProgress, orderId), Times.Never);
     }
 
+    [Test]
     public void AddCommentToOrder_WhenOrderExist_ThenReturnIdOfNewComment()
     {
         //given
@@ -142,11 +146,11 @@ public class OrdersServiceTests
         var orderId = 42;
 
         _ordersRepository
-            .Setup(x => x.GetOrderById(It.IsAny<int>()))
+            .Setup(x => x.GetOrderById(orderId))
             .Returns(orderFromRepo[1]);
 
         _ordersRepository
-            .Setup(x => x.AddCommentToOrder(It.IsAny<int>(), It.IsAny<Comment>()))
+            .Setup(x => x.AddCommentToOrder(orderId, It.IsAny<Comment>()))
             .Returns(orderFromRepo[1].Comments[0].Id);
 
         //when
@@ -155,27 +159,84 @@ public class OrdersServiceTests
         //then
         Assert.AreEqual(expectedId, actualId);
         _ordersRepository.Verify(x => x.GetOrderById(orderId), Times.Once);
-        _ordersRepository.Verify(x => x.AddCommentToOrder(orderId, commentToAdd), Times.Once);
+        _ordersRepository.Verify(x => x.AddCommentToOrder(orderId, It.Is<Comment>(c =>
+        c.Id == commentToAdd.Id &&
+        c.Text == commentToAdd.Text)), Times.Once);
     }
 
+    [Test]
     public void AddCommentToOrder_WhenOrderDoesntExist_ThenThrowNotFoundException()
     {
         //given
         Order orderFromRepo = null;
+        var someComment = new Comment();
 
         var orderId = 555;
 
         _ordersRepository
-            .Setup(x => x.GetOrderById(It.IsAny<int>()))
+            .Setup(x => x.GetOrderById(orderId))
             .Returns(orderFromRepo);
 
         _ordersRepository
-            .Setup(x => x.AddCommentToOrder(It.IsAny<int>(), It.IsAny<Comment>()));
+            .Setup(x => x.AddCommentToOrder(orderId, It.IsAny<Comment>()));
 
         //when then
-        Assert.Throws<NotFoundException>(() => _sut.GetOrderById(orderId));
+        Assert.Throws<NotFoundException>(() => _sut.AddCommentToOrder(orderId, someComment));
         _ordersRepository.Verify(x => x.GetOrderById(orderId), Times.Once);
         _ordersRepository.Verify(x => x.AddCommentToOrder(orderId, It.IsAny<Comment>()), Times.Never);
+    }
+
+    [Test]
+    public void DeleteOrderById_WhenCorrectIdAndStatusPassed_KeepWorking()
+    {
+        //given
+        var id = 2;
+
+        _ordersRepository
+            .Setup(x => x.GetOrderById(id))
+            .Returns(new OrderWalk() { Id = id, Status=Status.Created, IsDeleted = false });
+
+        //when
+        _sut.DeleteOrderById(id);
+
+        //then
+        _ordersRepository.Verify(x => x.GetOrderById(id), Times.Once);
+        _ordersRepository.Verify(x => x.DeleteOrderById(id), Times.Once);
+    }
+
+    [Test]
+    public void DeleteOrderById_WhenCorrectIdIsNotFound_ThrowNotFounddException()
+    {
+        //given
+        var id = 2;
+        Order order = null!;
+
+        _ordersRepository
+            .Setup(x => x.GetOrderById(id))
+            .Returns(order!);
+
+        //when then
+
+        Assert.Throws<NotFoundException>(() => _sut.DeleteOrderById(id));
+        _ordersRepository.Verify(x => x.GetOrderById(id), Times.Once);
+        _ordersRepository.Verify(x => x.DeleteOrderById(id), Times.Never);
+    }
+
+    [Test]
+    public void DeleteOrderById_WhenStatusIsInProgress_ThrowNotFounddException()
+    {
+        //given
+        var id = 2;
+
+        _ordersRepository
+            .Setup(x => x.GetOrderById(id))
+            .Returns(new OrderWalk() { Id = id, Status = Status.InProgress, IsDeleted = false });
+
+        //when then
+
+        Assert.Throws<ForbiddenException>(() => _sut.DeleteOrderById(id));
+        _ordersRepository.Verify(x => x.GetOrderById(id), Times.Once);
+        _ordersRepository.Verify(x => x.DeleteOrderById(id), Times.Never);
     }
 
     private List<Order> SetOrders()
@@ -202,8 +263,9 @@ public class OrdersServiceTests
                 IsTrial = true,
                 Sitter = new(),
                 Status = Status.Created,
-                Type = ServiceEnum.Walk
-            },
+                Type = ServiceEnum.Walk,
+                Comments = new List<Comment> { new Comment() { Id = 4, Text = "blah blah" }}
+    },
             new OrderWalk()
             {
                 Id = 76,
