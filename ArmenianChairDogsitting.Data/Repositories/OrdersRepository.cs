@@ -21,11 +21,12 @@ namespace ArmenianChairDogsitting.Data.Repositories
             return order.Id;
         }
 
-        public List<Order> GetAllOrders() => _context.Orders.ToList();
+        public List<Order> GetAllOrders() => _context.Orders
+            .Where(o => !o.IsDeleted)
+            .ToList();
 
         public Order? GetOrderById(int id) =>
         _context.Orders
-            .Where(o => !o.IsDeleted)
             .Include(o => o.Animals)
             .Include(o => o.Comments)
             .FirstOrDefault(o => o.Id == id);

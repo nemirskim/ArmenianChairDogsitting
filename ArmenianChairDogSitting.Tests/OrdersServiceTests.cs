@@ -132,6 +132,7 @@ public class OrdersServiceTests
         _ordersRepository.Verify(x => x.UpdateOrderStatus(Status.InProgress, orderId), Times.Never);
     }
 
+    [Test]
     public void AddCommentToOrder_WhenOrderExist_ThenReturnIdOfNewComment()
     {
         //given
@@ -158,10 +159,12 @@ public class OrdersServiceTests
         _ordersRepository.Verify(x => x.AddCommentToOrder(orderId, commentToAdd), Times.Once);
     }
 
+    [Test]
     public void AddCommentToOrder_WhenOrderDoesntExist_ThenThrowNotFoundException()
     {
         //given
         Order orderFromRepo = null;
+        var someComment = new Comment();
 
         var orderId = 555;
 
@@ -173,9 +176,62 @@ public class OrdersServiceTests
             .Setup(x => x.AddCommentToOrder(It.IsAny<int>(), It.IsAny<Comment>()));
 
         //when then
-        Assert.Throws<NotFoundException>(() => _sut.GetOrderById(orderId));
+        Assert.Throws<NotFoundException>(() => _sut.AddCommentToOrder(orderId, someComment));
         _ordersRepository.Verify(x => x.GetOrderById(orderId), Times.Once);
         _ordersRepository.Verify(x => x.AddCommentToOrder(orderId, It.IsAny<Comment>()), Times.Never);
+    }
+
+    [Test]
+    public void DeleteOrderById_WhenCorrectIdAndStatusPassed_KeepWorking()
+    {
+        //given
+        var id = 2;
+
+        _ordersRepository
+            .Setup(x => x.GetOrderById(It.IsAny<int>()))
+            .Returns(new OrderWalk() { Id = id, Status=Status.Created, IsDeleted = false });
+
+        //when
+        _sut.DeleteOrderById(id);
+
+        //then
+        _ordersRepository.Verify(x => x.GetOrderById(It.IsAny<int>()), Times.Once);
+        _ordersRepository.Verify(x => x.DeleteOrderById(It.IsAny<int>()), Times.Once);
+    }
+
+    [Test]
+    public void DeleteOrderById_WhenCorrectIdIsNotFound_ThrowNotFounddException()
+    {
+        //given
+        var id = 2;
+        Order order = null!;
+
+        _ordersRepository
+            .Setup(x => x.GetOrderById(It.IsAny<int>()))
+            .Returns(order!);
+
+        //when then
+
+        Assert.Throws<NotFoundException>(() => _sut.DeleteOrderById(id));
+        _ordersRepository.Verify(x => x.GetOrderById(It.IsAny<int>()), Times.Once);
+        _ordersRepository.Verify(x => x.DeleteOrderById(It.IsAny<int>()), Times.Never);
+    }
+
+    [Test]
+    public void DeleteOrderById_WhenStatusIsInProgress_ThrowNotFounddException()
+    {
+        //given
+        var id = 2;
+
+        _ordersRepository
+            .Setup(x => x.GetOrderById(It.IsAny<int>()))
+            .Returns(new OrderWalk() { Id = id, Status = Status.InProgress, IsDeleted = false });
+
+        //when then
+
+        Assert.Throws<ForbiddenException>(() => _sut.DeleteOrderById(id));
+        _ordersRepository.Verify(x => x.GetOrderById(It.IsAny<int>()), Times.Once);
+        _ordersRepository.Verify(x => x.DeleteOrderById(It.IsAny<int>()), Times.Never);
     }
 
     private List<Order> SetOrders()
@@ -202,8 +258,9 @@ public class OrdersServiceTests
                 IsTrial = true,
                 Sitter = new(),
                 Status = Status.Created,
-                Type = ServiceEnum.Walk
-            },
+                Type = ServiceEnum.Walk,
+                Comments = new List<Comment> { new Comment() { Id = 4, Text = "blah blah" }}
+    },
             new OrderWalk()
             {
                 Id = 76,

@@ -14,7 +14,11 @@ public class OrdersService : IOrdersService
     {
         _ordersRepository = commentsRepository;
     }
-    public int AddOrder(Order order) => _ordersRepository.AddOrder(order);
+    public int AddOrder(Order order)
+    {
+        order.Status = Status.Created;
+        return _ordersRepository.AddOrder(order);
+    }
 
     public List<Order> GetAllOrders()
     {
@@ -64,12 +68,12 @@ public class OrdersService : IOrdersService
     {
         var chosenOrder = _ordersRepository.GetOrderById(id);
 
-        if(chosenOrder.Status == Status.InProgress)
-            throw new ForbiddenException($"{ExceptionMessage.ActionIsNotAllowed}{chosenOrder.Status}");
-
         if (chosenOrder == null)
             throw new NotFoundException($"{ExceptionMessage.ChoosenCommentDoesNotExist}{id}");
 
+        if(chosenOrder.Status == Status.InProgress)
+            throw new ForbiddenException($"{ExceptionMessage.ActionIsNotAllowed}{chosenOrder.Status}");
+        
         _ordersRepository.DeleteOrderById(id);
     }
 }
