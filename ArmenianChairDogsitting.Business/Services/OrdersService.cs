@@ -59,4 +59,14 @@ public class OrdersService : IOrdersService
 
         return _ordersRepository.AddCommentToOrder(orderId, commentToAdd);
     }
+
+    public void DeleteOrderById(int id)
+    {
+        var chosenOrder = _ordersRepository.GetOrderById(id);
+
+        if (chosenOrder == null)
+            throw new NotFoundException($"{ExceptionMessage.ChoosenCommentDoesNotExist}{id}");
+
+        _ordersRepository.DeleteOrderById(id);
+    }
 }
