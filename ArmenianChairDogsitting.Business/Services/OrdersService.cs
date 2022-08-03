@@ -64,6 +64,9 @@ public class OrdersService : IOrdersService
     {
         var chosenOrder = _ordersRepository.GetOrderById(id);
 
+        if(chosenOrder.Status == Status.InProgress)
+            throw new ForbiddenException($"{ExceptionMessage.ActionIsNotAllowed}{chosenOrder.Status}");
+
         if (chosenOrder == null)
             throw new NotFoundException($"{ExceptionMessage.ChoosenCommentDoesNotExist}{id}");
 
