@@ -9,7 +9,7 @@ public class SitterRepositoryTests
 {
     private DbContextOptions<ArmenianChairDogsittingContext> _dbContextOptions;
     private ArmenianChairDogsittingContext _context;
-    private SitterRepository _sut;
+    private SittersRepository _sut;
 
     [SetUp]
     public void Setup()
@@ -21,7 +21,7 @@ public class SitterRepositoryTests
         _context = new ArmenianChairDogsittingContext(_dbContextOptions);
         _context.Database.EnsureDeleted();
 
-        _sut = new SitterRepository(_context);
+        _sut = new SittersRepository(_context);
 
         _context.Sitters.Add(new Sitter()
         {

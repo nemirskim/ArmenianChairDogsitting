@@ -6,11 +6,11 @@ using ArmenianChairDogsitting.Data.Repositories.Interfaces;
 
 namespace ArmenianChairDogsitting.Business.Services;
 
-public class SitterService : ISitterService
+public class SittersService : ISittersService
 {
-    ISitterRepository _sitterRepository;
+    ISittersRepository _sitterRepository;
   
-    public SitterService(ISitterRepository sitterRepository)
+    public SittersService(ISittersRepository sitterRepository)
     {
         _sitterRepository = sitterRepository;
     }

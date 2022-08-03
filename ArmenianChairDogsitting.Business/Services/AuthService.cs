@@ -13,11 +13,11 @@ namespace ArmenianChairDogsitting.Business.Services;
 
 public class AuthService : IAuthService
 {
-    private readonly IAdminRepository _adminRepository;
-    private readonly ISitterRepository _sitterRepository;
+    private readonly IAdminsRepository _adminRepository;
+    private readonly ISittersRepository _sitterRepository;
     private readonly IClientsRepository _clientRepository;
 
-    public AuthService(IAdminRepository adminRepository, ISitterRepository sitterRepository, IClientsRepository clientRepository)
+    public AuthService(IAdminsRepository adminRepository, ISittersRepository sitterRepository, IClientsRepository clientRepository)
     {
         _adminRepository = adminRepository;
         _sitterRepository = sitterRepository;
