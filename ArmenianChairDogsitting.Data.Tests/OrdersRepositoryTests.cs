@@ -29,7 +29,7 @@ public class OrderRepositoryTests
             Status = Status.Created,
             Type = ServiceEnum.Walk,
             Animals = new List<Animal>(),
-            Client = new() { Name = "Zhora", LastName = "Zhora" },
+            Client = new() { Name = "Zhora", LastName = "Zhora", Email = "ugabuga@kek.com", Password = " monkeySleep" },
         });
 
         _context.Orders.Add(new OrderDailySitting()
@@ -39,7 +39,7 @@ public class OrderRepositoryTests
             Type = ServiceEnum.DailySitting,
             DayQuantity = 2,
             Animals = new List<Animal>(),
-            Client = new() { Name = "Zhora", LastName = "Zhora" },
+            Client = new() { Name = "Zhora", LastName = "Zhora", Email = "ugabuga@kek.com", Password = " monkeySleep" },
             Comments = new()
         }); ;
 
@@ -51,7 +51,7 @@ public class OrderRepositoryTests
             WalkPerDayQuantity = 3,
             Animals = new(),
             Comments = new(),
-            Client = new() { Name = "Grisha", LastName = "Grisha" },
+            Client = new() { Name = "Grisha", LastName = "Grisha", Email = "ugabuga@kek.com", Password = " monkeySleep" },
         });
 
         _context.SaveChanges();
@@ -82,7 +82,7 @@ public class OrderRepositoryTests
             WalkPerDayQuantity = 3,
             Animals = new(),
             Comments = new(),
-            Client = new() { Id = 3, Name = "Grisha" },
+            Client = new() { Id = 3, Name = "Grisha", Email = "ugabuga@kek.com", Password = " monkeySleep" },
         };
 
         //when
@@ -159,7 +159,7 @@ public class OrderRepositoryTests
             WalkPerDayQuantity = 3,
             Animals = new(),
             Comments = new() { new() { Id = 4, Text = "blah blah" } },
-            Client = new() { Id = 3, Name = "Grisha" },
+            Client = new() { Id = 3, Name = "Grisha", Email = "ugabuga@kek.com", Password = " monkeySleep" },
         };
 
     private Comment CommentToAdd() => new() { Text = "blah blah" };
