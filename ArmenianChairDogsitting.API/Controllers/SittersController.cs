@@ -92,7 +92,7 @@ public class SittersController : Controller
     }
 
     [AuthorizeByRole(Role.Sitter)]
-    [HttpPatch("{id}")]
+    [HttpPatch("{id}/restore")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
