@@ -79,6 +79,7 @@ builder.Services.AddScoped<ISitterRepository, SitterRepository>();
 builder.Services.AddScoped<ISitterService, SitterService>();
 
 builder.Services.AddScoped<IClientsRepository, ClientsRepository>();
+builder.Services.AddScoped<IClientsService, ClientsService>();
 
 builder.Services.AddScoped<IOrdersRepository, OrdersRepository>();
 builder.Services.AddScoped<IOrdersService, OrdersService>();
