@@ -34,6 +34,7 @@ public class SittersController : Controller
         return Created($"{this.GetUri()}/{result}", result);
     }
 
+    [AllowAnonymous]
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(SitterMainInfoResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
@@ -51,6 +52,7 @@ public class SittersController : Controller
         return Ok(result);
     }
 
+    [AllowAnonymous]
     [HttpGet]
     [ProducesResponseType(typeof(List<SitterAllInfoResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
