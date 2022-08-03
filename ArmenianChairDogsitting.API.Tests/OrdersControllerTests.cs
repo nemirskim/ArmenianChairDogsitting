@@ -230,6 +230,22 @@ public class OrdersControllerTests
         _ordersServiceMock.Verify(x => x.AddCommentToOrder(It.IsAny<int>(), It.IsAny<Comment>()), Times.Once);
     }
 
+    [Test]
+    public void DeleteOrderById_WhenValidRequestPassed_ThenThrowNoContent()
+    {
+        //given
+        var id = 32;
+
+        //when
+        var actual = _sut.DeleteOrderById(id);
+
+        //then
+        var actualResult = actual as NoContentResult;
+
+        Assert.AreEqual(StatusCodes.Status204NoContent, actualResult.StatusCode);
+        _ordersServiceMock.Verify(x => x.DeleteOrderById(id), Times.Once);
+    }
+
     private List<Order>  Orders() => new List<Order>()
         {
             new OrderWalk
