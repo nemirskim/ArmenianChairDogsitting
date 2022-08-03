@@ -14,9 +14,7 @@ public abstract class AbstractOrderRequest
     [ListLength(1, 4, ErrorMessage = ApiErrorMessage.DogQuantityError)]
     public List<int> AnimalIds { get; set; }
     public ServiceEnum Type { get; set; }
-    public Status Status { get; set; }
     public DateTime DateCreated { get; set; }
-    public DateTime? DateUpdated { get; set; }
     public DateTime WorkDate { get; set; }
     public DistrictEnum District { get; set; }
 }

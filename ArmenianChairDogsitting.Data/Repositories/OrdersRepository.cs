@@ -68,5 +68,12 @@ namespace ArmenianChairDogsitting.Data.Repositories
             _context.Orders.Update(orderToChange);
             _context.SaveChanges();
         }
+
+        public List<Comment> GetCommentsByOrderId(int id)
+        {
+            return _context.Comments
+                .Where(c => c.Order.Id == id)
+                .ToList();
+        }
     }
 }

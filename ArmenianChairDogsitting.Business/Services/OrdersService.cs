@@ -52,7 +52,7 @@ public class OrdersService : IOrdersService
         if (chosenOrder == null)
             throw new NotFoundException($"{ExceptionMessage.ChoosenCommentDoesNotExist}{orderId}");
 
-        return chosenOrder.Comments;
+        return _ordersRepository.GetCommentsByOrderId(orderId);
     }
 
     public int AddCommentToOrder(int orderId, Comment commentToAdd)

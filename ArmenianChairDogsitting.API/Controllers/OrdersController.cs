@@ -85,7 +85,7 @@ namespace ArmenianChairDogsitting.API.Controllers
         [AuthorizeByRole(Role.Sitter, Role.Client)]
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(typeof(List<AbstractOrderResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<CommentResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
         public ActionResult<List<CommentResponse>> GetCommentsByOrderId([FromRoute] int id)
         {
