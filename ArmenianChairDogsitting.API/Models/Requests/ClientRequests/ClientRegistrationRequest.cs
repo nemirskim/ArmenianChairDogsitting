@@ -23,5 +23,5 @@ public class ClientRegistrationRequest
     [MinLength(8, ErrorMessage = ApiErrorMessage.PasswordLenghtIsLess)]
     public string Password { get; set; }
 
-    public List<DogMainInfoResponse> Dogs { get; set; }
+    //public List<DogMainInfoResponse> Dogs { get; set; }
 }

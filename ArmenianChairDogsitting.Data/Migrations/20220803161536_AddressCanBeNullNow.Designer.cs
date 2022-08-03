@@ -4,6 +4,7 @@ using ArmenianChairDogsitting.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ArmenianChairDogsitting.Data.Migrations
 {
     [DbContext(typeof(ArmenianChairDogsittingContext))]
-    partial class ArmenianChairDogsittingContextModelSnapshot : ModelSnapshot
+    [Migration("20220803161536_AddressCanBeNullNow")]
+    partial class AddressCanBeNullNow
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -188,9 +190,6 @@ namespace ArmenianChairDogsitting.Data.Migrations
                     b.Property<string>("Discriminator")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<int>("SitterId")
                         .HasColumnType("int");
