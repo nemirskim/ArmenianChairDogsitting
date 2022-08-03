@@ -35,6 +35,7 @@ namespace ArmenianChairDogsitting.Data.Repositories
         {
             var choosenOrder = _context.Orders.FirstOrDefault(o => o.Id == orderId);
             choosenOrder!.Status = status;
+            choosenOrder!.DateUpdated = DateTime.Now;
             _context.Orders.Update(choosenOrder);
             _context.SaveChanges();
         }
@@ -52,7 +53,19 @@ namespace ArmenianChairDogsitting.Data.Repositories
         {
             var orderToDelete = _context.Orders.FirstOrDefault(o => o.Id == id);
             orderToDelete!.IsDeleted = true;
+            orderToDelete!.DateUpdated = DateTime.Now;
             _context.Orders.Update(orderToDelete);
+            _context.SaveChanges();
+        }
+
+        public void ChangeOrder(PropertiesToChangeOrder orderProperties, int orderId)
+        {
+            var orderToChange = _context.Orders.FirstOrDefault(o => o.Id == orderId);
+            orderToChange!.Animals = orderProperties.Animals;
+            orderToChange!.WorkDate = orderProperties.WorkDate;
+            orderToChange!.District = orderProperties.District;
+            orderToChange!.DateUpdated = DateTime.Now;
+            _context.Orders.Update(orderToChange);
             _context.SaveChanges();
         }
     }
