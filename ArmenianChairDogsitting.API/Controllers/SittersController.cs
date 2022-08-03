@@ -79,7 +79,7 @@ public class SittersController : Controller
         return NoContent();
     }
 
-    [AuthorizeByRole]
+    [AuthorizeByRole(Role.Sitter)]
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
