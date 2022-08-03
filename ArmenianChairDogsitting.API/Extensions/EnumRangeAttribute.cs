@@ -15,12 +15,14 @@ public class EnumRangeAttribute<T> : ValidationAttribute
     public override bool IsValid(object value)
     {
         var enumObj = value as ValueType;
-        if (enumObj is null
-            || (int)enumObj < _minLength
-            || (int)enumObj > _maxLength)
+
+        if (enumObj != null &&
+            ((int)enumObj < _minLength || 
+            (int)enumObj > _maxLength))
         {
             return false;
         }
+
         return true;
     }
 

@@ -12,5 +12,5 @@ public class SearchRequest
     [EnumRange<ServiceEnum>]
     public ServiceEnum ServiceType { get; set; }
     [EnumRange<DistrictEnum>]
-    public DistrictEnum District { get; set; }
+    public DistrictEnum? District { get; set; }
 }

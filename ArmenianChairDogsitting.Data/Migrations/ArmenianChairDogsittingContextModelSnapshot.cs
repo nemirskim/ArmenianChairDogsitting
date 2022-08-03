@@ -189,6 +189,9 @@ namespace ArmenianChairDogsitting.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<int>("SitterId")
                         .HasColumnType("int");
 
