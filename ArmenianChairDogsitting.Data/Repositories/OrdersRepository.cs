@@ -45,5 +45,13 @@ namespace ArmenianChairDogsitting.Data.Repositories
             _context.SaveChanges();
             return commentToAdd.Id;
         }
+
+        public void DeleteOrderById(int id)
+        {
+            var orderToDelete = _context.Orders.FirstOrDefault(o => o.Id == id);
+            orderToDelete!.IsDeleted = true;
+            _context.Orders.Update(orderToDelete);
+            _context.SaveChanges();
+        }
     }
 }
