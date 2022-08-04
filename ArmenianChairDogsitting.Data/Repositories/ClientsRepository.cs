@@ -23,7 +23,7 @@ public class ClientsRepository : IClientsRepository
     public List<Client> GetAllClients()
         => _context.Clients.Where(c => !c.IsDeleted).ToList();
 
-    public void UpdateClient(Client newClient)
+    public void UpdateClient(Client newClient, int id)
     {
         var client = GetClientById(newClient.Id);
         client!.Name = newClient.Name;
@@ -32,12 +32,12 @@ public class ClientsRepository : IClientsRepository
         _context.SaveChanges();
     }
 
+    public Client? GetClientByEmail(string email) => _context.Clients.FirstOrDefault(c => c.Email == email);
+
     public void RemoveOrRestoreClient(int id, bool isDeleting)
     {
         var client = GetClientById(id);
         client!.IsDeleted = isDeleting;
         _context.SaveChanges();
     }
-
-    public Client? GetClientByEmail(string email) => _context.Clients.FirstOrDefault(client => client.Email == email);
 }
