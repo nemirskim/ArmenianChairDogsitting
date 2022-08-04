@@ -10,7 +10,12 @@ public static class ControllerExtension
 
     public static int? GetUserId(this Controller controller)
     {
-        var Claims = controller.User.Claims.ToList();
-        return Convert.ToInt32(Claims[2].Value);
+        if (controller.HttpContext.User.Identity is not ClaimsIdentity identity)
+            return null;
+
+        if (!int.TryParse(identity.FindFirst(ClaimTypes.NameIdentifier)?.Value, out var userId))
+            return null;
+
+        return userId;
     }
 }

@@ -76,10 +76,6 @@ public class SittersController : Controller
     public ActionResult UpdateSitter([FromBody] SitterUpdateRequest sitterUpdateRequest)
     {
         var userId = this.GetUserId();
-        if (userId == null)
-        {
-            return Unauthorized("Invalid token, please try again");
-        }
 
         _sittersService.Update(_mapper.Map<Sitter>(sitterUpdateRequest), userId.Value);
         return NoContent();
