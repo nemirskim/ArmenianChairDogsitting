@@ -7,7 +7,7 @@ using ArmenianChairDogsitting.Data.Repositories.Interfaces;
 using Moq;
 using System.Security.Claims;
 
-namespace ArmenianChairDogSitting.Business.Tests;
+namespace ArmenianChairDogsitting.Business.Tests;
 
 public class SitterServiceTests
 {

@@ -28,20 +28,8 @@ public class ClientsService : IClientsService
         return _clientsRepository.AddClient(client);
     }
 
-    public Client GetClientById(int id)
-    {
-        var client = _clientsRepository.GetClientById(id);
-        if (client is null)
-            throw new NotFoundException("Client was not found");
-
-        return client;
-    }
-
-    public List<Client> GetAllClients()
-    {
-        var clients = _clientsRepository.GetAllClients();
-        return clients;
-    }
+    public Client GetClientById(int id) => _clientsRepository.GetClientById(id);
+    public List<Client> GetAllClients() => _clientsRepository.GetAllClients();
 
     public void UpdateClient(Client clientForUpdate, int id)
     {
@@ -53,6 +41,7 @@ public class ClientsService : IClientsService
         client.Phone = clientForUpdate.Phone;
         client.Name = clientForUpdate.Name;
         client.LastName = clientForUpdate.LastName;
+        client.Address = clientForUpdate.Address;
 
         _clientsRepository.UpdateClient(client);
     }
@@ -63,9 +52,6 @@ public class ClientsService : IClientsService
 
         if (client is null)
             throw new NotFoundException("Client was not found");
-
-        else if (client.Role != Role.Admin || client.Id != id)
-            throw new AccessDeniedException("Access denied");
 
         client.IsDeleted = isDeleted;
         _clientsRepository.RemoveOrRestoreClient(client);

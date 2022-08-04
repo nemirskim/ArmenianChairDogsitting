@@ -6,7 +6,7 @@ using ArmenianChairDogsitting.Data.Enums;
 using ArmenianChairDogsitting.Data.Repositories;
 using Moq;
 
-namespace ArmenianChairDogSitting.Business.Tests;
+namespace ArmenianChairDogsitting.Business.Tests;
 
 public class OrdersServiceTests
 {

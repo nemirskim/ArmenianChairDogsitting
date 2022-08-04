@@ -14,4 +14,7 @@ public class ClientUpdateRequest
     [Required(ErrorMessage = ApiErrorMessage.PhoneIsRequired)]
     [MaxLength(12)]
     public string? Phone { get; set; }
+
+    [Required(ErrorMessage = ApiErrorMessage.AddressIsRequired)]
+    public string? Address { get; set; }
 }
