@@ -18,6 +18,11 @@ public class ClientsControllerTests
     [SetUp]
     public void SetUp()
     {
+        var mockMapper = new MapperConfiguration(cfg =>
+        {
+            cfg.AddProfile(new APIMapperConfigStorage());
+        });
+        _mapper = mockMapper.CreateMapper();
         _clientsServiceMock = new Mock<IClientsService>();
         _sut = new ClientsController(_clientsServiceMock.Object, _mapper);
     }
@@ -78,9 +83,18 @@ public class ClientsControllerTests
 
         //then
         var actualResult = actual.Result as ObjectResult;
+        var clientMainInfoResponse = actualResult.Value as ClientMainInfoResponse;
 
         Assert.AreEqual(StatusCodes.Status200OK, actualResult.StatusCode);
-        Assert.AreEqual(client.GetType(), actualResult.Value.GetType());
+        Assert.Multiple(() =>
+        {
+            Assert.That(clientMainInfoResponse.Id, Is.EqualTo(client.Id));
+            Assert.That(clientMainInfoResponse.Name, Is.EqualTo(client.Name));
+            Assert.That(clientMainInfoResponse.LastName, Is.EqualTo(client.LastName));
+            Assert.That(clientMainInfoResponse.Address, Is.EqualTo(client.Address));
+            Assert.That(clientMainInfoResponse.Phone, Is.EqualTo(client.Phone));
+            Assert.That(clientMainInfoResponse.Email, Is.EqualTo(client.Email));
+        });
 
         _clientsServiceMock.Verify(c => c.GetClientById(client.Id), Times.Once);
     }
@@ -118,9 +132,22 @@ public class ClientsControllerTests
 
         //then
         var actualResult = actual.Result as ObjectResult;
+        var clientsAllInfoResponse = actualResult.Value as List<ClientAllInfoResponse>;
 
         Assert.AreEqual(StatusCodes.Status200OK, actualResult.StatusCode);
-        Assert.AreEqual(clients.GetType(), actualResult.Value.GetType());
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(clientsAllInfoResponse.Count, Is.EqualTo(clients.Count));
+            Assert.That(clientsAllInfoResponse[0].Name, Is.EqualTo(clients[0].Name));
+            Assert.That(clientsAllInfoResponse[1].Name, Is.EqualTo(clients[1].Name));
+            Assert.That(clientsAllInfoResponse[1].LastName, Is.EqualTo(clients[1].LastName));
+            Assert.That(clientsAllInfoResponse[0].LastName, Is.EqualTo(clients[0].LastName));
+            Assert.That(clientsAllInfoResponse[1].Phone, Is.EqualTo(clients[1].Phone));
+            Assert.That(clientsAllInfoResponse[0].Phone, Is.EqualTo(clients[0].Phone));
+            Assert.That(clientsAllInfoResponse[0].Email, Is.EqualTo(clients[0].Email));
+            Assert.That(clientsAllInfoResponse[1].Email, Is.EqualTo(clients[1].Email));
+        });
 
         _clientsServiceMock.Verify(c => c.GetAllClients(), Times.Once);
     }
@@ -148,12 +175,12 @@ public class ClientsControllerTests
 
         Assert.AreEqual(StatusCodes.Status200OK, actualResult.StatusCode);
 
-        //_clientsServiceMock.Verify(c => c.UpdateClient(It.IsAny<Client>(), It.IsAny<int>()(c =>
-        //    c.Name == clientToUpdate.Name &&
-        //    c.LastName == clientToUpdate.LastName &&
-        //    c.Phone == clientToUpdate.Phone &&
-        //    c.Email == clientToUpdate.Email
-        //)), Times.Once); //закомменчено пока что, ибо тут ошибка
+        _clientsServiceMock.Verify(c => c.UpdateClient(It.Is<Client>(c =>
+            c.Name == clientToUpdate.Name &&
+            c.LastName == clientToUpdate.LastName &&
+            c.Phone == clientToUpdate.Phone &&
+            c.Email == clientToUpdate.Email
+        ), It.Is<int>(i => i == id)), Times.Once);
     }
 
     [Test]

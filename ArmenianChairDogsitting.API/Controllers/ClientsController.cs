@@ -3,7 +3,6 @@ using ArmenianChairDogsitting.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using ArmenianChairDogsitting.API.Extensions;
 using ArmenianChairDogsitting.Data.Enums;
-using ArmenianChairDogsitting.Data.Repositories;
 using AutoMapper;
 using ArmenianChairDogsitting.Business;
 using ArmenianChairDogsitting.Data.Entities;
@@ -32,9 +31,6 @@ public class ClientsController : Controller
     [AllowAnonymous]
     [HttpPost]
     [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
-    [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
     [ProducesResponseType(typeof(void), StatusCodes.Status422UnprocessableEntity)]
     public ActionResult<int> AddClient([FromBody] ClientRegistrationRequest request)
     {
@@ -44,17 +40,17 @@ public class ClientsController : Controller
 
     [AuthorizeByRole(Role.Client)]
     [HttpGet("{id}")]
-    [ProducesResponseType(typeof(ClientAllInfoResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ClientMainInfoResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
-    public ActionResult<ClientAllInfoResponse> GetClientById(int id)
+    public ActionResult<ClientMainInfoResponse> GetClientById(int id)
     {
         var result = _clientsService.GetClientById(id);
         if (result is null)
             return NotFound();
         else
-            return Ok(_mapper.Map<ClientAllInfoResponse>(result));
+            return Ok(_mapper.Map<ClientMainInfoResponse>(result));
     }
 
     [AuthorizeByRole]

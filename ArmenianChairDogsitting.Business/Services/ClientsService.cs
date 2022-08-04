@@ -1,6 +1,7 @@
 ﻿using ArmenianChairDogsitting.Data.Repositories;
 using ArmenianChairDogsitting.Data.Entities;
 using ArmenianChairDogsitting.Data.Enums;
+using ArmenianChairDogsitting.Business.Hashing;
 
 namespace ArmenianChairDogsitting.Business;
 
