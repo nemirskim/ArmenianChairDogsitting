@@ -1,6 +1,7 @@
 ﻿using ArmenianChairDogsitting.API.Controllers;
 using ArmenianChairDogsitting.API.Models;
 using ArmenianChairDogsitting.Business.Interfaces;
+using ArmenianChairDogsitting.Data;
 using ArmenianChairDogsitting.Data.Entities;
 using ArmenianChairDogsitting.Data.Enums;
 using AutoMapper;
@@ -247,6 +248,31 @@ public class OrdersControllerTests
 
         Assert.AreEqual(StatusCodes.Status204NoContent, actualResult.StatusCode);
         _ordersServiceMock.Verify(x => x.DeleteOrderById(id), Times.Once);
+    }
+
+    [Test]
+    public void UpdateOrder_WhenCorrectParamsPassed_ReturnNoContent()
+    {
+        //given
+        var id = 2;
+        var PropertiesToChange = new PropertiesToChangeOrder()
+        {
+            Animals = new(),
+            District = DistrictEnum.All,
+            WorkDate = DateTime.Now
+        };
+
+        //when
+        var actual = _sut.UpdateOrder(PropertiesToChange, id);
+
+        //then
+        var actualResult = actual as NoContentResult;
+
+        Assert.AreEqual(StatusCodes.Status204NoContent, actualResult.StatusCode);
+        _ordersServiceMock.Verify(x => x.UpdateOrder(It.Is<PropertiesToChangeOrder>(p =>
+        p.District == PropertiesToChange.District &&
+        p.Animals.Count == PropertiesToChange.Animals.Count &&
+        p.WorkDate == PropertiesToChange.WorkDate), id), Times.Once);
     }
 
     private List<Order>  Orders() => new List<Order>()
