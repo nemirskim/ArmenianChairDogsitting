@@ -1,4 +1,5 @@
 ﻿using ArmenianChairDogsitting.API.Models;
+using ArmenianChairDogsitting.Business.Models;
 using ArmenianChairDogsitting.Data.Entities;
 using AutoMapper;
 
@@ -8,6 +9,8 @@ public class APIMapperConfigStorage : Profile
 {
     public APIMapperConfigStorage()
     {
+        CreateMap<SearchRequest, ParamsToSearchSitter>();
+        CreateMap<SittersSearchModelResult, SitterAllInfoResponse>();
         CreateMap<AbstractOrderRequest, Order>().ReverseMap();
         CreateMap<AbstractOrderResponse, Order>().ReverseMap();
 
@@ -35,8 +38,8 @@ public class APIMapperConfigStorage : Profile
             .ForMember(d => d.ClientId, opt => opt.MapFrom(s => s.Client.Id))
             .ForMember(d => d.SitterId, opt => opt.MapFrom(s => s.Sitter.Id))
             .IncludeBase(typeof(Order), typeof(AbstractOrderResponse));
-
         CreateMap<OrderDailySitting, OrderDailySittingResponse>()
+
             .ForMember(d => d.ClientId, opt => opt.MapFrom(s => s.Client.Id))
             .ForMember(d => d.SitterId, opt => opt.MapFrom(s => s.Sitter.Id))
             .IncludeBase(typeof(Order), typeof(AbstractOrderResponse));
@@ -58,5 +61,15 @@ public class APIMapperConfigStorage : Profile
         CreateMap<Client, ClientAllInfoResponse>();
 
         CreateMap<CommentRequest, Comment>().ReverseMap();
+        CreateMap<SitterRequest, Sitter>();
+        CreateMap<SitterUpdatePriceCatalogRequest, Sitter>();
+        CreateMap<AdminRequest, Admin>();
+        CreateMap<PriceCatalogRequest, PriceCatalog>();
+        CreateMap<PriceCatalog, PriceCatalogResponse>();
+        CreateMap<SitterUpdateRequest, Sitter>();
+        CreateMap<Sitter, SitterAllInfoResponse>();
+        CreateMap<UserUpdatePasswordRequest, Sitter>();
+        CreateMap<ClientRegistrationRequest, Client>();
+        CreateMap<Sitter, SitterMainInfoResponse>();
     }
 }

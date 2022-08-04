@@ -1,4 +1,4 @@
-﻿using ArmenianChairDogsitting.Business.ExceptionsStorage;
+﻿using ArmenianChairDogsitting.Business.Exceptions;
 using ArmenianChairDogsitting.Business.Interfaces;
 using ArmenianChairDogsitting.Data.Entities;
 using ArmenianChairDogsitting.Data.Enums;
@@ -14,7 +14,11 @@ public class OrdersService : IOrdersService
     {
         _ordersRepository = commentsRepository;
     }
-    public int AddOrder(Order order) => _ordersRepository.AddOrder(order);
+    public int AddOrder(Order order)
+    {
+        order.Status = Status.Created;
+        return _ordersRepository.AddOrder(order);
+    }
 
     public List<Order> GetAllOrders()
     {
@@ -58,5 +62,18 @@ public class OrdersService : IOrdersService
             throw new NotFoundException($"{ExceptionMessage.ChoosenCommentDoesNotExist}{orderId}");
 
         return _ordersRepository.AddCommentToOrder(orderId, commentToAdd);
+    }
+
+    public void DeleteOrderById(int id)
+    {
+        var chosenOrder = _ordersRepository.GetOrderById(id);
+
+        if (chosenOrder == null)
+            throw new NotFoundException($"{ExceptionMessage.ChoosenCommentDoesNotExist}{id}");
+
+        if(chosenOrder.Status == Status.InProgress)
+            throw new ForbiddenException($"{ExceptionMessage.ActionIsNotAllowed}{chosenOrder.Status}");
+        
+        _ordersRepository.DeleteOrderById(id);
     }
 }

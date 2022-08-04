@@ -21,7 +21,9 @@ namespace ArmenianChairDogsitting.Data.Repositories
             return order.Id;
         }
 
-        public List<Order> GetAllOrders() => _context.Orders.ToList();
+        public List<Order> GetAllOrders() => _context.Orders
+            .Where(o => !o.IsDeleted)
+            .ToList();
 
         public Order? GetOrderById(int id) =>
         _context.Orders
@@ -44,6 +46,14 @@ namespace ArmenianChairDogsitting.Data.Repositories
                 .Add(commentToAdd);
             _context.SaveChanges();
             return commentToAdd.Id;
+        }
+
+        public void DeleteOrderById(int id)
+        {
+            var orderToDelete = _context.Orders.FirstOrDefault(o => o.Id == id);
+            orderToDelete!.IsDeleted = true;
+            _context.Orders.Update(orderToDelete);
+            _context.SaveChanges();
         }
     }
 }

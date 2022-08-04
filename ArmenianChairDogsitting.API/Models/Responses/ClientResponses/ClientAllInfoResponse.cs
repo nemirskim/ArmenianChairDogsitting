@@ -1,4 +1,4 @@
-﻿namespace ArmenianChairDogsitting.API.Models;   
+﻿namespace ArmenianChairDogsitting.API.Models;
 
 public class ClientAllInfoResponse
 {

@@ -25,15 +25,15 @@ public class CommentsServiceTests
         var id = 2;
 
         _commentsRepository
-            .Setup(x => x.GetCommentById(It.IsAny<int>()))
+            .Setup(x => x.GetCommentById(id))
             .Returns(new Comment() { Id = id, IsDeleted = false });
 
         //when
         _sut.DeleteCommentById(id);
 
         //then
-        _commentsRepository.Verify(x => x.GetCommentById(It.IsAny<int>()), Times.Once);
-        _commentsRepository.Verify(x => x.DeleteCommentById(It.IsAny<int>()), Times.Once);
+        _commentsRepository.Verify(x => x.GetCommentById(id), Times.Once);
+        _commentsRepository.Verify(x => x.DeleteCommentById(id), Times.Once);
     }
 
     [Test]
@@ -45,7 +45,7 @@ public class CommentsServiceTests
         Comment comment = null;
 
         _commentsRepository
-            .Setup(x => x.GetCommentById(It.IsAny<int>()))
+            .Setup(x => x.GetCommentById(id))
             .Returns(comment);
 
         //when then

@@ -9,14 +9,14 @@ namespace ArmenianChairDogsitting.API.Tests
 {
     public class CommentsControllerTests
     {
-        private ÑommentsController _sut;
+        private CommentsController _sut;
         private Mock<ICommentsService> _commentsServiceMock;
 
         [SetUp]
         public void Setup()
         {
             _commentsServiceMock = new Mock<ICommentsService>();
-            _sut = new ÑommentsController(_commentsServiceMock.Object);
+            _sut = new CommentsController(_commentsServiceMock.Object);
         }
 
         [Test]
@@ -26,14 +26,14 @@ namespace ArmenianChairDogsitting.API.Tests
             var id = 2;
 
             _commentsServiceMock
-                .Setup(x => x.DeleteCommentById(It.IsAny<int>()));
+                .Setup(x => x.DeleteCommentById(id));
 
             //when
             var result = _sut.DeleteCommentById(id) as NoContentResult;
 
             //then
             Assert.AreEqual(StatusCodes.Status204NoContent, result.StatusCode);
-            _commentsServiceMock.Verify(x => x.DeleteCommentById(It.IsAny<int>()), Times.Once);
+            _commentsServiceMock.Verify(x => x.DeleteCommentById(id), Times.Once);
 
         }
 

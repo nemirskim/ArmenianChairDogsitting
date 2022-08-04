@@ -38,10 +38,8 @@ public class OrdersControllerTests
         {
             ClientId = 3,
             WalkQuantity = 2,
-            Animals = new(),
             IsTrial = true,
             SitterId = 2,
-            Status = Status.Created,
             Type = ServiceEnum.Walk
         };
 
@@ -50,7 +48,6 @@ public class OrdersControllerTests
             WalkQuantity = order.WalkQuantity,
             Animals = new(),
             Client = new() { Id = order.ClientId},
-            Status = order.Status,
             Type = order.Type,
             IsTrial = order.IsTrial,
             Sitter = new() { Id = order.SitterId }
@@ -127,7 +124,7 @@ public class OrdersControllerTests
 
 
         _ordersServiceMock
-            .Setup(x => x.GetOrderById(It.IsAny<int>()))
+            .Setup(x => x.GetOrderById(id))
             .Returns(order);
 
         //when
@@ -146,7 +143,7 @@ public class OrdersControllerTests
         Assert.AreEqual(expectedOrder.SitterId, actualValue.SitterId);
         Assert.AreEqual(expectedId, actualValue.Id);
 
-        _ordersServiceMock.Verify(x => x.GetOrderById(It.IsAny<int>()), Times.Once);
+        _ordersServiceMock.Verify(x => x.GetOrderById(id), Times.Once);
     }
 
     [Test]
@@ -193,7 +190,7 @@ public class OrdersControllerTests
         };
 
         _ordersServiceMock
-            .Setup(x => x.GetCommentsByOrderId(It.IsAny<int>()))
+            .Setup(x => x.GetCommentsByOrderId(targetOrder.Id))
             .Returns(commentsToGet);
 
         //when
@@ -206,7 +203,7 @@ public class OrdersControllerTests
         Assert.AreEqual(StatusCodes.Status200OK, actualResult.StatusCode);
         Assert.IsTrue(actualValue is not null);
         Assert.AreEqual(expectedComments.Count, actualValue.Count);
-        _ordersServiceMock.Verify(x => x.GetCommentsByOrderId(It.IsAny<int>()), Times.Once);
+        _ordersServiceMock.Verify(x => x.GetCommentsByOrderId(targetOrder.Id), Times.Once);
     }
 
     [Test]
@@ -215,13 +212,14 @@ public class OrdersControllerTests
         //given
         var commentToAdd = new CommentRequest() { Rating = 3, Text = "blah blah" };
         var expectedId = 4;
+        var id = 2;
 
         _ordersServiceMock
-            .Setup(x => x.AddCommentToOrder(It.IsAny<int>(), It.IsAny<Comment>()))
+            .Setup(x => x.AddCommentToOrder(id, It.IsAny<Comment>()))
             .Returns(expectedId);
 
         //when
-        var actual = _sut.AddCommentToOrder(2, commentToAdd);
+        var actual = _sut.AddCommentToOrder(id, commentToAdd);
 
         //then
         var actualResult = actual.Result as OkObjectResult;
@@ -230,7 +228,25 @@ public class OrdersControllerTests
         Assert.AreEqual(StatusCodes.Status200OK, actualResult.StatusCode);
         Assert.IsTrue(actualValue is not null);
         Assert.AreEqual(expectedId, actualValue);
-        _ordersServiceMock.Verify(x => x.AddCommentToOrder(It.IsAny<int>(), It.IsAny<Comment>()), Times.Once);
+        _ordersServiceMock.Verify(x => x.AddCommentToOrder(id, It.Is<Comment>(c =>
+        c.Rating == commentToAdd.Rating &&
+        c.Text == commentToAdd.Text)), Times.Once);
+    }
+
+    [Test]
+    public void DeleteOrderById_WhenValidRequestPassed_ThenThrowNoContent()
+    {
+        //given
+        var id = 32;
+
+        //when
+        var actual = _sut.DeleteOrderById(id);
+
+        //then
+        var actualResult = actual as NoContentResult;
+
+        Assert.AreEqual(StatusCodes.Status204NoContent, actualResult.StatusCode);
+        _ordersServiceMock.Verify(x => x.DeleteOrderById(id), Times.Once);
     }
 
     private List<Order>  Orders() => new List<Order>()

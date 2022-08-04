@@ -3,8 +3,9 @@ using ArmenianChairDogsitting.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using ArmenianChairDogsitting.API.Extensions;
 using ArmenianChairDogsitting.Data.Enums;
-using ArmenianChairDogsitting.Business;
+using ArmenianChairDogsitting.Data.Repositories;
 using AutoMapper;
+using ArmenianChairDogsitting.Business;
 using ArmenianChairDogsitting.Data.Entities;
 
 namespace ArmenianChairDogsitting.API.Controllers;
@@ -18,6 +19,7 @@ public class ClientsController : Controller
     private readonly IClientsService _clientsService;
     private readonly IMapper _mapper;
     public ClientsController(IClientsService clientsService, IMapper mapper)
+
     {
         _clientsService = clientsService;
         _mapper = mapper;

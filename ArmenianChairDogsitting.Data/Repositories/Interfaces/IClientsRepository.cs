@@ -10,4 +10,5 @@ public interface IClientsRepository
     void UpdateClient(Client client, int id);
     Client? GetClientByEmail(string email);
     public void RemoveOrRestoreClient(int id, bool isDeleting);
+    public Client? GetClientByEmail(string email);
 }

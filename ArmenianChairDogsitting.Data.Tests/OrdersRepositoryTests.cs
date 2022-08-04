@@ -18,7 +18,7 @@ public class OrderRepositoryTests
         .UseInMemoryDatabase(databaseName: $"TestDb")
         .Options;
 
-        _context = new ArmenianChairDogsittingContext(_dbContextOptions); 
+        _context = new ArmenianChairDogsittingContext(_dbContextOptions);
         _context.Database.EnsureDeleted();
         _sut = new OrdersRepository(_context);
 
@@ -29,7 +29,7 @@ public class OrderRepositoryTests
             Status = Status.Created,
             Type = ServiceEnum.Walk,
             Animals = new List<Animal>(),
-            Client = new() { Name = "Zhora", LastName = "Zhora" },
+            Client = new() { Name = "Zhora", LastName = "Zhora", Email = "ugabuga@kek.com", Password = " monkeySleep" },
         });
 
         _context.Orders.Add(new OrderDailySitting()
@@ -39,7 +39,7 @@ public class OrderRepositoryTests
             Type = ServiceEnum.DailySitting,
             DayQuantity = 2,
             Animals = new List<Animal>(),
-            Client = new() { Name = "Zhora", LastName = "Zhora" },
+            Client = new() { Name = "Zhora", LastName = "Zhora", Email = "ugabuga@kek.com", Password = " monkeySleep" },
             Comments = new()
         }); ;
 
@@ -51,7 +51,21 @@ public class OrderRepositoryTests
             WalkPerDayQuantity = 3,
             Animals = new(),
             Comments = new(),
-            Client = new() { Name = "Grisha", LastName = "Grisha" },
+            Client = new() { Name = "Grisha", LastName = "Grisha", Email = "ugabuga@kek.com", Password = " monkeySleep" },
+        });
+
+        _context.SaveChanges();
+
+        _context.Orders.Add(new OrderOverexpose()
+        {
+            Status = Status.Created,
+            Type = ServiceEnum.Overexpose,
+            DayQuantity = 3,
+            WalkPerDayQuantity = 3,
+            Animals = new(),
+            Comments = new(),
+            Client = new() { Name = "Grisha", LastName = "Grisha", Email = "ugabuga@kek.com", Password = " monkeySleep" },
+            IsDeleted = true
         });
 
         _context.SaveChanges();
@@ -60,13 +74,14 @@ public class OrderRepositoryTests
     [Test]
     public void GetAllOrders_WhenCalled_ReturnsAllOrders()
     {
-        //given in SetUp
+        //given
+        var expectedCount = 3;
 
         //when
         var returnedOrders = _sut.GetAllOrders();
 
         //then
-        Assert.AreEqual(_context.Orders.Count(), returnedOrders.Count);
+        Assert.AreEqual(3, returnedOrders.Count);
     }
 
     [Test]
@@ -82,7 +97,7 @@ public class OrderRepositoryTests
             WalkPerDayQuantity = 3,
             Animals = new(),
             Comments = new(),
-            Client = new() { Id = 3, Name = "Grisha" },
+            Client = new() { Id = 3, Name = "Grisha", Email = "ugabuga@kek.com", Password = " monkeySleep" },
         };
 
         //when
@@ -133,6 +148,22 @@ public class OrderRepositoryTests
         Assert.AreEqual(expectedChangesInOrder.Comments[0].Text, actualOrder.Comments[0].Text);
     }
 
+    [Test]
+    public void DeleteOrderById_WhenCorrectIdAndStatusPassed_ThenDeleteOrder()
+    {
+        //given 
+        var id = 1;
+        var comment = _context.Orders.FirstOrDefault(c => c.Id == id);
+        var expectedCount = 2;
+
+        //When
+        _sut.DeleteOrderById(id);
+
+        //then
+        var orders = _sut.GetAllOrders();
+        Assert.AreEqual(expectedCount, orders.Count);
+    }
+
     private OrderOverexpose ExpectedChangesInOrder() =>
         new OrderOverexpose()
         {
@@ -143,7 +174,7 @@ public class OrderRepositoryTests
             WalkPerDayQuantity = 3,
             Animals = new(),
             Comments = new() { new() { Id = 4, Text = "blah blah" } },
-            Client = new() { Id = 3, Name = "Grisha" },
+            Client = new() { Id = 3, Name = "Grisha", Email = "ugabuga@kek.com", Password = " monkeySleep" },
         };
 
     private Comment CommentToAdd() => new() { Text = "blah blah" };

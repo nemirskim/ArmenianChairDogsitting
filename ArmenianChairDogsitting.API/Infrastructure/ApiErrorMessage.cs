@@ -20,5 +20,8 @@
         public const string RatingRange = "Rating is out of range";
         public const string TextIsRequired = "Text is required";
         public const string IdIsRequired = "Id is required";
+        public const string PriceCatalogIsRequired = "The service catalog is empty";
+        public const string ServiceIsRequired = "Service was not entered";
+        public const string PriceIsRequired = "Price was not entered";
     }
 }

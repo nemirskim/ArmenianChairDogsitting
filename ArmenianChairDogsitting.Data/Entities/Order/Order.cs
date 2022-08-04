@@ -11,5 +11,6 @@ namespace ArmenianChairDogsitting.Data.Entities
         public List<Animal> Animals { get; set; }
         public List<Comment> Comments { get; set; }
         public Status Status { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }
