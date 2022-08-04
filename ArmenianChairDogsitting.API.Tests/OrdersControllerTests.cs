@@ -40,7 +40,7 @@ public class OrdersControllerTests
             WalkQuantity = 2,
             IsTrial = true,
             SitterId = 2,
-            Type = ServiceEnum.Walk
+            Type = Service.Walk
         };
 
         var expectedOrder = new OrderWalk
@@ -106,7 +106,7 @@ public class OrdersControllerTests
             Animals = new(),
             Client = new() { Id = 3 },
             Status = Status.Finished,
-            Type = ServiceEnum.Walk,
+            Type = Service.Walk,
             IsTrial = false,
             Sitter = new() { Id = 2 }
         };
@@ -186,7 +186,7 @@ public class OrdersControllerTests
             Animals = new(),
             Client = new(),
             IsTrial = false,
-            Type = ServiceEnum.Walk
+            Type = Service.Walk
         };
 
         _ordersServiceMock
@@ -258,7 +258,7 @@ public class OrdersControllerTests
                 Animals = new(),
                 Client = new() { Id = 3 },
                 Status = Status.Finished,
-                Type = ServiceEnum.Walk,
+                Type = Service.Walk,
                 IsTrial = false,
                 Sitter = new() { Id = 2 }
             },
@@ -270,7 +270,7 @@ public class OrdersControllerTests
                 Animals = new(),
                 Client = new() { Id = 1 },
                 Status = Status.Created,
-                Type = ServiceEnum.Walk,
+                Type = Service.Walk,
                 IsTrial = false,
                 Sitter = new() { Id = 3 }
             },
@@ -282,7 +282,7 @@ public class OrdersControllerTests
                 Animals = new(),
                 Client = new() { Id = 2 },
                 Status = Status.InProgress,
-                Type = ServiceEnum.Walk,
+                Type = Service.Walk,
                 IsTrial = false,
                 Sitter = new() { Id = 1 }
             },
@@ -297,7 +297,7 @@ public class OrdersControllerTests
                 Animals = new(),
                 ClientId = orders[0].Client.Id,
                 Status = Status.Finished,
-                Type = ServiceEnum.Walk,
+                Type = Service.Walk,
                 IsTrial = false,
                 SitterId = orders[0].Sitter.Id
             },
@@ -309,7 +309,7 @@ public class OrdersControllerTests
                 Animals = new(),
                 ClientId = orders[1].Client.Id,
                 Status = Status.Created,
-                Type = ServiceEnum.Walk,
+                Type = Service.Walk,
                 IsTrial = false,
                 SitterId = orders[1].Sitter.Id
             },
@@ -321,7 +321,7 @@ public class OrdersControllerTests
                 Animals = new(),
                 ClientId = orders[2].Client.Id,
                 Status = Status.InProgress,
-                Type = ServiceEnum.Walk,
+                Type = Service.Walk,
                 IsTrial = false,
                 SitterId = orders[2].Sitter.Id
             },

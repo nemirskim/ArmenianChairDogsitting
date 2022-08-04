@@ -253,7 +253,7 @@ public class OrdersServiceTests
                 IsTrial = true,
                 Sitter = new(),
                 Status = Status.Created,
-                Type = ServiceEnum.Walk
+                Type = Service.Walk
             },
             new OrderWalk()
             {
@@ -264,7 +264,7 @@ public class OrdersServiceTests
                 IsTrial = true,
                 Sitter = new(),
                 Status = Status.Created,
-                Type = ServiceEnum.Walk,
+                Type = Service.Walk,
                 Comments = new List<Comment> { new Comment() { Id = 4, Text = "blah blah" }}
     },
             new OrderWalk()
@@ -276,7 +276,7 @@ public class OrdersServiceTests
                 IsTrial = true,
                 Sitter = new(),
                 Status = Status.Created,
-                Type = ServiceEnum.Walk
+                Type = Service.Walk
             }
         };
     }
@@ -292,7 +292,7 @@ public class OrdersServiceTests
             IsTrial = true,
             Sitter = new() { Id = 1 },
             Status = Status.Created,
-            Type = ServiceEnum.Walk
+            Type = Service.Walk
         };
     }
 
@@ -307,7 +307,7 @@ public class OrdersServiceTests
             IsTrial = true,
             Sitter = new() { Id = 1 },
             Status = Status.Created,
-            Type = ServiceEnum.Walk
+            Type = Service.Walk
         };
     }
 
@@ -322,7 +322,7 @@ public class OrdersServiceTests
             IsTrial = true,
             Sitter = new(),
             Status = Status.Created,
-            Type = ServiceEnum.Walk
+            Type = Service.Walk
         };
     }
 }

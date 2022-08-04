@@ -26,8 +26,8 @@ public class SearchRepositoryTests
         var districtTwo = new District() { Id = DistrictEnum.Tsentralny };
         var districtThree = new District() { Id = DistrictEnum.Primorsky };
 
-        var ServiceWalk = ServiceEnum.Walk;
-        var ServiceOverexpose = ServiceEnum.Overexpose;
+        var ServiceWalk = Service.Walk;
+        var ServiceOverexpose = Service.Overexpose;
 
         _context.Sitters.Add(new Sitter
         {
@@ -57,12 +57,12 @@ public class SearchRepositoryTests
             { 
                 new PriceCatalog() 
                 { 
-                    Price = 2500, Service = ServiceEnum.Overexpose
+                    Price = 2500, Service = Service.Overexpose
                 },
             { 
                 new PriceCatalog() 
                 {
-                    Price = 1500, Service = ServiceEnum.Walk
+                    Price = 1500, Service = Service.Walk
                 }
                 }
             }
@@ -86,12 +86,12 @@ public class SearchRepositoryTests
             {
                 new PriceCatalog()
                 {
-                    Price = 3500, Service = ServiceEnum.Overexpose
+                    Price = 3500, Service = Service.Overexpose
                 },
             {
                 new PriceCatalog()
                 {
-                    Price = 2000, Service = ServiceEnum.Walk
+                    Price = 2000, Service = Service.Walk
                 }
                 }
             }
@@ -114,12 +114,12 @@ public class SearchRepositoryTests
             {
                 new PriceCatalog()
                 {
-                    Price = 1500, Service = ServiceEnum.Overexpose
+                    Price = 1500, Service = Service.Overexpose
                 },
             {
                 new PriceCatalog()
                 {
-                    Price = 1000, Service = ServiceEnum.Walk
+                    Price = 1000, Service = Service.Walk
                 }
                 }
             }
@@ -135,7 +135,7 @@ public class SearchRepositoryTests
         var searchParam = new ParamsToSearchSitter()
         {
             District =  DistrictEnum.Kalininsky,
-            ServiceType = ServiceEnum.Overexpose,
+            ServiceType = Service.Overexpose,
             PriceMinimum = 2000,
             PriceMaximum = 3600
         };
@@ -155,7 +155,7 @@ public class SearchRepositoryTests
         var searchParam = new ParamsToSearchSitter()
         {
             District = DistrictEnum.Kalininsky,
-            ServiceType = ServiceEnum.Overexpose,
+            ServiceType = Service.Overexpose,
             PriceMinimum = 7000,
             PriceMaximum = 7000
         };
@@ -176,7 +176,7 @@ public class SearchRepositoryTests
         {
             MinRating = 4,
             District = DistrictEnum.Kalininsky,
-            ServiceType = ServiceEnum.Overexpose
+            ServiceType = Service.Overexpose
         };
         var expectedSittersQuantity = 1;
 
@@ -215,7 +215,7 @@ public class SearchRepositoryTests
         {
             District = DistrictEnum.All,
             IsSitterHasComments = false,
-            ServiceType = ServiceEnum.Overexpose
+            ServiceType = Service.Overexpose
         };
 
         var expectedSittersQuantity = 1;

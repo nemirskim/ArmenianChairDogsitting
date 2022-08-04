@@ -13,6 +13,6 @@ public abstract class AbstractOrderRequest
     public int SitterId { get; set; }
     [ListLength(1, 4, ErrorMessage = ApiErrorMessage.DogQuantityError)]
     public List<int> AnimalIds { get; set; }
-    public ServiceEnum Type { get; set; }
+    public Service Type { get; set; }
     public Status Status { get; set; }
 }

@@ -27,7 +27,7 @@ public class OrderRepositoryTests
             WalkQuantity = 3,
             IsTrial = true,
             Status = Status.Created,
-            Type = ServiceEnum.Walk,
+            Type = Service.Walk,
             Animals = new List<Animal>(),
             Client = new() { Name = "Zhora", LastName = "Zhora", Email = "ugabuga@kek.com", Password = " monkeySleep" },
         });
@@ -36,7 +36,7 @@ public class OrderRepositoryTests
         {
             WalkQuantity = 3,
             Status = Status.Finished,
-            Type = ServiceEnum.DailySitting,
+            Type = Service.DailySitting,
             DayQuantity = 2,
             Animals = new List<Animal>(),
             Client = new() { Name = "Zhora", LastName = "Zhora", Email = "ugabuga@kek.com", Password = " monkeySleep" },
@@ -46,7 +46,7 @@ public class OrderRepositoryTests
         _context.Orders.Add(new OrderOverexpose()
         {
             Status = Status.Created,
-            Type = ServiceEnum.Overexpose,
+            Type = Service.Overexpose,
             DayQuantity = 3,
             WalkPerDayQuantity = 3,
             Animals = new(),
@@ -59,7 +59,7 @@ public class OrderRepositoryTests
         _context.Orders.Add(new OrderOverexpose()
         {
             Status = Status.Created,
-            Type = ServiceEnum.Overexpose,
+            Type = Service.Overexpose,
             DayQuantity = 3,
             WalkPerDayQuantity = 3,
             Animals = new(),
@@ -92,7 +92,7 @@ public class OrderRepositoryTests
         {
             Id = 3,
             Status = Status.Created,
-            Type = ServiceEnum.Overexpose,
+            Type = Service.Overexpose,
             DayQuantity = 3,
             WalkPerDayQuantity = 3,
             Animals = new(),
@@ -169,7 +169,7 @@ public class OrderRepositoryTests
         {
             Id = 3,
             Status = Status.Created,
-            Type = ServiceEnum.Overexpose,
+            Type = Service.Overexpose,
             DayQuantity = 3,
             WalkPerDayQuantity = 3,
             Animals = new(),

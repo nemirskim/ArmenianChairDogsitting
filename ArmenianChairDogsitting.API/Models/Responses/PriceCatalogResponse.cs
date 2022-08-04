@@ -3,7 +3,7 @@
 namespace ArmenianChairDogsitting.API.Models;
 public class PriceCatalogResponse
 {
-    public ServiceEnum Service { get; set; }
+    public Service Service { get; set; }
     public decimal Price { get; set; }
 }
 

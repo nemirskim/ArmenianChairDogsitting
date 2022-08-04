@@ -314,7 +314,7 @@ public class SitterServiceTests
                 new PriceCatalog()
                 {
                     Price = 500,
-                    Service = ServiceEnum.Overexpose,
+                    Service = Service.Overexpose,
                     Sitter = new Sitter(),
                     Id = 10,
                 }
@@ -489,7 +489,7 @@ public class SitterServiceTests
                     Id = 2,
                     Price = 500,
                     Sitter = new Sitter {Id = 1 },
-                    Service = ServiceEnum.DailySitting,
+                    Service = Service.DailySitting,
                 }
             },
             Orders = new List<Order>(),
@@ -506,14 +506,14 @@ public class SitterServiceTests
                     Id = 1,
                     Price = 800,
                     Sitter = new Sitter {Id = 1 },
-                    Service = ServiceEnum.Overexpose
+                    Service = Service.Overexpose
                 },
                 new PriceCatalog
                 {
                     Id = 2,
                     Price = 600,
                     Sitter = new Sitter {Id = 1 },
-                    Service = ServiceEnum.DailySitting
+                    Service = Service.DailySitting
                 }
             }
         };
@@ -574,14 +574,14 @@ public class SitterServiceTests
                     Id = 1,
                     Price = 800,
                     Sitter = new Sitter {Id = 1 },
-                    Service = ServiceEnum.Overexpose
+                    Service = Service.Overexpose
                 },
                 new PriceCatalog
                 {
                     Id = 2,
                     Price = 600,
                     Sitter = new Sitter {Id = 1 },
-                    Service = ServiceEnum.DailySitting
+                    Service = Service.DailySitting
                 }
             }
         };

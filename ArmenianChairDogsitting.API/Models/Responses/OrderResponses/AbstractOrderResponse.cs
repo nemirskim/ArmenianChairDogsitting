@@ -15,6 +15,6 @@ public abstract class AbstractOrderResponse
     [ListLength(1, 4, ErrorMessage = ApiErrorMessage.DogQuantityError)]
     public List<DogAllInfoResponse> Animals { get; set; }
     public List<CommentResponse> Comments { get; set; }
-    public ServiceEnum Type { get; set; }
+    public Service Type { get; set; }
     public Status Status { get; set; }
 }

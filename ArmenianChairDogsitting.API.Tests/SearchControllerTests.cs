@@ -45,7 +45,7 @@ public class SearchControllerTests
             MinRating = 5,
             IsSitterHasComments = true,
             District = DistrictEnum.Kalininsky,
-            ServiceType = ServiceEnum.Overexpose,
+            ServiceType = Service.Overexpose,
             PriceMinimum = 2500,
             PriceMaximum = 4000
         };
@@ -55,7 +55,7 @@ public class SearchControllerTests
             MinRating = 5,
             IsSitterHasComments = true,
             District = DistrictEnum.Kalininsky,
-            ServiceType = ServiceEnum.Overexpose,
+            ServiceType = Service.Overexpose,
             PriceMinimum = 2500,
             PriceMaximum = 4000
         };
@@ -84,8 +84,8 @@ public class SearchControllerTests
         var districtOne = new District() { Id = DistrictEnum.Kalininsky };
         var districtTwo = new District() { Id = DistrictEnum.Tsentralny };
 
-        var ServiceWalk = ServiceEnum.Walk;
-        var ServiceOverexpose = ServiceEnum.Overexpose;
+        var ServiceWalk = Service.Walk;
+        var ServiceOverexpose = Service.Overexpose;
 
         var result = new List<SittersSearchModelResult>()
             {
@@ -102,12 +102,12 @@ public class SearchControllerTests
                     {
                         new PriceCatalog()
                         {
-                            Price = 2500, Service = ServiceEnum.Overexpose
+                            Price = 2500, Service = Service.Overexpose
                         },
                     {
                         new PriceCatalog()
                         {
-                            Price = 1500, Service = ServiceEnum.Walk
+                            Price = 1500, Service = Service.Walk
                         }
                         }
                     }
@@ -124,12 +124,12 @@ public class SearchControllerTests
                         {
                         new PriceCatalog()
                         {
-                            Price = 3500, Service = ServiceEnum.Overexpose
+                            Price = 3500, Service = Service.Overexpose
                         },
                         {
                         new PriceCatalog()
                         {
-                            Price = 2000, Service = ServiceEnum.Walk
+                            Price = 2000, Service = Service.Walk
                         }
                         }
                     }
@@ -145,12 +145,12 @@ public class SearchControllerTests
                         {
                         new PriceCatalog()
                         {
-                            Price = 3500, Service = ServiceEnum.Overexpose
+                            Price = 3500, Service = Service.Overexpose
                         },
                         {
                         new PriceCatalog()
                         {
-                            Price = 2000, Service = ServiceEnum.Walk
+                            Price = 2000, Service = Service.Walk
                         }
                         }
                     }
