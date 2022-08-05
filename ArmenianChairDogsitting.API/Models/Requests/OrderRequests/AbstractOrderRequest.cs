@@ -13,8 +13,10 @@ public abstract class AbstractOrderRequest
     public int SitterId { get; set; }
     [ListLength(1, 4, ErrorMessage = ApiErrorMessage.DogQuantityError)]
     public List<int> AnimalIds { get; set; }
+    [EnumRange<ServiceEnum>]
     public ServiceEnum Type { get; set; }
-    public DateTime DateCreated { get; set; }
+    [DateTimeRequired]
     public DateTime WorkDate { get; set; }
+    [EnumRange<DistrictEnum>]
     public DistrictEnum District { get; set; }
 }

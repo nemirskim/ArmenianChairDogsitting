@@ -20,11 +20,11 @@ public class OrdersControllerTests
     [SetUp]
     public void Setup()
     {
-        var mockMapper = new MapperConfiguration(cfg =>
+        var mapper = new MapperConfiguration(cfg =>
         {
             cfg.AddProfile(new APIMapperConfigStorage());
         });
-        _mapper = mockMapper.CreateMapper();
+        _mapper = mapper.CreateMapper();
         _ordersServiceMock = new Mock<IOrdersService>();
         _sut = new OrdersController(_ordersServiceMock.Object, _mapper);
     }
@@ -259,9 +259,9 @@ public class OrdersControllerTests
     {
         //given
         var id = 2;
-        var PropertiesToChange = new UpdateOrderModel()
+        var PropertiesToChange = new UpdateOrderRequest()
         {
-            Animals = new(),
+            Animals = new() { new()},
             District = DistrictEnum.All,
             WorkDate = DateTime.Now
         };
