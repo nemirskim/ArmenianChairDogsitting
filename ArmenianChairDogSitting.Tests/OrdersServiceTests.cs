@@ -37,13 +37,15 @@ public class OrdersServiceTests
 
         //then
         Assert.AreEqual(expectedId, returnedInt);
-        _ordersRepository.Verify(x => x.AddOrder(It.Is<OrderWalk>(o =>
-        o.IsTrial == orderToAdd.IsTrial &&
-        o.WalkQuantity == orderToAdd.WalkQuantity &&
-        o.Status == orderToAdd.Status &&
-        o.Animals.Count == orderToAdd.Animals.Count &&
-        o.Comments.Count == orderToAdd.Comments.Count &&
-        o.Id == orderToAdd.Id)), Times.Once);
+        _ordersRepository.Verify(x => x.AddOrder(
+            It.Is<OrderWalk>(
+                o => o.IsTrial == orderToAdd.IsTrial &&
+                o.WalkQuantity == orderToAdd.WalkQuantity &&
+                o.Status == orderToAdd.Status &&
+                o.Animals.Count == orderToAdd.Animals.Count &&
+                o.Comments.Count == orderToAdd.Comments.Count &&
+                o.Id == orderToAdd.Id)
+            ), Times.Once);
     }
 
     [Test]
@@ -160,9 +162,12 @@ public class OrdersServiceTests
         //then
         Assert.AreEqual(expectedId, actualId);
         _ordersRepository.Verify(x => x.GetOrderById(orderId), Times.Once);
-        _ordersRepository.Verify(x => x.AddCommentToOrder(orderId, It.Is<Comment>(c =>
-        c.Id == commentToAdd.Id &&
-        c.Text == commentToAdd.Text)), Times.Once);
+
+        _ordersRepository.Verify(x => x.AddCommentToOrder(
+            orderId, It.Is<Comment>(
+                c => c.Id == commentToAdd.Id &&
+                c.Text == commentToAdd.Text)
+            ), Times.Once);
     }
 
     [Test]
@@ -252,9 +257,9 @@ public class OrdersServiceTests
 
         //when then
 
-        Assert.Throws<NotFoundException>(() => _sut.UpdateOrder(It.IsAny<PropertiesToChangeOrder>(), id));
+        Assert.Throws<NotFoundException>(() => _sut.UpdateOrder(It.IsAny<UpdateOrderModel>(), id));
         _ordersRepository.Verify(x => x.GetOrderById(id), Times.Once);
-        _ordersRepository.Verify(x => x.ChangeOrder(It.IsAny<PropertiesToChangeOrder>(),id), Times.Never);
+        _ordersRepository.Verify(x => x.ChangeOrder(It.IsAny<UpdateOrderModel>(),id), Times.Never);
     }
 
     [Test]
@@ -269,9 +274,9 @@ public class OrdersServiceTests
 
         //when then
 
-        Assert.Throws<ForbiddenException>(() => _sut.UpdateOrder(It.IsAny<PropertiesToChangeOrder>(), id));
+        Assert.Throws<ForbiddenException>(() => _sut.UpdateOrder(It.IsAny<UpdateOrderModel>(), id));
         _ordersRepository.Verify(x => x.GetOrderById(id), Times.Once);
-        _ordersRepository.Verify(x => x.ChangeOrder(It.IsAny<PropertiesToChangeOrder>(), id), Times.Never);
+        _ordersRepository.Verify(x => x.ChangeOrder(It.IsAny<UpdateOrderModel>(), id), Times.Never);
     }
 
     [Test]

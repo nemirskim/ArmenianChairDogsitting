@@ -78,7 +78,7 @@ public class OrdersService : IOrdersService
         _ordersRepository.DeleteOrderById(id);
     }
 
-    public void UpdateOrder(PropertiesToChangeOrder orderProperties, int orderId)
+    public void UpdateOrder(UpdateOrderModel orderProperties, int orderId)
     {
         var chosenOrder = _ordersRepository.GetOrderById(orderId);
 

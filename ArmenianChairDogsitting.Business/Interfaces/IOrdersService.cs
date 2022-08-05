@@ -13,5 +13,5 @@ public interface IOrdersService
     List<Comment> GetCommentsByOrderId(int orderId);
     int AddCommentToOrder(int orderId, Comment commentToAdd);
     void DeleteOrderById(int id);
-    void UpdateOrder(PropertiesToChangeOrder orderProperties, int orderId);
+    void UpdateOrder(UpdateOrderModel orderProperties, int orderId);
 }

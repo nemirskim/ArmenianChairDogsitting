@@ -67,13 +67,14 @@ public class OrdersControllerTests
         Assert.AreEqual(StatusCodes.Status201Created, actualResult!.StatusCode);
         Assert.AreEqual(expectedId, actualResult.Value);
 
-        _ordersServiceMock.Verify(x => x.AddOrder(It.Is<OrderWalk>(c =>
-            c.IsTrial == expectedOrder.IsTrial &&
-            c.Type == expectedOrder.Type &&
-            c.Status == expectedOrder.Status &&
-            c.WalkQuantity == expectedOrder.WalkQuantity &&
-            c.Sitter.Id == expectedOrder.Sitter.Id
-        )), Times.Once);
+        _ordersServiceMock.Verify(x => x.AddOrder(
+            It.Is<OrderWalk>(
+                c => c.IsTrial == expectedOrder.IsTrial &&
+                c.Type == expectedOrder.Type &&
+                c.Status == expectedOrder.Status &&
+                c.WalkQuantity == expectedOrder.WalkQuantity &&
+                c.Sitter.Id == expectedOrder.Sitter.Id)
+            ), Times.Once);
     }
 
     [Test]
@@ -229,9 +230,12 @@ public class OrdersControllerTests
         Assert.AreEqual(StatusCodes.Status200OK, actualResult.StatusCode);
         Assert.IsTrue(actualValue is not null);
         Assert.AreEqual(expectedId, actualValue);
-        _ordersServiceMock.Verify(x => x.AddCommentToOrder(id, It.Is<Comment>(c =>
-        c.Rating == commentToAdd.Rating &&
-        c.Text == commentToAdd.Text)), Times.Once);
+
+        _ordersServiceMock.Verify(x => x.AddCommentToOrder(
+            id, It.Is<Comment>(
+            c => c.Rating == commentToAdd.Rating &&
+            c.Text == commentToAdd.Text)
+            ), Times.Once);
     }
 
     [Test]
@@ -255,7 +259,7 @@ public class OrdersControllerTests
     {
         //given
         var id = 2;
-        var PropertiesToChange = new PropertiesToChangeOrder()
+        var PropertiesToChange = new UpdateOrderModel()
         {
             Animals = new(),
             District = DistrictEnum.All,
@@ -269,10 +273,13 @@ public class OrdersControllerTests
         var actualResult = actual as NoContentResult;
 
         Assert.AreEqual(StatusCodes.Status204NoContent, actualResult.StatusCode);
-        _ordersServiceMock.Verify(x => x.UpdateOrder(It.Is<PropertiesToChangeOrder>(p =>
-        p.District == PropertiesToChange.District &&
-        p.Animals.Count == PropertiesToChange.Animals.Count &&
-        p.WorkDate == PropertiesToChange.WorkDate), id), Times.Once);
+
+        _ordersServiceMock.Verify(x => x.UpdateOrder(
+            It.Is<UpdateOrderModel>(
+                p => p.District == PropertiesToChange.District &&
+                p.Animals.Count == PropertiesToChange.Animals.Count &&
+                p.WorkDate == PropertiesToChange.WorkDate), 
+            id), Times.Once);
     }
 
     private List<Order>  Orders() => new List<Order>()

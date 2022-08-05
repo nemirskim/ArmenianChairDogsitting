@@ -3,7 +3,7 @@ using ArmenianChairDogsitting.Data.Enums;
 
 namespace ArmenianChairDogsitting.Data
 {
-    public class PropertiesToChangeOrder
+    public class UpdateOrderModel
     {
         public DistrictEnum District { get; set; }
         public DateTime WorkDate { get; set; }

@@ -69,14 +69,16 @@ public class SearchControllerTests
 
         Assert.AreEqual(StatusCodes.Status200OK, actualResult.StatusCode);
         Assert.AreEqual(sittersFromService.Count, actualValue.Count);
-        _searchServiceMock.Verify(x => x.GetSittersBySearchParams(It.Is<ParamsToSearchSitter>(s =>
-            s.MinRating == searchRequest.MinRating &&
-            s.PriceMinimum == searchRequest.PriceMinimum &&
-            s.PriceMaximum == searchRequest.PriceMaximum &&
-            s.ServiceType == searchRequest.ServiceType &&
-            s.District == searchRequest.District &&
-            s.IsSitterHasComments == searchRequest.IsSitterHasComments
-        )), Times.Once);
+
+        _searchServiceMock.Verify(x => x.GetSittersBySearchParams(
+            It.Is<ParamsToSearchSitter>(
+                s => s.MinRating == searchRequest.MinRating &&
+                s.PriceMinimum == searchRequest.PriceMinimum &&
+                s.PriceMaximum == searchRequest.PriceMaximum &&
+                s.ServiceType == searchRequest.ServiceType &&
+                s.District == searchRequest.District &&
+                s.IsSitterHasComments == searchRequest.IsSitterHasComments)
+            ), Times.Once);
     }
         
     private List<SittersSearchModelResult> GetSittersFromService()

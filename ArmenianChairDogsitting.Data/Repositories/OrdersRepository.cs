@@ -58,7 +58,7 @@ namespace ArmenianChairDogsitting.Data.Repositories
             _context.SaveChanges();
         }
 
-        public void ChangeOrder(PropertiesToChangeOrder orderProperties, int orderId)
+        public void ChangeOrder(UpdateOrderModel orderProperties, int orderId)
         {
             var orderToChange = _context.Orders.FirstOrDefault(o => o.Id == orderId);
             orderToChange!.Animals = orderProperties.Animals;
@@ -69,11 +69,11 @@ namespace ArmenianChairDogsitting.Data.Repositories
             _context.SaveChanges();
         }
 
-        public List<Comment> GetCommentsByOrderId(int id)
-        {
-            return _context.Comments
-                .Where(c => c.Order.Id == id)
+        public List<Comment> GetCommentsByOrderId(int id) =>
+            _context.Comments
+                .Where(
+                    c => c.Order.Id == id &&
+                    !c.IsDeleted)
                 .ToList();
-        }
     }
 }

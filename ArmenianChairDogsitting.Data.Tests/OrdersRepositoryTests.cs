@@ -195,7 +195,7 @@ public class OrderRepositoryTests
     {
         //given
         var id = 2;
-        var PropertiesToChange = new PropertiesToChangeOrder()
+        var PropertiesToChange = new UpdateOrderModel()
         {
             Animals = new(),
             District = DistrictEnum.All,
