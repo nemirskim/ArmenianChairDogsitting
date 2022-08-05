@@ -111,7 +111,7 @@ public class SittersController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     public ActionResult UpdatePasswordSitter(int id, [FromBody]UserUpdatePasswordRequest sitterPasswordForUpdate)
     {
-        _sittersService.UpdatePassword(id, sitterPasswordForUpdate.Password);
+        _sittersService.UpdatePassword(id, _mapper.Map<User>(sitterPasswordForUpdate));
         return NoContent();
     }
 

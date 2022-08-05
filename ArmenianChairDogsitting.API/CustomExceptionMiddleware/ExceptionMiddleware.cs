@@ -20,7 +20,7 @@ public class ExceptionMiddleware
         {
             await _next(httpContext);
         }
-        catch (NotFoundException error)
+        catch (PasswordException error)
         {
             await HandleExceptionAsync(httpContext, HttpStatusCode.BadRequest, error.Message);
         }
