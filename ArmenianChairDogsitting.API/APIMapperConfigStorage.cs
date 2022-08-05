@@ -1,5 +1,6 @@
 ﻿using ArmenianChairDogsitting.API.Models;
 using ArmenianChairDogsitting.Business.Models;
+using ArmenianChairDogsitting.Data;
 using ArmenianChairDogsitting.Data.Entities;
 using AutoMapper;
 
@@ -72,5 +73,6 @@ public class APIMapperConfigStorage : Profile
         CreateMap<UserUpdatePasswordRequest, Sitter>();
         CreateMap<ClientRegistrationRequest, Client>();
         CreateMap<Sitter, SitterMainInfoResponse>();
+        CreateMap<UpdateOrderRequest, UpdateOrderModel>();
     }
 }

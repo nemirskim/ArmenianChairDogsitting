@@ -69,19 +69,32 @@ public class OrderRepositoryTests
         });
 
         _context.SaveChanges();
+
+        _context.Orders.Add(new OrderOverexpose()
+        {
+            Status = Status.Created,
+            Type = ServiceEnum.Overexpose,
+            DayQuantity = 3,
+            WalkPerDayQuantity = 3,
+            Animals = new(),
+            Comments = new() { new() {Id = 1, Text = "blaablah"}, new() { Id = 2, Text = "gagaga" } },
+            Client = new() { Name = "Grisha", LastName = "Grisha", Email = "ugabuga@kek.com", Password = " monkeySleep" },
+        });
+
+        _context.SaveChanges();
     }
 
     [Test]
     public void GetAllOrders_WhenCalled_ReturnsAllOrders()
     {
         //given
-        var expectedCount = 3;
+        var expectedCount = 4;  
 
         //when
         var returnedOrders = _sut.GetAllOrders();
 
         //then
-        Assert.AreEqual(3, returnedOrders.Count);
+        Assert.AreEqual(expectedCount, returnedOrders.Count);
     }
 
     [Test]
@@ -134,7 +147,7 @@ public class OrderRepositoryTests
         var expectedChangesInOrder = ExpectedChangesInOrder();
         var commentToAdd = CommentToAdd();
         var orderIdToChange = 3;
-        var expectedId = 1;
+        var expectedId = 3;
 
         //when
         var actualId = _sut.AddCommentToOrder(orderIdToChange, commentToAdd);
@@ -154,7 +167,7 @@ public class OrderRepositoryTests
         //given 
         var id = 1;
         var comment = _context.Orders.FirstOrDefault(c => c.Id == id);
-        var expectedCount = 2;
+        var expectedCount = 3;
 
         //When
         _sut.DeleteOrderById(id);
@@ -162,6 +175,53 @@ public class OrderRepositoryTests
         //then
         var orders = _sut.GetAllOrders();
         Assert.AreEqual(expectedCount, orders.Count);
+    }
+
+    [Test]
+    public void GetAllCommentsByOrderId_WhenCorrectIdPassed_ThenReturnComments()
+    {
+        //given
+        var id = 5;
+        var expectedCommentQuantity = 2;
+
+        //when
+        var actualComments = _sut.GetCommentsByOrderId(id);
+
+        //then
+        Assert.AreEqual(expectedCommentQuantity, actualComments.Count);
+    }
+
+    public void ChangeOrder_WhenCorrectIdPassed_ThenChange()
+    {
+        //given
+        var id = 2;
+        var PropertiesToChange = new UpdateOrderModel()
+        {
+            Animals = new(),
+            District = DistrictEnum.All,
+            WorkDate = DateTime.Now
+        };
+        var expectedChanges = new OrderDailySitting()
+        {
+            WalkQuantity = 3,
+            Status = Status.Finished,
+            Type = ServiceEnum.DailySitting,
+            DayQuantity = 2,
+            Animals = new(),
+            Client = new() { Name = "Zhora", LastName = "Zhora", Email = "ugabuga@kek.com", Password = " monkeySleep" },
+            Comments = new(),
+            District = DistrictEnum.All,
+            WorkDate = DateTime.Now
+        };
+
+        //when
+        _sut.ChangeOrder(PropertiesToChange, id);
+
+        //then
+        var changedOrder = _sut.GetOrderById(id);
+        Assert.AreEqual(expectedChanges.Animals.Count, changedOrder.Animals.Count);
+        Assert.AreEqual(expectedChanges.District, changedOrder.District);
+        Assert.AreEqual(expectedChanges.WorkDate, changedOrder.WorkDate);
     }
 
     private OrderOverexpose ExpectedChangesInOrder() =>
