@@ -22,9 +22,9 @@ public class SearchRepositoryTests
         _context.Database.EnsureDeleted();
         _sut = new SearchRepository(_context);
 
-        var districtOne = new District() { Id = DistrictEnum.Kalininsky };
-        var districtTwo = new District() { Id = DistrictEnum.Tsentralny };
-        var districtThree = new District() { Id = DistrictEnum.Primorsky };
+        var districtOne = new Entities.District() { Id = Enums.District.Kalininsky };
+        var districtTwo = new Entities.District() { Id = Enums.District.Tsentralny };
+        var districtThree = new Entities.District() { Id = Enums.District.Primorsky };
 
         var ServiceWalk = Service.Walk;
         var ServiceOverexpose = Service.Overexpose;
@@ -50,7 +50,7 @@ public class SearchRepositoryTests
             LastName = "lstname",
             Password = "wwwwwww",
             Phone = "89567234581",
-            Districts = new List<District> { districtOne,  districtTwo},
+            Districts = new List<Entities.District> { districtOne,  districtTwo},
             Orders = new List<Order>() { new OrderWalk() 
             { Comments = new List<Comment>() } },
             PriceCatalog = new List<PriceCatalog>()
@@ -78,7 +78,7 @@ public class SearchRepositoryTests
             LastName = "lstname",
             Password = "wwwwwww",
             Phone = "89567234581",
-            Districts = new List<District> { districtOne, districtTwo },
+            Districts = new List<Entities.District> { districtOne, districtTwo },
             Orders = new List<Order>() { new OrderWalk()
             { Comments = new List<Comment>() { new Comment() { Rating = 5, Text = "blaah blah" },
             new Comment() { Rating = 3, Text = "bddd rrrr" }} } },
@@ -107,7 +107,7 @@ public class SearchRepositoryTests
             LastName = "lstname",
             Password = "wwwwwww",
             Phone = "89567234581",
-            Districts = new List<District> { districtThree, districtTwo },
+            Districts = new List<Entities.District> { districtThree, districtTwo },
             Orders = new List<Order>() { new OrderWalk()
             { Comments = new List<Comment>() { new Comment() { Rating = 5, Text = "blaah blah"} } } },
             PriceCatalog = new List<PriceCatalog>()
@@ -134,7 +134,7 @@ public class SearchRepositoryTests
         //given
         var searchParam = new ParamsToSearchSitter()
         {
-            District =  DistrictEnum.Kalininsky,
+            District = Enums.District.Kalininsky,
             ServiceType = Service.Overexpose,
             PriceMinimum = 2000,
             PriceMaximum = 3600
@@ -154,7 +154,7 @@ public class SearchRepositoryTests
         //given
         var searchParam = new ParamsToSearchSitter()
         {
-            District = DistrictEnum.Kalininsky,
+            District = Enums.District.Kalininsky,
             ServiceType = Service.Overexpose,
             PriceMinimum = 7000,
             PriceMaximum = 7000
@@ -175,7 +175,7 @@ public class SearchRepositoryTests
         var searchParams = new ParamsToSearchSitter()
         {
             MinRating = 4,
-            District = DistrictEnum.Kalininsky,
+            District = Enums.District.Kalininsky,
             ServiceType = Service.Overexpose
         };
         var expectedSittersQuantity = 1;
@@ -213,7 +213,7 @@ public class SearchRepositoryTests
         //given
         var searchParams = new ParamsToSearchSitter()
         {
-            District = DistrictEnum.All,
+            District = Enums.District.All,
             IsSitterHasComments = false,
             ServiceType = Service.Overexpose
         };

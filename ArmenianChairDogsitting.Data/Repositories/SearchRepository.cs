@@ -44,7 +44,7 @@ public class SearchRepository : ISearchRepository
                     !searchEntity.IsSitterHasComments &&
                     s.Orders.Any(c => c.Comments.Count == 0)
                 )) &&
-                (searchEntity.District == DistrictEnum.All || s.Districts.Any(d => d.Id == searchEntity.District))
+                (searchEntity.District == Enums.District.All || s.Districts.Any(d => d.Id == searchEntity.District))
              )
             .ToList();
     }

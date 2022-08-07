@@ -9,7 +9,7 @@ public class ParamsToSearchSitter
     public int? MinRating { get; set; }
     public bool IsSitterHasComments { get; set; }
     public Service ServiceType { get; set; }
-    public DistrictEnum District { get; set; }
+    public Enums.District District { get; set; }
     
     //породы
 }

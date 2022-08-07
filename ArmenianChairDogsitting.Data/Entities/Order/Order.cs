@@ -13,7 +13,7 @@ namespace ArmenianChairDogsitting.Data.Entities
         public DateTime DateCreated { get; set; }
         public DateTime? DateUpdated { get; set; }
         public DateTime WorkDate { get; set; }
-        public DistrictEnum District { get; set; }
+        public Enums.District District { get; set; }
         public Status Status { get; set; }
         public bool IsDeleted { get; set; }
     }

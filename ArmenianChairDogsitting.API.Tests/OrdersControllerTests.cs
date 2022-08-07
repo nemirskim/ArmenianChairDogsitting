@@ -262,7 +262,7 @@ public class OrdersControllerTests
         var PropertiesToChange = new UpdateOrderRequest()
         {
             Animals = new() { new()},
-            District = DistrictEnum.All,
+            District = Data.Enums.District.All,
             WorkDate = DateTime.Now
         };
 
