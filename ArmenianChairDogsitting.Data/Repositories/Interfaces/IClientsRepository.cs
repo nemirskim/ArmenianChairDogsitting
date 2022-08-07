@@ -7,7 +7,7 @@ public interface IClientsRepository
     int AddClient(Client client);
     Client GetClientById(int id);
     List<Client> GetAllClients();
-    void UpdateClient(Client client, int id);
+    void UpdateClient(Client client);
     Client? GetClientByEmail(string email);
-    public void RemoveOrRestoreClient(int id, bool isDeleting);
+    public void RemoveOrRestoreClient(Client client);
 }

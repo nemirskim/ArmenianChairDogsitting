@@ -13,5 +13,6 @@ namespace ArmenianChairDogsitting.API.Models
         public int Rating { get; set; }
         [Required(ErrorMessage = ApiErrorMessage.TextIsRequired)]
         public string Text { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

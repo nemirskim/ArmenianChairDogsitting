@@ -1,6 +1,6 @@
 ﻿namespace ArmenianChairDogsitting.Data.Enums;
 
-public enum DistrictEnum
+public enum District
 {
     All = 1,
     Admiralteysky,

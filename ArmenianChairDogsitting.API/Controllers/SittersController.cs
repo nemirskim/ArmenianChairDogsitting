@@ -68,14 +68,16 @@ public class SittersController : Controller
     }
 
     [AuthorizeByRole(Role.Sitter)]
-    [HttpPut("{id}")]
+    [HttpPut]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
-    public ActionResult UpdateSitter([FromBody] SitterUpdateRequest sitterUpdateRequest, int id)
+    public ActionResult UpdateSitter([FromBody] SitterUpdateRequest sitterUpdateRequest)
     {
-        _sittersService.Update(_mapper.Map<Sitter>(sitterUpdateRequest), id);
+        var userId = this.GetUserId();
+
+        _sittersService.Update(_mapper.Map<Sitter>(sitterUpdateRequest), userId.Value);
         return NoContent();
     }
 
