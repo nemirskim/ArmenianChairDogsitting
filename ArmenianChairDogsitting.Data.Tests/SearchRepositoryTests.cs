@@ -22,12 +22,12 @@ public class SearchRepositoryTests
         _context.Database.EnsureDeleted();
         _sut = new SearchRepository(_context);
 
-        var districtOne = new District() { Id = DistrictEnum.Kalininsky };
-        var districtTwo = new District() { Id = DistrictEnum.Tsentralny };
-        var districtThree = new District() { Id = DistrictEnum.Primorsky };
+        var districtOne = new Entities.District() { Id = Enums.District.Kalininsky };
+        var districtTwo = new Entities.District() { Id = Enums.District.Tsentralny };
+        var districtThree = new Entities.District() { Id = Enums.District.Primorsky };
 
-        var ServiceWalk = ServiceEnum.Walk;
-        var ServiceOverexpose = ServiceEnum.Overexpose;
+        var ServiceWalk = Service.Walk;
+        var ServiceOverexpose = Service.Overexpose;
 
         _context.Sitters.Add(new Sitter
         {
@@ -50,19 +50,19 @@ public class SearchRepositoryTests
             LastName = "lstname",
             Password = "wwwwwww",
             Phone = "89567234581",
-            Districts = new List<District> { districtOne,  districtTwo},
+            Districts = new List<Entities.District> { districtOne,  districtTwo},
             Orders = new List<Order>() { new OrderWalk() 
             { Comments = new List<Comment>() } },
             PriceCatalog = new List<PriceCatalog>()
             { 
                 new PriceCatalog() 
                 { 
-                    Price = 2500, Service = ServiceEnum.Overexpose
+                    Price = 2500, Service = Service.Overexpose
                 },
             { 
                 new PriceCatalog() 
                 {
-                    Price = 1500, Service = ServiceEnum.Walk
+                    Price = 1500, Service = Service.Walk
                 }
                 }
             }
@@ -78,7 +78,7 @@ public class SearchRepositoryTests
             LastName = "lstname",
             Password = "wwwwwww",
             Phone = "89567234581",
-            Districts = new List<District> { districtOne, districtTwo },
+            Districts = new List<Entities.District> { districtOne, districtTwo },
             Orders = new List<Order>() { new OrderWalk()
             { Comments = new List<Comment>() { new Comment() { Rating = 5, Text = "blaah blah" },
             new Comment() { Rating = 3, Text = "bddd rrrr" }} } },
@@ -86,12 +86,12 @@ public class SearchRepositoryTests
             {
                 new PriceCatalog()
                 {
-                    Price = 3500, Service = ServiceEnum.Overexpose
+                    Price = 3500, Service = Service.Overexpose
                 },
             {
                 new PriceCatalog()
                 {
-                    Price = 2000, Service = ServiceEnum.Walk
+                    Price = 2000, Service = Service.Walk
                 }
                 }
             }
@@ -107,19 +107,19 @@ public class SearchRepositoryTests
             LastName = "lstname",
             Password = "wwwwwww",
             Phone = "89567234581",
-            Districts = new List<District> { districtThree, districtTwo },
+            Districts = new List<Entities.District> { districtThree, districtTwo },
             Orders = new List<Order>() { new OrderWalk()
             { Comments = new List<Comment>() { new Comment() { Rating = 5, Text = "blaah blah"} } } },
             PriceCatalog = new List<PriceCatalog>()
             {
                 new PriceCatalog()
                 {
-                    Price = 1500, Service = ServiceEnum.Overexpose
+                    Price = 1500, Service = Service.Overexpose
                 },
             {
                 new PriceCatalog()
                 {
-                    Price = 1000, Service = ServiceEnum.Walk
+                    Price = 1000, Service = Service.Walk
                 }
                 }
             }
@@ -134,8 +134,8 @@ public class SearchRepositoryTests
         //given
         var searchParam = new ParamsToSearchSitter()
         {
-            District =  DistrictEnum.Kalininsky,
-            ServiceType = ServiceEnum.Overexpose,
+            District = Enums.District.Kalininsky,
+            ServiceType = Service.Overexpose,
             PriceMinimum = 2000,
             PriceMaximum = 3600
         };
@@ -154,8 +154,8 @@ public class SearchRepositoryTests
         //given
         var searchParam = new ParamsToSearchSitter()
         {
-            District = DistrictEnum.Kalininsky,
-            ServiceType = ServiceEnum.Overexpose,
+            District = Enums.District.Kalininsky,
+            ServiceType = Service.Overexpose,
             PriceMinimum = 7000,
             PriceMaximum = 7000
         };
@@ -175,8 +175,8 @@ public class SearchRepositoryTests
         var searchParams = new ParamsToSearchSitter()
         {
             MinRating = 4,
-            District = DistrictEnum.Kalininsky,
-            ServiceType = ServiceEnum.Overexpose
+            District = Enums.District.Kalininsky,
+            ServiceType = Service.Overexpose
         };
         var expectedSittersQuantity = 1;
 
@@ -213,9 +213,9 @@ public class SearchRepositoryTests
         //given
         var searchParams = new ParamsToSearchSitter()
         {
-            District = DistrictEnum.All,
+            District = Enums.District.All,
             IsSitterHasComments = false,
-            ServiceType = ServiceEnum.Overexpose
+            ServiceType = Service.Overexpose
         };
 
         var expectedSittersQuantity = 1;

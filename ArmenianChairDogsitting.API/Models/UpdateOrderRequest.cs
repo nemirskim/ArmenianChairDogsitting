@@ -7,8 +7,8 @@ namespace ArmenianChairDogsitting.API.Models
 {
     public class UpdateOrderRequest
     {
-        [EnumRange<DistrictEnum>]
-        public DistrictEnum District { get; set; }
+        [EnumRangeAttribute<Data.Enums.District>]
+        public Data.Enums.District District { get; set; }
         [DateTimeRequired]
         public DateTime WorkDate { get; set; }
         [ListLength(1, 4, ErrorMessage = ApiErrorMessage.DogQuantityError)]

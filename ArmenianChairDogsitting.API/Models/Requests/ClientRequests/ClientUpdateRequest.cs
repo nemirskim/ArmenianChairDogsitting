@@ -15,7 +15,6 @@ public class ClientUpdateRequest
     [MaxLength(12)]
     public string? Phone { get; set; }
 
-    [Required(ErrorMessage = ApiErrorMessage.PasswordIsRequired)]
-    [EmailAddress]
-    public string? Email { get; set; }
+    [Required(ErrorMessage = ApiErrorMessage.AddressIsRequired)]
+    public string? Address { get; set; }
 }

@@ -7,7 +7,7 @@ using ArmenianChairDogsitting.Data.Enums;
 using ArmenianChairDogsitting.Data.Repositories;
 using Moq;
 
-namespace ArmenianChairDogSitting.Business.Tests;
+namespace ArmenianChairDogsitting.Business.Tests;
 
 public class OrdersServiceTests
 {
@@ -310,7 +310,7 @@ public class OrdersServiceTests
                 IsTrial = true,
                 Sitter = new(),
                 Status = Status.Created,
-                Type = ServiceEnum.Walk
+                Type = Service.Walk
             },
             new OrderWalk()
             {
@@ -321,7 +321,7 @@ public class OrdersServiceTests
                 IsTrial = true,
                 Sitter = new(),
                 Status = Status.Created,
-                Type = ServiceEnum.Walk,
+                Type = Service.Walk,
                 Comments = new List<Comment> { new Comment() { Id = 4, Text = "blah blah" }}
     },
             new OrderWalk()
@@ -333,7 +333,7 @@ public class OrdersServiceTests
                 IsTrial = true,
                 Sitter = new(),
                 Status = Status.Created,
-                Type = ServiceEnum.Walk
+                Type = Service.Walk
             }
         };
     }
@@ -348,7 +348,7 @@ public class OrdersServiceTests
             IsTrial = true,
             Sitter = new() { Id = 1 },
             Status = Status.Created,
-            Type = ServiceEnum.Walk
+            Type = Service.Walk
         };
 
     private OrderWalk ExpectedOrder() =>
@@ -361,7 +361,7 @@ public class OrdersServiceTests
             IsTrial = true,
             Sitter = new() { Id = 1 },
             Status = Status.Created,
-            Type = ServiceEnum.Walk
+            Type = Service.Walk
         };
     
 
@@ -375,7 +375,7 @@ public class OrdersServiceTests
             IsTrial = true,
             Sitter = new(),
             Status = Status.Created,
-            Type = ServiceEnum.Walk,
+            Type = Service.Walk,
             Comments = new()
         };
 

@@ -23,21 +23,17 @@ public class ClientsRepository : IClientsRepository
     public List<Client> GetAllClients()
         => _context.Clients.Where(c => !c.IsDeleted).ToList();
 
-    public void UpdateClient(Client newClient, int id)
+    public void UpdateClient(Client newClient)
     {
-        var client = GetClientById(newClient.Id);
-        client!.Name = newClient.Name;
-        client.LastName = newClient.LastName;
-        _context.Clients.Update(client);
+        _context.Clients.Update(newClient);
         _context.SaveChanges();
     }
 
     public Client? GetClientByEmail(string email) => _context.Clients.FirstOrDefault(c => c.Email == email);
 
-    public void RemoveOrRestoreClient(int id, bool isDeleting)
+    public void RemoveOrRestoreClient(Client client)
     {
-        var client = GetClientById(id);
-        client!.IsDeleted = isDeleting;
+        _context.Clients.Update(client);
         _context.SaveChanges();
     }
 }

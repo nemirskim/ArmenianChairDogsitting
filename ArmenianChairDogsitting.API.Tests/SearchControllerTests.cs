@@ -44,8 +44,8 @@ public class SearchControllerTests
         {
             MinRating = 5,
             IsSitterHasComments = true,
-            District = DistrictEnum.Kalininsky,
-            ServiceType = ServiceEnum.Overexpose,
+            District = Data.Enums.District.Kalininsky,
+            ServiceType = Service.Overexpose,
             PriceMinimum = 2500,
             PriceMaximum = 4000
         };
@@ -54,8 +54,8 @@ public class SearchControllerTests
         {
             MinRating = 5,
             IsSitterHasComments = true,
-            District = DistrictEnum.Kalininsky,
-            ServiceType = ServiceEnum.Overexpose,
+            District = Data.Enums.District.Kalininsky,
+            ServiceType = Service.Overexpose,
             PriceMinimum = 2500,
             PriceMaximum = 4000
         };
@@ -83,11 +83,11 @@ public class SearchControllerTests
         
     private List<SittersSearchModelResult> GetSittersFromService()
     {
-        var districtOne = new District() { Id = DistrictEnum.Kalininsky };
-        var districtTwo = new District() { Id = DistrictEnum.Tsentralny };
+        var districtOne = new Data.Entities.District() { Id = Data.Enums.District.Kalininsky };
+        var districtTwo = new Data.Entities.District() { Id = Data.Enums.District.Tsentralny };
 
-        var ServiceWalk = ServiceEnum.Walk;
-        var ServiceOverexpose = ServiceEnum.Overexpose;
+        var ServiceWalk = Service.Walk;
+        var ServiceOverexpose = Service.Overexpose;
 
         var result = new List<SittersSearchModelResult>()
             {
@@ -95,7 +95,7 @@ public class SearchControllerTests
                 {
                     Name = "iamname",
                     LastName = "lstname",
-                    Districts = new List<District> { districtOne,  districtTwo},
+                    Districts = new List<Data.Entities.District> { districtOne,  districtTwo},
                     Comments = new List<Comment>() {
                     new Comment() { Rating = 2, Text = "blaah blah" },
                     new Comment() { Rating = 3, Text = "blaah blah" },
@@ -104,12 +104,12 @@ public class SearchControllerTests
                     {
                         new PriceCatalog()
                         {
-                            Price = 2500, Service = ServiceEnum.Overexpose
+                            Price = 2500, Service = Service.Overexpose
                         },
                     {
                         new PriceCatalog()
                         {
-                            Price = 1500, Service = ServiceEnum.Walk
+                            Price = 1500, Service = Service.Walk
                         }
                         }
                     }
@@ -120,18 +120,18 @@ public class SearchControllerTests
                 {
                     Name = "iamname",
                     LastName = "lstname",
-                    Districts = new List<District> { districtOne, districtTwo },
+                    Districts = new List<Data.Entities.District> { districtOne, districtTwo },
                     Comments = new List<Comment>() { new Comment() { Rating = 4, Text = "blaah blah" } },
                     PricesCatalog = new List<PriceCatalog>()
                         {
                         new PriceCatalog()
                         {
-                            Price = 3500, Service = ServiceEnum.Overexpose
+                            Price = 3500, Service = Service.Overexpose
                         },
                         {
                         new PriceCatalog()
                         {
-                            Price = 2000, Service = ServiceEnum.Walk
+                            Price = 2000, Service = Service.Walk
                         }
                         }
                     }
@@ -141,18 +141,18 @@ public class SearchControllerTests
                 {
                     Name = "iamname",
                     LastName = "lstname",
-                    Districts = new List<District> { districtOne, districtTwo },
+                    Districts = new List<Data.Entities.District> { districtOne, districtTwo },
                     Comments = new List<Comment>() { new Comment() },
                     PricesCatalog = new List<PriceCatalog>()
                         {
                         new PriceCatalog()
                         {
-                            Price = 3500, Service = ServiceEnum.Overexpose
+                            Price = 3500, Service = Service.Overexpose
                         },
                         {
                         new PriceCatalog()
                         {
-                            Price = 2000, Service = ServiceEnum.Walk
+                            Price = 2000, Service = Service.Walk
                         }
                         }
                     }
