@@ -415,12 +415,16 @@ public class SitterServiceTests
         };
 
 
-        string sitterPasswordForUpdate = "987654321";
+        var sitterForUpdate = new User
+        {
+            Password = "0987654321",
+            OldPassword = "1234567890"
+        };
 
         _sitterRepository.Setup(o => o.GetById(sitter.Id)).Returns(sitter);
 
         //when
-        _sut.UpdatePassword(sitter.Id, sitterPasswordForUpdate);
+        _sut.UpdatePassword(sitter.Id, sitterForUpdate);
 
         //then
         var actual = _sut.GetById(sitter.Id);
@@ -456,14 +460,54 @@ public class SitterServiceTests
         };
 
 
-        var sitterPasswordForUpdate = "987654321";
+        var sitterForUpdate = new User
+        {
+            Password = "0987654321",
+            OldPassword = "1234567890"
+        };
 
         _sitterRepository.Setup(o => o.GetById(sitter.Id)).Returns(sitter);
 
         //when
 
         //then
-        Assert.Throws<NotFoundException>(() => _sut.UpdatePassword(sitterId, sitterPasswordForUpdate));
+        Assert.Throws<NotFoundException>(() => _sut.UpdatePassword(sitterId, sitterForUpdate));
+    }
+
+    [Test]
+    public void UpdatePassword_WhenOldPasswordEqualNew_ThenPasswordException()
+    {
+        //given
+        var sitter = new Sitter()
+        {
+            Id = 10,
+            Name = "Alex",
+            LastName = "Pistoletov",
+            Phone = "89991116116",
+            Email = "pistol@pi.com",
+            Password = "123456789",
+            Age = 27,
+            Experience = 7,
+            Sex = Sex.Male,
+            Description = "",
+            PriceCatalog = new List<PriceCatalog>(),
+            Orders = new List<Order>(),
+            IsDeleted = false
+        };
+
+
+        var sitterForUpdate = new User
+        {
+            Password = "1234567890",
+            OldPassword = "1234567890"
+        };
+
+        _sitterRepository.Setup(o => o.GetById(sitter.Id)).Returns(sitter);
+
+        //when
+
+        //then
+        Assert.Throws<PasswordException>(() => _sut.UpdatePassword(sitter.Id, sitterForUpdate));
     }
 
     [Test]
