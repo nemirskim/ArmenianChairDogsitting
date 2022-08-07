@@ -20,14 +20,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers()
     .ConfigureApiBehaviorOptions(options =>
-     {
-         options.InvalidModelStateResponseFactory = context =>
-         {
-             var result = new BadRequestObjectResult(context.ModelState);
-             result.StatusCode = StatusCodes.Status422UnprocessableEntity;
-             return result;
-         };
-     });
+    {
+        options.InvalidModelStateResponseFactory = context =>
+        {
+            var result = new BadRequestObjectResult(context.ModelState);
+            result.StatusCode = StatusCodes.Status422UnprocessableEntity;
+            return result;
+        };
+    });
 
 builder.Services.AddEndpointsApiExplorer();
 
@@ -44,6 +44,7 @@ builder.Services.AddSwaggerGen(options =>
         BearerFormat = "JWT",
         Scheme = "Bearer",
     });
+
     options.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {

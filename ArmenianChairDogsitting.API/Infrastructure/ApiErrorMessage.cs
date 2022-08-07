@@ -18,6 +18,7 @@
         public const string SexIsRequired = "Sex was not entered";
         public const string DogQuantityError = "Dog's quantity have to be less than 4 and more than 1";
         public const string RatingRange = "Rating is out of range";
+        public const string SexRange = "The gender was entered incorrectly";
         public const string TextIsRequired = "Text is required";
         public const string IdIsRequired = "Id is required";
         public const string PriceCatalogIsRequired = "The service catalog is empty";
