@@ -99,7 +99,7 @@ public class ClientsRepositoryTests
         _context.SaveChanges();
 
         //when
-        _sut.UpdateClient(actual, id);
+        _sut.UpdateClient(actual);
 
         //then 
         Assert.AreEqual(id, actual.Id);
@@ -112,9 +112,10 @@ public class ClientsRepositoryTests
         //given 
         var id = 1;
         var client = _context.Clients.FirstOrDefault(c => c.Id == id);
+        client.IsDeleted = true;
 
         //when 
-        _sut.RemoveOrRestoreClient(id, true);
+        _sut.RemoveOrRestoreClient(client);
 
         //then 
         Assert.True(client!.IsDeleted);
@@ -126,9 +127,10 @@ public class ClientsRepositoryTests
         //given 
         var id = 2;
         var client = _context.Clients.FirstOrDefault(c => c.Id == id);
+        client.IsDeleted = false;
 
         //when 
-        _sut.RemoveOrRestoreClient(id, false);
+        _sut.RemoveOrRestoreClient(client);
 
         //then 
         Assert.False(client!.IsDeleted);

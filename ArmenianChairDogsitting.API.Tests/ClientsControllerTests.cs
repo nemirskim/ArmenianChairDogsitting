@@ -162,7 +162,7 @@ public class ClientsControllerTests
             Name = "Lea",
             LastName = "Lea",
             Phone = "+79450186206",
-            Email = "nti@gmail.com"
+            Address = "Pupkovo 18"
         };
 
         _clientsServiceMock.Setup(c => c.UpdateClient(It.IsAny<Client>(), id));
@@ -179,7 +179,7 @@ public class ClientsControllerTests
             c.Name == clientToUpdate.Name &&
             c.LastName == clientToUpdate.LastName &&
             c.Phone == clientToUpdate.Phone &&
-            c.Email == clientToUpdate.Email
+            c.Address == clientToUpdate.Address
         ), It.Is<int>(i => i == id)), Times.Once);
     }
 

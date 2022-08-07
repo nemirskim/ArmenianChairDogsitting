@@ -68,7 +68,7 @@ public class SittersControllerTests
         var sitterId = 2;
 
         //when
-        var actual = _sut.UpdateSitter(expectedSitter, sitterId);
+        var actual = _sut.UpdateSitter(expectedSitter);
 
         //then
         var actualResult = actual as NoContentResult;
