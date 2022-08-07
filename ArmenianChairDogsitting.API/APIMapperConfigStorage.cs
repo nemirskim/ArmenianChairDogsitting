@@ -1,5 +1,6 @@
 ﻿using ArmenianChairDogsitting.API.Models;
 using ArmenianChairDogsitting.Business.Models;
+using ArmenianChairDogsitting.Data;
 using ArmenianChairDogsitting.Data.Entities;
 using AutoMapper;
 
@@ -55,7 +56,11 @@ public class APIMapperConfigStorage : Profile
             .IncludeBase(typeof(Order), typeof(AbstractOrderResponse));
 
         CreateMap<Client, ClientAllInfoRequest>().ReverseMap();
-        CreateMap<Client, ClientAllInfoResponse>().ReverseMap();
+        CreateMap<Client, ClientMainInfoResponse>();
+        CreateMap<Client, ClientAllInfoResponse>();
+        CreateMap<ClientRegistrationRequest, Client>();
+        CreateMap<ClientUpdateRequest, Client>();
+        CreateMap<Client, ClientMainInfoResponse>();
 
         CreateMap<CommentRequest, Comment>().ReverseMap();
         CreateMap<SitterRequest, Sitter>();
@@ -68,5 +73,6 @@ public class APIMapperConfigStorage : Profile
         CreateMap<UserUpdatePasswordRequest, Sitter>();
         CreateMap<ClientRegistrationRequest, Client>();
         CreateMap<Sitter, SitterMainInfoResponse>();
+        CreateMap<UpdateOrderRequest, UpdateOrderModel>();
     }
 }

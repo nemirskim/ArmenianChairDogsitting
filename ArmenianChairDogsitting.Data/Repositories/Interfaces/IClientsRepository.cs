@@ -8,6 +8,6 @@ public interface IClientsRepository
     Client GetClientById(int id);
     List<Client> GetAllClients();
     void UpdateClient(Client client);
-    public void RemoveOrRestoreClient(int id, bool isDeleting);
-    public Client? GetClientByEmail(string email);
+    Client? GetClientByEmail(string email);
+    public void RemoveOrRestoreClient(Client client);
 }

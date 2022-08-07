@@ -1,10 +1,11 @@
+using ArmenianChairDogsitting.Business;
 using ArmenianChairDogsitting.Business.Exceptions;
 using ArmenianChairDogsitting.Business.Services;
 using ArmenianChairDogsitting.Data.Entities;
 using ArmenianChairDogsitting.Data.Repositories;
 using Moq;
 
-namespace ArmenianChairDogSitting.Business.Tests;
+namespace ArmenianChairDogsitting.Business.Tests;
 
 public class CommentsServiceTests
 {

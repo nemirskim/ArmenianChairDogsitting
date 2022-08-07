@@ -8,8 +8,8 @@ namespace ArmenianChairDogsitting.API.Models;
 public class PriceCatalogRequest
 {
     [Required(ErrorMessage = ApiErrorMessage.ServiceIsRequired)]
-    [EnumRange<ServiceEnum>]
-    public ServiceEnum Service { get; set; }
+    [EnumRange<Service>]
+    public Service Service { get; set; }
     [Required(ErrorMessage = ApiErrorMessage.PriceIsRequired)]
     public decimal Price { get; set; }
 }

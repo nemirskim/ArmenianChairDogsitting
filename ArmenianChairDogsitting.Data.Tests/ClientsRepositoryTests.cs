@@ -98,8 +98,8 @@ public class ClientsRepositoryTests
         actual!.LastName = "Prosnulsya";
         _context.SaveChanges();
 
-        //when 
-        _sut.UpdateClient(actual);
+        //when
+        _sut.UpdateClient(actual, id);
 
         //then 
         Assert.AreEqual(id, actual.Id);

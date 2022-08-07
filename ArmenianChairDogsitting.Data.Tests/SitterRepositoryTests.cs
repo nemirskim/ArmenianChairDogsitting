@@ -70,13 +70,13 @@ public class SitterRepositoryTests
             {
                 new PriceCatalog
                 {
-                    Service = ServiceEnum.SittingForDay,
+                    Service = Service.SittingForDay,
                     Price = 600,
                     Sitter = new Sitter{Name = "Ludmila"},
                 },
                 new PriceCatalog
                 {
-                    Service = ServiceEnum.DailySitting,
+                    Service = Service.DailySitting,
                     Price = 300,
                     Sitter = new Sitter{Name = "Ludmila"},
                 }
@@ -233,13 +233,13 @@ public class SitterRepositoryTests
         {
             new PriceCatalog
             {
-                Service = ServiceEnum.SittingForDay,
+                Service = Service.SittingForDay,
                 Price = 2000,
                 Sitter = new Sitter{Name = "Ludmila"},
             },
             new PriceCatalog
             {
-                Service = ServiceEnum.DailySitting,
+                Service = Service.DailySitting,
                 Price = 800,
                 Sitter = new Sitter
                 {
@@ -256,7 +256,7 @@ public class SitterRepositoryTests
             },
             new PriceCatalog
             {
-                Service = ServiceEnum.Overexpose,
+                Service = Service.Overexpose,
                 Price = 300,
                 Sitter = new Sitter
                 {
