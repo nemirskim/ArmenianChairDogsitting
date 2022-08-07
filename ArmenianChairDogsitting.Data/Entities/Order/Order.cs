@@ -10,6 +10,10 @@ namespace ArmenianChairDogsitting.Data.Entities
         public Sitter Sitter { get; set; }
         public List<Animal> Animals { get; set; }
         public List<Comment> Comments { get; set; }
+        public DateTime DateCreated { get; set; }
+        public DateTime? DateUpdated { get; set; }
+        public DateTime WorkDate { get; set; }
+        public DistrictEnum District { get; set; }
         public Status Status { get; set; }
         public bool IsDeleted { get; set; }
     }

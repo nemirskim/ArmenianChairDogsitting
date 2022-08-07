@@ -7,6 +7,7 @@ using ArmenianChairDogsitting.Data.Repositories;
 using ArmenianChairDogsitting.Data.Entities;
 using ArmenianChairDogsitting.Business.Interfaces;
 using AutoMapper;
+using ArmenianChairDogsitting.Data;
 
 namespace ArmenianChairDogsitting.API.Controllers
 {
@@ -85,7 +86,7 @@ namespace ArmenianChairDogsitting.API.Controllers
         [AuthorizeByRole(Role.Sitter, Role.Client)]
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(typeof(List<AbstractOrderResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<CommentResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
         public ActionResult<List<CommentResponse>> GetCommentsByOrderId([FromRoute] int id)
         {
@@ -114,6 +115,18 @@ namespace ArmenianChairDogsitting.API.Controllers
         public ActionResult DeleteOrderById(int id)
         {
             _ordersService.DeleteOrderById(id);
+            return NoContent();
+        }
+
+        [HttpPut("{id}")]
+        [AuthorizeByRole(Role.Client)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
+        public ActionResult UpdateOrder([FromBody] UpdateOrderRequest orderProperties, int orderId)
+        {
+            _ordersService.UpdateOrder(_mapper.Map<UpdateOrderModel>(orderProperties), orderId);
             return NoContent();
         }
     }

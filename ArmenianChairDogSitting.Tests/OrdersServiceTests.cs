@@ -1,6 +1,7 @@
 ﻿using ArmenianChairDogsitting.Business;
 using ArmenianChairDogsitting.Business.Exceptions;
 using ArmenianChairDogsitting.Business.Services;
+using ArmenianChairDogsitting.Data;
 using ArmenianChairDogsitting.Data.Entities;
 using ArmenianChairDogsitting.Data.Enums;
 using ArmenianChairDogsitting.Data.Repositories;
@@ -37,13 +38,15 @@ public class OrdersServiceTests
 
         //then
         Assert.AreEqual(expectedId, returnedInt);
-        _ordersRepository.Verify(x => x.AddOrder(It.Is<OrderWalk>(o =>
-        o.IsTrial == orderToAdd.IsTrial &&
-        o.WalkQuantity == orderToAdd.WalkQuantity &&
-        o.Status == orderToAdd.Status &&
-        o.Animals.Count == orderToAdd.Animals.Count &&
-        o.Comments.Count == orderToAdd.Comments.Count &&
-        o.Id == orderToAdd.Id)), Times.Once);
+        _ordersRepository.Verify(x => x.AddOrder(
+            It.Is<OrderWalk>(
+                o => o.IsTrial == orderToAdd.IsTrial &&
+                o.WalkQuantity == orderToAdd.WalkQuantity &&
+                o.Status == orderToAdd.Status &&
+                o.Animals.Count == orderToAdd.Animals.Count &&
+                o.Comments.Count == orderToAdd.Comments.Count &&
+                o.Id == orderToAdd.Id)
+            ), Times.Once);
     }
 
     [Test]
@@ -160,9 +163,12 @@ public class OrdersServiceTests
         //then
         Assert.AreEqual(expectedId, actualId);
         _ordersRepository.Verify(x => x.GetOrderById(orderId), Times.Once);
-        _ordersRepository.Verify(x => x.AddCommentToOrder(orderId, It.Is<Comment>(c =>
-        c.Id == commentToAdd.Id &&
-        c.Text == commentToAdd.Text)), Times.Once);
+
+        _ordersRepository.Verify(x => x.AddCommentToOrder(
+            orderId, It.Is<Comment>(
+                c => c.Id == commentToAdd.Id &&
+                c.Text == commentToAdd.Text)
+            ), Times.Once);
     }
 
     [Test]
@@ -240,6 +246,57 @@ public class OrdersServiceTests
         _ordersRepository.Verify(x => x.DeleteOrderById(id), Times.Never);
     }
 
+    [Test]
+    public void UpdateOrder_WhenIdIsInvalid_ThenThrowNotFoundException()
+    {
+        //given
+        var id = 2;
+        OrderWalk order = null!;
+        _ordersRepository
+            .Setup(x => x.GetOrderById(id))
+            .Returns(order!);
+
+        //when then
+
+        Assert.Throws<NotFoundException>(() => _sut.UpdateOrder(It.IsAny<UpdateOrderModel>(), id));
+        _ordersRepository.Verify(x => x.GetOrderById(id), Times.Once);
+        _ordersRepository.Verify(x => x.ChangeOrder(It.IsAny<UpdateOrderModel>(),id), Times.Never);
+    }
+
+    [Test]
+    public void UpdateOrder_WhenStatusInProgress_ThenThrowForbidden()
+    {
+        //given
+        var id = 2;
+
+        _ordersRepository
+            .Setup(x => x.GetOrderById(id))
+            .Returns(new OrderWalk() { Id = id, Status = Status.InProgress, IsDeleted = false });
+
+        //when then
+
+        Assert.Throws<ForbiddenException>(() => _sut.UpdateOrder(It.IsAny<UpdateOrderModel>(), id));
+        _ordersRepository.Verify(x => x.GetOrderById(id), Times.Once);
+        _ordersRepository.Verify(x => x.ChangeOrder(It.IsAny<UpdateOrderModel>(), id), Times.Never);
+    }
+
+    [Test]
+    public void GetCommentsByOrderId_WhenIdIsInvlid_ThenThrowNotFoundException()
+    {
+        //given
+        var id = 2;
+        OrderWalk order = null!;
+        _ordersRepository
+            .Setup(x => x.GetOrderById(id))
+            .Returns(order!);
+
+        //when then
+
+        Assert.Throws<NotFoundException>(() => _sut.GetCommentsByOrderId(id));
+        _ordersRepository.Verify(x => x.GetOrderById(id), Times.Once);
+        _ordersRepository.Verify(x => x.GetCommentsByOrderId( id), Times.Never);
+    }
+
     private List<Order> SetOrders()
     {
         return new List<Order>()
@@ -281,9 +338,8 @@ public class OrdersServiceTests
         };
     }
 
-    private Order OrderFromRepo()
-    {
-        return new OrderWalk()
+    private Order OrderFromRepo() =>
+        new OrderWalk()
         {
             Id = 34,
             Animals = new(),
@@ -294,12 +350,10 @@ public class OrdersServiceTests
             Status = Status.Created,
             Type = Service.Walk
         };
-    }
 
-    private OrderWalk ExpectedOrder()
-    {
-        return new OrderWalk()
-        {
+    private OrderWalk ExpectedOrder() =>
+        new OrderWalk()
+        { 
             Id = 34,
             Animals = new(),
             Client = new() { Id = 1 },
@@ -309,11 +363,10 @@ public class OrdersServiceTests
             Status = Status.Created,
             Type = Service.Walk
         };
-    }
+    
 
-    private OrderWalk OrderToAdd()
-    {
-        return new OrderWalk()
+    private OrderWalk OrderToAdd() =>
+        new OrderWalk()
         {
             Id = 34,
             Animals = new(),
@@ -322,7 +375,8 @@ public class OrdersServiceTests
             IsTrial = true,
             Sitter = new(),
             Status = Status.Created,
-            Type = Service.Walk
+            Type = Service.Walk,
+            Comments = new()
         };
-    }
+
 }

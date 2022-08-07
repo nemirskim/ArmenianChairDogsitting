@@ -15,6 +15,11 @@ public abstract class AbstractOrderResponse
     [ListLength(1, 4, ErrorMessage = ApiErrorMessage.DogQuantityError)]
     public List<DogAllInfoResponse> Animals { get; set; }
     public List<CommentResponse> Comments { get; set; }
+    public District District { get; set; }
+    public DateTime WorkDate { get; set; }
+    public DateTime DateUpdated { get;  set; }
+    public decimal Price { get; set; }
     public Service Type { get; set; }
     public Status Status { get; set; }
+    public bool IsDeleted { get; set; }
 }

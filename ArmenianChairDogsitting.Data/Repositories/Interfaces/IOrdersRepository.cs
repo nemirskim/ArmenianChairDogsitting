@@ -11,5 +11,7 @@ namespace ArmenianChairDogsitting.Data.Repositories
         List<Order> GetAllOrders();
         int AddCommentToOrder(int orderId, Comment commentToAdd);
         void DeleteOrderById(int id);
+        void ChangeOrder(UpdateOrderModel orderProperties, int orderId);
+        List<Comment> GetCommentsByOrderId(int id);
     }
 }
