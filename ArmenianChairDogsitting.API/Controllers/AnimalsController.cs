@@ -72,7 +72,8 @@ public class AnimalsController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     public ActionResult UpdateAnimalById([FromBody] DogUpdateRequest request, int id)
     {
-        return NoContent();
+        _animalsService.UpdateAnimal(_mapper.Map<Animal>(request), id);
+        return Ok();
     }
 
     [AuthorizeByRole(Role.Client)]
