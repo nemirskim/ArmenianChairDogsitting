@@ -136,7 +136,7 @@ public class SittersControllerTests
         _sittersServiceMock.Setup(c => c.Update(It.IsAny<Sitter>(), id));
 
         //when
-        var actual = _sut.UpdateSitter(expectedSitter);
+        var actual = _sut.UpdateSitter(sitterToUpdate);
 
         //then
         var actualResult = actual as NoContentResult;
@@ -278,12 +278,12 @@ public class SittersControllerTests
             {
                 new PriceCatalogRequest
                 {
-                    Service = ServiceEnum.DailySitting,
+                    Service = Service.DailySitting,
                     Price = 600
                 },
                 new PriceCatalogRequest
                 {
-                    Service = ServiceEnum.Overexpose,
+                    Service = Service.Overexpose,
                     Price = 300
                 }
             }
