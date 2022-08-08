@@ -8,4 +8,5 @@ public class ClientAllInfoResponse
     public string? Phone { get; set; }
     public string? Email { get; set; }
     public DateTime RegistrationDate { get; set; }
+    public string Address { get; set; }
 }
