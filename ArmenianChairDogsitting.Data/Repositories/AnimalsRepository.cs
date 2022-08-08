@@ -30,12 +30,8 @@ public class AnimalsRepository : IAnimalsRepository
         _context.SaveChanges();
     }
 
-    public void RemoveAnimalById(int id)
+    public void RemoveOrRestoreAnimal(Animal animal)
     {
-        var animal = _context.Animals.FirstOrDefault(a => a.Id == id);
-
-        animal.IsDeleted = animal.IsDeleted == true ? false : true;
-
         _context.Animals.Update(animal);
         _context.SaveChanges();
     }
