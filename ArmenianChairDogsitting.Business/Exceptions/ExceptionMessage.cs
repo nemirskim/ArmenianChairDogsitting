@@ -9,4 +9,5 @@ public class ExceptionMessage
     public const string ChoosenOrderDoesNotExist = "Нет заказа с id = ";
     public const string NoOrdersYet = "Заказов еще нет";
     public const string ActionIsNotAllowed = "Действие недоступно";
+    public const string OldPasswordEqualNew = "Введите новый пароль отличный от старого";
 }

@@ -2,6 +2,7 @@
 using ArmenianChairDogsitting.Business.Hashing;
 using ArmenianChairDogsitting.Business.Infrastructure;
 using ArmenianChairDogsitting.Business.Interfaces;
+using ArmenianChairDogsitting.Data.Entities;
 using ArmenianChairDogsitting.Data.Enums;
 using ArmenianChairDogsitting.Data.Repositories;
 using ArmenianChairDogsitting.Data.Repositories.Interfaces;

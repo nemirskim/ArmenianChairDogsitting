@@ -10,5 +10,5 @@ public interface ISittersService
     public void Update(Sitter sitter, int id);
     public void RemoveOrRestoreById(int id, bool isDelete);
     public void UpdatePriceCatalog(int id, Sitter sitterForUpdate);
-    public void UpdatePassword(int id, string password);
+    void UpdatePassword(int id, User user);
 }
