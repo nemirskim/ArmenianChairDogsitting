@@ -21,7 +21,9 @@ namespace ArmenianChairDogsitting.Data.Repositories
             return order.Id;
         }
 
-        public List<Order> GetAllOrders() => _context.Orders.ToList();
+        public List<Order> GetAllOrders() => _context.Orders
+            .Where(o => !o.IsDeleted)
+            .ToList();
 
         public Order? GetOrderById(int id) =>
         _context.Orders
@@ -33,13 +35,45 @@ namespace ArmenianChairDogsitting.Data.Repositories
         {
             var choosenOrder = _context.Orders.FirstOrDefault(o => o.Id == orderId);
             choosenOrder!.Status = status;
+            choosenOrder!.DateUpdated = DateTime.Now;
             _context.Orders.Update(choosenOrder);
             _context.SaveChanges();
         }
 
-        public void UpdateOrderStatus(string status, int orderId)
+        public int AddCommentToOrder(int orderId, Comment commentToAdd)
         {
-            throw new NotImplementedException();
+            _context.Orders
+                .FirstOrDefault(o => o.Id == orderId)!.Comments
+                .Add(commentToAdd);
+            _context.SaveChanges();
+            return commentToAdd.Id;
         }
+
+        public void DeleteOrderById(int id)
+        {
+            var orderToDelete = _context.Orders.FirstOrDefault(o => o.Id == id);
+            orderToDelete!.IsDeleted = true;
+            orderToDelete!.DateUpdated = DateTime.Now;
+            _context.Orders.Update(orderToDelete);
+            _context.SaveChanges();
+        }
+
+        public void ChangeOrder(UpdateOrderModel orderProperties, int orderId)
+        {
+            var orderToChange = _context.Orders.FirstOrDefault(o => o.Id == orderId);
+            orderToChange!.Animals = orderProperties.Animals;
+            orderToChange!.WorkDate = orderProperties.WorkDate;
+            orderToChange!.District = orderProperties.District;
+            orderToChange!.DateUpdated = DateTime.Now;
+            _context.Orders.Update(orderToChange);
+            _context.SaveChanges();
+        }
+
+        public List<Comment> GetCommentsByOrderId(int id) =>
+            _context.Comments
+                .Where(
+                    c => c.Order.Id == id &&
+                    !c.IsDeleted)
+                .ToList();
     }
 }

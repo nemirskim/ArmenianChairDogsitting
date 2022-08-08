@@ -1,8 +1,7 @@
 ﻿using ArmenianChairDogsitting.Data.Enums;
 using ArmenianChairDogsitting.API.Infrastructure;
-using ArmenianChairDogsitting.Data.Enums;
 using System.ComponentModel.DataAnnotations;
-using ArmenianChairDogsitting.Data.Entities;
+using ArmenianChairDogsitting.API.Extensions;
 
 namespace ArmenianChairDogsitting.API.Models;
 
@@ -34,9 +33,8 @@ public class SitterRequest
     public int Experience { get; set; }
 
     [Required(ErrorMessage = ApiErrorMessage.SexIsRequired)]
+    [EnumRange<Sex>]
     public Sex Sex { get; set; }
 
     public string Description { get; set; }
-
-    public List<PriceCatalog> PriceCatalog { get; set; }
 }

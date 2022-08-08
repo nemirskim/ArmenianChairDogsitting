@@ -5,6 +5,7 @@ namespace ArmenianChairDogsitting.API.Models;
 
 public class SitterMainInfoResponse
 {
+    public int Id { get; set; }
     public string Name { get; set; }
     public string LastName { get; set; }
     public string Phone { get; set; }
@@ -13,5 +14,5 @@ public class SitterMainInfoResponse
     public int Experience { get; set; }
     public Sex Sex { get; set; }
     public string Description { get; set; }
-    public List<PriceCatalog> PriceCatalog { get; set; }
+    public List<PriceCatalogResponse> PriceCatalog { get; set; }
 }

@@ -3,7 +3,9 @@ using ArmenianChairDogsitting.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using ArmenianChairDogsitting.API.Extensions;
 using ArmenianChairDogsitting.Data.Enums;
-using ArmenianChairDogsitting.Data.Repositories;
+using AutoMapper;
+using ArmenianChairDogsitting.Business;
+using ArmenianChairDogsitting.Data.Entities;
 
 namespace ArmenianChairDogsitting.API.Controllers;
 
@@ -13,38 +15,42 @@ namespace ArmenianChairDogsitting.API.Controllers;
 [Route("[controller]")]
 public class ClientsController : Controller
 {
-    private readonly IClientsRepository _clientsRepository;
-    public ClientsController(IClientsRepository clientsRepository)
+    private readonly IClientsService _clientsService;
+    private readonly IMapper _mapper;
+    public ClientsController(IClientsService clientsService, IMapper mapper)
+
     {
-        _clientsRepository = clientsRepository;
+        _clientsService = clientsService;
+        _mapper = mapper;
+    }
+
+    public ClientsController()
+    {
     }
 
     [AllowAnonymous]
     [HttpPost]
     [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
-    [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
     [ProducesResponseType(typeof(void), StatusCodes.Status422UnprocessableEntity)]
     public ActionResult<int> AddClient([FromBody] ClientRegistrationRequest request)
     {
-        int id = 23;
-        return Created($"{this.GetUri()}/{id}", id);
+        var result = _clientsService.AddClient(_mapper.Map<Client>(request));
+        return Created($"{this.GetUri()}/{result}", result);
     }
 
     [AuthorizeByRole(Role.Client)]
     [HttpGet("{id}")]
-    [ProducesResponseType(typeof(ClientAllInfoResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ClientMainInfoResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
-    public ActionResult<ClientAllInfoResponse> GetClientById(int id)
+    public ActionResult<ClientMainInfoResponse> GetClientById(int id)
     {
-        var result = _clientsRepository.GetClientById(id);
+        var result = _clientsService.GetClientById(id);
         if (result is null)
             return NotFound();
         else
-            return Ok(result);
+            return Ok(_mapper.Map<ClientMainInfoResponse>(result));
     }
 
     [AuthorizeByRole]
@@ -54,8 +60,8 @@ public class ClientsController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     public ActionResult<List<ClientAllInfoResponse>> GetAllClients()
     {
-        var clients = _clientsRepository.GetAllClients();
-        return Ok(clients);
+        var clients = _clientsService.GetAllClients();
+        return Ok(_mapper.Map<List<ClientAllInfoResponse>>(clients));
     }
 
     [AuthorizeByRole(Role.Client)]
@@ -67,8 +73,7 @@ public class ClientsController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     public ActionResult UpdateClient([FromBody] ClientUpdateRequest request, int id)
     {
-        var client = _clientsRepository.GetClientById(id);
-        _clientsRepository.UpdateClient(client);
+        _clientsService.UpdateClient(_mapper.Map<Client>(request), id);
         return Ok();
     }
 
@@ -81,7 +86,7 @@ public class ClientsController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     public ActionResult RemoveClient(int id)
     {
-        _clientsRepository.RemoveOrRestoreClient(id, true);
+        _clientsService.RemoveOrRestoreClient(id, true);
         return NoContent();
     }
 
@@ -94,7 +99,7 @@ public class ClientsController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     public ActionResult RestoreClient(int id)
     {
-        _clientsRepository.RemoveOrRestoreClient(id, false);
+        _clientsService.RemoveOrRestoreClient(id, false);
         return NoContent();
     }
 }
