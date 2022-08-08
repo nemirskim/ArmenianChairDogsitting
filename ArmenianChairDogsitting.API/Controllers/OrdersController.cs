@@ -124,9 +124,9 @@ namespace ArmenianChairDogsitting.API.Controllers
         [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
-        public ActionResult UpdateOrder([FromBody] UpdateOrderRequest orderProperties, int orderId)
+        public ActionResult UpdateOrder([FromBody] UpdateOrderRequest orderProperties, int id)
         {
-            _ordersService.UpdateOrder(_mapper.Map<UpdateOrderModel>(orderProperties), orderId);
+            _ordersService.UpdateOrder(_mapper.Map<UpdateOrderModel>(orderProperties), id);
             return NoContent();
         }
     }

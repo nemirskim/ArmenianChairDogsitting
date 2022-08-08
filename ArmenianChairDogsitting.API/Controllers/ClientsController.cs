@@ -24,10 +24,6 @@ public class ClientsController : Controller
         _mapper = mapper;
     }
 
-    public ClientsController()
-    {
-    }
-
     [AllowAnonymous]
     [HttpPost]
     [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
