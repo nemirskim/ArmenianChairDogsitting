@@ -261,7 +261,7 @@ public class OrdersControllerTests
         var id = 2;
         var PropertiesToChange = new UpdateOrderRequest()
         {
-            Animals = new() { new()},
+            AnimalIds = new() { new()},
             District = Data.Enums.District.All,
             WorkDate = DateTime.Now
         };
@@ -277,7 +277,7 @@ public class OrdersControllerTests
         _ordersServiceMock.Verify(x => x.UpdateOrder(
             It.Is<UpdateOrderModel>(
                 p => p.District == PropertiesToChange.District &&
-                p.Animals.Count == PropertiesToChange.Animals.Count &&
+                p.Animals.Count == PropertiesToChange.AnimalIds.Count &&
                 p.WorkDate == PropertiesToChange.WorkDate), 
             id), Times.Once);
     }

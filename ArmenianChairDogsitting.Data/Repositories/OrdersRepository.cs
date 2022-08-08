@@ -64,6 +64,7 @@ namespace ArmenianChairDogsitting.Data.Repositories
             orderToChange!.Animals = orderProperties.Animals;
             orderToChange!.WorkDate = orderProperties.WorkDate;
             orderToChange!.District = orderProperties.District;
+            orderToChange.Address = orderProperties.Address;
             orderToChange!.DateUpdated = DateTime.Now;
             _context.Orders.Update(orderToChange);
             _context.SaveChanges();
