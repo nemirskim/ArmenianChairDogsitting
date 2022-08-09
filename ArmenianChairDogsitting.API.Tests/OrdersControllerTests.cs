@@ -44,7 +44,7 @@ public class OrdersControllerTests
             Type = Service.Walk
         };
 
-        var expectedOrder = new OrderWalk
+        var expectedOrder = new Order
         {
             WalkQuantity = order.WalkQuantity,
             Animals = new(),
@@ -100,7 +100,7 @@ public class OrdersControllerTests
 
         var id = 3;
 
-        var order = new OrderWalk
+        var order = new Order
         {
             Id = 3,
             WalkQuantity = 1,
@@ -115,9 +115,9 @@ public class OrdersControllerTests
         var expectedOrder = new OrderWalkResponse()
         {
             ClientId = order.Client.Id,
-            WalkQuantity = order.WalkQuantity,
+            WalkQuantity = (int)order.WalkQuantity,
             Animals = new(),
-            IsTrial = order.IsTrial,
+            IsTrial = (bool)order.IsTrial,
             SitterId = order.Sitter.Id,
             Status = order.Status,
             Type = order.Type
@@ -177,7 +177,7 @@ public class OrdersControllerTests
         //given
         var expectedComments = ExpectedComments();
         var commentsToGet = CommentsToGet();
-        var targetOrder = new OrderWalk()
+        var targetOrder = new Order()
         {
             Id = 1,
             Comments = new(),
@@ -283,7 +283,7 @@ public class OrdersControllerTests
 
     private List<Order>  Orders() => new List<Order>()
         {
-            new OrderWalk
+            new Order
             {
                 Id = 3,
                 WalkQuantity = 1,
@@ -295,7 +295,7 @@ public class OrdersControllerTests
                 Sitter = new() { Id = 2 }
             },
 
-            new OrderWalk
+            new Order
             {
                 Id = 2,
                 WalkQuantity = 2,
@@ -307,7 +307,7 @@ public class OrdersControllerTests
                 Sitter = new() { Id = 3 }
             },
 
-            new OrderWalk
+            new Order
             {
                 Id = 1,
                 WalkQuantity = 1,
@@ -368,8 +368,8 @@ public class OrdersControllerTests
 
     private List<Comment> CommentsToGet() => new List<Comment>()
     {
-        new(){Id = 1, Order = new OrderWalk(){ Id = 1 }, Rating = 3, Text = "blah blah"},
-        new(){Id = 2, Order = new OrderWalk(){ Id = 2 }, Rating = 5, Text = "Pudge is here"},
-        new(){Id = 3, Order = new OrderWalk(){ Id = 3 }, Rating = 1, Text = "he he he he he"}
+        new(){Id = 1, Order = new Order(){ Id = 1 }, Rating = 3, Text = "blah blah"},
+        new(){Id = 2, Order = new Order(){ Id = 2 }, Rating = 5, Text = "Pudge is here"},
+        new(){Id = 3, Order = new Order(){ Id = 3 }, Rating = 1, Text = "he he he he he"}
     };
 }

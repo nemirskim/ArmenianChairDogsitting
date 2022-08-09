@@ -191,14 +191,19 @@ namespace ArmenianChairDogsitting.Data.Migrations
                     b.Property<DateTime?>("DateUpdated")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("DayQuantity")
+                        .HasColumnType("int");
 
                     b.Property<int>("District")
                         .HasColumnType("int");
 
+                    b.Property<int?>("HourQuantity")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsTrial")
                         .HasColumnType("bit");
 
                     b.Property<int>("SitterId")
@@ -208,6 +213,15 @@ namespace ArmenianChairDogsitting.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("VisitQuantity")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("WalkPerDayQuantity")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("WalkQuantity")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("WorkDate")
@@ -220,8 +234,6 @@ namespace ArmenianChairDogsitting.Data.Migrations
                     b.HasIndex("SitterId");
 
                     b.ToTable("Order", (string)null);
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Order");
                 });
 
             modelBuilder.Entity("ArmenianChairDogsitting.Data.Entities.PriceCatalog", b =>
@@ -308,72 +320,6 @@ namespace ArmenianChairDogsitting.Data.Migrations
                     b.HasIndex("SittersId");
 
                     b.ToTable("DistrictSitter");
-                });
-
-            modelBuilder.Entity("ArmenianChairDogsitting.Data.Entities.OrderDailySitting", b =>
-                {
-                    b.HasBaseType("ArmenianChairDogsitting.Data.Entities.Order");
-
-                    b.Property<int>("DayQuantity")
-                        .HasColumnType("int");
-
-                    b.Property<int>("WalkQuantity")
-                        .HasColumnType("int");
-
-                    b.ToTable("Order", (string)null);
-
-                    b.HasDiscriminator().HasValue("OrderDailySitting");
-                });
-
-            modelBuilder.Entity("ArmenianChairDogsitting.Data.Entities.OrderOverexpose", b =>
-                {
-                    b.HasBaseType("ArmenianChairDogsitting.Data.Entities.Order");
-
-                    b.Property<int>("DayQuantity")
-                        .HasColumnType("int")
-                        .HasColumnName("OrderOverexpose_DayQuantity");
-
-                    b.Property<int>("WalkPerDayQuantity")
-                        .HasColumnType("int");
-
-                    b.ToTable("Order", (string)null);
-
-                    b.HasDiscriminator().HasValue("OrderOverexpose");
-                });
-
-            modelBuilder.Entity("ArmenianChairDogsitting.Data.Entities.OrderSittingForDay", b =>
-                {
-                    b.HasBaseType("ArmenianChairDogsitting.Data.Entities.Order");
-
-                    b.Property<int>("HourQuantity")
-                        .HasColumnType("int");
-
-                    b.Property<int>("VisitQuantity")
-                        .HasColumnType("int");
-
-                    b.Property<int>("WalkQuantity")
-                        .HasColumnType("int")
-                        .HasColumnName("OrderSittingForDay_WalkQuantity");
-
-                    b.ToTable("Order", (string)null);
-
-                    b.HasDiscriminator().HasValue("OrderSittingForDay");
-                });
-
-            modelBuilder.Entity("ArmenianChairDogsitting.Data.Entities.OrderWalk", b =>
-                {
-                    b.HasBaseType("ArmenianChairDogsitting.Data.Entities.Order");
-
-                    b.Property<bool>("IsTrial")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("WalkQuantity")
-                        .HasColumnType("int")
-                        .HasColumnName("OrderWalk_WalkQuantity");
-
-                    b.ToTable("Order", (string)null);
-
-                    b.HasDiscriminator().HasValue("OrderWalk");
                 });
 
             modelBuilder.Entity("AnimalOrder", b =>

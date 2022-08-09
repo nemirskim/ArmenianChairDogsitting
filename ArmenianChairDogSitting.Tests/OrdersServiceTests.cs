@@ -44,7 +44,7 @@ public class OrdersServiceTests
         //then
         Assert.AreEqual(expectedId, returnedInt);
         _ordersRepository.Verify(x => x.AddOrder(
-            It.Is<OrderWalk>(
+            It.Is<Order>(
                 o => o.IsTrial == orderToAdd.IsTrial &&
                 o.WalkQuantity == orderToAdd.WalkQuantity &&
                 o.Status == orderToAdd.Status &&
@@ -206,7 +206,7 @@ public class OrdersServiceTests
 
         _ordersRepository
             .Setup(x => x.GetOrderById(id))
-            .Returns(new OrderWalk() { Id = id, Status=Status.Created, IsDeleted = false });
+            .Returns(new Order() { Id = id, Status=Status.Created, IsDeleted = false });
 
         //when
         _sut.DeleteOrderById(id);
@@ -242,7 +242,7 @@ public class OrdersServiceTests
 
         _ordersRepository
             .Setup(x => x.GetOrderById(id))
-            .Returns(new OrderWalk() { Id = id, Status = Status.InProgress, IsDeleted = false });
+            .Returns(new Order() { Id = id, Status = Status.InProgress, IsDeleted = false });
 
         //when then
 
@@ -256,7 +256,7 @@ public class OrdersServiceTests
     {
         //given
         var id = 2;
-        OrderWalk order = null!;
+        Order order = null!;
         _ordersRepository
             .Setup(x => x.GetOrderById(id))
             .Returns(order!);
@@ -276,7 +276,7 @@ public class OrdersServiceTests
 
         _ordersRepository
             .Setup(x => x.GetOrderById(id))
-            .Returns(new OrderWalk() { Id = id, Status = Status.InProgress, IsDeleted = false });
+            .Returns(new Order() { Id = id, Status = Status.InProgress, IsDeleted = false });
 
         //when then
 
@@ -290,7 +290,7 @@ public class OrdersServiceTests
     {
         //given
         var id = 2;
-        OrderWalk order = null!;
+        Order order = null!;
         _ordersRepository
             .Setup(x => x.GetOrderById(id))
             .Returns(order!);
@@ -306,7 +306,7 @@ public class OrdersServiceTests
     {
         return new List<Order>()
         {
-            new OrderWalk()
+            new Order()
             {
                 Id = 34,
                 Animals = new(),
@@ -317,7 +317,7 @@ public class OrdersServiceTests
                 Status = Status.Created,
                 Type = Service.Walk
             },
-            new OrderWalk()
+            new Order()
             {
                 Id = 42,
                 Animals = new(),
@@ -329,7 +329,7 @@ public class OrdersServiceTests
                 Type = Service.Walk,
                 Comments = new List<Comment> { new Comment() { Id = 4, Text = "blah blah" }}
     },
-            new OrderWalk()
+            new Order()
             {
                 Id = 76,
                 Animals = new(),
@@ -344,7 +344,7 @@ public class OrdersServiceTests
     }
 
     private Order OrderFromRepo() =>
-        new OrderWalk()
+        new Order()
         {
             Id = 34,
             Animals = new(),
@@ -356,8 +356,8 @@ public class OrdersServiceTests
             Type = Service.Walk
         };
 
-    private OrderWalk ExpectedOrder() =>
-        new OrderWalk()
+    private Order ExpectedOrder() =>
+        new Order()
         { 
             Id = 34,
             Animals = new(),
@@ -370,8 +370,8 @@ public class OrdersServiceTests
         };
     
 
-    private OrderWalk OrderToAdd() =>
-        new OrderWalk()
+    private Order OrderToAdd() =>
+        new Order()
         {
             Id = 34,
             Animals = new(),

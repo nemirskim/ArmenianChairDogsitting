@@ -22,7 +22,7 @@ public class OrderRepositoryTests
         _context.Database.EnsureDeleted();
         _sut = new OrdersRepository(_context);
 
-        _context.Orders.Add(new OrderWalk()
+        _context.Orders.Add(new Order()
         {
             WalkQuantity = 3,
             IsTrial = true,
@@ -32,7 +32,7 @@ public class OrderRepositoryTests
             Client = new() { Name = "Zhora", LastName = "Zhora", Email = "ugabuga@kek.com", Password = " monkeySleep" },
         });
 
-        _context.Orders.Add(new OrderDailySitting()
+        _context.Orders.Add(new Order()
         {
             WalkQuantity = 3,
             Status = Status.Finished,
@@ -43,7 +43,7 @@ public class OrderRepositoryTests
             Comments = new()
         }); ;
 
-        _context.Orders.Add(new OrderOverexpose()
+        _context.Orders.Add(new Order()
         {
             Status = Status.Created,
             Type = Service.Overexpose,
@@ -56,7 +56,7 @@ public class OrderRepositoryTests
 
         _context.SaveChanges();
 
-        _context.Orders.Add(new OrderOverexpose()
+        _context.Orders.Add(new Order()
         {
             Status = Status.Created,
             Type = Service.Overexpose,
@@ -70,7 +70,7 @@ public class OrderRepositoryTests
 
         _context.SaveChanges();
 
-        _context.Orders.Add(new OrderOverexpose()
+        _context.Orders.Add(new Order()
         {
             Status = Status.Created,
             Type = Service.Overexpose,
@@ -101,7 +101,7 @@ public class OrderRepositoryTests
     public void GetOrderById_WhenValidTitlePassed_ThenReturnOrder()
     {
         //given
-        var expectedOrder = new OrderOverexpose()
+        var expectedOrder = new Order()
         {
             Id = 3,
             Status = Status.Created,
@@ -201,7 +201,7 @@ public class OrderRepositoryTests
             District = Enums.District.All,
             WorkDate = DateTime.Now
         };
-        var expectedChanges = new OrderDailySitting()
+        var expectedChanges = new Order()
         {
             WalkQuantity = 3,
             Status = Status.Finished,
@@ -224,8 +224,8 @@ public class OrderRepositoryTests
         Assert.AreEqual(expectedChanges.WorkDate, changedOrder.WorkDate);
     }
 
-    private OrderOverexpose ExpectedChangesInOrder() =>
-        new OrderOverexpose()
+    private Order ExpectedChangesInOrder() =>
+        new Order()
         {
             Id = 3,
             Status = Status.Created,
