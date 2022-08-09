@@ -1,4 +1,4 @@
-﻿using ArmenianChairDogsitting.Data.Enums;
+﻿    using ArmenianChairDogsitting.Data.Enums;
 
 namespace ArmenianChairDogsitting.Data.Entities
 {
@@ -22,5 +22,6 @@ namespace ArmenianChairDogsitting.Data.Entities
         public int? VisitQuantity { get; set; }
         public bool? IsTrial { get; set; }
         public bool IsDeleted { get; set; }
+        public decimal Price { get; set; }
     }
 }
