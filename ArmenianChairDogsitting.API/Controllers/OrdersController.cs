@@ -27,12 +27,13 @@ namespace ArmenianChairDogsitting.API.Controllers
         }
 
         [HttpPost]
-        [AuthorizeByRole(Role.Client)]
+        [AllowAnonymous]
+        //[AuthorizeByRole(Role.Client)]
         [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(void), StatusCodes.Status422UnprocessableEntity)]
-        public ActionResult<int> AddOrder([FromBody] AbstractOrderRequest order)
+        public ActionResult<int> AddOrder([FromBody] OrderRequest order)
         {
             var result = _ordersService.AddOrder(_mapper.Map<Order>(order));
             return Created($"{this.GetUri()}/{result}", result);
@@ -53,7 +54,8 @@ namespace ArmenianChairDogsitting.API.Controllers
         }
 
         [HttpGet("{id}")]
-        [AuthorizeByRole(Role.Sitter, Role.Client)]
+        [AllowAnonymous]
+        //[AuthorizeByRole(Role.Sitter, Role.Client)]
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(AbstractOrderResponse), StatusCodes.Status200OK)]

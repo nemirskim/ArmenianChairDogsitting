@@ -2,7 +2,7 @@
 
 namespace ArmenianChairDogsitting.Data.Entities
 {
-    public abstract class Order
+    public class Order
     {
         public int Id { get; set; }
         public Service Type { get; set; }

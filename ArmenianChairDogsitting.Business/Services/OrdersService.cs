@@ -4,20 +4,30 @@ using ArmenianChairDogsitting.Data;
 using ArmenianChairDogsitting.Data.Entities;
 using ArmenianChairDogsitting.Data.Enums;
 using ArmenianChairDogsitting.Data.Repositories;
+using ArmenianChairDogsitting.Data.Repositories.Interfaces;
 
 namespace ArmenianChairDogsitting.Business.Services;
 
 public class OrdersService : IOrdersService
 {
     IOrdersRepository _ordersRepository;
+    IClientsRepository _clientsRepository;
+    ISittersRepository _sittersRepository;
 
-    public OrdersService(IOrdersRepository commentsRepository)
+    public OrdersService(
+        IOrdersRepository ordersRepository,
+        IClientsRepository clientsRepository,
+        ISittersRepository sittersRepository)
     {
-        _ordersRepository = commentsRepository;
+        _ordersRepository = ordersRepository;
+        _clientsRepository = clientsRepository;
+        _sittersRepository = sittersRepository;
     }
     public int AddOrder(Order order)
     {
         order.Status = Status.Created;
+        order.Client = _clientsRepository.GetClientById(order.Client.Id);
+        order.Sitter = _sittersRepository.GetById(order.Sitter.Id);
         return _ordersRepository.AddOrder(order);
     }
 

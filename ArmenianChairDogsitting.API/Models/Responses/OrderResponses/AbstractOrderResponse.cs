@@ -5,14 +5,11 @@ using ArmenianChairDogsitting.API.Infrastructure;
 
 namespace ArmenianChairDogsitting.API.Models;
 
-public abstract class AbstractOrderResponse
+public class AbstractOrderResponse
 {
     public int Id { get; set; }
-    [Required]
     public int ClientId { get; set; }
-    [Required]
     public int SitterId { get; set; }
-    [ListLength(1, 4, ErrorMessage = ApiErrorMessage.DogQuantityError)]
     public List<DogAllInfoResponse> Animals { get; set; }
     public List<CommentResponse> Comments { get; set; }
     public District District { get; set; }
@@ -22,4 +19,10 @@ public abstract class AbstractOrderResponse
     public Service Type { get; set; }
     public Status Status { get; set; }
     public bool IsDeleted { get; set; }
+    public int DayQuantity { get; set; }
+    public int WalkQuantity { get; set; }
+    public int WalkPerDayQuantity { get; set; }
+    public int HourQuantity { get; set; }
+    public int VisitQuantity { get; set; }
+    public bool IsTrial { get; set; }
 }

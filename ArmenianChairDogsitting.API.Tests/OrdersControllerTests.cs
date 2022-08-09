@@ -35,7 +35,7 @@ public class OrdersControllerTests
         //given
         var expectedId = 1;
 
-        var order = new OrderWalkRequest()
+        var order = new OrderRequest()
         {
             ClientId = 3,
             WalkQuantity = 2,
@@ -68,11 +68,10 @@ public class OrdersControllerTests
         Assert.AreEqual(expectedId, actualResult.Value);
 
         _ordersServiceMock.Verify(x => x.AddOrder(
-            It.Is<OrderWalk>(
-                c => c.IsTrial == expectedOrder.IsTrial &&
-                c.Type == expectedOrder.Type &&
+            It.Is<Order>(
+                c => c.Type == expectedOrder.Type &&
                 c.Status == expectedOrder.Status &&
-                c.WalkQuantity == expectedOrder.WalkQuantity &&
+                c.Client.Id == expectedOrder.Client.Id &&
                 c.Sitter.Id == expectedOrder.Sitter.Id)
             ), Times.Once);
     }

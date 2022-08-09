@@ -5,6 +5,7 @@ using ArmenianChairDogsitting.Data;
 using ArmenianChairDogsitting.Data.Entities;
 using ArmenianChairDogsitting.Data.Enums;
 using ArmenianChairDogsitting.Data.Repositories;
+using ArmenianChairDogsitting.Data.Repositories.Interfaces;
 using Moq;
 
 namespace ArmenianChairDogsitting.Business.Tests;
@@ -12,13 +13,17 @@ namespace ArmenianChairDogsitting.Business.Tests;
 public class OrdersServiceTests
 {
     private Mock<IOrdersRepository> _ordersRepository;
+    private Mock<ISittersRepository> _sittersRepository;
+    private Mock<IClientsRepository> _clientsRepository;
     private OrdersService _sut;
 
     [SetUp]
     public void Setup()
     {
         _ordersRepository = new Mock<IOrdersRepository>();
-        _sut = new OrdersService(_ordersRepository.Object);
+        _sittersRepository = new Mock<ISittersRepository>();
+        _clientsRepository = new Mock<IClientsRepository>();
+        _sut = new OrdersService(_ordersRepository.Object, _clientsRepository.Object, _sittersRepository.Object);
     }
 
     [Test]
@@ -370,10 +375,10 @@ public class OrdersServiceTests
         {
             Id = 34,
             Animals = new(),
-            Client = new(),
+            Client = new() { Id = 1},
             WalkQuantity = 2,
             IsTrial = true,
-            Sitter = new(),
+            Sitter = new() { Id = 1 },
             Status = Status.Created,
             Type = Service.Walk,
             Comments = new()

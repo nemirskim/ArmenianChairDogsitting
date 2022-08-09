@@ -12,8 +12,10 @@ public class APIMapperConfigStorage : Profile
     {
         CreateMap<SearchRequest, ParamsToSearchSitter>();
         CreateMap<SittersSearchModelResult, SitterAllInfoResponse>();
-        CreateMap<AbstractOrderRequest, Order>().ReverseMap();
-        CreateMap<AbstractOrderResponse, Order>().ReverseMap();
+        CreateMap<AbstractOrderRequest, Order>();
+        CreateMap<Order, AbstractOrderResponse>()
+            .ForMember(d => d.ClientId, opt => opt.MapFrom(s => s.Client.Id))
+            .ForMember(d => d.SitterId, opt => opt.MapFrom(s => s.Sitter.Id));
 
         CreateMap<OrderWalkRequest, OrderWalk>()
             .ForPath(d => d.Client.Id, opt => opt.MapFrom(s => s.ClientId))
@@ -39,8 +41,8 @@ public class APIMapperConfigStorage : Profile
             .ForMember(d => d.ClientId, opt => opt.MapFrom(s => s.Client.Id))
             .ForMember(d => d.SitterId, opt => opt.MapFrom(s => s.Sitter.Id))
             .IncludeBase(typeof(Order), typeof(AbstractOrderResponse));
-        CreateMap<OrderDailySitting, OrderDailySittingResponse>()
 
+        CreateMap<OrderDailySitting, AbstractOrderResponse>()
             .ForMember(d => d.ClientId, opt => opt.MapFrom(s => s.Client.Id))
             .ForMember(d => d.SitterId, opt => opt.MapFrom(s => s.Sitter.Id))
             .IncludeBase(typeof(Order), typeof(AbstractOrderResponse));
@@ -74,5 +76,26 @@ public class APIMapperConfigStorage : Profile
         CreateMap<ClientRegistrationRequest, Client>();
         CreateMap<Sitter, SitterMainInfoResponse>();
         CreateMap<UpdateOrderRequest, UpdateOrderModel>();
+        CreateMap<DogRequest, Animal>();
+
+        CreateMap<OrderRequest, OrderWalk>()
+            .ForPath(d => d.Client.Id, opt => opt.MapFrom(s => s.ClientId))
+            .ForPath(d => d.Sitter.Id, opt => opt.MapFrom(s => s.SitterId))
+            .IncludeBase(typeof(OrderRequest), typeof(Order));
+        CreateMap<OrderRequest, OrderOverexpose>()
+            .ForPath(d => d.Client.Id, opt => opt.MapFrom(s => s.ClientId))
+            .ForPath(d => d.Sitter.Id, opt => opt.MapFrom(s => s.SitterId))
+            .IncludeBase(typeof(OrderRequest), typeof(Order));
+        CreateMap<OrderRequest, OrderDailySitting>()
+            .ForPath(d => d.Client.Id, opt => opt.MapFrom(s => s.ClientId))
+            .ForPath(d => d.Sitter.Id, opt => opt.MapFrom(s => s.SitterId))
+            .IncludeBase(typeof(OrderRequest), typeof(Order));
+        CreateMap<OrderRequest, OrderSittingForDay>()
+            .ForPath(d => d.Client.Id, opt => opt.MapFrom(s => s.ClientId))
+            .ForPath(d => d.Sitter.Id, opt => opt.MapFrom(s => s.SitterId))
+            .IncludeBase(typeof(OrderRequest), typeof(Order));
+        CreateMap<OrderRequest, Order>()
+            .ForPath(d => d.Client.Id, opt => opt.MapFrom(s => s.ClientId))
+            .ForPath(d => d.Sitter.Id, opt => opt.MapFrom(s => s.SitterId));
     }
 }
