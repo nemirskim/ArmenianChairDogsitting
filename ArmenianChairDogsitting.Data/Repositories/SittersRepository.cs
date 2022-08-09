@@ -27,8 +27,13 @@ public class SittersRepository : ISittersRepository
     public Sitter? GetById(int id)
     {
         var sitter = _context.Sitters.FirstOrDefault(s => s.Id == id);
-        var priceCatalog = _context.PriceCatalogs.Where(pr => pr.Sitter.Id == sitter.Id).ToList();
-        sitter.PriceCatalog = priceCatalog;
+
+        if (sitter is not null)
+        {
+            var priceCatalog = _context.PriceCatalogs.Where(pr => pr.Sitter.Id == sitter.Id).ToList();
+            sitter.PriceCatalog = priceCatalog;
+        }
+
         return sitter;
     } 
 
