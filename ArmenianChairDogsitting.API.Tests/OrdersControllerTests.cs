@@ -133,7 +133,7 @@ public class OrdersControllerTests
 
         //then
         var actualResult = actual.Result as OkObjectResult;
-        var actualValue = actualResult!.Value as OrderWalkResponse;
+        var actualValue = actualResult!.Value as AbstractOrderResponse;
 
         Assert.AreEqual(StatusCodes.Status200OK, actualResult.StatusCode);
         Assert.AreEqual(expectedOrder.Status, actualValue.Status);

@@ -27,8 +27,6 @@ namespace ArmenianChairDogsitting.Data.Repositories
 
         public Order? GetOrderById(int id) =>
         _context.Orders
-            .Include(o => o.Client)
-            .Include(o => o.Sitter)
             .Include(o => o.Animals)
             .Include(o => o.Comments)
             .FirstOrDefault(o => o.Id == id);
