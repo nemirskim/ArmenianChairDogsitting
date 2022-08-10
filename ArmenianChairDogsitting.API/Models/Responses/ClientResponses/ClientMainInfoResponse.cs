@@ -10,6 +10,6 @@ public class ClientMainInfoResponse
     public string Address { get; set; }
     public DateTime RegistrationDate { get; set; }
     public List<DogAllInfoResponse> Dogs { get; set; }
-    public List<AbstractOrderResponse> Orders { get; set; }
+    public List<OrderResponse> Orders { get; set; }
     public bool IsDeleted { get; set; }
 }

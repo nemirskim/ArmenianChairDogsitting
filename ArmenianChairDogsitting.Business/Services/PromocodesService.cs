@@ -2,11 +2,11 @@
 
 namespace ArmenianChairDogsitting.Business.Services
 {
-    public class PromocodeService: IPromocodesService
+    public class PromocodesService: IPromocodesService
     {
         IPromocodeRepository _promocodesRepository;
 
-        public PromocodeService(IPromocodeRepository promocodesRepository)
+        public PromocodesService(IPromocodeRepository promocodesRepository)
         {
             _promocodesRepository = promocodesRepository;
         }

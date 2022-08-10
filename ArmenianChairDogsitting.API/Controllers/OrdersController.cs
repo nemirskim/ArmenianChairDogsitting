@@ -58,9 +58,9 @@ namespace ArmenianChairDogsitting.API.Controllers
         //[AuthorizeByRole(Role.Sitter, Role.Client)]
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(typeof(AbstractOrderResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(OrderResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
-        public ActionResult<AbstractOrderResponse> GetOrderById(int id)
+        public ActionResult<OrderResponse> GetOrderById(int id)
         {
             var result = _ordersService.GetOrderById(id);
             if (result is null)
@@ -69,7 +69,7 @@ namespace ArmenianChairDogsitting.API.Controllers
             }
             else
             {
-                return Ok(_mapper.Map<AbstractOrderResponse>(result));
+                return Ok(_mapper.Map<OrderResponse>(result));
             }
         }
 
@@ -77,11 +77,11 @@ namespace ArmenianChairDogsitting.API.Controllers
         [AuthorizeByRole(Role.Sitter, Role.Client)]
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)] 
-        [ProducesResponseType(typeof(List<AbstractOrderResponse>), StatusCodes.Status200OK)]
-        public ActionResult<List<AbstractOrderResponse>> GetAllOrders()
+        [ProducesResponseType(typeof(List<OrderResponse>), StatusCodes.Status200OK)]
+        public ActionResult<List<OrderResponse>> GetAllOrders()
         {
             var result = _ordersService.GetAllOrders();
-            return Ok(_mapper.Map<List<AbstractOrderResponse>>(result));
+            return Ok(_mapper.Map<List<OrderResponse>>(result));
         }
 
         [HttpGet("{id}/comments")]

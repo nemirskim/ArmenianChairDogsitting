@@ -112,7 +112,7 @@ public class OrdersControllerTests
             Sitter = new() { Id = 2 }
         };
 
-        var expectedOrder = new OrderWalkResponse()
+        var expectedOrder = new OrderResponse()
         {
             ClientId = order.Client.Id,
             WalkQuantity = (int)order.WalkQuantity,
@@ -133,7 +133,7 @@ public class OrdersControllerTests
 
         //then
         var actualResult = actual.Result as OkObjectResult;
-        var actualValue = actualResult!.Value as AbstractOrderResponse;
+        var actualValue = actualResult!.Value as OrderResponse;
 
         Assert.AreEqual(StatusCodes.Status200OK, actualResult.StatusCode);
         Assert.AreEqual(expectedOrder.Status, actualValue.Status);
@@ -164,7 +164,7 @@ public class OrdersControllerTests
 
         //then
         var actualResult = actual.Result as OkObjectResult;
-        var actualValue = actualResult.Value as List<AbstractOrderResponse>;
+        var actualValue = actualResult.Value as List<OrderResponse>;
 
         Assert.AreEqual(StatusCodes.Status200OK, actualResult.StatusCode);
         Assert.IsTrue(actualValue is not null);
@@ -320,9 +320,9 @@ public class OrdersControllerTests
             },
         };
 
-    private List<AbstractOrderResponse> ExpectedOrders(List<Order> orders) => new List<AbstractOrderResponse>()
+    private List<OrderResponse> ExpectedOrders(List<Order> orders) => new List<OrderResponse>()
             {
-            new OrderWalkResponse
+            new OrderResponse
             {
                 Id = 3,
                 WalkQuantity = 1,
@@ -334,7 +334,7 @@ public class OrdersControllerTests
                 SitterId = orders[0].Sitter.Id
             },
 
-            new OrderWalkResponse
+            new OrderResponse
             {
                 Id = 2,
                 WalkQuantity = 2,
@@ -346,7 +346,7 @@ public class OrdersControllerTests
                 SitterId = orders[1].Sitter.Id
             },
 
-            new OrderWalkResponse
+            new OrderResponse
             {
                 Id = 1,
                 WalkQuantity = 1,

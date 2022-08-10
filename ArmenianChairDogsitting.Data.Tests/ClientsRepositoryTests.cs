@@ -1,4 +1,4 @@
-﻿using ArmenianChairDogsitting.Data.Entities;
+using ArmenianChairDogsitting.Data.Entities;
 using ArmenianChairDogsitting.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 

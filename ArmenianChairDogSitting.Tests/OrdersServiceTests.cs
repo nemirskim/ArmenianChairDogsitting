@@ -15,7 +15,7 @@ public class OrdersServiceTests
     private Mock<IOrdersRepository> _ordersRepository;
     private Mock<ISittersRepository> _sittersRepository;
     private Mock<IClientsRepository> _clientsRepository;
-    private Mock<IPromocodesService> _promocodesRepository;
+    private Mock<IPromocodesService> _promocodesService;
     private OrdersService _sut;
 
     [SetUp]
@@ -24,11 +24,12 @@ public class OrdersServiceTests
         _ordersRepository = new Mock<IOrdersRepository>();
         _sittersRepository = new Mock<ISittersRepository>();
         _clientsRepository = new Mock<IClientsRepository>();
+        _promocodesService = new Mock<IPromocodesService>();
         _sut = new OrdersService(
             _ordersRepository.Object,
             _clientsRepository.Object,
             _sittersRepository.Object,
-            _promocodesRepository.Object);
+            _promocodesService.Object);
     }
 
     [Test]
@@ -43,11 +44,17 @@ public class OrdersServiceTests
             .Setup(x => x.AddOrder(It.IsAny<Order>()))
             .Returns(expectedId);
 
+
+        _sittersRepository
+            .Setup(x => x.GetById(orderToAdd.Sitter.Id))
+            .Returns(orderToAdd.Sitter);
+
         //when
         var returnedInt = _sut.AddOrder(orderToAdd);
 
         //then
         Assert.AreEqual(expectedId, returnedInt);
+
         _ordersRepository.Verify(x => x.AddOrder(
             It.Is<Order>(
                 o => o.IsTrial == orderToAdd.IsTrial &&
@@ -57,6 +64,8 @@ public class OrdersServiceTests
                 o.Comments.Count == orderToAdd.Comments.Count &&
                 o.Id == orderToAdd.Id)
             ), Times.Once);
+
+        _sittersRepository.Verify(x => x.GetById(orderToAdd.Sitter.Id), Times.Once);
     }
 
     [Test]
@@ -383,7 +392,7 @@ public class OrdersServiceTests
             Client = new() { Id = 1},
             WalkQuantity = 2,
             IsTrial = true,
-            Sitter = new() { Id = 1 },
+            Sitter = new() { Id = 1, PriceCatalog = new() { new() { Service = Service.Walk, Price = 300 } } },
             Status = Status.Created,
             Type = Service.Walk,
             Comments = new()

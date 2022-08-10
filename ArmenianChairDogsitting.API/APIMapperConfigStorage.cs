@@ -12,10 +12,14 @@ public class APIMapperConfigStorage : Profile
     {
         CreateMap<SearchRequest, ParamsToSearchSitter>();
         CreateMap<SittersSearchModelResult, SitterAllInfoResponse>();
-        CreateMap<AbstractOrderRequest, Order>();
-        CreateMap<Order, AbstractOrderResponse>()
+
+        CreateMap<Order, OrderResponse>()
             .ForMember(d => d.ClientId, opt => opt.MapFrom(s => s.Client.Id))
             .ForMember(d => d.SitterId, opt => opt.MapFrom(s => s.Sitter.Id));
+
+        CreateMap<OrderRequest, Order>()
+            .ForPath(d => d.Client.Id, opt => opt.MapFrom(s => s.ClientId))
+            .ForPath(d => d.Sitter.Id, opt => opt.MapFrom(s => s.SitterId));
 
         CreateMap<Client, ClientAllInfoRequest>().ReverseMap();
         CreateMap<Client, ClientMainInfoResponse>();
@@ -38,8 +42,5 @@ public class APIMapperConfigStorage : Profile
         CreateMap<UpdateOrderRequest, UpdateOrderModel>();
         CreateMap<DogRequest, Animal>();
 
-        CreateMap<OrderRequest, Order>()
-            .ForPath(d => d.Client.Id, opt => opt.MapFrom(s => s.ClientId))
-            .ForPath(d => d.Sitter.Id, opt => opt.MapFrom(s => s.SitterId));
     }
 }
