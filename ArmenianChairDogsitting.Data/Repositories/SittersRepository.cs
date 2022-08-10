@@ -24,13 +24,9 @@ public class SittersRepository : ISittersRepository
         return sitter.Id;
     }
 
-    public Sitter? GetById(int id)
-    {
-        var sitter = _context.Sitters.FirstOrDefault(s => s.Id == id);
-        var priceCatalog = _context.PriceCatalogs.Where(pr => pr.Sitter.Id == sitter.Id).ToList();
-        sitter.PriceCatalog = priceCatalog;
-        return sitter;
-    } 
+    public Sitter? GetById(int id) => _context.Sitters
+        .Include(s => s.PriceCatalog)
+        .FirstOrDefault(s => s.Id == id);
 
     public Sitter? GetSitterByEmail(string email) => _context.Sitters
         .FirstOrDefault(sitter => sitter.Email == email);
