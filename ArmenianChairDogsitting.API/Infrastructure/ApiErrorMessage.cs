@@ -25,5 +25,6 @@
         public const string ServiceIsRequired = "Service was not entered";
         public const string PriceIsRequired = "Price was not entered";
         public const string AddressIsRequired = "Address was not entered";
+        public const string InvalidPhoneNumber = "Characters are not allowed";
     }
 }
