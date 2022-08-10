@@ -13,21 +13,25 @@ public class OrdersService : IOrdersService
     IOrdersRepository _ordersRepository;
     IClientsRepository _clientsRepository;
     ISittersRepository _sittersRepository;
+    IPromocodesService _promocodesService;
 
     public OrdersService(
         IOrdersRepository ordersRepository,
         IClientsRepository clientsRepository,
-        ISittersRepository sittersRepository)
+        ISittersRepository sittersRepository,
+        IPromocodesService promocodesService)
     {
         _ordersRepository = ordersRepository;
         _clientsRepository = clientsRepository;
         _sittersRepository = sittersRepository;
+        _promocodesService = promocodesService;
     }
     public int AddOrder(Order order)
     {
         order.Status = Status.Created;
         order.Client = _clientsRepository.GetClientById(order.Client.Id);
         order.Sitter = _sittersRepository.GetById(order.Sitter.Id);
+        order.Price = GetOrderPrice(order);
         return _ordersRepository.AddOrder(order);
     }
 
@@ -41,6 +45,9 @@ public class OrdersService : IOrdersService
     public Order GetOrderById(int orderId)
     {
         var chosenOrder = _ordersRepository.GetOrderById(orderId);
+
+        var discount = _promocodesService.GetDiscount(chosenOrder.Client.Promocode!);
+        chosenOrder.Price *= discount;
 
         return chosenOrder;
     }
@@ -99,5 +106,22 @@ public class OrdersService : IOrdersService
             throw new ForbiddenException($"{ExceptionMessage.ActionIsNotAllowed}{chosenOrder.Status}");
 
         _ordersRepository.ChangeOrder(orderProperties, orderId);
+    }
+
+    private decimal GetOrderPrice(Order order)
+    {
+        switch (order.Type)
+        {
+            case Service.Overexpose:
+                return order.Sitter.PriceCatalog.Find(p => p.Service == Service.Overexpose).Price;
+            case Service.DailySitting:
+                return order.Sitter.PriceCatalog.Find(p => p.Service == Service.DailySitting).Price;
+            case Service.SittingForDay:
+                return order.Sitter.PriceCatalog.Find(p => p.Service == Service.SittingForDay).Price;
+            case Service.Walk:
+                return order.Sitter.PriceCatalog.Find(p => p.Service == Service.Walk).Price;
+            default:
+                throw new ArgumentException();
+        }
     }
 }

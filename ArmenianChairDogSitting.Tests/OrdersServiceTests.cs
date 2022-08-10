@@ -15,6 +15,7 @@ public class OrdersServiceTests
     private Mock<IOrdersRepository> _ordersRepository;
     private Mock<ISittersRepository> _sittersRepository;
     private Mock<IClientsRepository> _clientsRepository;
+    private Mock<IPromocodesService> _promocodesRepository;
     private OrdersService _sut;
 
     [SetUp]
@@ -23,7 +24,11 @@ public class OrdersServiceTests
         _ordersRepository = new Mock<IOrdersRepository>();
         _sittersRepository = new Mock<ISittersRepository>();
         _clientsRepository = new Mock<IClientsRepository>();
-        _sut = new OrdersService(_ordersRepository.Object, _clientsRepository.Object, _sittersRepository.Object);
+        _sut = new OrdersService(
+            _ordersRepository.Object,
+            _clientsRepository.Object,
+            _sittersRepository.Object,
+            _promocodesRepository.Object);
     }
 
     [Test]

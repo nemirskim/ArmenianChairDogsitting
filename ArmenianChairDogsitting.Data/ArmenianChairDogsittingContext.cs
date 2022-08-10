@@ -11,6 +11,7 @@ namespace ArmenianChairDogsitting.Data
         public DbSet<Client> Clients { get; set; }
         public DbSet<Sitter> Sitters { get; set; }
         public DbSet<Admin> Admins { get; set; }
+        public DbSet<Promocode> Promocodes { get; set; }
         public DbSet<PriceCatalog> PriceCatalogs { get; set; }
         public ArmenianChairDogsittingContext(DbContextOptions<ArmenianChairDogsittingContext> options)
                 : base(options)
