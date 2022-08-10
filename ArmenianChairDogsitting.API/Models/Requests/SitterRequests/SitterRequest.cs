@@ -37,4 +37,7 @@ public class SitterRequest
     public Sex Sex { get; set; }
 
     public string Description { get; set; }
+
+    [Required(ErrorMessage = ApiErrorMessage.PriceCatalogIsRequired)]
+    public List<PriceCatalogRequest> PriceCatalog { get; set; }
 }

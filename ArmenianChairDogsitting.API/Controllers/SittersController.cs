@@ -30,7 +30,10 @@ public class SittersController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status422UnprocessableEntity)]
     public ActionResult<int> AddSitter([FromBody] SitterRequest sitterRequest)
     {
-        var result = _sittersService.Add(_mapper.Map<Sitter>(sitterRequest));
+        var sitter = _mapper.Map<Sitter>(sitterRequest);
+        sitter.PriceCatalog = _mapper.Map<List<PriceCatalog>>(sitterRequest.PriceCatalog);
+
+        var result = _sittersService.Add(sitter);
         return Created($"{this.GetUri()}/{result}", result);
     }
 
