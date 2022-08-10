@@ -12,6 +12,7 @@ public class ClientsRepository : IClientsRepository
 
     public int AddClient(Client client)
     {
+        client.RegistrationDate = DateTime.Now;
         _context.Clients.Add(client);
         _context.SaveChanges();
 
