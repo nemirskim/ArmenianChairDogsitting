@@ -133,4 +133,22 @@ public class ClientsRepositoryTests
         //then 
         Assert.False(client!.IsDeleted);
     }
+
+    [Test]
+    public void UpdatePassword_WhenCorrectDataPassed_ThenChangePassword()
+    {
+        //given
+        string passwordForUpdate = "987654321";
+        int clientId = 2;
+        var client = _sut.GetClientById(clientId);
+        client.Password = passwordForUpdate;
+
+        //when
+        _sut.UpdatePassword(client);
+
+        //then
+        var actualClient = _sut.GetClientById(clientId);
+
+        Assert.AreEqual(actualClient.Password, client.Password);
+    }
 }

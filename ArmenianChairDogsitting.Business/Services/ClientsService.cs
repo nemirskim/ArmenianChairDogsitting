@@ -70,7 +70,7 @@ public class ClientsService : IClientsService
         if (clientForUpdate.OldPassword == clientForUpdate.Password)
             throw new PasswordException($"{ExceptionMessage.OldPasswordEqualNew}");
 
-        if (sitter.Password.Equals(PasswordHash.HashPassword(clientForUpdate.OldPassword)))
+        if (!sitter.Password.Equals(PasswordHash.HashPassword(clientForUpdate.OldPassword)))
             throw new PasswordException($"{ExceptionMessage.OldPasswordDontEqualSitterPassword}");
 
         sitter.Password = PasswordHash.HashPassword(clientForUpdate.Password);
