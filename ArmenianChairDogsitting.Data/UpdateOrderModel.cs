@@ -7,6 +7,7 @@ namespace ArmenianChairDogsitting.Data
     {
         public Enums.District District { get; set; }
         public DateTime WorkDate { get; set; }
+        public string Address { get; set; }
         public List<Animal> Animals { get; set; }
     }
 }
