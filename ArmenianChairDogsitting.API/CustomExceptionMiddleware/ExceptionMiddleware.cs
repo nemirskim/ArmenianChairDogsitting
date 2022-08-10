@@ -28,6 +28,10 @@ public class ExceptionMiddleware
         {
             await HandleExceptionAsync(httpContext, HttpStatusCode.Forbidden, error.Message);
         }
+        catch (NotFoundException error)
+        {
+            await HandleExceptionAsync(httpContext, HttpStatusCode.BadRequest, error.Message);
+        }
         catch (Exception error)
         {
             await HandleExceptionAsync(httpContext, HttpStatusCode.InternalServerError, error.Message);
