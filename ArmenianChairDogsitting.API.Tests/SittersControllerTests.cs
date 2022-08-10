@@ -255,7 +255,7 @@ public class SittersControllerTests
         _sittersServiceMock.Setup(c => c.UpdatePassword(id, It.IsAny<User>()));
 
         //when
-        var actual = _sut.UpdatePasswordSitter(id, sitterToUpdate);
+        var actual = _sut.UpdatePasswordSitter(sitterToUpdate);
 
         //then
         var actualResult = actual as NoContentResult;
@@ -292,7 +292,7 @@ public class SittersControllerTests
         _sittersServiceMock.Setup(c => c.UpdatePriceCatalog(id, It.IsAny<Sitter>()));
 
         //when
-        var actual = _sut.UpdatePriceCatalogSitter(id, sitterToUpdate);
+        var actual = _sut.UpdatePriceCatalogSitter(sitterToUpdate);
 
         //then
         var actualResult = actual as NoContentResult;
