@@ -18,4 +18,12 @@ public static class ControllerExtension
 
         return userId;
     }
+
+    public static string GetUserRole(this Controller controller)
+    {
+        if (controller.HttpContext.User.Identity is not ClaimsIdentity identity)
+            return null;
+
+        return identity.FindFirst(ClaimTypes.Role)?.Value;
+    }
 }

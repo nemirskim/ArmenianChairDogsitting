@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using AutoMapper;
 using ArmenianChairDogsitting.Data.Entities;
+using ArmenianChairDogsitting.API.Extensions;
 
 namespace ArmenianChairDogsitting.API.Tests;
 
@@ -215,4 +216,29 @@ public class ClientsControllerTests
         _clientsServiceMock.Verify(c => c.RemoveOrRestoreClient(id, false), Times.Once);
     }
 
+    [Test]
+    public void UpdatePasswordClient_WhenValidRequestPassed_ThenNoContentReceived()
+    {
+        //given
+        var id = 1;
+        var sitterToUpdate = new UserUpdatePasswordRequest()
+        {
+            Password = "0987654321",
+            OldPassword = "1234567890"
+        };
+
+        _clientsServiceMock.Setup(c => c.UpdatePassword(id, It.IsAny<User>()));
+
+        //when
+        var actual = _sut.UpdatePasswordClient(id, sitterToUpdate);
+
+        //then
+        var actualResult = actual as NoContentResult;
+
+        Assert.AreEqual(StatusCodes.Status204NoContent, actualResult.StatusCode);
+
+        _clientsServiceMock.Verify(s => s.UpdatePassword(It.Is<int>(i => i == id), It.Is<User>(s =>
+            s.Password == sitterToUpdate.Password
+        )), Times.Once);
+    }
 }

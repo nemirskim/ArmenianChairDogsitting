@@ -10,4 +10,5 @@ public interface IClientsRepository
     void UpdateClient(Client client);
     Client? GetClientByEmail(string email);
     public void RemoveOrRestoreClient(Client client);
+    public void UpdatePassword(Client newPassword);
 }

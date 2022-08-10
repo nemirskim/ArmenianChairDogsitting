@@ -36,4 +36,10 @@ public class ClientsRepository : IClientsRepository
         _context.Clients.Update(client);
         _context.SaveChanges();
     }
+
+    public void UpdatePassword(Client ClientPasswordForUpdate)
+    {
+        _context.Clients.Update(ClientPasswordForUpdate);
+        _context.SaveChanges();
+    }
 }

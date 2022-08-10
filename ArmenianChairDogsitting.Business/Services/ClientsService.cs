@@ -2,6 +2,7 @@
 using ArmenianChairDogsitting.Data.Entities;
 using ArmenianChairDogsitting.Data.Enums;
 using ArmenianChairDogsitting.Business.Hashing;
+using ArmenianChairDogsitting.Business.Exceptions;
 
 namespace ArmenianChairDogsitting.Business;
 
@@ -58,4 +59,22 @@ public class ClientsService : IClientsService
     }
 
     private bool CheckEmailForExisting(string email) => _clientsRepository.GetClientByEmail(email) == null;
+
+    public void UpdatePassword(int id, User clientForUpdate)
+    {
+        var sitter = _clientsRepository.GetClientById(id);
+
+        if (sitter == null)
+            throw new NotFoundException($"{ExceptionMessage.ChoosenSitterDoesNotExist}{id}");
+
+        if (clientForUpdate.OldPassword == clientForUpdate.Password)
+            throw new PasswordException($"{ExceptionMessage.OldPasswordEqualNew}");
+
+        if (sitter.Password.Equals(PasswordHash.HashPassword(clientForUpdate.OldPassword)))
+            throw new PasswordException($"{ExceptionMessage.OldPasswordDontEqualSitterPassword}");
+
+        sitter.Password = PasswordHash.HashPassword(clientForUpdate.Password);
+
+        _clientsRepository.UpdatePassword(sitter);
+    }
 }
