@@ -7,17 +7,17 @@ namespace ArmenianChairDogsitting.API.Models;
 public class ClientUpdateRequest
 {
     [Required(ErrorMessage = ApiErrorMessage.NameIsRequired)]
-    public string? Name { get; set; }
+    public string Name { get; set; }
 
     [Required(ErrorMessage = ApiErrorMessage.LastNameIsRequired)]
-    public string? LastName { get; set; }
+    public string LastName { get; set; }
 
     [Required(ErrorMessage = ApiErrorMessage.PhoneIsRequired)]
-    [MaxLength(12)]
+    [StringLength(12)]
     [RegularExpression(Regex.PhoneNumber,
          ErrorMessage = ApiErrorMessage.InvalidPhoneNumber)]
-    public string? Phone { get; set; }
+    public string Phone { get; set; }
 
     [Required(ErrorMessage = ApiErrorMessage.AddressIsRequired)]
-    public string? Address { get; set; }
+    public string Address { get; set; }
 }
