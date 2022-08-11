@@ -100,23 +100,16 @@ public class ClientsController : Controller
     }
 
     [AuthorizeByRole(Role.Client)]
-    [HttpPatch("{id}/password")]
+    [HttpPatch("password")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
-    public ActionResult UpdatePasswordClient(int id, [FromBody] UserUpdatePasswordRequest sitterPasswordForUpdate)
+    public ActionResult UpdatePasswordClient([FromBody] UserUpdatePasswordRequest sitterPasswordForUpdate)
     {
-        var userRole = this.GetUserRole();
-
-        if (userRole == Role.Admin.ToString())
-            _clientsService.UpdatePassword(id, _mapper.Map<User>(sitterPasswordForUpdate));
-        else
-        {
-            var userId = this.GetUserId();
-            _clientsService.UpdatePassword(userId.Value, _mapper.Map<User>(sitterPasswordForUpdate));
-        }
-
+        var userId = this.GetUserId();
+        _clientsService.UpdatePassword(userId.Value, _mapper.Map<User>(sitterPasswordForUpdate));
+        
         return NoContent();
     }
 }
