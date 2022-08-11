@@ -12,7 +12,7 @@ public class AnimalsRepositoryTests
     private AnimalsRepository _sut;
 
     [SetUp]
-    public void SetUp()
+    public void Setup()
     {
         _dbContextOptions = new DbContextOptionsBuilder<ArmenianChairDogsittingContext>()
             .UseInMemoryDatabase(databaseName: $"TestDB")
