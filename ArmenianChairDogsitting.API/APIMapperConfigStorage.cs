@@ -74,5 +74,6 @@ public class APIMapperConfigStorage : Profile
         CreateMap<ClientRegistrationRequest, Client>();
         CreateMap<Sitter, SitterMainInfoResponse>();
         CreateMap<UpdateOrderRequest, UpdateOrderModel>();
+        CreateMap<DogRequest, Animal>();
     }
 }

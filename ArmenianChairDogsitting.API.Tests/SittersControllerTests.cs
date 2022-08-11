@@ -136,7 +136,7 @@ public class SittersControllerTests
         _sittersServiceMock.Setup(c => c.Update(It.IsAny<Sitter>(), id));
 
         //when
-        var actual = _sut.UpdateSitter(sitterToUpdate, id);
+        var actual = _sut.UpdateSitter(sitterToUpdate);
 
         //then
         var actualResult = actual as NoContentResult;
@@ -255,7 +255,7 @@ public class SittersControllerTests
         _sittersServiceMock.Setup(c => c.UpdatePassword(id, It.IsAny<User>()));
 
         //when
-        var actual = _sut.UpdatePasswordSitter(id, sitterToUpdate);
+        var actual = _sut.UpdatePasswordSitter(sitterToUpdate);
 
         //then
         var actualResult = actual as NoContentResult;
@@ -278,12 +278,12 @@ public class SittersControllerTests
             {
                 new PriceCatalogRequest
                 {
-                    Service = ServiceEnum.DailySitting,
+                    Service = Service.DailySitting,
                     Price = 600
                 },
                 new PriceCatalogRequest
                 {
-                    Service = ServiceEnum.Overexpose,
+                    Service = Service.Overexpose,
                     Price = 300
                 }
             }
@@ -292,7 +292,7 @@ public class SittersControllerTests
         _sittersServiceMock.Setup(c => c.UpdatePriceCatalog(id, It.IsAny<Sitter>()));
 
         //when
-        var actual = _sut.UpdatePriceCatalogSitter(id, sitterToUpdate);
+        var actual = _sut.UpdatePriceCatalogSitter(sitterToUpdate);
 
         //then
         var actualResult = actual as NoContentResult;

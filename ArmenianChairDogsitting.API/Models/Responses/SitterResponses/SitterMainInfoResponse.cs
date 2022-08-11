@@ -15,4 +15,5 @@ public class SitterMainInfoResponse
     public Sex Sex { get; set; }
     public string Description { get; set; }
     public List<PriceCatalogResponse> PriceCatalog { get; set; }
+    public bool IsDeleted { get; set; }
 }

@@ -15,6 +15,7 @@ namespace ArmenianChairDogsitting.Data.Repositories
 
         public int AddOrder(Order order)
         {
+            order.DateCreated = DateTime.Now;
             _context.Orders.Add(order);
             _context.SaveChanges();
 
@@ -64,6 +65,7 @@ namespace ArmenianChairDogsitting.Data.Repositories
             orderToChange!.Animals = orderProperties.Animals;
             orderToChange!.WorkDate = orderProperties.WorkDate;
             orderToChange!.District = orderProperties.District;
+            orderToChange.Address = orderProperties.Address;
             orderToChange!.DateUpdated = DateTime.Now;
             _context.Orders.Update(orderToChange);
             _context.SaveChanges();

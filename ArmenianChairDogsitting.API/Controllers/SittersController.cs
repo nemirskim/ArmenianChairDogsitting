@@ -30,7 +30,10 @@ public class SittersController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status422UnprocessableEntity)]
     public ActionResult<int> AddSitter([FromBody] SitterRequest sitterRequest)
     {
-        var result = _sittersService.Add(_mapper.Map<Sitter>(sitterRequest));
+        var sitter = _mapper.Map<Sitter>(sitterRequest);
+        sitter.PriceCatalog = _mapper.Map<List<PriceCatalog>>(sitterRequest.PriceCatalog);
+
+        var result = _sittersService.Add(sitter);
         return Created($"{this.GetUri()}/{result}", result);
     }
 
@@ -106,28 +109,32 @@ public class SittersController : Controller
     }
 
     [AuthorizeByRole(Role.Sitter)]
-    [HttpPatch("{id}/password")]
+    [HttpPatch("password")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
-    public ActionResult UpdatePasswordSitter(int id, [FromBody]UserUpdatePasswordRequest sitterPasswordForUpdate)
+    public ActionResult UpdatePasswordSitter([FromBody]UserUpdatePasswordRequest sitterPasswordForUpdate)
     {
-        _sittersService.UpdatePassword(id, _mapper.Map<User>(sitterPasswordForUpdate));
+        var userId = this.GetUserId();
+
+        _sittersService.UpdatePassword(userId.Value, _mapper.Map<User>(sitterPasswordForUpdate));
         return NoContent();
     }
 
     [AuthorizeByRole(Role.Sitter)]
-    [HttpPatch("{id}/prices")]
+    [HttpPatch("prices")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
-    public ActionResult UpdatePriceCatalogSitter(int id, [FromBody] SitterUpdatePriceCatalogRequest sitterForUpdate)
+    public ActionResult UpdatePriceCatalogSitter([FromBody] SitterUpdatePriceCatalogRequest sitterForUpdate)
     {
+        var userId = this.GetUserId();
+
         var sitter = _mapper.Map<Sitter>(sitterForUpdate);
         sitter.PriceCatalog = _mapper.Map<List<PriceCatalog>>(sitterForUpdate.PriceCatalog);
-        _sittersService.UpdatePriceCatalog(id, sitter);
+        _sittersService.UpdatePriceCatalog(userId.Value, sitter);
         return NoContent();
     }
 }
