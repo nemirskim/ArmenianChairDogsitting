@@ -6,8 +6,8 @@ using ArmenianChairDogsitting.API.Extensions;
 using ArmenianChairDogsitting.Data.Repositories;
 using ArmenianChairDogsitting.Data.Entities;
 using ArmenianChairDogsitting.Business.Interfaces;
-using AutoMapper;
 using ArmenianChairDogsitting.Data;
+using AutoMapper;
 
 namespace ArmenianChairDogsitting.API.Controllers
 {
@@ -26,14 +26,53 @@ namespace ArmenianChairDogsitting.API.Controllers
             _mapper = mapper;
         }
 
-        [HttpPost]
+        [HttpPost("walk")]
         [AllowAnonymous]
-        //[AuthorizeByRole(Role.Client)]
+        [AuthorizeByRole(Role.Client)]
         [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(void), StatusCodes.Status422UnprocessableEntity)]
-        public ActionResult<int> AddOrder([FromBody] OrderRequest order)
+        public ActionResult<int> AddOrder([FromBody] OrderWalkRequest order)
+        {
+            var result = _ordersService.AddOrder(_mapper.Map<Order>(order));
+            return Created($"{this.GetUri()}/{result}", result);
+        }
+
+        [HttpPost("overexpose")]
+        [AllowAnonymous]
+        [AuthorizeByRole(Role.Client)]
+        [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status422UnprocessableEntity)]
+        public ActionResult<int> AddOrder([FromBody] OrderOverexposeRequest order)
+        {
+            var result = _ordersService.AddOrder(_mapper.Map<Order>(order));
+            return Created($"{this.GetUri()}/{result}", result);
+        }
+
+        [HttpPost("daily-sitting")]
+        [AllowAnonymous]
+        [AuthorizeByRole(Role.Client)]
+        [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status422UnprocessableEntity)]
+        public ActionResult<int> AddOrder([FromBody] OrderDailySittingRequest order)
+        {
+            var result = _ordersService.AddOrder(_mapper.Map<Order>(order));
+            return Created($"{this.GetUri()}/{result}", result);
+        }
+
+        [HttpPost("sitting-for-a-day")]
+        [AllowAnonymous]
+        [AuthorizeByRole(Role.Client)]
+        [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status422UnprocessableEntity)]
+        public ActionResult<int> AddOrder([FromBody] OrderSittingForDayRequest order)
         {
             var result = _ordersService.AddOrder(_mapper.Map<Order>(order));
             return Created($"{this.GetUri()}/{result}", result);
@@ -54,8 +93,7 @@ namespace ArmenianChairDogsitting.API.Controllers
         }
 
         [HttpGet("{id}")]
-        [AllowAnonymous]
-        //[AuthorizeByRole(Role.Sitter, Role.Client)]
+        [AuthorizeByRole(Role.Sitter, Role.Client)]
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(OrderResponse), StatusCodes.Status200OK)]
