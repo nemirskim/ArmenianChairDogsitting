@@ -11,10 +11,11 @@ public class OrderResponse
     public List<CommentResponse> Comments { get; set; }
     public District District { get; set; }
     public DateTime WorkDate { get; set; }
-    public DateTime DateUpdated { get;  set; }
+    public DateTime? DateUpdated { get;  set; }
     public decimal Price { get; set; }
     public Service Type { get; set; }
     public Status Status { get; set; }
+    public string Address { get; set; }
     public bool IsDeleted { get; set; }
     public int DayQuantity { get; set; }
     public int WalkQuantity { get; set; }

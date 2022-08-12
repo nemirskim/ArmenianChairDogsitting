@@ -21,6 +21,7 @@ namespace ArmenianChairDogsitting.Data.Entities
         public int? HourQuantity { get; set; }
         public int? VisitQuantity { get; set; }
         public bool? IsTrial { get; set; }
+        public string Address { get; set; }
         public bool IsDeleted { get; set; }
         public decimal Price { get; set; }
     }
