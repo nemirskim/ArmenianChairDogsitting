@@ -85,26 +85,30 @@ public class SittersController : Controller
     }
 
     [AuthorizeByRole(Role.Sitter)]
-    [HttpDelete("{id}")]
+    [HttpDelete]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
-    public ActionResult RemoveSitterById(int id)
+    public ActionResult RemoveSitterById()
     {
-        _sittersService.RemoveOrRestoreById(id, true);
+        var userId = this.GetUserId();
+
+        _sittersService.RemoveOrRestoreById(userId.Value, true);
         return NoContent();
     }
 
     [AuthorizeByRole(Role.Sitter)]
-    [HttpPatch("{id}/restore")]
+    [HttpPatch("restore")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
-    public ActionResult RestoreSitterById(int id)
+    public ActionResult RestoreSitterById()
     {
-        _sittersService.RemoveOrRestoreById(id, false);
+        var userId = this.GetUserId();
+
+        _sittersService.RemoveOrRestoreById(userId.Value, false);
         return NoContent();
     }
 
