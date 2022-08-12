@@ -98,4 +98,18 @@ public class ClientsController : Controller
         _clientsService.RemoveOrRestoreClient(id, false);
         return NoContent();
     }
+
+    [AuthorizeByRole(Role.Client)]
+    [HttpPatch("password")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
+    public ActionResult UpdatePasswordClient([FromBody] UserUpdatePasswordRequest sitterPasswordForUpdate)
+    {
+        var userId = this.GetUserId();
+        _clientsService.UpdatePassword(userId.Value, _mapper.Map<User>(sitterPasswordForUpdate));
+        
+        return NoContent();
+    }
 }

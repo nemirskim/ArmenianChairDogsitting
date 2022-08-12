@@ -10,4 +10,5 @@ public class ExceptionMessage
     public const string NoOrdersYet = "Заказов еще нет";
     public const string ActionIsNotAllowed = "Действие недоступно";
     public const string OldPasswordEqualNew = "Введите новый пароль отличный от старого";
+    public const string OldPasswordDontEqualSitterPassword = "Чтобы поменять пароль, введите старый пароль";
 }

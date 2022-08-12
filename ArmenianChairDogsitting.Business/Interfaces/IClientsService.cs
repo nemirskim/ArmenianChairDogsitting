@@ -9,4 +9,5 @@ public interface IClientsService
     List<Client> GetAllClients();
     void UpdateClient(Client clientModel, int id);
     void RemoveOrRestoreClient(int id, bool isDeleted);
+    void UpdatePassword(int id, User user);
 }
