@@ -20,6 +20,18 @@ public class APIMapperConfigStorage : Profile
         CreateMap<OrderRequest, Order>()
             .ForPath(d => d.Client.Id, opt => opt.MapFrom(s => s.ClientId))
             .ForPath(d => d.Sitter.Id, opt => opt.MapFrom(s => s.SitterId));
+        CreateMap<OrderWalkRequest, Order>()
+            .ForPath(d => d.Client.Id, opt => opt.MapFrom(s => s.ClientId))
+            .ForPath(d => d.Sitter.Id, opt => opt.MapFrom(s => s.SitterId));
+        CreateMap<OrderOverexposeRequest, Order>()
+            .ForPath(d => d.Client.Id, opt => opt.MapFrom(s => s.ClientId))
+            .ForPath(d => d.Sitter.Id, opt => opt.MapFrom(s => s.SitterId));
+        CreateMap<OrderDailySittingRequest, Order>()
+            .ForPath(d => d.Client.Id, opt => opt.MapFrom(s => s.ClientId))
+            .ForPath(d => d.Sitter.Id, opt => opt.MapFrom(s => s.SitterId));
+        CreateMap<OrderSittingForDayRequest, Order>()
+            .ForPath(d => d.Client.Id, opt => opt.MapFrom(s => s.ClientId))
+            .ForPath(d => d.Sitter.Id, opt => opt.MapFrom(s => s.SitterId));
 
         CreateMap<Client, ClientAllInfoRequest>().ReverseMap();
         CreateMap<Client, ClientMainInfoResponse>();
