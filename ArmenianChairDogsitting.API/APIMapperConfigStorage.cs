@@ -22,16 +22,20 @@ public class APIMapperConfigStorage : Profile
             .ForPath(d => d.Sitter.Id, opt => opt.MapFrom(s => s.SitterId));
         CreateMap<OrderWalkRequest, Order>()
             .ForPath(d => d.Client.Id, opt => opt.MapFrom(s => s.ClientId))
-            .ForPath(d => d.Sitter.Id, opt => opt.MapFrom(s => s.SitterId));
+            .ForPath(d => d.Sitter.Id, opt => opt.MapFrom(s => s.SitterId))
+            .IncludeBase(typeof(OrderRequest), typeof(Order));
         CreateMap<OrderOverexposeRequest, Order>()
             .ForPath(d => d.Client.Id, opt => opt.MapFrom(s => s.ClientId))
-            .ForPath(d => d.Sitter.Id, opt => opt.MapFrom(s => s.SitterId));
+            .ForPath(d => d.Sitter.Id, opt => opt.MapFrom(s => s.SitterId))
+            .IncludeBase(typeof(OrderRequest), typeof(Order));
         CreateMap<OrderDailySittingRequest, Order>()
             .ForPath(d => d.Client.Id, opt => opt.MapFrom(s => s.ClientId))
-            .ForPath(d => d.Sitter.Id, opt => opt.MapFrom(s => s.SitterId));
+            .ForPath(d => d.Sitter.Id, opt => opt.MapFrom(s => s.SitterId))
+            .IncludeBase(typeof(OrderRequest), typeof(Order));
         CreateMap<OrderSittingForDayRequest, Order>()
             .ForPath(d => d.Client.Id, opt => opt.MapFrom(s => s.ClientId))
-            .ForPath(d => d.Sitter.Id, opt => opt.MapFrom(s => s.SitterId));
+            .ForPath(d => d.Sitter.Id, opt => opt.MapFrom(s => s.SitterId))
+            .IncludeBase(typeof(OrderRequest), typeof(Order));
 
         CreateMap<Client, ClientAllInfoRequest>().ReverseMap();
         CreateMap<Client, ClientMainInfoResponse>();

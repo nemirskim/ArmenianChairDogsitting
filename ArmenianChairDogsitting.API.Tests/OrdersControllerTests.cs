@@ -30,28 +30,35 @@ public class OrdersControllerTests
     }
 
     [Test]
-    public void AddOrder_ValidRequestPassed_ThenCreatedResultReceived()
+    public void AddOrderWalk_ValidRequestPassed_ThenCreatedResultReceived()
     {
         //given
         var expectedId = 1;
 
-        var order = new OrderRequest()
+        var order = new OrderWalkRequest()
         {
             ClientId = 3,
-            WalkQuantity = 2,
-            IsTrial = true,
             SitterId = 2,
-            Type = Service.Walk
+            WalkQuantity = 2,
+            Type = Service.Walk,
+            Status = Status.Created,
+            AnimalIds = new(),
+            District = Data.Enums.District.All,
+            WorkDate = new DateTime(2022, 8, 25),
+            IsTrial = true,
         };
 
         var expectedOrder = new Order
         {
-            WalkQuantity = order.WalkQuantity,
-            Animals = new(),
             Client = new() { Id = order.ClientId},
+            Sitter = new() { Id = order.SitterId },
+            WalkQuantity = order.WalkQuantity,
             Type = order.Type,
-            IsTrial = order.IsTrial,
-            Sitter = new() { Id = order.SitterId }
+            Status = order.Status,
+            Animals = new(),
+            District = order.District,
+            WorkDate = order.WorkDate,
+            IsTrial = order.IsTrial
         };
 
         _ordersServiceMock
@@ -72,7 +79,203 @@ public class OrdersControllerTests
                 c => c.Type == expectedOrder.Type &&
                 c.Status == expectedOrder.Status &&
                 c.Client.Id == expectedOrder.Client.Id &&
-                c.Sitter.Id == expectedOrder.Sitter.Id)
+                c.Sitter.Id == expectedOrder.Sitter.Id &&
+                c.DayQuantity == null &&
+                c.WalkPerDayQuantity == null &&
+                c.District == expectedOrder.District &&
+                c.WorkDate == expectedOrder.WorkDate &&
+                c.VisitQuantity == null &&
+                c.WalkQuantity == expectedOrder.WalkQuantity &&
+                c.HourQuantity == null &&
+                c.IsTrial == expectedOrder.IsTrial)
+            ), Times.Once);
+    }
+
+    [Test]
+    public void AddOrderOverexpose_ValidRequestPassed_ThenCreatedResultReceived()
+    {
+        //given
+        var expectedId = 1;
+
+        var order = new OrderOverexposeRequest()
+        {
+            ClientId = 3,
+            SitterId = 2,
+            Type = Service.Overexpose,
+            DayQuantity = 2,
+            WalkPerDayQuantity = 1,
+            AnimalIds = new(),
+            District = Data.Enums.District.All,
+            Status = Status.Created,
+            WorkDate = new DateTime(2022, 8, 25)
+        };
+
+        var expectedOrder = new Order
+        {
+            Client = new() { Id = order.ClientId },
+            Sitter = new() { Id = order.SitterId },
+            Status = order.Status,
+            Type = order.Type,
+            DayQuantity = order.DayQuantity,
+            WalkPerDayQuantity = order.WalkPerDayQuantity,
+            Animals = new(),
+            District = order.District,
+            WorkDate = order.WorkDate
+        };
+
+        _ordersServiceMock
+            .Setup(x => x.AddOrder(It.IsAny<Order>()))
+            .Returns(expectedId);
+
+        //when
+        var actual = _sut.AddOrder(order);
+
+        //then
+        var actualResult = actual.Result as CreatedResult;
+
+        Assert.AreEqual(StatusCodes.Status201Created, actualResult!.StatusCode);
+        Assert.AreEqual(expectedId, actualResult.Value);
+
+        _ordersServiceMock.Verify(x => x.AddOrder(
+            It.Is<Order>(
+                c => c.Type == expectedOrder.Type &&
+                c.Status == expectedOrder.Status &&
+                c.Client.Id == expectedOrder.Client.Id &&
+                c.Sitter.Id == expectedOrder.Sitter.Id &&
+                c.DayQuantity == expectedOrder.DayQuantity &&
+                c.WalkPerDayQuantity == expectedOrder.WalkPerDayQuantity &&
+                c.District == expectedOrder.District &&
+                c.WorkDate == expectedOrder.WorkDate &&
+                c.VisitQuantity == null &&
+                c.WalkQuantity == null &&
+                c.HourQuantity == null &&
+                c.IsTrial == null)
+            ), Times.Once);
+    }
+
+    [Test]
+    public void AddOrderDailySitting_ValidRequestPassed_ThenCreatedResultReceived()
+    {
+        //given
+        var expectedId = 1;
+
+        var order = new OrderDailySittingRequest()
+        {
+            ClientId = 3,
+            SitterId = 2,
+            Type = Service.DailySitting,
+            Status = Status.Created,
+            WalkQuantity = 2,
+            DayQuantity = 1,
+            AnimalIds = new(),
+            District = Data.Enums.District.All,
+            WorkDate = new DateTime(2022, 8, 25)
+        };
+
+        var expectedOrder = new Order
+        {
+            Client = new() { Id = order.ClientId },
+            Sitter = new() { Id = order.SitterId },
+            Status = order.Status,
+            Type = order.Type,
+            WalkQuantity = order.WalkQuantity,
+            DayQuantity = order.DayQuantity,
+            Animals = new(),
+            District = order.District,
+            WorkDate = order.WorkDate
+        };
+
+        _ordersServiceMock
+            .Setup(x => x.AddOrder(It.IsAny<Order>()))
+            .Returns(expectedId);
+
+        //when
+        var actual = _sut.AddOrder(order);
+
+        //then
+        var actualResult = actual.Result as CreatedResult;
+
+        Assert.AreEqual(StatusCodes.Status201Created, actualResult!.StatusCode);
+        Assert.AreEqual(expectedId, actualResult.Value);
+
+        _ordersServiceMock.Verify(x => x.AddOrder(
+            It.Is<Order>(
+                c => c.Type == expectedOrder.Type &&
+                c.Status == expectedOrder.Status &&
+                c.Client.Id == expectedOrder.Client.Id &&
+                c.Sitter.Id == expectedOrder.Sitter.Id &&
+                c.DayQuantity == expectedOrder.DayQuantity &&
+                c.WalkPerDayQuantity == null &&
+                c.District == expectedOrder.District &&
+                c.WorkDate == expectedOrder.WorkDate &&
+                c.VisitQuantity == null &&
+                c.WalkQuantity == expectedOrder.WalkQuantity &&
+                c.HourQuantity == null &&
+                c.IsTrial == null)
+            ), Times.Once);
+    }
+
+    [Test]
+    public void AddOrderWalkSittingForDay_ValidRequestPassed_ThenCreatedResultReceived()
+    {
+        //given
+        var expectedId = 1;
+
+        var order = new OrderSittingForDayRequest()
+        {
+            ClientId = 3,
+            SitterId = 2,
+            Type = Service.Walk,
+            Status = Status.Created,
+            WalkQuantity = 2,
+            HourQuantity = 2,
+            VisitQuantity = 3,
+            AnimalIds = new(),
+            District = Data.Enums.District.All,
+            WorkDate = new DateTime(2022, 8, 25)
+        };
+
+        var expectedOrder = new Order
+        {
+            Client = new() { Id = order.ClientId },
+            Sitter = new() { Id = order.SitterId },
+            Type = order.Type,
+            Status = order.Status,
+            WalkQuantity = order.WalkQuantity,
+            HourQuantity = order.HourQuantity,
+            VisitQuantity = order.VisitQuantity,
+            Animals = new(),
+            District = order.District,
+            WorkDate = order.WorkDate
+        };
+
+        _ordersServiceMock
+            .Setup(x => x.AddOrder(It.IsAny<Order>()))
+            .Returns(expectedId);
+
+        //when
+        var actual = _sut.AddOrder(order);
+
+        //then
+        var actualResult = actual.Result as CreatedResult;
+
+        Assert.AreEqual(StatusCodes.Status201Created, actualResult!.StatusCode);
+        Assert.AreEqual(expectedId, actualResult.Value);
+
+        _ordersServiceMock.Verify(x => x.AddOrder(
+            It.Is<Order>(
+                c => c.Type == expectedOrder.Type &&
+                c.Status == expectedOrder.Status &&
+                c.Client.Id == expectedOrder.Client.Id &&
+                c.Sitter.Id == expectedOrder.Sitter.Id &&
+                c.DayQuantity == null &&
+                c.WalkPerDayQuantity == null &&
+                c.District == expectedOrder.District &&
+                c.WorkDate == expectedOrder.WorkDate &&
+                c.VisitQuantity == expectedOrder.VisitQuantity &&
+                c.WalkQuantity == expectedOrder.WalkQuantity &&
+                c.HourQuantity == expectedOrder.HourQuantity &&
+                c.IsTrial == null)
             ), Times.Once);
     }
 
