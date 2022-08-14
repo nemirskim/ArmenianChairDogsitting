@@ -35,7 +35,7 @@ namespace ArmenianChairDogsitting.API.Controllers
         [ProducesResponseType(typeof(void), StatusCodes.Status422UnprocessableEntity)]
         public ActionResult<int> AddOrder([FromBody] OrderWalkRequest order)
         {
-            var result = _ordersService.AddOrder(_mapper.Map<Order>(order));
+            var result = _ordersService.AddOrder(_mapper.Map<Order>(order), Service.Walk);
             return Created($"{this.GetUri()}/{result}", result);
         }
 
@@ -48,7 +48,7 @@ namespace ArmenianChairDogsitting.API.Controllers
         [ProducesResponseType(typeof(void), StatusCodes.Status422UnprocessableEntity)]
         public ActionResult<int> AddOrder([FromBody] OrderOverexposeRequest order)
         {
-            var result = _ordersService.AddOrder(_mapper.Map<Order>(order));
+            var result = _ordersService.AddOrder(_mapper.Map<Order>(order), Service.Overexpose);
             return Created($"{this.GetUri()}/{result}", result);
         }
 
@@ -61,7 +61,7 @@ namespace ArmenianChairDogsitting.API.Controllers
         [ProducesResponseType(typeof(void), StatusCodes.Status422UnprocessableEntity)]
         public ActionResult<int> AddOrder([FromBody] OrderDailySittingRequest order)
         {
-            var result = _ordersService.AddOrder(_mapper.Map<Order>(order));
+            var result = _ordersService.AddOrder(_mapper.Map<Order>(order), Service.DailySitting);
             return Created($"{this.GetUri()}/{result}", result);
         }
 
@@ -74,7 +74,7 @@ namespace ArmenianChairDogsitting.API.Controllers
         [ProducesResponseType(typeof(void), StatusCodes.Status422UnprocessableEntity)]
         public ActionResult<int> AddOrder([FromBody] OrderSittingForDayRequest order)
         {
-            var result = _ordersService.AddOrder(_mapper.Map<Order>(order));
+            var result = _ordersService.AddOrder(_mapper.Map<Order>(order), Service.SittingForDay);
             return Created($"{this.GetUri()}/{result}", result);
         }
 

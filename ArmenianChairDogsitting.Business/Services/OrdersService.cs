@@ -26,9 +26,10 @@ public class OrdersService : IOrdersService
         _sittersRepository = sittersRepository;
         _promocodesService = promocodesService;
     }
-    public int AddOrder(Order order)
+    public int AddOrder(Order order, Service orderType)
     {
         order.Status = Status.Created;
+        order.Type = orderType;
         order.Client = _clientsRepository.GetClientById(order.Client.Id);
         order.Sitter = _sittersRepository.GetById(order.Sitter.Id);
         order.Price = GetOrderPrice(order);
