@@ -12,6 +12,7 @@ namespace ArmenianChairDogsitting.Data
         public DbSet<Sitter> Sitters { get; set; }
         public DbSet<Admin> Admins { get; set; }
         public DbSet<PriceCatalog> PriceCatalogs { get; set; }
+        public DbSet<Schedule> Schedules { get; set; }
         public ArmenianChairDogsittingContext(DbContextOptions<ArmenianChairDogsittingContext> options)
                 : base(options)
         {
@@ -76,6 +77,9 @@ namespace ArmenianChairDogsitting.Data
                 entity
                     .HasMany(pr => pr.PriceCatalog)
                     .WithOne(o => o.Sitter);
+                entity
+                    .HasMany(s => s.Schedules)
+                    .WithOne(s => s.Sitter);
             });
 
             modelBuilder.Entity<PriceCatalog>(entity =>

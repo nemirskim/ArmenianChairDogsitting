@@ -34,7 +34,7 @@ namespace ArmenianChairDogsitting.Data.Migrations
 
                     b.HasIndex("OrdersId");
 
-                    b.ToTable("AnimalOrder");
+                    b.ToTable("AnimalOrder", (string)null);
                 });
 
             modelBuilder.Entity("ArmenianChairDogsitting.Data.Entities.Admin", b =>
@@ -58,7 +58,7 @@ namespace ArmenianChairDogsitting.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Admins");
+                    b.ToTable("Admins", (string)null);
                 });
 
             modelBuilder.Entity("ArmenianChairDogsitting.Data.Entities.Animal", b =>
@@ -252,6 +252,33 @@ namespace ArmenianChairDogsitting.Data.Migrations
                     b.ToTable("PriceCatalog", (string)null);
                 });
 
+            modelBuilder.Entity("ArmenianChairDogsitting.Data.Entities.Schedule", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("Day")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("End")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("SitterId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Start")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SitterId");
+
+                    b.ToTable("Schedules", (string)null);
+                });
+
             modelBuilder.Entity("ArmenianChairDogsitting.Data.Entities.Sitter", b =>
                 {
                     b.Property<int>("Id")
@@ -311,7 +338,7 @@ namespace ArmenianChairDogsitting.Data.Migrations
 
                     b.HasIndex("SittersId");
 
-                    b.ToTable("DistrictSitter");
+                    b.ToTable("DistrictSitter", (string)null);
                 });
 
             modelBuilder.Entity("ArmenianChairDogsitting.Data.Entities.OrderDailySitting", b =>
@@ -451,6 +478,17 @@ namespace ArmenianChairDogsitting.Data.Migrations
                     b.Navigation("Sitter");
                 });
 
+            modelBuilder.Entity("ArmenianChairDogsitting.Data.Entities.Schedule", b =>
+                {
+                    b.HasOne("ArmenianChairDogsitting.Data.Entities.Sitter", "Sitter")
+                        .WithMany("Schedules")
+                        .HasForeignKey("SitterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Sitter");
+                });
+
             modelBuilder.Entity("DistrictSitter", b =>
                 {
                     b.HasOne("ArmenianChairDogsitting.Data.Entities.District", null)
@@ -481,6 +519,8 @@ namespace ArmenianChairDogsitting.Data.Migrations
                     b.Navigation("Orders");
 
                     b.Navigation("PriceCatalog");
+
+                    b.Navigation("Schedules");
                 });
 #pragma warning restore 612, 618
         }

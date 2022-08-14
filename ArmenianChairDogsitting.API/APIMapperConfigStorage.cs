@@ -67,7 +67,9 @@ public class APIMapperConfigStorage : Profile
         CreateMap<SitterUpdatePriceCatalogRequest, Sitter>();
         CreateMap<AdminRequest, Admin>();
         CreateMap<PriceCatalogRequest, PriceCatalog>();
+        CreateMap<ScheduleRequest, Schedule>();
         CreateMap<PriceCatalog, PriceCatalogResponse>();
+        CreateMap<Schedule, ScheduleResponse>();
         CreateMap<SitterUpdateRequest, Sitter>();
         CreateMap<Sitter, SitterAllInfoResponse>();
         CreateMap<UserUpdatePasswordRequest, User>();

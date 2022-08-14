@@ -17,5 +17,6 @@ public class Sitter
     public List<District> Districts { get; set; }
     public List<PriceCatalog> PriceCatalog { get; set; }
     public List<Order> Orders { get; set; } 
+    public List<Schedule> Schedules { get; set; } 
     public bool IsDeleted {  get; set; }
 }
