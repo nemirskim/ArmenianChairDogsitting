@@ -15,7 +15,7 @@ namespace ArmenianChairDogsitting.Data.Repositories
 
         public int AddOrder(Order order)
         {
-            order.DateCreate = DateTime.Now;
+            order.DateCreated = DateTime.Now;
             _context.Orders.Add(order);
             _context.SaveChanges();
 

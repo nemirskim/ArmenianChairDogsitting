@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ArmenianChairDogsitting.Data.Migrations
 {
     [DbContext(typeof(ArmenianChairDogsittingContext))]
-    [Migration("20220814000728_AddSchedule")]
+    [Migration("20220814162356_AddSchedule")]
     partial class AddSchedule
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -278,7 +278,7 @@ namespace ArmenianChairDogsitting.Data.Migrations
 
                     b.HasIndex("SitterId");
 
-                    b.ToTable("Schedules");
+                    b.ToTable("Schedule", (string)null);
                 });
 
             modelBuilder.Entity("ArmenianChairDogsitting.Data.Entities.Sitter", b =>

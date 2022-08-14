@@ -10,7 +10,7 @@ namespace ArmenianChairDogsitting.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Schedules",
+                name: "Schedule",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -22,9 +22,9 @@ namespace ArmenianChairDogsitting.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Schedules", x => x.Id);
+                    table.PrimaryKey("PK_Schedule", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Schedules_Sitter_SitterId",
+                        name: "FK_Schedule_Sitter_SitterId",
                         column: x => x.SitterId,
                         principalTable: "Sitter",
                         principalColumn: "Id",
@@ -32,15 +32,15 @@ namespace ArmenianChairDogsitting.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Schedules_SitterId",
-                table: "Schedules",
+                name: "IX_Schedule_SitterId",
+                table: "Schedule",
                 column: "SitterId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Schedules");
+                name: "Schedule");
         }
     }
 }

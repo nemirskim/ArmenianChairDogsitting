@@ -62,6 +62,6 @@ public class ScheduleController : Controller
         var userId = this.GetUserId();
 
         var result = _scheduleService.GetSitterSchedule(userId.Value);
-        return Ok(_mapper.Map<Schedule>(result));
+        return Ok(_mapper.Map<List<ScheduleResponse>>(result));
     }
 }

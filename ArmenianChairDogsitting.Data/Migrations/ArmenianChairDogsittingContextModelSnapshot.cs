@@ -34,7 +34,7 @@ namespace ArmenianChairDogsitting.Data.Migrations
 
                     b.HasIndex("OrdersId");
 
-                    b.ToTable("AnimalOrder", (string)null);
+                    b.ToTable("AnimalOrder");
                 });
 
             modelBuilder.Entity("ArmenianChairDogsitting.Data.Entities.Admin", b =>
@@ -58,7 +58,7 @@ namespace ArmenianChairDogsitting.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Admins", (string)null);
+                    b.ToTable("Admins");
                 });
 
             modelBuilder.Entity("ArmenianChairDogsitting.Data.Entities.Animal", b =>
@@ -276,7 +276,7 @@ namespace ArmenianChairDogsitting.Data.Migrations
 
                     b.HasIndex("SitterId");
 
-                    b.ToTable("Schedules", (string)null);
+                    b.ToTable("Schedule", (string)null);
                 });
 
             modelBuilder.Entity("ArmenianChairDogsitting.Data.Entities.Sitter", b =>
@@ -338,7 +338,7 @@ namespace ArmenianChairDogsitting.Data.Migrations
 
                     b.HasIndex("SittersId");
 
-                    b.ToTable("DistrictSitter", (string)null);
+                    b.ToTable("DistrictSitter");
                 });
 
             modelBuilder.Entity("ArmenianChairDogsitting.Data.Entities.OrderDailySitting", b =>

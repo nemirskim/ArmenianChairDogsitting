@@ -82,6 +82,12 @@ namespace ArmenianChairDogsitting.Data
                     .WithOne(s => s.Sitter);
             });
 
+            modelBuilder.Entity<Schedule>(entity =>
+            {
+                entity.ToTable(nameof(Schedule));
+                entity.HasKey(sc => sc.Id);
+            });
+
             modelBuilder.Entity<PriceCatalog>(entity =>
             {
                 entity.ToTable(nameof(PriceCatalog));
