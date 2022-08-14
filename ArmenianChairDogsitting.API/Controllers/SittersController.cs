@@ -98,17 +98,15 @@ public class SittersController : Controller
         return NoContent();
     }
 
-    [AuthorizeByRole(Role.Sitter)]
-    [HttpPatch("restore")]
+    [AuthorizeByRole]
+    [HttpPatch("{id}/restore")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
-    public ActionResult RestoreSitterById()
+    public ActionResult RestoreSitterById(int id)
     {
-        var userId = this.GetUserId();
-
-        _sittersService.RemoveOrRestoreById(userId.Value, false);
+        _sittersService.RemoveOrRestoreById(id, false);
         return NoContent();
     }
 
