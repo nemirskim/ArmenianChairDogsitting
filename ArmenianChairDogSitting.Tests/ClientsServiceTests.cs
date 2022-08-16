@@ -1,4 +1,5 @@
-﻿using ArmenianChairDogsitting.Data.Entities;
+﻿using ArmenianChairDogsitting.Business.Hashing;
+using ArmenianChairDogsitting.Data.Entities;
 using ArmenianChairDogsitting.Data.Enums;
 using ArmenianChairDogsitting.Data.Repositories;
 using Moq;
@@ -341,5 +342,143 @@ public class ClientsServiceTests
 
         //then, when
         Assert.Throws<NotFoundException>(() => _sut.RemoveOrRestoreClient(clientId, true));
+    }
+
+    [Test]
+    public void UpdatePassword_WhenValidationPassed_ThenUpdatePassword()
+    {
+        //given
+
+        var client = new Client()
+        {
+            Id = 10,
+            Name = "Alex",
+            LastName = "Pistoletov",
+            Phone = "89991116116",
+            Email = "pistol@pi.com",
+            Password = "123456789",
+            Address = "Kosoi pereylok 228",
+            Dogs = new List<Animal>(),
+            IsDeleted = false
+        };
+
+
+        var clientForUpdate = new User
+        {
+            Password = "0987654321",
+            OldPassword = "1234567890"
+        };
+
+        _clientRepository.Setup(o => o.GetClientById(client.Id)).Returns(client);
+
+        //when
+        _sut.UpdatePassword(client.Id, clientForUpdate);
+
+        //then
+        var actual = _sut.GetClientById(client.Id);
+
+
+        Assert.AreEqual(actual.Password, client.Password);
+
+        _clientRepository.Verify(c => c.GetClientById(client.Id), Times.Exactly(2));
+        _clientRepository.Verify(c => c.UpdatePassword(client), Times.Once);
+    }
+
+    [Test]
+    public void UpdatePassword_WhenClientIsNotExist_ThenNotFoundExeption()
+    {
+        //given
+        int clientId = 1;
+
+        var client = new Client()
+        {
+            Id = 10,
+            Name = "Alex",
+            LastName = "Pistoletov",
+            Phone = "89991116116",
+            Email = "pistol@pi.com",
+            Password = "123456789",
+            Address = "Kosoi pereylok 228",
+            Dogs = new List<Animal>(),
+            IsDeleted = false
+        };
+
+
+        var clientForUpdate = new User
+        {
+            Password = "0987654321",
+            OldPassword = "1234567890"
+        };
+
+        _clientRepository.Setup(o => o.GetClientById(client.Id)).Returns(client);
+
+        //when
+
+        //then
+        Assert.Throws<NotFoundException>(() => _sut.UpdatePassword(clientId, clientForUpdate));
+    }
+
+    [Test]
+    public void UpdatePassword_WhenOldPasswordEqualNew_ThenPasswordException()
+    {
+        //given
+        var client = new Client()
+        {
+            Id = 10,
+            Name = "Alex",
+            LastName = "Pistoletov",
+            Phone = "89991116116",
+            Email = "pistol@pi.com",
+            Password = "123456789",
+            Address = "Kosoi pereylok 228",
+            Dogs = new List<Animal>(),
+            IsDeleted = false
+        };
+
+
+        var clientForUpdate = new User
+        {
+            Password = "1234567890",
+            OldPassword = "1234567890"
+        };
+
+        _clientRepository.Setup(o => o.GetClientById(client.Id)).Returns(client);
+
+        //when
+
+        //then
+        Assert.Throws<PasswordException>(() => _sut.UpdatePassword(client.Id, clientForUpdate));
+    }
+
+    [Test]
+    public void UpdatePassword_WhenOldPasswordDontEqualActual_ThenPasswordException()
+    {
+        //given
+        var client = new Client()
+        {
+            Id = 10,
+            Name = "Alex",
+            LastName = "Pistoletov",
+            Phone = "89991116116",
+            Email = "pistol@pi.com",
+            Password = PasswordHash.HashPassword("123456789"),
+            Address = "Kosoi pereylok 228",
+            Dogs = new List<Animal>(),
+            IsDeleted = false
+        };
+
+
+        var clientForUpdate = new User
+        {
+            Password = "0987654321",
+            OldPassword = "123456578997"
+        };
+
+        _clientRepository.Setup(o => o.GetClientById(client.Id)).Returns(client);
+
+        //when
+
+        //then
+        Assert.Throws<PasswordException>(() => _sut.UpdatePassword(client.Id, clientForUpdate));
     }
 }

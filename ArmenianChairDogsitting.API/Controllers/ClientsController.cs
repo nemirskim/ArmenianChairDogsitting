@@ -61,15 +61,16 @@ public class ClientsController : Controller
     }
 
     [AuthorizeByRole(Role.Client)]
-    [HttpPut("{id}")]
+    [HttpPut]
     [ProducesResponseType(typeof(void), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
-    public ActionResult UpdateClient([FromBody] ClientUpdateRequest request, int id)
+    public ActionResult UpdateClient([FromBody] ClientUpdateRequest request)
     {
-        _clientsService.UpdateClient(_mapper.Map<Client>(request), id);
+        var userId = this.GetUserId(); 
+        _clientsService.UpdateClient(_mapper.Map<Client>(request), userId.Value);
         return Ok();
     }
 
@@ -80,22 +81,38 @@ public class ClientsController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
-    public ActionResult RemoveClient(int id)
+    public ActionResult RemoveClient()
     {
-        _clientsService.RemoveOrRestoreClient(id, true);
+        var userId = this.GetUserId();
+        _clientsService.RemoveOrRestoreClient(userId.Value, true);
         return NoContent();
     }
 
     [AuthorizeByRole]
-    [HttpPatch("{id}")]
+    [HttpPatch]
     [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
-    public ActionResult RestoreClient(int id)
+    public ActionResult RestoreClient()
     {
-        _clientsService.RemoveOrRestoreClient(id, false);
+        var userId = this.GetUserId();
+        _clientsService.RemoveOrRestoreClient(userId.Value, false);
+        return NoContent();
+    }
+
+    [AuthorizeByRole(Role.Client)]
+    [HttpPatch("password")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
+    public ActionResult UpdatePasswordClient([FromBody] UserUpdatePasswordRequest sitterPasswordForUpdate)
+    {
+        var userId = this.GetUserId();
+        _clientsService.UpdatePassword(userId.Value, _mapper.Map<User>(sitterPasswordForUpdate));
+        
         return NoContent();
     }
 }

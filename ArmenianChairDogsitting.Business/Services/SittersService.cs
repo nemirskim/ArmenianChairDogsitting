@@ -65,7 +65,7 @@ public class SittersService : ISittersService
         if (sitterForUpdate.OldPassword == sitterForUpdate.Password)
             throw new PasswordException($"{ExceptionMessage.OldPasswordEqualNew}");
 
-        sitter.Password = sitterForUpdate.Password;
+        sitter.Password = PasswordHash.HashPassword(sitterForUpdate.Password);
 
         _sitterRepository.UpdatePassword(sitter);
     }
