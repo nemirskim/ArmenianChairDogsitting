@@ -168,7 +168,7 @@ public class ClientsControllerTests
         _clientsServiceMock.Setup(c => c.UpdateClient(It.IsAny<Client>(), id));
 
         //when
-        var actual = _sut.UpdateClient(clientToUpdate, id);
+        var actual = _sut.UpdateClient(clientToUpdate);
 
         //then
         var actualResult = actual as OkResult;
@@ -189,7 +189,7 @@ public class ClientsControllerTests
         var id = 1;
 
         //when
-        var actual = _sut.RemoveClient(id);
+        var actual = _sut.RemoveClient();
 
         //then
         var actualResult = actual as NoContentResult;
@@ -206,7 +206,7 @@ public class ClientsControllerTests
         var id = 1;
 
         //when
-        var actual = _sut.RestoreClient(id);
+        var actual = _sut.RestoreClient();
 
         //then
         var actualResult = actual as NoContentResult;
@@ -230,7 +230,7 @@ public class ClientsControllerTests
         _clientsServiceMock.Setup(c => c.UpdatePassword(id, It.IsAny<User>()));
 
         //when
-        var actual = _sut.UpdatePasswordClient(id, sitterToUpdate);
+        var actual = _sut.UpdatePasswordClient(sitterToUpdate);
 
         //then
         var actualResult = actual as NoContentResult;

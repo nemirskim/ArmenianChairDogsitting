@@ -214,7 +214,7 @@ public class SittersControllerTests
         var id = 1;
 
         //when
-        var actual = _sut.RemoveSitterById(id);
+        var actual = _sut.RemoveSitterById();
 
         //then
         var actualResult = actual as NoContentResult;
@@ -231,7 +231,7 @@ public class SittersControllerTests
         var id = 1;
 
         //when
-        var actual = _sut.RestoreSitterById(id);
+        var actual = _sut.RestoreSitterById();
 
         //then
         var actualResult = actual as NoContentResult;
