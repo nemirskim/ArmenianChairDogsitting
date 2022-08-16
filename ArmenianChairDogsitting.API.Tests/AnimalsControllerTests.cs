@@ -108,15 +108,54 @@ namespace ArmenianChairDogsitting.API.Tests
         [Test]
         public void GetAllAnimalsByClient_ValidRequestPassed_OkReceived()
         {
-            var expectedListDogs = new List<DogAllInfoResponse>();
-            var clientId = 1;
+            //given
+            var dogs = new List<Animal>
+        {
+            new Animal()
+            {
+                Id = 3,
+                Name = "Bublik",
+                Breed = "wpic",
+                Age = 5,
+                Size = SizeOfAnimal.SmallerThanFiveKg,
+                RecommendationsForCare = "celovat'",
+                ClientId = 2
+            },
 
-            var actual = _sut.GetAllAnimalsByClient(clientId);
+            new Animal()
+            {
+                Id = 5,
+                Name = "Popa",
+                Breed = "ovcharka",
+                Age = 3,
+                Size = SizeOfAnimal.SmallerThanTenKg,
+                RecommendationsForCare = "lubit'",
+                ClientId = 2
+            }
+        };
 
+            _animalsServiceMock
+                .Setup(a => a.GetAllAnimalsByClient(2)).Returns(dogs);
+
+            //when
+            var actual = _sut.GetAllAnimalsByClient(2);
+
+            //then
             var actualResult = actual.Result as ObjectResult;
+            var dogsAllInfoResponse = actualResult.Value as List<DogAllInfoResponse>;
 
             Assert.AreEqual(StatusCodes.Status200OK, actualResult.StatusCode);
-            Assert.AreEqual(expectedListDogs.GetType(), actualResult.Value.GetType());
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(dogsAllInfoResponse.Count, Is.EqualTo(dogs.Count));
+                Assert.That(dogsAllInfoResponse[0].Name, Is.EqualTo(dogs[0].Name));
+                Assert.That(dogsAllInfoResponse[1].Name, Is.EqualTo(dogs[1].Name));
+                Assert.That(dogsAllInfoResponse[1].Breed, Is.EqualTo(dogs[1].Breed));
+                Assert.That(dogsAllInfoResponse[0].Breed, Is.EqualTo(dogs[0].Breed));
+            });
+
+            _animalsServiceMock.Verify(a => a.GetAllAnimalsByClient(2), Times.Once);
         }
 
         [Test]
