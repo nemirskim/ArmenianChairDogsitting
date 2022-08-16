@@ -166,7 +166,7 @@ public class SitterServiceTests
     [Test]
     public void RemoveOrRestoreById_WhenSitterIsNotDeleted_ThenDeleteSitter()
     {
-        ///given
+        //given
         var expectedSitter = new Sitter()
         {
             Id = 10,
