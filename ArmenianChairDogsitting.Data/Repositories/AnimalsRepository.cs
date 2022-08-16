@@ -22,11 +22,9 @@ public class AnimalsRepository : IAnimalsRepository
 
     public List<Animal> GetAllAnimalsByClient(int id) => _context.Animals.Where(a => a.ClientId == id).ToList();
 
-    public void UpdateAnimal(Animal newAnimal, int id)
+    public void UpdateAnimal(Animal newAnimal)
     {
-        var animal = _context.Animals.FirstOrDefault(a => a.Id == id);
-        animal = newAnimal;
-        _context.Animals.Update(animal);
+        _context.Animals.Update(newAnimal);
         _context.SaveChanges();
     }
 

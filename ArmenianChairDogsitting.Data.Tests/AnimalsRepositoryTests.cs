@@ -112,7 +112,7 @@ public class AnimalsRepositoryTests
         _context.SaveChanges();
 
         //when
-        _sut.UpdateAnimal(actual, id);
+        _sut.UpdateAnimal(actual);
 
         //then 
         Assert.AreEqual(id, actual.Id);

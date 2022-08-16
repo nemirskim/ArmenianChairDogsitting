@@ -34,7 +34,7 @@ public class AnimalsService : IAnimalsService
         animal.Breed = newAnimal.Breed;
         animal.RecommendationsForCare = newAnimal.RecommendationsForCare;
 
-        _animalsRepository.UpdateAnimal(animal, id);
+        _animalsRepository.UpdateAnimal(animal);
     }
 
     public void RemoveOrRestoreAnimal(int id, bool isDeleted)
