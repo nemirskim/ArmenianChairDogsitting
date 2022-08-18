@@ -21,9 +21,4 @@ public class ScheduleRepository : IScheduleRepository
     }
 
     public Schedule GetScheduleById(int id) => _context.Schedules.FirstOrDefault(sc => sc.Id == id);
-
-    public void RemoveWorkTime(Schedule workTime)
-    {
-       
-    }
 }

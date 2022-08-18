@@ -207,14 +207,15 @@ public class SittersControllerTests
         _sittersServiceMock.Verify(c => c.GetSitters(), Times.Once);
     }
 
-    /*[Test]
+    [Test]
     public void RemoveSitterById_ValidRequestPassed_NoContentReceived()
     {
         //given
         var id = 1;
 
         //when
-        var actual = _sut.RemoveSitterById(id);
+        var actual = _sut.RemoveSitterById();
+        _sittersServiceMock.Setup(s => s.RemoveOrRestoreById(id, true));
 
         //then
         var actualResult = actual as NoContentResult;
@@ -231,7 +232,8 @@ public class SittersControllerTests
         var id = 1;
 
         //when
-        var actual = _sut.RestoreSitterById(id);
+        var actual = _sut.RestoreSitterById();
+        _sittersServiceMock.Setup(s => s.RemoveOrRestoreById(id, false));
 
         //then
         var actualResult = actual as NoContentResult;
@@ -239,7 +241,7 @@ public class SittersControllerTests
         Assert.AreEqual(StatusCodes.Status204NoContent, actualResult.StatusCode);
 
         _sittersServiceMock.Verify(c => c.RemoveOrRestoreById(id, false), Times.Once);
-    }*/
+    }
 
     [Test]
     public void UpdatePasswordSitter_ValidRequestPassed_NoContentReceived()

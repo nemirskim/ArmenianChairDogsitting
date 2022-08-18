@@ -39,6 +39,5 @@ public class ScheduleService : IScheduleService
         schedule.Sitter = null;
 
         _sitterRepository.Update(sitter);
-        _scheduleRepository.RemoveWorkTime(schedule);
     }
 }

@@ -8,10 +8,10 @@ namespace ArmenianChairDogsitting.API.Tests;
 public class SitterRequestValidationTests
 {
     [Test]
-    public void ClientRegisterRequest_SendingCorrectData_GetAnEmptyStringError()
+    public void SitterRegisterRequest_SendingCorrectData_GetAnEmptyStringError()
     {
         //given
-        var client = new SitterRequest
+        var sitter = new SitterRequest
         {
             Name = "Alex",
             LastName = "Pistoletov",
@@ -20,13 +20,14 @@ public class SitterRequestValidationTests
             Password = "123456789",
             Age = 27,
             Experience = 7,
-            Sex = Sex.Male
+            Sex = Sex.Male,
+            PriceCatalog = new List<PriceCatalogRequest>()
         };
 
         var validationsResults = new List<ValidationResult>();
 
         //when
-        var isValid = Validator.TryValidateObject(client, new ValidationContext(client), validationsResults, true);
+        var isValid = Validator.TryValidateObject(sitter, new ValidationContext(sitter), validationsResults, true);
 
         //then
         Assert.True(isValid);
