@@ -153,7 +153,7 @@ public class ClientsControllerTests
         _clientsServiceMock.Verify(c => c.GetAllClients(), Times.Once);
     }
 
-    [Test]
+  /*  [Test]
     public void UpdateClientTest_WhenCorrectIdPassed_ThenClientProfileUpdated()
     {
         //given
@@ -240,5 +240,5 @@ public class ClientsControllerTests
         _clientsServiceMock.Verify(s => s.UpdatePassword(It.Is<int>(i => i == id), It.Is<User>(s =>
             s.Password == sitterToUpdate.Password
         )), Times.Once);
-    }
+    }*/
 }

@@ -214,7 +214,8 @@ public class SittersControllerTests
         var id = 1;
 
         //when
-        var actual = _sut.RemoveSitterById(id);
+        var actual = _sut.RemoveSitterById();
+        _sittersServiceMock.Setup(s => s.RemoveOrRestoreById(id, true));
 
         //then
         var actualResult = actual as NoContentResult;
@@ -231,7 +232,8 @@ public class SittersControllerTests
         var id = 1;
 
         //when
-        var actual = _sut.RestoreSitterById(id);
+        var actual = _sut.RestoreSitterById();
+        _sittersServiceMock.Setup(s => s.RemoveOrRestoreById(id, false));
 
         //then
         var actualResult = actual as NoContentResult;

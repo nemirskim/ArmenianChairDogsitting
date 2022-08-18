@@ -85,6 +85,7 @@ builder.Services.AddDbContext<ArmenianChairDogsittingContext>(o =>
 builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddScoped<IAdminsRepository, AdminsRepository>();
+builder.Services.AddScoped<IAdminsService, AdminsService>();
 
 builder.Services.AddScoped<ISittersRepository, SittersRepository>();
 builder.Services.AddScoped<ISittersService, SittersService>();
@@ -100,6 +101,9 @@ builder.Services.AddScoped<ICommentsService, CommentsService>();
 
 builder.Services.AddScoped<ISearchRepository, SearchRepository>();
 builder.Services.AddScoped<ISearchService, SearchService>();
+
+builder.Services.AddScoped<IScheduleRepository, ScheduleRepository>();
+builder.Services.AddScoped<IScheduleService, ScheduleService>();
 
 builder.Services.AddAutoMapper(typeof(MapperConfigStorage), typeof(APIMapperConfigStorage));
 

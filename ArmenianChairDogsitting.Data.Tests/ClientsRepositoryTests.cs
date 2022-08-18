@@ -112,12 +112,14 @@ public class ClientsRepositoryTests
         //given 
         var id = 1;
         var client = _context.Clients.FirstOrDefault(c => c.Id == id);
+        client.IsDeleted = true;
 
         //when 
         _sut.RemoveOrRestoreClient(client);
 
+        var actual = _context.Clients.FirstOrDefault(c => c.Id == id);
         //then 
-        Assert.True(client!.IsDeleted);
+        Assert.True(actual!.IsDeleted);
     }
 
     [Test]
@@ -126,12 +128,14 @@ public class ClientsRepositoryTests
         //given 
         var id = 2;
         var client = _context.Clients.FirstOrDefault(c => c.Id == id);
+        client.IsDeleted = false;
 
         //when 
         _sut.RemoveOrRestoreClient(client);
 
+        var actual = _context.Clients.FirstOrDefault(c => c.Id == id);
         //then 
-        Assert.False(client!.IsDeleted);
+        Assert.False(actual.IsDeleted);
     }
 
     [Test]

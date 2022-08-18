@@ -25,6 +25,7 @@ public class SittersRepository : ISittersRepository
     }
 
     public Sitter? GetById(int id) => _context.Sitters
+        .Include(s => s.Schedules)
         .Include(s => s.PriceCatalog)
         .FirstOrDefault(s => s.Id == id);
 

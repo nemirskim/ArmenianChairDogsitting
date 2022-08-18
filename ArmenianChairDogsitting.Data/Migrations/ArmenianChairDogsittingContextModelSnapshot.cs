@@ -252,6 +252,33 @@ namespace ArmenianChairDogsitting.Data.Migrations
                     b.ToTable("PriceCatalog", (string)null);
                 });
 
+            modelBuilder.Entity("ArmenianChairDogsitting.Data.Entities.Schedule", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("Day")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("End")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("SitterId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Start")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SitterId");
+
+                    b.ToTable("Schedule", (string)null);
+                });
+
             modelBuilder.Entity("ArmenianChairDogsitting.Data.Entities.Sitter", b =>
                 {
                     b.Property<int>("Id")
@@ -451,6 +478,17 @@ namespace ArmenianChairDogsitting.Data.Migrations
                     b.Navigation("Sitter");
                 });
 
+            modelBuilder.Entity("ArmenianChairDogsitting.Data.Entities.Schedule", b =>
+                {
+                    b.HasOne("ArmenianChairDogsitting.Data.Entities.Sitter", "Sitter")
+                        .WithMany("Schedules")
+                        .HasForeignKey("SitterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Sitter");
+                });
+
             modelBuilder.Entity("DistrictSitter", b =>
                 {
                     b.HasOne("ArmenianChairDogsitting.Data.Entities.District", null)
@@ -481,6 +519,8 @@ namespace ArmenianChairDogsitting.Data.Migrations
                     b.Navigation("Orders");
 
                     b.Navigation("PriceCatalog");
+
+                    b.Navigation("Schedules");
                 });
 #pragma warning restore 612, 618
         }
