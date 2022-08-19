@@ -32,6 +32,10 @@ public class ExceptionMiddleware
         {
             await HandleExceptionAsync(httpContext, HttpStatusCode.BadRequest, error.Message);
         }
+        catch (AdditionalOrderException error)
+        {
+            await HandleExceptionAsync(httpContext, HttpStatusCode.BadRequest, error.Message);
+        }
         catch (Exception error)
         {
             await HandleExceptionAsync(httpContext, HttpStatusCode.InternalServerError, error.Message);
