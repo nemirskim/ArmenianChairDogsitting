@@ -41,12 +41,16 @@ public class ClientsController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     public ActionResult<ClientMainInfoResponse> GetClientById(int id)
-    {
+    {      
         var result = _clientsService.GetClientById(id);
+
+        if (this.GetUserId() != id && result.GetType() != typeof(Client))
+            return Forbid();
+
         if (result is null)
             return NotFound();
-        else
-            return Ok(_mapper.Map<ClientMainInfoResponse>(result));
+
+        return Ok(_mapper.Map<ClientMainInfoResponse>(result));
     }
 
     [AuthorizeByRole]
