@@ -13,6 +13,7 @@ public class Client
     public DateTime RegistrationDate { get; set; }
     public string? Password { get; set; }
     public List<Animal> Dogs { get; set; }
+    public List<Order> Orders { get; set; }
     public Role Role { get; set; }
     public string? Promocode { get; set; }
     public bool IsDeleted { get; set; }
