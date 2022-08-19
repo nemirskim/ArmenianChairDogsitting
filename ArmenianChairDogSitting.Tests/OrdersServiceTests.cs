@@ -50,7 +50,7 @@ public class OrdersServiceTests
             .Returns(orderToAdd.Sitter);
 
         //when
-        var returnedInt = _sut.AddOrder(orderToAdd);
+        var returnedInt = _sut.AddOrder(orderToAdd, orderToAdd.Type);
 
         //then
         Assert.AreEqual(expectedId, returnedInt);
