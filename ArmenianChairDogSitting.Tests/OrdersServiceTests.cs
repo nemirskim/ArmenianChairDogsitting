@@ -1,5 +1,6 @@
 ﻿using ArmenianChairDogsitting.Business;
 using ArmenianChairDogsitting.Business.Exceptions;
+using ArmenianChairDogsitting.Business.Interfaces;
 using ArmenianChairDogsitting.Business.Services;
 using ArmenianChairDogsitting.Data;
 using ArmenianChairDogsitting.Data.Entities;
@@ -13,8 +14,8 @@ namespace ArmenianChairDogsitting.Business.Tests;
 public class OrdersServiceTests
 {
     private Mock<IOrdersRepository> _ordersRepository;
-    private Mock<ISittersRepository> _sittersRepository;
-    private Mock<IClientsRepository> _clientsRepository;
+    private Mock<ISittersService> _sittersService;
+    private Mock<IClientsService> _clientsService;
     private Mock<IPromocodesService> _promocodesService;
     private OrdersService _sut;
 
@@ -22,13 +23,13 @@ public class OrdersServiceTests
     public void Setup()
     {
         _ordersRepository = new Mock<IOrdersRepository>();
-        _sittersRepository = new Mock<ISittersRepository>();
-        _clientsRepository = new Mock<IClientsRepository>();
+        _sittersService = new Mock<ISittersService>();
+        _clientsService = new Mock<IClientsService>();
         _promocodesService = new Mock<IPromocodesService>();
         _sut = new OrdersService(
             _ordersRepository.Object,
-            _clientsRepository.Object,
-            _sittersRepository.Object,
+            _clientsService.Object,
+            _sittersService.Object,
             _promocodesService.Object);
     }
 
@@ -36,7 +37,18 @@ public class OrdersServiceTests
     public void AddOrder_WhenCalled_ThenReturnIdOfAddedOrder()
     {
         //given
-        var orderToAdd = OrderToAdd();
+        var orderToAdd = new Order()
+        {
+            Id = 34,
+            Animals = new(),
+            Client = new() { Id = 1 },
+            WalkQuantity = 2,
+            IsTrial = true,
+            Sitter = GetSitterToPositiveCheck(),
+            Status = Status.Created,
+            Comments = new(),
+            WorkDate = DateTime.Now.AddDays(2)
+        };
 
         var expectedId = 34;
 
@@ -45,9 +57,13 @@ public class OrdersServiceTests
             .Returns(expectedId);
 
 
-        _sittersRepository
+        _sittersService
             .Setup(x => x.GetById(orderToAdd.Sitter.Id))
             .Returns(orderToAdd.Sitter);
+
+        _clientsService
+            .Setup(x => x.GetClientById(orderToAdd.Client.Id))
+            .Returns(orderToAdd.Client);
 
         //when
         var returnedInt = _sut.AddOrder(orderToAdd, Service.Walk);
@@ -65,7 +81,8 @@ public class OrdersServiceTests
                 o.Id == orderToAdd.Id)
             ), Times.Once);
 
-        _sittersRepository.Verify(x => x.GetById(orderToAdd.Sitter.Id), Times.Once);
+        _sittersService.Verify(x => x.GetById(orderToAdd.Sitter.Id), Times.Exactly(2));
+        _clientsService.Verify(x => x.GetClientById(orderToAdd.Client.Id), Times.Once);
     }
 
     [Test]
@@ -316,6 +333,90 @@ public class OrdersServiceTests
         _ordersRepository.Verify(x => x.GetCommentsByOrderId( id), Times.Never);
     }
 
+    [Test]
+    public void AddOrder_OnDateNow_ThenThrowAdditionalOrderException()
+    {
+        //given
+        var orderToAdd = new Order()
+        {
+            Id = 34,
+            Animals = new(),
+            Client = new() { Id = 1 },
+            WalkQuantity = 2,
+            IsTrial = true,
+            Sitter = GetSitterToNegativeCheck(),
+            Status = Status.Created,
+            Comments = new(),
+            WorkDate = DateTime.Now
+        };
+
+        var expectedId = 34;
+
+        _ordersRepository
+            .Setup(x => x.AddOrder(It.IsAny<Order>()))
+            .Returns(expectedId);
+
+
+        _sittersService
+            .Setup(x => x.GetById(orderToAdd.Sitter.Id))
+            .Returns(orderToAdd.Sitter);
+        _clientsService
+            .Setup(x => x.GetClientById(orderToAdd.Client.Id))
+            .Returns(orderToAdd.Client);
+
+        //when
+        //then
+        Assert.Throws<AdditionalOrderException>(() => _sut.AddOrder(orderToAdd, Service.Walk));
+
+        _ordersRepository.Verify(x => x.AddOrder(
+            It.IsAny<Order>()
+            ), Times.Never);
+        _sittersService.Verify(x => x.GetById(orderToAdd.Sitter.Id), Times.Exactly(2));
+        _clientsService.Verify(x => x.GetClientById(orderToAdd.Client.Id), Times.Once);
+    }
+
+    [Test]
+    public void AddOrder_WhenActiveOrdersExists_ThenThrowAdditionalOrderException()
+    {
+        //given
+        var orderToAdd = new Order()
+        {
+            Id = 34,
+            Animals = new(),
+            Client = new() { Id = 1 },
+            WalkQuantity = 2,
+            IsTrial = true,
+            Sitter = GetSitterToNegativeCheck(),
+            Status = Status.Created,
+            Comments = new(),
+            WorkDate = DateTime.Now.AddDays(2)
+        };
+
+        var expectedId = 34;
+
+        _ordersRepository
+            .Setup(x => x.AddOrder(It.IsAny<Order>()))
+            .Returns(expectedId);
+
+
+        _sittersService
+            .Setup(x => x.GetById(orderToAdd.Sitter.Id))
+            .Returns(orderToAdd.Sitter);
+        _clientsService
+            .Setup(x => x.GetClientById(orderToAdd.Client.Id))
+            .Returns(orderToAdd.Client);
+
+        //when
+        //then
+        Assert.Throws<AdditionalOrderException>(() => _sut.AddOrder(orderToAdd, Service.Walk));
+
+        _ordersRepository.Verify(x => x.AddOrder(
+            It.IsAny<Order>()
+            ), Times.Never);
+        _sittersService.Verify(x => x.GetById(orderToAdd.Sitter.Id), Times.Exactly(2));
+        _clientsService.Verify(x => x.GetClientById(orderToAdd.Client.Id), Times.Once);
+    }
+
     private List<Order> SetOrders()
     {
         return new List<Order>()
@@ -381,20 +482,21 @@ public class OrdersServiceTests
             Sitter = new() { Id = 1 },
             Status = Status.Created,
             Type = Service.Walk
-        };
-    
+        };    
 
-    private Order OrderToAdd() =>
-        new Order()
+    private Sitter GetSitterToNegativeCheck() =>
+        new Sitter()
         {
-            Id = 34,
-            Animals = new(),
-            Client = new() { Id = 1},
-            WalkQuantity = 2,
-            IsTrial = true,
-            Sitter = new() { Id = 1, PriceCatalog = new() { new() { Service = Service.Walk, Price = 300 } } },
-            Status = Status.Created,
-            Comments = new()
+            Orders = new() { new() { Status = Status.Created, Type = Service.DailySitting},
+                new() { Status = Status.InProgress, Type = Service.Overexpose } },
+            PriceCatalog = new() { new() { Service = Service.Walk, Price = 300 } }
+        };
+
+    private Sitter GetSitterToPositiveCheck() =>
+        new Sitter()
+        {
+            Orders = new() { },
+            PriceCatalog = new() { new() { Service = Service.Walk, Price = 300 } }
         };
 
 }

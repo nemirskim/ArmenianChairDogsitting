@@ -8,13 +8,13 @@ namespace ArmenianChairDogsitting.Business.Tests;
 
 public class ClientsServiceTests
 {
-    private Mock<IClientsRepository> _clientRepository;
+    private Mock<Data.Repositories.IClientsService> _clientRepository;
     private ClientsService _sut;
 
     [SetUp]
     public void Setup()
     {
-        _clientRepository = new Mock<IClientsRepository>();
+        _clientRepository = new Mock<Data.Repositories.IClientsService>();
         _sut = new ClientsService(_clientRepository.Object);
     }
 

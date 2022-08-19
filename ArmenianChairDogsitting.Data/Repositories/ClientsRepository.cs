@@ -2,7 +2,7 @@
 
 namespace ArmenianChairDogsitting.Data.Repositories;
 
-public class ClientsRepository : IClientsRepository
+public class ClientsRepository : IClientsService
 {
     private readonly ArmenianChairDogsittingContext _context;
     public ClientsRepository(ArmenianChairDogsittingContext context)

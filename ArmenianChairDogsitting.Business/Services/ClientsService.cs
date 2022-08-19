@@ -8,9 +8,9 @@ namespace ArmenianChairDogsitting.Business;
 
 public class ClientsService : IClientsService
 {
-    private readonly IClientsRepository _clientsRepository;
+    private readonly Data.Repositories.IClientsService _clientsRepository;
 
-    public ClientsService(IClientsRepository clientsRepository)
+    public ClientsService(Data.Repositories.IClientsService clientsRepository)
     {
         _clientsRepository = clientsRepository;
     }
