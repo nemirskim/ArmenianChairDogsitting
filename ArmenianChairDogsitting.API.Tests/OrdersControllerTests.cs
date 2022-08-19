@@ -40,7 +40,6 @@ public class OrdersControllerTests
             ClientId = 3,
             SitterId = 2,
             WalkQuantity = 2,
-            Type = Service.Walk,
             Status = Status.Created,
             AnimalIds = new(),
             District = Data.Enums.District.All,
@@ -53,7 +52,6 @@ public class OrdersControllerTests
             Client = new() { Id = order.ClientId},
             Sitter = new() { Id = order.SitterId },
             WalkQuantity = order.WalkQuantity,
-            Type = order.Type,
             Status = order.Status,
             Animals = new(),
             District = order.District,
@@ -62,7 +60,7 @@ public class OrdersControllerTests
         };
 
         _ordersServiceMock
-            .Setup(x => x.AddOrder(It.IsAny<Order>()))
+            .Setup(x => x.AddOrder(It.IsAny<Order>(), Service.Walk))
             .Returns(expectedId);
 
         //when
@@ -87,7 +85,8 @@ public class OrdersControllerTests
                 c.VisitQuantity == null &&
                 c.WalkQuantity == expectedOrder.WalkQuantity &&
                 c.HourQuantity == null &&
-                c.IsTrial == expectedOrder.IsTrial)
+                c.IsTrial == expectedOrder.IsTrial),
+            Service.Walk
             ), Times.Once);
     }
 
@@ -101,7 +100,6 @@ public class OrdersControllerTests
         {
             ClientId = 3,
             SitterId = 2,
-            Type = Service.Overexpose,
             DayQuantity = 2,
             WalkPerDayQuantity = 1,
             AnimalIds = new(),
@@ -115,7 +113,6 @@ public class OrdersControllerTests
             Client = new() { Id = order.ClientId },
             Sitter = new() { Id = order.SitterId },
             Status = order.Status,
-            Type = order.Type,
             DayQuantity = order.DayQuantity,
             WalkPerDayQuantity = order.WalkPerDayQuantity,
             Animals = new(),
@@ -124,7 +121,7 @@ public class OrdersControllerTests
         };
 
         _ordersServiceMock
-            .Setup(x => x.AddOrder(It.IsAny<Order>()))
+            .Setup(x => x.AddOrder(It.IsAny<Order>(), Service.Overexpose))
             .Returns(expectedId);
 
         //when
@@ -149,7 +146,8 @@ public class OrdersControllerTests
                 c.VisitQuantity == null &&
                 c.WalkQuantity == null &&
                 c.HourQuantity == null &&
-                c.IsTrial == null)
+                c.IsTrial == null),
+            Service.Overexpose
             ), Times.Once);
     }
 
@@ -163,7 +161,6 @@ public class OrdersControllerTests
         {
             ClientId = 3,
             SitterId = 2,
-            Type = Service.DailySitting,
             Status = Status.Created,
             WalkQuantity = 2,
             DayQuantity = 1,
@@ -177,7 +174,6 @@ public class OrdersControllerTests
             Client = new() { Id = order.ClientId },
             Sitter = new() { Id = order.SitterId },
             Status = order.Status,
-            Type = order.Type,
             WalkQuantity = order.WalkQuantity,
             DayQuantity = order.DayQuantity,
             Animals = new(),
@@ -186,7 +182,7 @@ public class OrdersControllerTests
         };
 
         _ordersServiceMock
-            .Setup(x => x.AddOrder(It.IsAny<Order>()))
+            .Setup(x => x.AddOrder(It.IsAny<Order>(), Service.DailySitting))
             .Returns(expectedId);
 
         //when
@@ -211,12 +207,13 @@ public class OrdersControllerTests
                 c.VisitQuantity == null &&
                 c.WalkQuantity == expectedOrder.WalkQuantity &&
                 c.HourQuantity == null &&
-                c.IsTrial == null)
+                c.IsTrial == null),
+            Service.DailySitting
             ), Times.Once);
     }
 
     [Test]
-    public void AddOrderWalkSittingForDay_ValidRequestPassed_ThenCreatedResultReceived()
+    public void AddOrderSittingForDay_ValidRequestPassed_ThenCreatedResultReceived()
     {
         //given
         var expectedId = 1;
@@ -225,7 +222,6 @@ public class OrdersControllerTests
         {
             ClientId = 3,
             SitterId = 2,
-            Type = Service.Walk,
             Status = Status.Created,
             WalkQuantity = 2,
             HourQuantity = 2,
@@ -239,7 +235,6 @@ public class OrdersControllerTests
         {
             Client = new() { Id = order.ClientId },
             Sitter = new() { Id = order.SitterId },
-            Type = order.Type,
             Status = order.Status,
             WalkQuantity = order.WalkQuantity,
             HourQuantity = order.HourQuantity,
@@ -250,7 +245,7 @@ public class OrdersControllerTests
         };
 
         _ordersServiceMock
-            .Setup(x => x.AddOrder(It.IsAny<Order>()))
+            .Setup(x => x.AddOrder(It.IsAny<Order>(), Service.SittingForDay))
             .Returns(expectedId);
 
         //when
@@ -275,7 +270,8 @@ public class OrdersControllerTests
                 c.VisitQuantity == expectedOrder.VisitQuantity &&
                 c.WalkQuantity == expectedOrder.WalkQuantity &&
                 c.HourQuantity == expectedOrder.HourQuantity &&
-                c.IsTrial == null)
+                c.IsTrial == null),
+            Service.SittingForDay
             ), Times.Once);
     }
 
@@ -479,7 +475,6 @@ public class OrdersControllerTests
         _ordersServiceMock.Verify(x => x.UpdateOrder(
             It.Is<UpdateOrderModel>(
                 p => p.District == PropertiesToChange.District &&
-                p.Animals.Count == PropertiesToChange.AnimalIds.Count &&
                 p.WorkDate == PropertiesToChange.WorkDate), 
             id), Times.Once);
     }

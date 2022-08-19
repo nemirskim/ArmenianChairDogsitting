@@ -51,8 +51,8 @@ public class SearchRepositoryTests
             Password = "wwwwwww",
             Phone = "89567234581",
             Districts = new List<Entities.District> { districtOne,  districtTwo},
-            Orders = new List<Order>() { new Order() 
-            { Comments = new List<Comment>() } },
+            Orders = new List<Order>() { new Order()
+            { Address = "bl blblbl blbll 52", Comments = new List<Comment>() } },
             PriceCatalog = new List<PriceCatalog>()
             { 
                 new PriceCatalog() 
@@ -80,7 +80,7 @@ public class SearchRepositoryTests
             Phone = "89567234581",
             Districts = new List<Entities.District> { districtOne, districtTwo },
             Orders = new List<Order>() { new Order()
-            { Comments = new List<Comment>() { new Comment() { Rating = 5, Text = "blaah blah" },
+            { Address = "bl blblbl blbll 52", Comments = new List<Comment>() { new Comment() { Rating = 5, Text = "blaah blah" },
             new Comment() { Rating = 3, Text = "bddd rrrr" }} } },
             PriceCatalog = new List<PriceCatalog>()
             {
@@ -109,7 +109,7 @@ public class SearchRepositoryTests
             Phone = "89567234581",
             Districts = new List<Entities.District> { districtThree, districtTwo },
             Orders = new List<Order>() { new Order()
-            { Comments = new List<Comment>() { new Comment() { Rating = 5, Text = "blaah blah"} } } },
+            { Address = "bl blblbl blbll 52", Comments = new List<Comment>() { new Comment() { Rating = 5, Text = "blaah blah"} } } },
             PriceCatalog = new List<PriceCatalog>()
             {
                 new PriceCatalog()

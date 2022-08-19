@@ -23,7 +23,7 @@ public class PromocodesServiceTests
         //given 
         var promocode = "TestPromo";
         var expectedDiscount = (decimal)0.7;
-        var date = new DateTime(2022, 8, 10);
+        var date = DateTime.Now;
 
         var returningPromocodeEntity = new Promocode()
         {
