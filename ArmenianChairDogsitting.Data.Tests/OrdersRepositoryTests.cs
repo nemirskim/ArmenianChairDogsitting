@@ -29,6 +29,7 @@ public class OrderRepositoryTests
             Status = Status.Created,
             Type = Service.Walk,
             Animals = new List<Animal>(),
+            Address = "kwa wak swk 52",
             Client = new() { Name = "Zhora", LastName = "Zhora", Email = "ugabuga@kek.com", Password = " monkeySleep" },
         });
 
@@ -39,6 +40,7 @@ public class OrderRepositoryTests
             Type = Service.DailySitting,
             DayQuantity = 2,
             Animals = new List<Animal>(),
+            Address = "kwa wak swk 52",
             Client = new() { Name = "Zhora", LastName = "Zhora", Email = "ugabuga@kek.com", Password = " monkeySleep" },
             Comments = new()
         }); ;
@@ -50,6 +52,7 @@ public class OrderRepositoryTests
             DayQuantity = 3,
             WalkPerDayQuantity = 3,
             Animals = new(),
+            Address = "kwa wak swk 52",
             Comments = new(),
             Client = new() { Name = "Grisha", LastName = "Grisha", Email = "ugabuga@kek.com", Password = " monkeySleep" },
         });
@@ -64,6 +67,7 @@ public class OrderRepositoryTests
             WalkPerDayQuantity = 3,
             Animals = new(),
             Comments = new(),
+            Address = "kwa wak swk 52",
             Client = new() { Name = "Grisha", LastName = "Grisha", Email = "ugabuga@kek.com", Password = " monkeySleep" },
             IsDeleted = true
         });
@@ -77,6 +81,7 @@ public class OrderRepositoryTests
             DayQuantity = 3,
             WalkPerDayQuantity = 3,
             Animals = new(),
+            Address = "kwa wak swk 52",
             Comments = new() { new() {Id = 1, Text = "blaablah"}, new() { Id = 2, Text = "gagaga" } },
             Client = new() { Name = "Grisha", LastName = "Grisha", Email = "ugabuga@kek.com", Password = " monkeySleep" },
         });
@@ -191,6 +196,7 @@ public class OrderRepositoryTests
         Assert.AreEqual(expectedCommentQuantity, actualComments.Count);
     }
 
+    [Test]
     public void ChangeOrder_WhenCorrectIdPassed_ThenChange()
     {
         //given
@@ -210,8 +216,8 @@ public class OrderRepositoryTests
             Animals = new(),
             Client = new() { Name = "Zhora", LastName = "Zhora", Email = "ugabuga@kek.com", Password = " monkeySleep" },
             Comments = new(),
-            District = Enums.District.All,
-            WorkDate = DateTime.Now
+            District = PropertiesToChange.District,
+            WorkDate = PropertiesToChange.WorkDate
         };
 
         //when

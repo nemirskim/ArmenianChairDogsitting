@@ -356,7 +356,7 @@ public class ClientsServiceTests
             LastName = "Pistoletov",
             Phone = "89991116116",
             Email = "pistol@pi.com",
-            Password = "123456789",
+            Password = "1234567890",
             Address = "Kosoi pereylok 228",
             Dogs = new List<Animal>(),
             IsDeleted = false

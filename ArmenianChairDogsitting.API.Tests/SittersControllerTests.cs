@@ -231,7 +231,7 @@ public class SittersControllerTests
         var id = 1;
 
         //when
-        var actual = _sut.RestoreSitterById();
+        var actual = _sut.RestoreSitterById(id);
 
         //then
         var actualResult = actual as NoContentResult;

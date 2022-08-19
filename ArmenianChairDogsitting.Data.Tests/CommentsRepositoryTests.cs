@@ -29,7 +29,7 @@ public class CommentsRepositoryTests
             TimeCreated = _created,
             Text = "Chu papi mu nanyo",
             Client = new() { Name = "Grisha", LastName = "Grisha", Email = "ugabuga@kek.com", Password = " monkeySleep" },
-            Order = new Order(),
+            Order = new Order() { Address = "kwa wak swk 52" },
             Rating = 3,
         });
 
@@ -39,7 +39,7 @@ public class CommentsRepositoryTests
             TimeCreated = _created,
             Text = "Chiki briki v damki",
             Client = new() { Name = "Egor", LastName = "Egor", Email = "ugabuga@kek.com", Password = " monkeySleep" },
-            Order = new Order(),
+            Order = new Order() { Address = "kwa wak swk 52" },
             Rating = 1
         });
 
@@ -49,7 +49,7 @@ public class CommentsRepositoryTests
             TimeCreated = _created,
             Text = "Sitter Lost My Dog",
             Client = new() { Name = "Vova", LastName = "Vova", Email = "ugabuga@kek.com", Password = " monkeySleep" },
-            Order = new Order(),
+            Order = new Order() { Address = "kwa wak swk 52" },
             Rating = 5
         });
 

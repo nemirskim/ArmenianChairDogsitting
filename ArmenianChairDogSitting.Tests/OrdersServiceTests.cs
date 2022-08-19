@@ -50,7 +50,7 @@ public class OrdersServiceTests
             .Returns(orderToAdd.Sitter);
 
         //when
-        var returnedInt = _sut.AddOrder(orderToAdd);
+        var returnedInt = _sut.AddOrder(orderToAdd, Service.Walk);
 
         //then
         Assert.AreEqual(expectedId, returnedInt);
@@ -394,7 +394,6 @@ public class OrdersServiceTests
             IsTrial = true,
             Sitter = new() { Id = 1, PriceCatalog = new() { new() { Service = Service.Walk, Price = 300 } } },
             Status = Status.Created,
-            Type = Service.Walk,
             Comments = new()
         };
 

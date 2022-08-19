@@ -206,7 +206,7 @@ public class ClientsControllerTests
         var id = 1;
 
         //when
-        var actual = _sut.RestoreClient();
+        var actual = _sut.RestoreClient(id);
 
         //then
         var actualResult = actual as NoContentResult;

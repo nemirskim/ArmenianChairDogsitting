@@ -27,7 +27,7 @@ public class ClientsRepositoryTests
             Name = "Marina",
             LastName = "Alekseeva",
             Dogs = new()
-                { new() { Id = 1, Name = "Bob" }},
+                { new() { Id = 1, Name = "Bob", Breed = "cool", RecommendationsForCare = "Do not bite him pls" }},
             IsDeleted = false
         });
 
@@ -37,7 +37,7 @@ public class ClientsRepositoryTests
             Name = "Konstantin",
             LastName = "Zasnul",
             Dogs = new()
-                { new() { Id = 65, Name = "Persik" }},
+                { new() { Id = 65, Name = "Persik", Breed = "cool", RecommendationsForCare = "Do not bite him pls" }},
             IsDeleted = true 
         });
 
