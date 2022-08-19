@@ -24,10 +24,6 @@ public class AnimalsController : Controller
         _mapper = mapper;
     }
 
-    public AnimalsController()
-    {
-    }
-
     [AuthorizeByRole(Role.Client)]
     [HttpPost]
     [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
@@ -53,11 +49,16 @@ public class AnimalsController : Controller
     }
 
     [HttpGet("{id}/client")]
+    [AuthorizeByRole(Role.Client)]
     [ProducesResponseType(typeof(List<DogAllInfoResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
     public ActionResult<List<DogAllInfoResponse>> GetAllAnimalsByClient(int id)
     {
+        if (this.GetUserId() != id)
+            return Forbid();
+
         var animals = _animalsService.GetAllAnimalsByClient(id);
 
         return Ok(_mapper.Map<List<DogAllInfoResponse>>(animals));
