@@ -16,9 +16,9 @@ public class AuthService : IAuthService
 {
     private readonly IAdminsRepository _adminRepository;
     private readonly ISittersRepository _sitterRepository;
-    private readonly IClientsRepository _clientRepository;
+    private readonly Data.Repositories.IClientsService _clientRepository;
 
-    public AuthService(IAdminsRepository adminRepository, ISittersRepository sitterRepository, IClientsRepository clientRepository)
+    public AuthService(IAdminsRepository adminRepository, ISittersRepository sitterRepository, Data.Repositories.IClientsService clientRepository)
     {
         _adminRepository = adminRepository;
         _sitterRepository = sitterRepository;

@@ -4,35 +4,38 @@ using ArmenianChairDogsitting.Data;
 using ArmenianChairDogsitting.Data.Entities;
 using ArmenianChairDogsitting.Data.Enums;
 using ArmenianChairDogsitting.Data.Repositories;
-using ArmenianChairDogsitting.Data.Repositories.Interfaces;
 
 namespace ArmenianChairDogsitting.Business.Services;
 
 public class OrdersService : IOrdersService
 {
     IOrdersRepository _ordersRepository;
-    IClientsRepository _clientsRepository;
-    ISittersRepository _sittersRepository;
+    IClientsService _clientsService;
+    ISittersService _sittersService;
     IPromocodesService _promocodesService;
 
     public OrdersService(
         IOrdersRepository ordersRepository,
-        IClientsRepository clientsRepository,
-        ISittersRepository sittersRepository,
+        IClientsService clientsService,
+        ISittersService sittersService,
         IPromocodesService promocodesService)
     {
         _ordersRepository = ordersRepository;
-        _clientsRepository = clientsRepository;
-        _sittersRepository = sittersRepository;
+        _clientsService = clientsService;
+        _sittersService = sittersService;
         _promocodesService = promocodesService;
     }
     public int AddOrder(Order order, Service orderType)
     {
         order.Status = Status.Created;
         order.Type = orderType;
-        order.Client = _clientsRepository.GetClientById(order.Client.Id);
-        order.Sitter = _sittersRepository.GetById(order.Sitter.Id);
+        order.Client = _clientsService.GetClientById(order.Client.Id);
+        order.Sitter = _sittersService.GetById(order.Sitter.Id);
         order.Price = GetOrderPrice(order);
+
+        if(!IsOkToAddOrder(order))
+            throw new AdditionalOrderException("invalid request");
+
         return _ordersRepository.AddOrder(order);
     }
 
@@ -124,5 +127,36 @@ public class OrdersService : IOrdersService
             default:
                 throw new ArgumentException();
         }
+    }
+
+    private bool IsOkToAddOrder(Order order)
+    {
+        var choosenSitter = _sittersService.GetById(order.Sitter.Id);
+
+        var activeOrders = choosenSitter!.Orders.Where(o => o.Status == Status.InProgress ||
+        o.Status == Status.Created);
+
+        if (!(order.WorkDate >= DateTime.Now.AddHours(1)))
+            return false;
+
+        if (order.Type == Service.Walk)
+        {
+            if (
+                activeOrders.Any(o => (o.Type == Service.Walk && 
+                (o.WorkDate >= order.WorkDate.AddHours(-1) && o.WorkDate <= order.WorkDate.AddHours(1)) ||
+                o.Type == Service.SittingForDay))
+                )
+                return false;
+
+            if (activeOrders.Any(o => (o.Type == Service.DailySitting || o.Type == Service.Overexpose) &&
+            order.WalkQuantity <= 2))
+                return false;
+        }
+
+
+        if (activeOrders.Count() != 0 && order.Type != Service.Walk)
+            return false;
+
+        return true;
     }
 }

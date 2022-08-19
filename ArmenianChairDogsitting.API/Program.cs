@@ -89,8 +89,8 @@ builder.Services.AddScoped<IAdminsRepository, AdminsRepository>();
 builder.Services.AddScoped<ISittersRepository, SittersRepository>();
 builder.Services.AddScoped<ISittersService, SittersService>();
 
-builder.Services.AddScoped<IClientsRepository, ClientsRepository>();
-builder.Services.AddScoped<IClientsService, ClientsService>();
+builder.Services.AddScoped<ArmenianChairDogsitting.Data.Repositories.IClientsService, ClientsRepository>();
+builder.Services.AddScoped<ArmenianChairDogsitting.Business.IClientsService, ClientsService>();
 
 builder.Services.AddScoped<IAnimalsRepository, AnimalsRepository>();
 builder.Services.AddScoped<IAnimalsService, AnimalsService>();

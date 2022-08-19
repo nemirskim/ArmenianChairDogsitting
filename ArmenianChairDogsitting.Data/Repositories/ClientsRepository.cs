@@ -2,7 +2,7 @@
 
 namespace ArmenianChairDogsitting.Data.Repositories;
 
-public class ClientsRepository : IClientsRepository
+public class ClientsRepository : IClientsService
 {
     private readonly ArmenianChairDogsittingContext _context;
     public ClientsRepository(ArmenianChairDogsittingContext context)
@@ -12,7 +12,7 @@ public class ClientsRepository : IClientsRepository
 
     public int AddClient(Client client)
     {
-        client.RegistrationDate = new DateOnly(2022, 8, 15);
+        client.RegistrationDate = new DateOnly(2022, 08, 18);
         _context.Clients.Add(client);
         _context.SaveChanges();
 

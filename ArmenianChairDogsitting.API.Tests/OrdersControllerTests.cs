@@ -213,7 +213,7 @@ public class OrdersControllerTests
     }
 
     [Test]
-    public void AddOrderWalkSittingForDay_ValidRequestPassed_ThenCreatedResultReceived()
+    public void AddOrderSittingForDay_ValidRequestPassed_ThenCreatedResultReceived()
     {
         //given
         var expectedId = 1;
@@ -475,7 +475,6 @@ public class OrdersControllerTests
         _ordersServiceMock.Verify(x => x.UpdateOrder(
             It.Is<UpdateOrderModel>(
                 p => p.District == PropertiesToChange.District &&
-                p.Animals.Count == PropertiesToChange.AnimalIds.Count &&
                 p.WorkDate == PropertiesToChange.WorkDate), 
             id), Times.Once);
     }
