@@ -116,6 +116,7 @@ app.UseMiddleware<ExceptionMiddleware>();
 app.UseSwagger();
 app.UseSwaggerUI();
 
+app.MapControllers();
 
 app.UseHttpsRedirection();
 

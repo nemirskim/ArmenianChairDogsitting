@@ -66,7 +66,7 @@ public class OrdersServiceTests
             .Returns(orderToAdd.Client);
 
         //when
-        var returnedInt = _sut.AddOrder(orderToAdd, Service.Walk);
+        var returnedInt = _sut.AddOrder(orderToAdd, orderToAdd.Type);
 
         //then
         Assert.AreEqual(expectedId, returnedInt);
