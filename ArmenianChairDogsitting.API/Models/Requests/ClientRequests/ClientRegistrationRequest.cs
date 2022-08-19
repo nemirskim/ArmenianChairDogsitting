@@ -1,4 +1,5 @@
-﻿using ArmenianChairDogsitting.API.Infrastructure;
+﻿using ArmenianChairDogsitting.API.Extensions;
+using ArmenianChairDogsitting.API.Infrastructure;
 using System.ComponentModel.DataAnnotations;
 
 namespace ArmenianChairDogsitting.API.Models;
@@ -12,11 +13,11 @@ public class ClientRegistrationRequest
     public string? LastName { get; set; }
 
     [Required(ErrorMessage = ApiErrorMessage.PhoneIsRequired)]
-    [Phone]
+    [RegularExpression(Regex.PhoneNumber)]
     public string? Phone { get; set; }
 
     [Required(ErrorMessage = ApiErrorMessage.PasswordIsRequired)]
-    [EmailAddress]
+    [RegularExpression(Regex.Email)]
     public string? Email { get; set; }
 
     [Required(ErrorMessage = ApiErrorMessage.PasswordIsRequired)]
