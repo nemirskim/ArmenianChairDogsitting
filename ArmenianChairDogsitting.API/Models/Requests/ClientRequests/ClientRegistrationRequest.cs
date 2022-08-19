@@ -12,7 +12,7 @@ public class ClientRegistrationRequest
     public string? LastName { get; set; }
 
     [Required(ErrorMessage = ApiErrorMessage.PhoneIsRequired)]
-    [MaxLength(12)]
+    [Phone]
     public string? Phone { get; set; }
 
     [Required(ErrorMessage = ApiErrorMessage.PasswordIsRequired)]

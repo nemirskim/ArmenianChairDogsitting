@@ -8,7 +8,7 @@ public class ClientMainInfoResponse
     public string? Phone { get; set; }
     public string? Email { get; set; }
     public string Address { get; set; }
-    public DateTime RegistrationDate { get; set; }
+    public DateOnly RegistrationDate { get; set; }
     public List<DogAllInfoResponse> Dogs { get; set; }
     public List<AbstractOrderResponse> Orders { get; set; }
     public bool IsDeleted { get; set; }

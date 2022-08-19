@@ -16,4 +16,5 @@ public class SitterMainInfoResponse
     public string Description { get; set; }
     public List<PriceCatalogResponse> PriceCatalog { get; set; }
     public bool IsDeleted { get; set; }
+    public DateOnly RegestrationDate { get; set; }
 }
