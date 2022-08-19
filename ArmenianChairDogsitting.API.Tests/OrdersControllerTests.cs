@@ -30,7 +30,7 @@ public class OrdersControllerTests
     }
 
     [Test]
-    public void AddOrder_ValidRequestPassed_ThenCreatedResultReceived()
+    public void AddOrderWalk_ValidRequestPassed_ThenCreatedResultReceived()
     {
         //given
         var expectedId = 1;
@@ -38,20 +38,27 @@ public class OrdersControllerTests
         var order = new OrderWalkRequest()
         {
             ClientId = 3,
-            WalkQuantity = 2,
-            IsTrial = true,
             SitterId = 2,
-            Type = Service.Walk
+            WalkQuantity = 2,
+            Type = Service.Walk,
+            Status = Status.Created,
+            AnimalIds = new(),
+            District = Data.Enums.District.All,
+            WorkDate = new DateTime(2022, 8, 25),
+            IsTrial = true,
         };
 
-        var expectedOrder = new OrderWalk
+        var expectedOrder = new Order
         {
-            WalkQuantity = order.WalkQuantity,
-            Animals = new(),
             Client = new() { Id = order.ClientId},
+            Sitter = new() { Id = order.SitterId },
+            WalkQuantity = order.WalkQuantity,
             Type = order.Type,
-            IsTrial = order.IsTrial,
-            Sitter = new() { Id = order.SitterId }
+            Status = order.Status,
+            Animals = new(),
+            District = order.District,
+            WorkDate = order.WorkDate,
+            IsTrial = order.IsTrial
         };
 
         _ordersServiceMock
@@ -68,12 +75,207 @@ public class OrdersControllerTests
         Assert.AreEqual(expectedId, actualResult.Value);
 
         _ordersServiceMock.Verify(x => x.AddOrder(
-            It.Is<OrderWalk>(
-                c => c.IsTrial == expectedOrder.IsTrial &&
-                c.Type == expectedOrder.Type &&
+            It.Is<Order>(
+                c => c.Type == expectedOrder.Type &&
                 c.Status == expectedOrder.Status &&
+                c.Client.Id == expectedOrder.Client.Id &&
+                c.Sitter.Id == expectedOrder.Sitter.Id &&
+                c.DayQuantity == null &&
+                c.WalkPerDayQuantity == null &&
+                c.District == expectedOrder.District &&
+                c.WorkDate == expectedOrder.WorkDate &&
+                c.VisitQuantity == null &&
                 c.WalkQuantity == expectedOrder.WalkQuantity &&
-                c.Sitter.Id == expectedOrder.Sitter.Id)
+                c.HourQuantity == null &&
+                c.IsTrial == expectedOrder.IsTrial)
+            ), Times.Once);
+    }
+
+    [Test]
+    public void AddOrderOverexpose_ValidRequestPassed_ThenCreatedResultReceived()
+    {
+        //given
+        var expectedId = 1;
+
+        var order = new OrderOverexposeRequest()
+        {
+            ClientId = 3,
+            SitterId = 2,
+            Type = Service.Overexpose,
+            DayQuantity = 2,
+            WalkPerDayQuantity = 1,
+            AnimalIds = new(),
+            District = Data.Enums.District.All,
+            Status = Status.Created,
+            WorkDate = new DateTime(2022, 8, 25)
+        };
+
+        var expectedOrder = new Order
+        {
+            Client = new() { Id = order.ClientId },
+            Sitter = new() { Id = order.SitterId },
+            Status = order.Status,
+            Type = order.Type,
+            DayQuantity = order.DayQuantity,
+            WalkPerDayQuantity = order.WalkPerDayQuantity,
+            Animals = new(),
+            District = order.District,
+            WorkDate = order.WorkDate
+        };
+
+        _ordersServiceMock
+            .Setup(x => x.AddOrder(It.IsAny<Order>()))
+            .Returns(expectedId);
+
+        //when
+        var actual = _sut.AddOrder(order);
+
+        //then
+        var actualResult = actual.Result as CreatedResult;
+
+        Assert.AreEqual(StatusCodes.Status201Created, actualResult!.StatusCode);
+        Assert.AreEqual(expectedId, actualResult.Value);
+
+        _ordersServiceMock.Verify(x => x.AddOrder(
+            It.Is<Order>(
+                c => c.Type == expectedOrder.Type &&
+                c.Status == expectedOrder.Status &&
+                c.Client.Id == expectedOrder.Client.Id &&
+                c.Sitter.Id == expectedOrder.Sitter.Id &&
+                c.DayQuantity == expectedOrder.DayQuantity &&
+                c.WalkPerDayQuantity == expectedOrder.WalkPerDayQuantity &&
+                c.District == expectedOrder.District &&
+                c.WorkDate == expectedOrder.WorkDate &&
+                c.VisitQuantity == null &&
+                c.WalkQuantity == null &&
+                c.HourQuantity == null &&
+                c.IsTrial == null)
+            ), Times.Once);
+    }
+
+    [Test]
+    public void AddOrderDailySitting_ValidRequestPassed_ThenCreatedResultReceived()
+    {
+        //given
+        var expectedId = 1;
+
+        var order = new OrderDailySittingRequest()
+        {
+            ClientId = 3,
+            SitterId = 2,
+            Type = Service.DailySitting,
+            Status = Status.Created,
+            WalkQuantity = 2,
+            DayQuantity = 1,
+            AnimalIds = new(),
+            District = Data.Enums.District.All,
+            WorkDate = new DateTime(2022, 8, 25)
+        };
+
+        var expectedOrder = new Order
+        {
+            Client = new() { Id = order.ClientId },
+            Sitter = new() { Id = order.SitterId },
+            Status = order.Status,
+            Type = order.Type,
+            WalkQuantity = order.WalkQuantity,
+            DayQuantity = order.DayQuantity,
+            Animals = new(),
+            District = order.District,
+            WorkDate = order.WorkDate
+        };
+
+        _ordersServiceMock
+            .Setup(x => x.AddOrder(It.IsAny<Order>()))
+            .Returns(expectedId);
+
+        //when
+        var actual = _sut.AddOrder(order);
+
+        //then
+        var actualResult = actual.Result as CreatedResult;
+
+        Assert.AreEqual(StatusCodes.Status201Created, actualResult!.StatusCode);
+        Assert.AreEqual(expectedId, actualResult.Value);
+
+        _ordersServiceMock.Verify(x => x.AddOrder(
+            It.Is<Order>(
+                c => c.Type == expectedOrder.Type &&
+                c.Status == expectedOrder.Status &&
+                c.Client.Id == expectedOrder.Client.Id &&
+                c.Sitter.Id == expectedOrder.Sitter.Id &&
+                c.DayQuantity == expectedOrder.DayQuantity &&
+                c.WalkPerDayQuantity == null &&
+                c.District == expectedOrder.District &&
+                c.WorkDate == expectedOrder.WorkDate &&
+                c.VisitQuantity == null &&
+                c.WalkQuantity == expectedOrder.WalkQuantity &&
+                c.HourQuantity == null &&
+                c.IsTrial == null)
+            ), Times.Once);
+    }
+
+    [Test]
+    public void AddOrderWalkSittingForDay_ValidRequestPassed_ThenCreatedResultReceived()
+    {
+        //given
+        var expectedId = 1;
+
+        var order = new OrderSittingForDayRequest()
+        {
+            ClientId = 3,
+            SitterId = 2,
+            Type = Service.Walk,
+            Status = Status.Created,
+            WalkQuantity = 2,
+            HourQuantity = 2,
+            VisitQuantity = 3,
+            AnimalIds = new(),
+            District = Data.Enums.District.All,
+            WorkDate = new DateTime(2022, 8, 25)
+        };
+
+        var expectedOrder = new Order
+        {
+            Client = new() { Id = order.ClientId },
+            Sitter = new() { Id = order.SitterId },
+            Type = order.Type,
+            Status = order.Status,
+            WalkQuantity = order.WalkQuantity,
+            HourQuantity = order.HourQuantity,
+            VisitQuantity = order.VisitQuantity,
+            Animals = new(),
+            District = order.District,
+            WorkDate = order.WorkDate
+        };
+
+        _ordersServiceMock
+            .Setup(x => x.AddOrder(It.IsAny<Order>()))
+            .Returns(expectedId);
+
+        //when
+        var actual = _sut.AddOrder(order);
+
+        //then
+        var actualResult = actual.Result as CreatedResult;
+
+        Assert.AreEqual(StatusCodes.Status201Created, actualResult!.StatusCode);
+        Assert.AreEqual(expectedId, actualResult.Value);
+
+        _ordersServiceMock.Verify(x => x.AddOrder(
+            It.Is<Order>(
+                c => c.Type == expectedOrder.Type &&
+                c.Status == expectedOrder.Status &&
+                c.Client.Id == expectedOrder.Client.Id &&
+                c.Sitter.Id == expectedOrder.Sitter.Id &&
+                c.DayQuantity == null &&
+                c.WalkPerDayQuantity == null &&
+                c.District == expectedOrder.District &&
+                c.WorkDate == expectedOrder.WorkDate &&
+                c.VisitQuantity == expectedOrder.VisitQuantity &&
+                c.WalkQuantity == expectedOrder.WalkQuantity &&
+                c.HourQuantity == expectedOrder.HourQuantity &&
+                c.IsTrial == null)
             ), Times.Once);
     }
 
@@ -101,7 +303,7 @@ public class OrdersControllerTests
 
         var id = 3;
 
-        var order = new OrderWalk
+        var order = new Order
         {
             Id = 3,
             WalkQuantity = 1,
@@ -113,12 +315,12 @@ public class OrdersControllerTests
             Sitter = new() { Id = 2 }
         };
 
-        var expectedOrder = new OrderWalkResponse()
+        var expectedOrder = new OrderResponse()
         {
             ClientId = order.Client.Id,
-            WalkQuantity = order.WalkQuantity,
+            WalkQuantity = (int)order.WalkQuantity,
             Animals = new(),
-            IsTrial = order.IsTrial,
+            IsTrial = (bool)order.IsTrial,
             SitterId = order.Sitter.Id,
             Status = order.Status,
             Type = order.Type
@@ -134,7 +336,7 @@ public class OrdersControllerTests
 
         //then
         var actualResult = actual.Result as OkObjectResult;
-        var actualValue = actualResult!.Value as OrderWalkResponse;
+        var actualValue = actualResult!.Value as OrderResponse;
 
         Assert.AreEqual(StatusCodes.Status200OK, actualResult.StatusCode);
         Assert.AreEqual(expectedOrder.Status, actualValue.Status);
@@ -165,7 +367,7 @@ public class OrdersControllerTests
 
         //then
         var actualResult = actual.Result as OkObjectResult;
-        var actualValue = actualResult.Value as List<AbstractOrderResponse>;
+        var actualValue = actualResult.Value as List<OrderResponse>;
 
         Assert.AreEqual(StatusCodes.Status200OK, actualResult.StatusCode);
         Assert.IsTrue(actualValue is not null);
@@ -178,7 +380,7 @@ public class OrdersControllerTests
         //given
         var expectedComments = ExpectedComments();
         var commentsToGet = CommentsToGet();
-        var targetOrder = new OrderWalk()
+        var targetOrder = new Order()
         {
             Id = 1,
             Comments = new(),
@@ -284,7 +486,7 @@ public class OrdersControllerTests
 
     private List<Order>  Orders() => new List<Order>()
         {
-            new OrderWalk
+            new Order
             {
                 Id = 3,
                 WalkQuantity = 1,
@@ -296,7 +498,7 @@ public class OrdersControllerTests
                 Sitter = new() { Id = 2 }
             },
 
-            new OrderWalk
+            new Order
             {
                 Id = 2,
                 WalkQuantity = 2,
@@ -308,7 +510,7 @@ public class OrdersControllerTests
                 Sitter = new() { Id = 3 }
             },
 
-            new OrderWalk
+            new Order
             {
                 Id = 1,
                 WalkQuantity = 1,
@@ -321,9 +523,9 @@ public class OrdersControllerTests
             },
         };
 
-    private List<AbstractOrderResponse> ExpectedOrders(List<Order> orders) => new List<AbstractOrderResponse>()
+    private List<OrderResponse> ExpectedOrders(List<Order> orders) => new List<OrderResponse>()
             {
-            new OrderWalkResponse
+            new OrderResponse
             {
                 Id = 3,
                 WalkQuantity = 1,
@@ -335,7 +537,7 @@ public class OrdersControllerTests
                 SitterId = orders[0].Sitter.Id
             },
 
-            new OrderWalkResponse
+            new OrderResponse
             {
                 Id = 2,
                 WalkQuantity = 2,
@@ -347,7 +549,7 @@ public class OrdersControllerTests
                 SitterId = orders[1].Sitter.Id
             },
 
-            new OrderWalkResponse
+            new OrderResponse
             {
                 Id = 1,
                 WalkQuantity = 1,
@@ -369,8 +571,8 @@ public class OrdersControllerTests
 
     private List<Comment> CommentsToGet() => new List<Comment>()
     {
-        new(){Id = 1, Order = new OrderWalk(){ Id = 1 }, Rating = 3, Text = "blah blah"},
-        new(){Id = 2, Order = new OrderWalk(){ Id = 2 }, Rating = 5, Text = "Pudge is here"},
-        new(){Id = 3, Order = new OrderWalk(){ Id = 3 }, Rating = 1, Text = "he he he he he"}
+        new(){Id = 1, Order = new Order(){ Id = 1 }, Rating = 3, Text = "blah blah"},
+        new(){Id = 2, Order = new Order(){ Id = 2 }, Rating = 5, Text = "Pudge is here"},
+        new(){Id = 3, Order = new Order(){ Id = 3 }, Rating = 1, Text = "he he he he he"}
     };
 }

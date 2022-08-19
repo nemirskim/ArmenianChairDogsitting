@@ -4,6 +4,7 @@ using ArmenianChairDogsitting.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ArmenianChairDogsitting.Data.Migrations
 {
     [DbContext(typeof(ArmenianChairDogsittingContext))]
-    partial class ArmenianChairDogsittingContextModelSnapshot : ModelSnapshot
+    [Migration("20220809022248_ChangeOrderEntity")]
+    partial class ChangeOrderEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -114,9 +116,6 @@ namespace ArmenianChairDogsitting.Data.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Promocode")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("RegistrationDate")
                         .HasColumnType("datetime2");
 
@@ -138,9 +137,6 @@ namespace ArmenianChairDogsitting.Data.Migrations
 
                     b.Property<int>("ClientId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("IsClient")
-                        .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -188,10 +184,6 @@ namespace ArmenianChairDogsitting.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("ClientId")
                         .HasColumnType("int");
 
@@ -215,9 +207,6 @@ namespace ArmenianChairDogsitting.Data.Migrations
 
                     b.Property<bool?>("IsTrial")
                         .HasColumnType("bit");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("SitterId")
                         .HasColumnType("int");
@@ -271,32 +260,6 @@ namespace ArmenianChairDogsitting.Data.Migrations
                     b.HasIndex("SitterId");
 
                     b.ToTable("PriceCatalog", (string)null);
-                });
-
-            modelBuilder.Entity("ArmenianChairDogsitting.Data.Entities.Promocode", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<decimal>("Discount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Promo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Promocode", (string)null);
                 });
 
             modelBuilder.Entity("ArmenianChairDogsitting.Data.Entities.Sitter", b =>

@@ -62,7 +62,7 @@ public class ClientsController : Controller
 
     [AuthorizeByRole(Role.Client)]
     [HttpPut]
-    [ProducesResponseType(typeof(void), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
@@ -71,7 +71,7 @@ public class ClientsController : Controller
     {
         var userId = this.GetUserId(); 
         _clientsService.UpdateClient(_mapper.Map<Client>(request), userId.Value);
-        return Ok();
+        return NoContent();
     }
 
     [AuthorizeByRole(Role.Client)]
@@ -89,16 +89,15 @@ public class ClientsController : Controller
     }
 
     [AuthorizeByRole]
-    [HttpPatch]
+    [HttpPatch("{id}/restore")]
     [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
-    public ActionResult RestoreClient()
+    public ActionResult RestoreClient(int id)
     {
-        var userId = this.GetUserId();
-        _clientsService.RemoveOrRestoreClient(userId.Value, false);
+        _clientsService.RemoveOrRestoreClient(id, false);
         return NoContent();
     }
 

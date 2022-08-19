@@ -18,4 +18,5 @@ public class Sitter
     public List<PriceCatalog> PriceCatalog { get; set; }
     public List<Order> Orders { get; set; } 
     public bool IsDeleted {  get; set; }
+    public DateOnly RegestrationDate { get; set; }
 }

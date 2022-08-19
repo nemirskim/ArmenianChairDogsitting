@@ -92,6 +92,9 @@ builder.Services.AddScoped<ISittersService, SittersService>();
 builder.Services.AddScoped<IClientsRepository, ClientsRepository>();
 builder.Services.AddScoped<IClientsService, ClientsService>();
 
+builder.Services.AddScoped<IAnimalsRepository, AnimalsRepository>();
+builder.Services.AddScoped<IAnimalsService, AnimalsService>();
+
 builder.Services.AddScoped<IOrdersRepository, OrdersRepository>();
 builder.Services.AddScoped<IOrdersService, OrdersService>();
 
@@ -100,6 +103,9 @@ builder.Services.AddScoped<ICommentsService, CommentsService>();
 
 builder.Services.AddScoped<ISearchRepository, SearchRepository>();
 builder.Services.AddScoped<ISearchService, SearchService>();
+
+builder.Services.AddScoped<IPromocodesService, PromocodesService>();
+builder.Services.AddScoped<IPromocodeRepository, PromocodeRepository>();
 
 builder.Services.AddAutoMapper(typeof(MapperConfigStorage), typeof(APIMapperConfigStorage));
 
@@ -115,7 +121,5 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
-app.MapControllers();
 
 app.Run();

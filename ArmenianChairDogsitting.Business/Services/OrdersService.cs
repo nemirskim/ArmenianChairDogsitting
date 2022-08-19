@@ -4,26 +4,35 @@ using ArmenianChairDogsitting.Data;
 using ArmenianChairDogsitting.Data.Entities;
 using ArmenianChairDogsitting.Data.Enums;
 using ArmenianChairDogsitting.Data.Repositories;
+using ArmenianChairDogsitting.Data.Repositories.Interfaces;
 
 namespace ArmenianChairDogsitting.Business.Services;
 
 public class OrdersService : IOrdersService
 {
     IOrdersRepository _ordersRepository;
-    ISittersService _sittersService;
+    IClientsRepository _clientsRepository;
+    ISittersRepository _sittersRepository;
+    IPromocodesService _promocodesService;
 
-    public OrdersService(IOrdersRepository commentsRepository, ISittersService sittersService)
+    public OrdersService(
+        IOrdersRepository ordersRepository,
+        IClientsRepository clientsRepository,
+        ISittersRepository sittersRepository,
+        IPromocodesService promocodesService)
     {
-        _ordersRepository = commentsRepository;
-        _sittersService = sittersService;
+        _ordersRepository = ordersRepository;
+        _clientsRepository = clientsRepository;
+        _sittersRepository = sittersRepository;
+        _promocodesService = promocodesService;
     }
-    public int AddOrder(Order order)
+    public int AddOrder(Order order, Service orderType)
     {
         order.Status = Status.Created;
-
-        if (!IsOkToAddOrder(order))
-            throw new AdditionalOrderException("invalid request");
-
+        order.Type = orderType;
+        order.Client = _clientsRepository.GetClientById(order.Client.Id);
+        order.Sitter = _sittersRepository.GetById(order.Sitter.Id);
+        order.Price = GetOrderPrice(order);
         return _ordersRepository.AddOrder(order);
     }
 
@@ -37,6 +46,9 @@ public class OrdersService : IOrdersService
     public Order GetOrderById(int orderId)
     {
         var chosenOrder = _ordersRepository.GetOrderById(orderId);
+
+        var discount = _promocodesService.GetDiscount(chosenOrder.Client.Promocode!);
+        chosenOrder.Price *= discount;
 
         return chosenOrder;
     }
@@ -97,25 +109,20 @@ public class OrdersService : IOrdersService
         _ordersRepository.ChangeOrder(orderProperties, orderId);
     }
 
-    private bool IsOkToAddOrder(Order order)
+    private decimal GetOrderPrice(Order order)
     {
-        var choosenSitter = _sittersService.GetById(order.Sitter.Id);
-
-        var activeOrders = choosenSitter!.Orders.Where(o => o.Status == Status.InProgress ||
-        o.Status == Status.Created);
-
-        if (!(order.WorkDate >= DateTime.Now.AddHours(1)))
-            return false;
-
-        if(order.Type == Service.Walk)
+        switch (order.Type)
         {
-            if (!activeOrders.Any(o => o.Type == Service.DailySitting || o.Type == Service.Overexpose))
-                return false;
+            case Service.Overexpose:
+                return order.Sitter.PriceCatalog.Find(p => p.Service == Service.Overexpose).Price;
+            case Service.DailySitting:
+                return order.Sitter.PriceCatalog.Find(p => p.Service == Service.DailySitting).Price;
+            case Service.SittingForDay:
+                return order.Sitter.PriceCatalog.Find(p => p.Service == Service.SittingForDay).Price;
+            case Service.Walk:
+                return order.Sitter.PriceCatalog.Find(p => p.Service == Service.Walk).Price;
+            default:
+                throw new ArgumentException();
         }
-
-        if (activeOrders.Count() != 0)
-            return false;
-
-        return true;
     }
 }

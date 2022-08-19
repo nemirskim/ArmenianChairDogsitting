@@ -11,6 +11,7 @@ namespace ArmenianChairDogsitting.Data
         public DbSet<Client> Clients { get; set; }
         public DbSet<Sitter> Sitters { get; set; }
         public DbSet<Admin> Admins { get; set; }
+        public DbSet<Promocode> Promocodes { get; set; }
         public DbSet<PriceCatalog> PriceCatalogs { get; set; }
         public ArmenianChairDogsittingContext(DbContextOptions<ArmenianChairDogsittingContext> options)
                 : base(options)
@@ -32,22 +33,15 @@ namespace ArmenianChairDogsitting.Data
             {
                 entity.ToTable(nameof(Order));
                 entity.HasKey(e => e.Id);
+
+                entity
+                    .HasMany(a => a.Animals)
+                    .WithMany(o => o.Orders);
+
+                entity
+                    .HasMany(c => c.Comments)
+                    .WithOne(o => o.Order);
             });
-            modelBuilder.Entity<OrderOverexpose>()
-                .HasBaseType<Order>()
-                .ToTable(nameof(Order));
-
-            modelBuilder.Entity<OrderDailySitting>()
-                .HasBaseType<Order>()
-                .ToTable(nameof(Order));
-
-            modelBuilder.Entity<OrderSittingForDay>()
-                .HasBaseType<Order>()
-                .ToTable(nameof(Order));
-
-            modelBuilder.Entity<OrderWalk>()
-                .HasBaseType<Order>()
-                .ToTable(nameof(Order));
 
             modelBuilder.Entity<Animal>(entity =>
             {
@@ -81,6 +75,12 @@ namespace ArmenianChairDogsitting.Data
             modelBuilder.Entity<PriceCatalog>(entity =>
             {
                 entity.ToTable(nameof(PriceCatalog));
+                entity.HasKey(e => e.Id);
+            });
+
+            modelBuilder.Entity<Promocode>(entity =>
+            {
+                entity.ToTable(nameof(Promocode));
                 entity.HasKey(e => e.Id);
             });
 
