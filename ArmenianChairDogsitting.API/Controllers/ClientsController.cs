@@ -42,10 +42,10 @@ public class ClientsController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     public ActionResult<ClientMainInfoResponse> GetClientById(int id)
     {      
-        var result = _clientsService.GetClientById(id);
-
-        if (this.GetUserId() != id && result.GetType() != typeof(Client))
+        if (this.GetUserId() != id)
             return Forbid();
+
+        var result = _clientsService.GetClientById(id);
 
         if (result is null)
             return NotFound();
