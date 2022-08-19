@@ -14,5 +14,6 @@ public class Client
     public string? Password { get; set; }
     public List<Animal> Dogs { get; set; }
     public Role Role { get; set; }
+    public string? Promocode { get; set; }
     public bool IsDeleted { get; set; }
 }

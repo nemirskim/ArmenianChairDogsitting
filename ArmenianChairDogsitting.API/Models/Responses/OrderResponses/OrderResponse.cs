@@ -1,18 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
-using ArmenianChairDogsitting.Data.Enums;
-using ArmenianChairDogsitting.API.Extensions;
-using ArmenianChairDogsitting.API.Infrastructure;
+﻿using ArmenianChairDogsitting.Data.Enums;
 
 namespace ArmenianChairDogsitting.API.Models;
 
-public abstract class AbstractOrderResponse
+public class OrderResponse
 {
     public int Id { get; set; }
-    [Required]
     public int ClientId { get; set; }
-    [Required]
     public int SitterId { get; set; }
-    [ListLength(1, 4, ErrorMessage = ApiErrorMessage.DogQuantityError)]
     public List<DogAllInfoResponse> Animals { get; set; }
     public List<CommentResponse> Comments { get; set; }
     public District District { get; set; }
@@ -23,4 +17,10 @@ public abstract class AbstractOrderResponse
     public Status Status { get; set; }
     public string Address { get; set; }
     public bool IsDeleted { get; set; }
+    public int DayQuantity { get; set; }
+    public int WalkQuantity { get; set; }
+    public int WalkPerDayQuantity { get; set; }
+    public int HourQuantity { get; set; }
+    public int VisitQuantity { get; set; }
+    public bool IsTrial { get; set; }
 }

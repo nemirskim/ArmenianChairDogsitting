@@ -101,6 +101,9 @@ builder.Services.AddScoped<ICommentsService, CommentsService>();
 builder.Services.AddScoped<ISearchRepository, SearchRepository>();
 builder.Services.AddScoped<ISearchService, SearchService>();
 
+builder.Services.AddScoped<IPromocodesService, PromocodesService>();
+builder.Services.AddScoped<IPromocodeRepository, PromocodeRepository>();
+
 builder.Services.AddAutoMapper(typeof(MapperConfigStorage), typeof(APIMapperConfigStorage));
 
 var app = builder.Build();
@@ -115,7 +118,5 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
-app.MapControllers();
 
 app.Run();

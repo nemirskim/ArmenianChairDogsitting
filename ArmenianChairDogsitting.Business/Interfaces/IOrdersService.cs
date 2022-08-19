@@ -6,7 +6,7 @@ namespace ArmenianChairDogsitting.Business.Interfaces;
 
 public interface IOrdersService
 {
-    int AddOrder(Order order);
+    int AddOrder(Order order, Service orderType);
     void UpdateOrderStatus(Status status, int orderId);
     Order GetOrderById(int orderId);
     List<Order> GetAllOrders();

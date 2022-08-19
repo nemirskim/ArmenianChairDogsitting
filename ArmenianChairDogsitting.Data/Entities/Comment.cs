@@ -11,7 +11,7 @@ namespace ArmenianChairDogsitting.Data.Entities
         public DateTime TimeCreated { get; set; }
         public DateTime TimeUpdated { get; set; }
         public int Rating { get; set; }
+        public bool IsClient { get; set; }
         public bool IsDeleted { get; set; }
-
     }
 }

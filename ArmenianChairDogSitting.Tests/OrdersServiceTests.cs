@@ -5,6 +5,7 @@ using ArmenianChairDogsitting.Data;
 using ArmenianChairDogsitting.Data.Entities;
 using ArmenianChairDogsitting.Data.Enums;
 using ArmenianChairDogsitting.Data.Repositories;
+using ArmenianChairDogsitting.Data.Repositories.Interfaces;
 using Moq;
 
 namespace ArmenianChairDogsitting.Business.Tests;
@@ -12,13 +13,23 @@ namespace ArmenianChairDogsitting.Business.Tests;
 public class OrdersServiceTests
 {
     private Mock<IOrdersRepository> _ordersRepository;
+    private Mock<ISittersRepository> _sittersRepository;
+    private Mock<IClientsRepository> _clientsRepository;
+    private Mock<IPromocodesService> _promocodesService;
     private OrdersService _sut;
 
     [SetUp]
     public void Setup()
     {
         _ordersRepository = new Mock<IOrdersRepository>();
-        _sut = new OrdersService(_ordersRepository.Object);
+        _sittersRepository = new Mock<ISittersRepository>();
+        _clientsRepository = new Mock<IClientsRepository>();
+        _promocodesService = new Mock<IPromocodesService>();
+        _sut = new OrdersService(
+            _ordersRepository.Object,
+            _clientsRepository.Object,
+            _sittersRepository.Object,
+            _promocodesService.Object);
     }
 
     [Test]
@@ -33,13 +44,19 @@ public class OrdersServiceTests
             .Setup(x => x.AddOrder(It.IsAny<Order>()))
             .Returns(expectedId);
 
+
+        _sittersRepository
+            .Setup(x => x.GetById(orderToAdd.Sitter.Id))
+            .Returns(orderToAdd.Sitter);
+
         //when
         var returnedInt = _sut.AddOrder(orderToAdd);
 
         //then
         Assert.AreEqual(expectedId, returnedInt);
+
         _ordersRepository.Verify(x => x.AddOrder(
-            It.Is<OrderWalk>(
+            It.Is<Order>(
                 o => o.IsTrial == orderToAdd.IsTrial &&
                 o.WalkQuantity == orderToAdd.WalkQuantity &&
                 o.Status == orderToAdd.Status &&
@@ -47,6 +64,8 @@ public class OrdersServiceTests
                 o.Comments.Count == orderToAdd.Comments.Count &&
                 o.Id == orderToAdd.Id)
             ), Times.Once);
+
+        _sittersRepository.Verify(x => x.GetById(orderToAdd.Sitter.Id), Times.Once);
     }
 
     [Test]
@@ -201,7 +220,7 @@ public class OrdersServiceTests
 
         _ordersRepository
             .Setup(x => x.GetOrderById(id))
-            .Returns(new OrderWalk() { Id = id, Status=Status.Created, IsDeleted = false });
+            .Returns(new Order() { Id = id, Status=Status.Created, IsDeleted = false });
 
         //when
         _sut.DeleteOrderById(id);
@@ -237,7 +256,7 @@ public class OrdersServiceTests
 
         _ordersRepository
             .Setup(x => x.GetOrderById(id))
-            .Returns(new OrderWalk() { Id = id, Status = Status.InProgress, IsDeleted = false });
+            .Returns(new Order() { Id = id, Status = Status.InProgress, IsDeleted = false });
 
         //when then
 
@@ -251,7 +270,7 @@ public class OrdersServiceTests
     {
         //given
         var id = 2;
-        OrderWalk order = null!;
+        Order order = null!;
         _ordersRepository
             .Setup(x => x.GetOrderById(id))
             .Returns(order!);
@@ -271,7 +290,7 @@ public class OrdersServiceTests
 
         _ordersRepository
             .Setup(x => x.GetOrderById(id))
-            .Returns(new OrderWalk() { Id = id, Status = Status.InProgress, IsDeleted = false });
+            .Returns(new Order() { Id = id, Status = Status.InProgress, IsDeleted = false });
 
         //when then
 
@@ -285,7 +304,7 @@ public class OrdersServiceTests
     {
         //given
         var id = 2;
-        OrderWalk order = null!;
+        Order order = null!;
         _ordersRepository
             .Setup(x => x.GetOrderById(id))
             .Returns(order!);
@@ -301,7 +320,7 @@ public class OrdersServiceTests
     {
         return new List<Order>()
         {
-            new OrderWalk()
+            new Order()
             {
                 Id = 34,
                 Animals = new(),
@@ -312,7 +331,7 @@ public class OrdersServiceTests
                 Status = Status.Created,
                 Type = Service.Walk
             },
-            new OrderWalk()
+            new Order()
             {
                 Id = 42,
                 Animals = new(),
@@ -324,7 +343,7 @@ public class OrdersServiceTests
                 Type = Service.Walk,
                 Comments = new List<Comment> { new Comment() { Id = 4, Text = "blah blah" }}
     },
-            new OrderWalk()
+            new Order()
             {
                 Id = 76,
                 Animals = new(),
@@ -339,7 +358,7 @@ public class OrdersServiceTests
     }
 
     private Order OrderFromRepo() =>
-        new OrderWalk()
+        new Order()
         {
             Id = 34,
             Animals = new(),
@@ -351,8 +370,8 @@ public class OrdersServiceTests
             Type = Service.Walk
         };
 
-    private OrderWalk ExpectedOrder() =>
-        new OrderWalk()
+    private Order ExpectedOrder() =>
+        new Order()
         { 
             Id = 34,
             Animals = new(),
@@ -365,15 +384,15 @@ public class OrdersServiceTests
         };
     
 
-    private OrderWalk OrderToAdd() =>
-        new OrderWalk()
+    private Order OrderToAdd() =>
+        new Order()
         {
             Id = 34,
             Animals = new(),
-            Client = new(),
+            Client = new() { Id = 1},
             WalkQuantity = 2,
             IsTrial = true,
-            Sitter = new(),
+            Sitter = new() { Id = 1, PriceCatalog = new() { new() { Service = Service.Walk, Price = 300 } } },
             Status = Status.Created,
             Type = Service.Walk,
             Comments = new()
