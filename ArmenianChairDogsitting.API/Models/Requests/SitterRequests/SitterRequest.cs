@@ -26,10 +26,11 @@ public class SitterRequest
     public string Password { get; set; }
 
     [Required]
-    [Range(1, 130, ErrorMessage = ApiErrorMessage.AgeIsRange)]
+    [Range(14, 130, ErrorMessage = ApiErrorMessage.AgeIsRange)]
     public int Age { get; set; }
 
     [Required(ErrorMessage = ApiErrorMessage.ExperienceIsRequired)]
+    [Range(0, 130, ErrorMessage = ApiErrorMessage.AgeIsRange)]
     public int Experience { get; set; }
 
     [Required(ErrorMessage = ApiErrorMessage.SexIsRequired)]

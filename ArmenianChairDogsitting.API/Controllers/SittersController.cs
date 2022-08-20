@@ -30,6 +30,9 @@ public class SittersController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status422UnprocessableEntity)]
     public ActionResult<int> AddSitter([FromBody] SitterRequest sitterRequest)
     {
+        if (!(sitterRequest.Age - sitterRequest.Experience >= Constants.minAgeToWork))
+            return UnprocessableEntity();
+
         var sitter = _mapper.Map<Sitter>(sitterRequest);
         sitter.PriceCatalog = _mapper.Map<List<PriceCatalog>>(sitterRequest.PriceCatalog);
 
