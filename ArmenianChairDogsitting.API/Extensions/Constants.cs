@@ -1,4 +1,4 @@
-﻿namespace ArmenianChairDogsitting.API.Extensions;' 
+﻿namespace ArmenianChairDogsitting.API.Extensions; 
  
 public static class Constants
 {
