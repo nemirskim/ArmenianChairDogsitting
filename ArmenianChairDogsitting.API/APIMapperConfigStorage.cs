@@ -38,7 +38,7 @@ public class APIMapperConfigStorage : Profile
             .IncludeBase(typeof(OrderRequest), typeof(Order));
 
         CreateMap<Client, ClientAllInfoRequest>().ReverseMap();
-        CreateMap<Client, ClientMainInfoResponse>();
+        CreateMap<Client, ClientMainInfoResponse>().ReverseMap();
         CreateMap<Client, ClientAllInfoResponse>();
         CreateMap<ClientRegistrationRequest, Client>();
         CreateMap<ClientUpdateRequest, Client>();

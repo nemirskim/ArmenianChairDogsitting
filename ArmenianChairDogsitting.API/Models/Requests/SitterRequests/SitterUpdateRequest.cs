@@ -21,10 +21,11 @@ public class SitterUpdateRequest
     public string Phone { get; set; }
 
     [Required(ErrorMessage = ApiErrorMessage.AgeIsRequired)]
-    [Range(1, 130, ErrorMessage = ApiErrorMessage.AgeIsRange)]
+    [Range(14, 130, ErrorMessage = ApiErrorMessage.AgeIsRange)]
     public int Age { get; set; }
 
     [Required(ErrorMessage = ApiErrorMessage.ExperienceIsRequired)]
+    [Range(0, 130, ErrorMessage = ApiErrorMessage.ExperienceRange)]
     public int Experience { get; set; }
 
     [Required(ErrorMessage = ApiErrorMessage.SexIsRequired)]

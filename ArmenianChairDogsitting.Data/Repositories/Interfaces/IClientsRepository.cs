@@ -2,7 +2,7 @@
 
 namespace ArmenianChairDogsitting.Data.Repositories;
 
-public interface IClientsRepository
+public interface IClientsService
 {
     int AddClient(Client client);
     Client GetClientById(int id);
