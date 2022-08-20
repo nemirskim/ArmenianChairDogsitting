@@ -48,7 +48,9 @@ public class AnimalsController : Controller
     {
         var result = _animalsService.GetAnimalById(id);
 
-        if (this.GetUserId() != result.ClientId)
+        if (this.GetUserId() != result.ClientId &&
+            this.GetUserRole() != (int)Role.Client ||
+            this.GetUserRole() != (int)Role.Admin)
             return Forbid();
 
         if (result is null)
