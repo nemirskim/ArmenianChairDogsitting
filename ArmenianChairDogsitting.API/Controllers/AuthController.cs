@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ArmenianChairDogsitting.API.Models;
 using ArmenianChairDogsitting.Business.Interfaces;
+using ArmenianChairDogsitting.API.Extensions;
 
 namespace ArmenianChairDogsitting.API.Controllers;
 
@@ -17,9 +18,17 @@ public class AuthController : Controller
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
-    public string Login([FromBody] UserLoginRequest request)
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public ActionResult<string> Login([FromBody] UserLoginRequest request)
     {
         var user = _authService.GetUserForLogin(request.Email, request.Password);
+
+        if(user == null ||
+            this.GetUserId() != null &&
+            this.GetUserId() != user.Id)
+        {
+            return Unauthorized();
+        }
 
         return _authService.GetToken(user);
     }
