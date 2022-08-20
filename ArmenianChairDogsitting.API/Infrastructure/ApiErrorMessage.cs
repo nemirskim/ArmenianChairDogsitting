@@ -26,5 +26,6 @@
         public const string PriceIsRequired = "Price was not entered";
         public const string AddressIsRequired = "Address was not entered";
         public const string InvalidPhoneNumber = "Characters are not allowed";
+        public const string ExperienceRange = "Experience out of range (0-130)";
     }
 }
