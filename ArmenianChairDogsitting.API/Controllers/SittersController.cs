@@ -78,6 +78,9 @@ public class SittersController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     public ActionResult UpdateSitter([FromBody] SitterUpdateRequest sitterUpdateRequest)
     {
+        if (!(sitterUpdateRequest.Age - sitterUpdateRequest.Experience >= Constants.minAgeToWork))
+            return UnprocessableEntity();
+
         var userId = this.GetUserId();
 
         _sittersService.Update(_mapper.Map<Sitter>(sitterUpdateRequest), userId.Value);
