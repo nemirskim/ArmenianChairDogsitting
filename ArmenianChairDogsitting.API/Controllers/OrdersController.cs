@@ -164,7 +164,31 @@ namespace ArmenianChairDogsitting.API.Controllers
         [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
-        public ActionResult UpdateOrder([FromBody] UpdateOrderRequest orderProperties, int id)
+        public ActionResult UpdateOrder([FromBody] UpdateOrderOverexposeRequest orderProperties, int id)
+        {
+            _ordersService.UpdateOrder(_mapper.Map<UpdateOrderModel>(orderProperties), id);
+            return NoContent();
+        }
+
+        [HttpPut("{id}")]
+        [AuthorizeByRole(Role.Client)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
+        public ActionResult UpdateOrder([FromBody] UpdateDailySittingRequest orderProperties, int id)
+        {
+            _ordersService.UpdateOrder(_mapper.Map<UpdateOrderModel>(orderProperties), id);
+            return NoContent();
+        }
+
+        [HttpPut("{id}")]
+        [AuthorizeByRole(Role.Client)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
+        public ActionResult UpdateOrder([FromBody] UpdateSittingForDayRequest orderProperties, int id)
         {
             _ordersService.UpdateOrder(_mapper.Map<UpdateOrderModel>(orderProperties), id);
             return NoContent();

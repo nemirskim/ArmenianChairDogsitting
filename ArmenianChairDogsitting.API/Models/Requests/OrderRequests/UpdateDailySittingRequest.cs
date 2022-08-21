@@ -2,7 +2,7 @@
 
 namespace ArmenianChairDogsitting.API.Models;
 
-public class OrderDailySittingRequest : OrderRequest
+public class UpdateDailySittingRequest : UpdateOrderRequest
 {
     [Range(1, 60)]
     public int DayQuantity { get; set; }

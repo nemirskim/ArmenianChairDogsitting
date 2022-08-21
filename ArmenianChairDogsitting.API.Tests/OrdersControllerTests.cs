@@ -39,7 +39,6 @@ public class OrdersControllerTests
         {
             ClientId = 3,
             SitterId = 2,
-            WalkQuantity = 2,
             Status = Status.Created,
             AnimalIds = new(),
             District = Data.Enums.District.All,
@@ -51,7 +50,6 @@ public class OrdersControllerTests
         {
             Client = new() { Id = order.ClientId},
             Sitter = new() { Id = order.SitterId },
-            WalkQuantity = order.WalkQuantity,
             Status = order.Status,
             Animals = new(),
             District = order.District,
@@ -160,7 +158,7 @@ public class OrdersControllerTests
             ClientId = 3,
             SitterId = 2,
             Status = Status.Created,
-            WalkQuantity = 2,
+            WalkPerDayQuantity = 2,
             DayQuantity = 1,
             AnimalIds = new(),
             District = Data.Enums.District.All,
@@ -172,7 +170,7 @@ public class OrdersControllerTests
             Client = new() { Id = order.ClientId },
             Sitter = new() { Id = order.SitterId },
             Status = order.Status,
-            WalkQuantity = order.WalkQuantity,
+            WalkQuantity = order.WalkPerDayQuantity,
             DayQuantity = order.DayQuantity,
             Animals = new(),
             District = order.District,
@@ -220,8 +218,6 @@ public class OrdersControllerTests
             ClientId = 3,
             SitterId = 2,
             Status = Status.Created,
-            WalkQuantity = 2,
-            HourQuantity = 2,
             VisitQuantity = 3,
             AnimalIds = new(),
             District = Data.Enums.District.All,
@@ -233,7 +229,6 @@ public class OrdersControllerTests
             Client = new() { Id = order.ClientId },
             Sitter = new() { Id = order.SitterId },
             Status = order.Status,
-            WalkQuantity = order.WalkQuantity,
             VisitQuantity = order.VisitQuantity,
             Animals = new(),
             District = order.District,
@@ -451,7 +446,7 @@ public class OrdersControllerTests
     {
         //given
         var id = 2;
-        var PropertiesToChange = new UpdateOrderRequest()
+        var PropertiesToChange = new UpdateOrderOverexposeRequest()
         {
             AnimalIds = new() { new()},
             District = Data.Enums.District.All,
