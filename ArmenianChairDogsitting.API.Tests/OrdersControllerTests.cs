@@ -84,7 +84,6 @@ public class OrdersControllerTests
                 c.WorkDate == expectedOrder.WorkDate &&
                 c.VisitQuantity == null &&
                 c.WalkQuantity == expectedOrder.WalkQuantity &&
-                c.HourQuantity == null &&
                 c.IsTrial == expectedOrder.IsTrial),
             Service.Walk
             ), Times.Once);
@@ -145,7 +144,6 @@ public class OrdersControllerTests
                 c.WorkDate == expectedOrder.WorkDate &&
                 c.VisitQuantity == null &&
                 c.WalkQuantity == null &&
-                c.HourQuantity == null &&
                 c.IsTrial == null),
             Service.Overexpose
             ), Times.Once);
@@ -162,7 +160,7 @@ public class OrdersControllerTests
             ClientId = 3,
             SitterId = 2,
             Status = Status.Created,
-            WalkPerDayQuantity = 2,
+            WalkQuantity = 2,
             DayQuantity = 1,
             AnimalIds = new(),
             District = Data.Enums.District.All,
@@ -174,7 +172,7 @@ public class OrdersControllerTests
             Client = new() { Id = order.ClientId },
             Sitter = new() { Id = order.SitterId },
             Status = order.Status,
-            WalkQuantity = order.WalkPerDayQuantity,
+            WalkQuantity = order.WalkQuantity,
             DayQuantity = order.DayQuantity,
             Animals = new(),
             District = order.District,
@@ -206,7 +204,6 @@ public class OrdersControllerTests
                 c.WorkDate == expectedOrder.WorkDate &&
                 c.VisitQuantity == null &&
                 c.WalkQuantity == expectedOrder.WalkQuantity &&
-                c.HourQuantity == null &&
                 c.IsTrial == null),
             Service.DailySitting
             ), Times.Once);
@@ -237,7 +234,6 @@ public class OrdersControllerTests
             Sitter = new() { Id = order.SitterId },
             Status = order.Status,
             WalkQuantity = order.WalkQuantity,
-            HourQuantity = order.HourQuantity,
             VisitQuantity = order.VisitQuantity,
             Animals = new(),
             District = order.District,
@@ -269,7 +265,6 @@ public class OrdersControllerTests
                 c.WorkDate == expectedOrder.WorkDate &&
                 c.VisitQuantity == expectedOrder.VisitQuantity &&
                 c.WalkQuantity == expectedOrder.WalkQuantity &&
-                c.HourQuantity == expectedOrder.HourQuantity &&
                 c.IsTrial == null),
             Service.SittingForDay
             ), Times.Once);
