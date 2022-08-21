@@ -16,9 +16,7 @@ namespace ArmenianChairDogsitting.Data.Entities
         public DateTime WorkDate { get; set; }
         public Enums.District District { get; set; }
         public int? DayQuantity { get; set; }
-        public int? WalkQuantity { get; set; }
         public int? WalkPerDayQuantity { get; set; }
-        public int? HourQuantity { get; set; }
         public int? VisitQuantity { get; set; }
         public bool? IsTrial { get; set; }
         public string Address { get; set; }
