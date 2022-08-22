@@ -31,13 +31,11 @@ public static class ControllerExtension
         return true;
     }
 
-    public static Role? GetUserRole(this Controller controller)
+    public static Role GetUserRole(this Controller controller)
     {
-        if (controller.HttpContext.User.Identity is not ClaimsIdentity identity)
-            return null;
+        var userIdentity = (ClaimsIdentity)controller.HttpContext.User.Identity!;
 
-        if (!int.TryParse(identity.FindFirst(ClaimTypes.Role)?.Value, out var userRole))
-            return null;
+        if (!int.TryParse(userIdentity.FindFirst(ClaimTypes.Role)?.Value, out var userRole)) { };
 
         return (Role)userRole;
     }
