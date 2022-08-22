@@ -5,8 +5,8 @@ namespace ArmenianChairDogsitting.API.Models;
 
 public class UpdateDailySittingRequest : UpdateOrderRequest
 {
-    [Range(Constant.minDayQuantity, Constant.maxDayQuantity)]
+    [Range(Constant.MinDayQuantity, Constant.MaxDayQuantity)]
     public int DayQuantity { get; set; }
-    [Range(Constant.minWalkPerDayQuantity, Constant.maxWalkPerDayQuantity)]
+    [Range(Constant.MinWalkPerDayQuantity, Constant.MaxWalkPerDayQuantity)]
     public int WalkPerDayQuantity { get; set; }
 }

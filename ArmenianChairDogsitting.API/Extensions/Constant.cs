@@ -2,12 +2,12 @@
  
 public static class Constant
 {
-    public const int minAgeToWork = 14;
-    public const int minDayQuantity = 1;
-    public const int maxDayQuantity = 60;
-    public const int minWalkPerDayQuantity = 1;
-    public const int maxWalkPerDayQuantity = 30;
-    public const int minVisitQuantiy = 1;
-    public const int maxVisitQuantiy = 24;
+    public const int MinAgeToWork = 14;
+    public const int MinDayQuantity = 1;
+    public const int MaxDayQuantity = 60;
+    public const int MinWalkPerDayQuantity = 1;
+    public const int MaxWalkPerDayQuantity = 30;
+    public const int MinVisitQuantiy = 1;
+    public const int MaxVisitQuantiy = 24;
 
 }

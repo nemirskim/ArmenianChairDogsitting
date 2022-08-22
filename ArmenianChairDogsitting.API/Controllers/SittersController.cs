@@ -78,7 +78,7 @@ public class SittersController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     public ActionResult UpdateSitter([FromBody] SitterUpdateRequest sitterUpdateRequest)
     {
-        if (!(sitterUpdateRequest.Age - sitterUpdateRequest.Experience >= Constant.minAgeToWork))
+        if (!(sitterUpdateRequest.Age - sitterUpdateRequest.Experience >= Constant.MinAgeToWork))
             return UnprocessableEntity();
 
         var userId = this.GetUserId();
