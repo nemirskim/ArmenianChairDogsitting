@@ -152,8 +152,8 @@ public class OrdersService : IOrdersService
             order.WalkQuantity <= 2))
                 return false;
 
-            if (order.Client.Orders.Any(o => o.IsTrial!) &&
-                order.IsTrial!)
+            if (order.Client.Orders.Any(o => o.IsTrial) &&
+                order.IsTrial)
                 return false;
         }
 
