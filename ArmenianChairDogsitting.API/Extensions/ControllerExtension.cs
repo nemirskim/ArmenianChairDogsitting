@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ArmenianChairDogsitting.Data.Enums;
+using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
 namespace ArmenianChairDogsitting.API.Extensions;
@@ -18,7 +19,7 @@ public static class ControllerExtension
 
         return userId;
     }
-    public static int? GetUserRole(this Controller controller)
+    public static Role? GetUserRole(this Controller controller)
     {
         if (controller.HttpContext.User.Identity is not ClaimsIdentity identity)
             return null;
@@ -26,6 +27,6 @@ public static class ControllerExtension
         if (!int.TryParse(identity.FindFirst(ClaimTypes.Role)?.Value, out var userRole))
             return null;
 
-        return userRole;
+        return (Role)userRole;
     }
 }

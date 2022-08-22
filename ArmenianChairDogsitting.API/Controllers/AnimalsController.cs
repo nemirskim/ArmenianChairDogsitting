@@ -47,10 +47,11 @@ public class AnimalsController : Controller
     public ActionResult <DogMainInfoResponse> GetAnimalById(int id)
     {
         var result = _animalsService.GetAnimalById(id);
+        var userRole = this.GetUserRole();
 
         if (this.GetUserId() != result.ClientId &&
-            this.GetUserRole() != (int)Role.Client ||
-            this.GetUserRole() != (int)Role.Admin)
+            userRole != (int)Role.Client ||
+            userRole != (int)Role.Admin)
             return Forbid();
 
         if (result is null)
