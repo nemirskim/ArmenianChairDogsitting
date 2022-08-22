@@ -56,7 +56,8 @@ public class AnimalsController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
     public ActionResult<List<DogAllInfoResponse>> GetAllAnimalsByClient(int id)
     {
-        if (this.GetUserId() != id)
+        if (this.GetUserRole() != Role.Admin &&
+            this.GetUserId() != id)
             return Forbid();
 
         var animals = _animalsService.GetAllAnimalsByClient(id);
