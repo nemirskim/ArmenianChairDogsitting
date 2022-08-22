@@ -19,15 +19,19 @@ public class AuthController : Controller
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public ActionResult<string> Login([FromBody] UserLoginRequest request)
     {
         var user = _authService.GetUserForLogin(request.Email, request.Password);
 
-        if(user == null ||
-            this.GetUserId() != null &&
-            this.GetUserId() != user.Id)
+        if(user == null)
         {
             return Unauthorized();
+        }
+
+        if(this.GetUserId() != user.Id)
+        {
+            return Forbid();
         }
 
         return _authService.GetToken(user);

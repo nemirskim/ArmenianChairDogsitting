@@ -18,4 +18,12 @@ public static class ControllerExtension
 
         return userId;
     }
+
+    public static bool IsUserHasToken(this Controller controller)
+    {
+        if (controller.HttpContext.User.Identity is not ClaimsIdentity)
+            return false;
+
+        return true;
+    }
 }
