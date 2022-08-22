@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ArmenianChairDogsitting.API.Models;
 
-public class OrderDailySittingRequest : OrderRequest
+public class UpdateDailySittingRequest : UpdateOrderRequest
 {
     [Range(Constant.MinDayQuantity, Constant.MaxDayQuantity)]
     public int DayQuantity { get; set; }

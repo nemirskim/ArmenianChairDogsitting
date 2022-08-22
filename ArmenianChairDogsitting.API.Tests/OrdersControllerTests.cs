@@ -39,7 +39,6 @@ public class OrdersControllerTests
         {
             ClientId = 3,
             SitterId = 2,
-            WalkQuantity = 2,
             Status = Status.Created,
             AnimalIds = new(),
             District = Data.Enums.District.All,
@@ -51,7 +50,6 @@ public class OrdersControllerTests
         {
             Client = new() { Id = order.ClientId},
             Sitter = new() { Id = order.SitterId },
-            WalkQuantity = order.WalkQuantity,
             Status = order.Status,
             Animals = new(),
             District = order.District,
@@ -84,7 +82,6 @@ public class OrdersControllerTests
                 c.WorkDate == expectedOrder.WorkDate &&
                 c.VisitQuantity == null &&
                 c.WalkQuantity == expectedOrder.WalkQuantity &&
-                c.HourQuantity == null &&
                 c.IsTrial == expectedOrder.IsTrial),
             Service.Walk
             ), Times.Once);
@@ -145,7 +142,6 @@ public class OrdersControllerTests
                 c.WorkDate == expectedOrder.WorkDate &&
                 c.VisitQuantity == null &&
                 c.WalkQuantity == null &&
-                c.HourQuantity == null &&
                 c.IsTrial == null),
             Service.Overexpose
             ), Times.Once);
@@ -162,7 +158,7 @@ public class OrdersControllerTests
             ClientId = 3,
             SitterId = 2,
             Status = Status.Created,
-            WalkQuantity = 2,
+            WalkPerDayQuantity = 2,
             DayQuantity = 1,
             AnimalIds = new(),
             District = Data.Enums.District.All,
@@ -174,7 +170,7 @@ public class OrdersControllerTests
             Client = new() { Id = order.ClientId },
             Sitter = new() { Id = order.SitterId },
             Status = order.Status,
-            WalkQuantity = order.WalkQuantity,
+            WalkQuantity = order.WalkPerDayQuantity,
             DayQuantity = order.DayQuantity,
             Animals = new(),
             District = order.District,
@@ -206,7 +202,6 @@ public class OrdersControllerTests
                 c.WorkDate == expectedOrder.WorkDate &&
                 c.VisitQuantity == null &&
                 c.WalkQuantity == expectedOrder.WalkQuantity &&
-                c.HourQuantity == null &&
                 c.IsTrial == null),
             Service.DailySitting
             ), Times.Once);
@@ -223,8 +218,6 @@ public class OrdersControllerTests
             ClientId = 3,
             SitterId = 2,
             Status = Status.Created,
-            WalkQuantity = 2,
-            HourQuantity = 2,
             VisitQuantity = 3,
             AnimalIds = new(),
             District = Data.Enums.District.All,
@@ -236,8 +229,6 @@ public class OrdersControllerTests
             Client = new() { Id = order.ClientId },
             Sitter = new() { Id = order.SitterId },
             Status = order.Status,
-            WalkQuantity = order.WalkQuantity,
-            HourQuantity = order.HourQuantity,
             VisitQuantity = order.VisitQuantity,
             Animals = new(),
             District = order.District,
@@ -269,7 +260,6 @@ public class OrdersControllerTests
                 c.WorkDate == expectedOrder.WorkDate &&
                 c.VisitQuantity == expectedOrder.VisitQuantity &&
                 c.WalkQuantity == expectedOrder.WalkQuantity &&
-                c.HourQuantity == expectedOrder.HourQuantity &&
                 c.IsTrial == null),
             Service.SittingForDay
             ), Times.Once);
@@ -302,7 +292,7 @@ public class OrdersControllerTests
         var order = new Order
         {
             Id = 3,
-            WalkQuantity = 1,
+            WalkPerDayQuantity = 1,
             Animals = new(),
             Client = new() { Id = 3 },
             Status = Status.Finished,
@@ -314,7 +304,7 @@ public class OrdersControllerTests
         var expectedOrder = new OrderResponse()
         {
             ClientId = order.Client.Id,
-            WalkQuantity = (int)order.WalkQuantity,
+            WalkPerDayQuantity = (int)order.WalkPerDayQuantity,
             Animals = new(),
             IsTrial = (bool)order.IsTrial,
             SitterId = order.Sitter.Id,
@@ -337,7 +327,6 @@ public class OrdersControllerTests
         Assert.AreEqual(StatusCodes.Status200OK, actualResult.StatusCode);
         Assert.AreEqual(expectedOrder.Status, actualValue.Status);
         Assert.AreEqual(expectedOrder.Type, actualValue.Type);
-        Assert.AreEqual(expectedOrder.WalkQuantity, actualValue.WalkQuantity);
         Assert.AreEqual(expectedOrder.IsTrial, actualValue.IsTrial);
         Assert.AreEqual(expectedOrder.ClientId, actualValue.ClientId);
         Assert.AreEqual(expectedOrder.SitterId, actualValue.SitterId);
@@ -457,7 +446,7 @@ public class OrdersControllerTests
     {
         //given
         var id = 2;
-        var PropertiesToChange = new UpdateOrderRequest()
+        var PropertiesToChange = new UpdateOrderOverexposeRequest()
         {
             AnimalIds = new() { new()},
             District = Data.Enums.District.All,
@@ -484,7 +473,6 @@ public class OrdersControllerTests
             new Order
             {
                 Id = 3,
-                WalkQuantity = 1,
                 Animals = new(),
                 Client = new() { Id = 3 },
                 Status = Status.Finished,
@@ -496,7 +484,6 @@ public class OrdersControllerTests
             new Order
             {
                 Id = 2,
-                WalkQuantity = 2,
                 Animals = new(),
                 Client = new() { Id = 1 },
                 Status = Status.Created,
@@ -508,7 +495,6 @@ public class OrdersControllerTests
             new Order
             {
                 Id = 1,
-                WalkQuantity = 1,
                 Animals = new(),
                 Client = new() { Id = 2 },
                 Status = Status.InProgress,
@@ -523,7 +509,6 @@ public class OrdersControllerTests
             new OrderResponse
             {
                 Id = 3,
-                WalkQuantity = 1,
                 Animals = new(),
                 ClientId = orders[0].Client.Id,
                 Status = Status.Finished,
@@ -535,7 +520,6 @@ public class OrdersControllerTests
             new OrderResponse
             {
                 Id = 2,
-                WalkQuantity = 2,
                 Animals = new(),
                 ClientId = orders[1].Client.Id,
                 Status = Status.Created,
@@ -547,7 +531,6 @@ public class OrdersControllerTests
             new OrderResponse
             {
                 Id = 1,
-                WalkQuantity = 1,
                 Animals = new(),
                 ClientId = orders[2].Client.Id,
                 Status = Status.InProgress,

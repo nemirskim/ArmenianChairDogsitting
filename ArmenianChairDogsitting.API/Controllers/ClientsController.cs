@@ -68,7 +68,7 @@ public class ClientsController : Controller
         return Ok(_mapper.Map<List<ClientAllInfoResponse>>(clients));
     }
 
-    [AuthorizeByRole(Role.Client)]
+    [Authorize(Roles = "Client")]
     [HttpPut]
     [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
@@ -77,7 +77,8 @@ public class ClientsController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     public ActionResult UpdateClient([FromBody] ClientUpdateRequest request)
     {
-        var userId = this.GetUserId(); 
+        var userId = this.GetUserId();        
+
         _clientsService.UpdateClient(_mapper.Map<Client>(request), userId.Value);
         return NoContent();
     }
