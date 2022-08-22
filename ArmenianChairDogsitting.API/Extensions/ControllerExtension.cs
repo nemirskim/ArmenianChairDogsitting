@@ -19,6 +19,11 @@ public static class ControllerExtension
 
         return userId;
     }
+
+    public static bool IsUserHasToken(this Controller controller)
+    {
+        return controller.HttpContext.User.Identity is ClaimsIdentity;
+    }
     public static Role GetUserRole(this Controller controller)
     {
         var userIdentity = (ClaimsIdentity)controller.HttpContext.User.Identity!;
