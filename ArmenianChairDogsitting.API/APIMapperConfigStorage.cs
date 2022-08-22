@@ -55,8 +55,14 @@ public class APIMapperConfigStorage : Profile
         CreateMap<UserUpdatePasswordRequest, User>();
         CreateMap<ClientRegistrationRequest, Client>();
         CreateMap<Sitter, SitterMainInfoResponse>();
-        CreateMap<UpdateOrderRequest, UpdateOrderModel>();
         CreateMap<DogRequest, Animal>();
+        CreateMap<UpdateOrderRequest, UpdateOrderModel>();
+        CreateMap<UpdateDailySittingRequest, UpdateOrderModel>()
+            .IncludeBase(typeof(UpdateOrderRequest), typeof(UpdateOrderModel));
+        CreateMap<UpdateSittingForDayRequest, UpdateOrderModel>()
+            .IncludeBase(typeof(UpdateOrderRequest), typeof(UpdateOrderModel));
+        CreateMap<UpdateOrderOverexposeRequest, UpdateOrderModel>()
+            .IncludeBase(typeof(UpdateOrderRequest), typeof(UpdateOrderModel));
 
     }
 }

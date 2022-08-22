@@ -18,6 +18,7 @@ public class SittersService : ISittersService
     public int Add(Sitter sitter)
     {
         sitter.Password = PasswordHash.HashPassword(sitter.Password);
+        sitter.RegestrationDate = DateTime.Now;
         return _sitterRepository.Add(sitter);
     }
 
