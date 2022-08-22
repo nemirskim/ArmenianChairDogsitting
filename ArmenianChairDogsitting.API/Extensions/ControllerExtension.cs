@@ -18,19 +18,13 @@ public static class ControllerExtension
             return null;
 
         return userId;
-    }
+    }    
 
     public static bool IsUserHasToken(this Controller controller)
     {
-        if (controller.HttpContext.User.Identity is not ClaimsIdentity identity)
-            return false;
-
-        if (!int.TryParse(identity.FindFirst(ClaimTypes.NameIdentifier)?.Value, out var userId))
-            return false;
-
-        return true;
+        return controller.HttpContext.User.Identity is ClaimsIdentity;
     }
-
+    
     public static Role GetUserRole(this Controller controller)
     {
         var userIdentity = (ClaimsIdentity)controller.HttpContext.User.Identity!;
