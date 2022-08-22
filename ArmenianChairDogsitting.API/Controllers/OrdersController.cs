@@ -27,7 +27,6 @@ namespace ArmenianChairDogsitting.API.Controllers
         }
 
         [HttpPost("walk")]
-        [AllowAnonymous]
         [AuthorizeByRole(Role.Client)]
         [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
@@ -40,7 +39,6 @@ namespace ArmenianChairDogsitting.API.Controllers
         }
 
         [HttpPost("overexpose")]
-        [AllowAnonymous]
         [AuthorizeByRole(Role.Client)]
         [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
@@ -53,7 +51,6 @@ namespace ArmenianChairDogsitting.API.Controllers
         }
 
         [HttpPost("daily-sitting")]
-        [AllowAnonymous]
         [AuthorizeByRole(Role.Client)]
         [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
@@ -66,7 +63,6 @@ namespace ArmenianChairDogsitting.API.Controllers
         }
 
         [HttpPost("sitting-for-a-day")]
-        [AllowAnonymous]
         [AuthorizeByRole(Role.Client)]
         [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
