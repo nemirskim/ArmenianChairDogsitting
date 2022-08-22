@@ -6,5 +6,5 @@ public class SitterAllInfoResponse
     public string Name { get; set; }
     public string LastName { get; set; }
     public int Experience { get; set; }
-    public DateOnly RegestrationDate { get; set; }
+    public DateTime RegestrationDate { get; set; }
 }

@@ -39,12 +39,20 @@ public class AnimalsController : Controller
     }
 
     [HttpGet("{id}")]
+    [AuthorizeByRole(Role.Client)]
     [ProducesResponseType(typeof(DogMainInfoResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
     public ActionResult <DogMainInfoResponse> GetAnimalById(int id)
     {
         var result = _animalsService.GetAnimalById(id);
+        var userRole = this.GetUserRole();
+
+        if (this.GetUserId() != result.ClientId &&
+            userRole != Role.Client ||
+            userRole != Role.Admin)
+            return Forbid();
 
         if (result is null)
             return NotFound();

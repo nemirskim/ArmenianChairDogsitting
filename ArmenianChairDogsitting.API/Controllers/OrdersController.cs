@@ -27,7 +27,6 @@ namespace ArmenianChairDogsitting.API.Controllers
         }
 
         [HttpPost("walk")]
-        [AllowAnonymous]
         [AuthorizeByRole(Role.Client)]
         [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
@@ -40,7 +39,6 @@ namespace ArmenianChairDogsitting.API.Controllers
         }
 
         [HttpPost("overexpose")]
-        [AllowAnonymous]
         [AuthorizeByRole(Role.Client)]
         [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
@@ -53,7 +51,6 @@ namespace ArmenianChairDogsitting.API.Controllers
         }
 
         [HttpPost("daily-sitting")]
-        [AllowAnonymous]
         [AuthorizeByRole(Role.Client)]
         [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
@@ -66,7 +63,6 @@ namespace ArmenianChairDogsitting.API.Controllers
         }
 
         [HttpPost("sitting-for-a-day")]
-        [AllowAnonymous]
         [AuthorizeByRole(Role.Client)]
         [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
@@ -158,13 +154,37 @@ namespace ArmenianChairDogsitting.API.Controllers
             return NoContent();
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("overexpose/{id}")]
         [AuthorizeByRole(Role.Client)]
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
-        public ActionResult UpdateOrder([FromBody] UpdateOrderRequest orderProperties, int id)
+        public ActionResult UpdateOrder([FromBody] UpdateOrderOverexposeRequest orderProperties, int id)
+        {
+            _ordersService.UpdateOrder(_mapper.Map<UpdateOrderModel>(orderProperties), id);
+            return NoContent();
+        }
+
+        [HttpPut("daily-sitting/{id}")]
+        [AuthorizeByRole(Role.Client)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
+        public ActionResult UpdateOrder([FromBody] UpdateDailySittingRequest orderProperties, int id)
+        {
+            _ordersService.UpdateOrder(_mapper.Map<UpdateOrderModel>(orderProperties), id);
+            return NoContent();
+        }
+
+        [HttpPut("sitting-for-day/{id}")]
+        [AuthorizeByRole(Role.Client)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
+        public ActionResult UpdateOrder([FromBody] UpdateSittingForDayRequest orderProperties, int id)
         {
             _ordersService.UpdateOrder(_mapper.Map<UpdateOrderModel>(orderProperties), id);
             return NoContent();
