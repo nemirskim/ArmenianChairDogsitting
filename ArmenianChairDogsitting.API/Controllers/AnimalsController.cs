@@ -50,8 +50,8 @@ public class AnimalsController : Controller
         var userRole = this.GetUserRole();
 
         if (this.GetUserId() != result.ClientId &&
-            userRole != (int)Role.Client ||
-            userRole != (int)Role.Admin)
+            userRole != Role.Client ||
+            userRole != Role.Admin)
             return Forbid();
 
         if (result is null)
