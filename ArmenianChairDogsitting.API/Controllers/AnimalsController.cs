@@ -69,7 +69,6 @@ public class AnimalsController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
-    [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     public ActionResult UpdateAnimalById([FromBody] DogUpdateRequest request, int id)
     {
         _animalsService.UpdateAnimal(_mapper.Map<Animal>(request), id);
@@ -78,11 +77,10 @@ public class AnimalsController : Controller
 
     [AuthorizeByRole(Role.Client)]
     [HttpDelete("{id}")]
-    [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
-    [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     public ActionResult RemoveAnimal(int id)
     {
         _animalsService.RemoveOrRestoreAnimal(id, true);
@@ -91,11 +89,10 @@ public class AnimalsController : Controller
 
     [AuthorizeByRole(Role.Client)]
     [HttpPatch("{id}")]
-    [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
-    [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     public ActionResult RestoreAnimal(int id)
     {
         _animalsService.RemoveOrRestoreAnimal(id, false);
