@@ -28,8 +28,12 @@ public class ClientsController : Controller
     [HttpPost]
     [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(void), StatusCodes.Status422UnprocessableEntity)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
     public ActionResult<int> AddClient([FromBody] ClientRegistrationRequest request)
     {
+        if (this.IsUserHasToken() || this.GetUserRole() != Role.Sitter)
+            return Forbid();
+
         var result = _clientsService.AddClient(_mapper.Map<Client>(request));
         return Created($"{this.GetUri()}/{result}", result);
     }
