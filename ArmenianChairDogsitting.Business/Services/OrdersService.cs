@@ -125,7 +125,7 @@ public class OrdersService : IOrdersService
             case Service.Walk:
                 return order.Sitter.PriceCatalog.Find(p => p.Service == Service.Walk).Price;
             default:
-                throw new ArgumentException();
+                throw new SittersServiceException(ExceptionMessage.SitterHasNoService);
         }
     }
 
@@ -150,6 +150,10 @@ public class OrdersService : IOrdersService
 
             if (activeOrders.Any(o => (o.Type == Service.DailySitting || o.Type == Service.Overexpose) &&
             order.WalkQuantity <= 2))
+                return false;
+
+            if (order.Client.Orders.Any(o => o.IsTrial is true) &&
+                order.IsTrial is true)
                 return false;
         }
 
