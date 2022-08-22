@@ -1,9 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ArmenianChairDogsitting.API.Extensions;
+using System.ComponentModel.DataAnnotations;
 
 namespace ArmenianChairDogsitting.API.Models;
 
 public class UpdateSittingForDayRequest : UpdateOrderRequest
 {
-    [Range(1, 24)]
+    [Range(Constant.minVisitQuantiy, Constant.maxVisitQuantiy)]
     public int VisitQuantity { get; set; }
 }
