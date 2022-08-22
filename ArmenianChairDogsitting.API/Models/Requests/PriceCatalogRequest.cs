@@ -11,5 +11,6 @@ public class PriceCatalogRequest
     [EnumRange<Service>]
     public Service Service { get; set; }
     [Required(ErrorMessage = ApiErrorMessage.PriceIsRequired)]
+    [Range(typeof(decimal), "1", "100000")]
     public decimal Price { get; set; }
 }

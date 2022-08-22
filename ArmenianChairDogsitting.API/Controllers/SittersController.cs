@@ -30,6 +30,9 @@ public class SittersController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status422UnprocessableEntity)]
     public ActionResult<int> AddSitter([FromBody] SitterRequest sitterRequest)
     {
+        if(!AddSitterValidator.IsOkToAddSitter(sitterRequest))
+            return UnprocessableEntity(); ;
+
         var sitter = _mapper.Map<Sitter>(sitterRequest);
         sitter.PriceCatalog = _mapper.Map<List<PriceCatalog>>(sitterRequest.PriceCatalog);
 
@@ -78,6 +81,9 @@ public class SittersController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     public ActionResult UpdateSitter([FromBody] SitterUpdateRequest sitterUpdateRequest)
     {
+        if (!(sitterUpdateRequest.Age - sitterUpdateRequest.Experience >= Constant.MinAgeToWork))
+            return UnprocessableEntity();
+
         var userId = this.GetUserId();
 
         _sittersService.Update(_mapper.Map<Sitter>(sitterUpdateRequest), userId.Value);
