@@ -3,10 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ArmenianChairDogsitting.API.Models;
 
-public class OrderDailySittingRequest : OrderRequest
+public class UpdateOrderOverexposeRequest : UpdateOrderRequest 
 {
     [Range(Constant.MinDayQuantity, Constant.MaxDayQuantity)]
     public int DayQuantity { get; set; }
-    [Range(Constant.MinWalkPerDayQuantity, Constant.MaxWalkPerDayQuantity)]
+    [Required]
     public int WalkPerDayQuantity { get; set; }
 }
