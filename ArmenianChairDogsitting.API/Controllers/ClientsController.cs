@@ -31,7 +31,7 @@ public class ClientsController : Controller
     [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden)]
     public ActionResult<int> AddClient([FromBody] ClientRegistrationRequest request)
     {
-        if (this.GetUserId() != null)
+        if (this.IsUserHasToken() || this.GetUserRole() != Role.Sitter)
             return Forbid();
 
         var result = _clientsService.AddClient(_mapper.Map<Client>(request));
