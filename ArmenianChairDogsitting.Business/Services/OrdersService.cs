@@ -149,7 +149,7 @@ public class OrdersService : IOrdersService
                 return false;
 
             if (activeOrders.Any(o => (o.Type == Service.DailySitting || o.Type == Service.Overexpose) &&
-            order.WalkQuantity <= 2))
+            order.VisitQuantity <= 2))
                 return false;
 
             if (order.Client.Orders.Any(o => o.IsTrial) &&

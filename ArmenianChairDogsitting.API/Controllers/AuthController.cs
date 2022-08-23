@@ -29,7 +29,9 @@ public class AuthController : Controller
             return Unauthorized();
         }
 
-        if(this.GetUserId() != user.Id)
+        var userId = this.GetUserId();
+
+        if (userId is not null && userId.Value != user.Id)
         {
             return Forbid();
         }
