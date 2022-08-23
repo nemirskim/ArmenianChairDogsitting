@@ -64,7 +64,7 @@ public class AuthService : IAuthService
 
             if (client == null && sitter == null)
             {
-                throw new NotFoundException("User not found");
+                return null;
             }
 
             dynamic user = client != null ? client : sitter;
