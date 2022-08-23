@@ -22,15 +22,17 @@ public static class ControllerExtension
 
     public static bool IsUserHasToken(this Controller controller)
     {
-        return controller.HttpContext.User.Identity is ClaimsIdentity;
+        return controller.HttpContext.User.Claims.ToList().Count > 0;
     }
     
-    public static Role GetUserRole(this Controller controller)
+    public static Role? GetUserRole(this Controller controller)
     {
-        var userIdentity = (ClaimsIdentity)controller.HttpContext.User.Identity!;
+        if (controller.HttpContext.User.Identity is not ClaimsIdentity identity)
+           return null;
 
-        if (!int.TryParse(userIdentity.FindFirst(ClaimTypes.Role)?.Value, out var userRole)) { };
+       if (!int.TryParse(identity.FindFirst(ClaimTypes.Role)?.Value, out var userId))
+           return null;
 
-        return (Role)userRole;
+       return (Role?)userId;
     }
 }
