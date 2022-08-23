@@ -7,7 +7,7 @@ public class AddSitterValidator
 {
     public static  bool IsOkToAddSitter(SitterRequest sitterRequest)
     {
-        if (!(sitterRequest.Age - sitterRequest.Experience >= Constant.minAgeToWork))
+        if (!(sitterRequest.Age - sitterRequest.Experience >= Constant.MinAgeToWork))
             return false;
 
         return true;

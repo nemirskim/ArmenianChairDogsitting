@@ -55,6 +55,7 @@ public class AuthService : IAuthService
         {
             result.Email = email;
             result.Role = Role.Admin.ToString();
+            result.Id = admin.Id;
         }
         else
         {
